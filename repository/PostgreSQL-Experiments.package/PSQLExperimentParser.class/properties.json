@@ -1,0 +1,14 @@
+{
+	"category" : "PostgreSQL-Experiments",
+	"classinstvars" : [
+		 ],
+	"classvars" : [
+		 ],
+	"commentStamp" : "",
+	"instvars" : [
+		 ],
+	"name" : "PSQLExperimentParser",
+	"pools" : [
+		 ],
+	"super" : "PSQLTokenizer",
+	"type" : "normal" }
