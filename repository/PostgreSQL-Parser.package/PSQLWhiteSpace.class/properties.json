@@ -1,0 +1,14 @@
+{
+	"category" : "PostgreSQL-Parser-Tokens",
+	"classinstvars" : [
+		 ],
+	"classvars" : [
+		 ],
+	"commentStamp" : "JulienDelplanque 8/13/2016 15:38",
+	"instvars" : [
+		 ],
+	"name" : "PSQLWhiteSpace",
+	"pools" : [
+		 ],
+	"super" : "PSQLToken",
+	"type" : "normal" }

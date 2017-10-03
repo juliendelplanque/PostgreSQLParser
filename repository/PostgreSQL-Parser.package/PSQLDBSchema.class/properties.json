@@ -1,0 +1,14 @@
+{
+	"category" : "PostgreSQL-Parser-Core",
+	"classinstvars" : [
+		 ],
+	"classvars" : [
+		 ],
+	"commentStamp" : "",
+	"instvars" : [
+		"commentsAndStatements" ],
+	"name" : "PSQLDBSchema",
+	"pools" : [
+		 ],
+	"super" : "Object",
+	"type" : "normal" }

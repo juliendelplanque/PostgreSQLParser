@@ -1,0 +1,14 @@
+{
+	"category" : "PostgreSQL-Parser-Core",
+	"classinstvars" : [
+		 ],
+	"classvars" : [
+		 ],
+	"commentStamp" : "JulienDelplanque 8/13/2016 14:14",
+	"instvars" : [
+		 ],
+	"name" : "PSQLPreprocessor",
+	"pools" : [
+		 ],
+	"super" : "Object",
+	"type" : "normal" }
