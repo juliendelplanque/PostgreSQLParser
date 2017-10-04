@@ -1,4 +1,3 @@
-select command
+accessing
 limitClause
-	self flag: #todo.
-	^ nil asParser
+	^ limit trim , (numericConstant trim / all trim)

@@ -72,7 +72,8 @@
 		"identifier",
 		"where",
 		"group",
-		"having"
+		"having",
+		"limit"
 	],
 	"name" : "PSQLGrammar",
 	"type" : "normal"
