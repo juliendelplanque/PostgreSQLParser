@@ -91,7 +91,9 @@
 		"columnsAndAliasesSelected",
 		"and",
 		"or",
-		"binaryLogicalOperator"
+		"binaryLogicalOperator",
+		"columnDefinition",
+		"typeCast"
 	],
 	"name" : "PSQLGrammar",
 	"type" : "normal"

@@ -1,4 +1,4 @@
-select command
+accessing
 fromItems4
 	"function_name ( [ argument [, ...] ] ) [ AS ] alias [ ( column_alias [, ...] | column_definition [, ...] ) ]"
 	^ functionName ,
@@ -6,7 +6,7 @@ fromItems4
 		(expression separatedBy: comma trim), "Using 'expression' is OK to parse function arguments"
 		closeParenthesis trim,
 		as trim optional ,
-		alias ,
+		alias trim,
 		(openParenthesis trim ,
-			(columnReference separatedBy: comma trim),
+			((columnDefinition plus separatedBy: comma trim) / (columnReference plus separatedBy: comma trim)),
 		closeParenthesis trim) optional

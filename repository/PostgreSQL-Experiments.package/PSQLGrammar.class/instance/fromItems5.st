@@ -1,4 +1,4 @@
-select command
+accessing
 fromItems5
 	"function_name ( [ argument [, ...] ] ) AS ( column_definition [, ...] )"
 	^ functionName ,
@@ -7,5 +7,5 @@ fromItems5
 		closeParenthesis trim,
 		as trim ,
 		(openParenthesis trim ,
-			(columnReference separatedBy: comma trim),
-		closeParenthesis trim)
+			(columnDefinition plus separatedBy: comma trim),
+		closeParenthesis trim) optional
