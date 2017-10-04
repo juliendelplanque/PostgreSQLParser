@@ -1,4 +1,3 @@
 select command
 forClause
-	self flag: #todo.
-	^ nil asParser
+	^ for trim , (update trim / share trim) , (of trim , (expression plus separatedBy: comma trim)) optional , nowait trim optional

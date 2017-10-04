@@ -78,7 +78,12 @@
 		"fetch",
 		"next",
 		"row",
-		"rows"
+		"rows",
+		"for",
+		"update",
+		"share",
+		"of",
+		"nowait"
 	],
 	"name" : "PSQLGrammar",
 	"type" : "normal"
