@@ -71,7 +71,8 @@
 		"keyword",
 		"identifier",
 		"where",
-		"group"
+		"group",
+		"having"
 	],
 	"name" : "PSQLGrammar",
 	"type" : "normal"

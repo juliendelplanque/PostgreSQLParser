@@ -1,4 +1,3 @@
-select command
+accessing
 havingClause
-	self flag: #todo.
-	^ nil asParser
+	^ having trim , (expression plus separatedBy: comma trim)
