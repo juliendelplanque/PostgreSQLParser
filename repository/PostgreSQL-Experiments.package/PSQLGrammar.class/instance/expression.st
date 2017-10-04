@@ -18,9 +18,11 @@ expression
 	fieldSelection := period , (identifier / asterik).
 	expressionParser
 		group: [ :g |
-			g left: operator trim do: [ :a :op :b | { a . op . b } ] ];
+			g left: operator trim do: [ :a :op :b | { a . op . b } ].
+			g left: binaryLogicalOperator trim do: [ :a :op :b | { a . op . b } ] ];
 		group: [ :g |
 			g prefix: operator trim do: [ :op :a | { op . a } ].
+			g prefix: (self buildKeyword: 'not') trim do: [ :op :a | { op . a } ].
 			g postfix: operator trim do: [ :a :op | { a . op } ].
 			g postfix: subscript trim do: [ :a :op | { a . op } ].
 			g postfix: fieldSelection trim do: [ :a :op | { a . op } ] ].

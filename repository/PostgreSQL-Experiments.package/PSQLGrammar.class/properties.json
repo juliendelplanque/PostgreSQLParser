@@ -88,7 +88,10 @@
 		"intersect",
 		"except",
 		"allOrDistinctClause",
-		"columnsAndAliasesSelected"
+		"columnsAndAliasesSelected",
+		"and",
+		"or",
+		"binaryLogicalOperator"
 	],
 	"name" : "PSQLGrammar",
 	"type" : "normal"
