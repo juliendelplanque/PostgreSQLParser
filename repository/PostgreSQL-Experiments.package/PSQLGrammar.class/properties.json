@@ -86,7 +86,9 @@
 		"nowait",
 		"union",
 		"intersect",
-		"except"
+		"except",
+		"allOrDistinctClause",
+		"columnsAndAliasesSelected"
 	],
 	"name" : "PSQLGrammar",
 	"type" : "normal"

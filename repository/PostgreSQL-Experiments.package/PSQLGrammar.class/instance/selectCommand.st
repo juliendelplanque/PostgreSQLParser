@@ -15,16 +15,9 @@ selectCommand
     	[ FETCH { FIRST | NEXT } [ count ] { ROW | ROWS } ONLY ]
     	[ FOR { UPDATE | SHARE } [ OF table_name [, ...] ] [ NOWAIT ] [...] ]"
 	^ withClause optional ,
-	  select trim ,
-	  		(all trim /
-			(distinct trim ,
-				(on trim ,
-					openParenthesis trim ,
-					(expression separatedBy: comma trim) trim,
-					closeParenthesis) optional )
-			) optional ,
-			((asterik / expression) separatedBy: comma trim) ,
-			(as trim , (columnAlias separatedBy: comma trim)) optional,
+	   select trim ,
+	   allOrDistinctClause optional ,
+		(asterik trim / columnsAndAliasesSelected trim),
 		fromClause optional ,
 		whereClause optional ,
 		groupByClause optional ,
