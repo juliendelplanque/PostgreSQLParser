@@ -74,7 +74,11 @@
 		"group",
 		"having",
 		"limit",
-		"offset"
+		"offset",
+		"fetch",
+		"next",
+		"row",
+		"rows"
 	],
 	"name" : "PSQLGrammar",
 	"type" : "normal"

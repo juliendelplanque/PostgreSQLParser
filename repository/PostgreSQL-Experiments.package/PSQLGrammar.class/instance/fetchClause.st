@@ -1,4 +1,3 @@
-select command
+accessing
 fetchClause
-	self flag: #todo.
-	^ nil asParser
+	^ fetch trim , (first trim / next trim) , numericConstant trim optional , (rows trim / row trim) , only trim
