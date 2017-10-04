@@ -1,10 +1,10 @@
 {
-	"category" : "PostgreSQL-Experiments",
-	"classinstvars" : [
-		 ],
-	"classvars" : [
-		 ],
 	"commentStamp" : "JulienDelplanque 8/14/2016 12:31",
+	"super" : "PSQLTokenizer",
+	"category" : "PostgreSQL-Experiments",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
 	"instvars" : [
 		"expression",
 		"columnReference",
@@ -69,9 +69,9 @@
 		"full",
 		"cross",
 		"keyword",
-		"identifier" ],
+		"identifier",
+		"where"
+	],
 	"name" : "PSQLGrammar",
-	"pools" : [
-		 ],
-	"super" : "PSQLTokenizer",
-	"type" : "normal" }
+	"type" : "normal"
+}

@@ -1,14 +1,11 @@
 {
-	"category" : "PostgreSQL-Experiments",
-	"classinstvars" : [
-		 ],
-	"classvars" : [
-		 ],
 	"commentStamp" : "",
-	"instvars" : [
-		 ],
-	"name" : "PSQLGrammarTest",
-	"pools" : [
-		 ],
 	"super" : "PPCompositeParserTest",
-	"type" : "normal" }
+	"category" : "PostgreSQL-Experiments",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [ ],
+	"name" : "PSQLGrammarTest",
+	"type" : "normal"
+}
