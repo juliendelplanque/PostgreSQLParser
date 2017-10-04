@@ -3,7 +3,7 @@ expression
 	| expressionParser parenthesedExpression fieldSelection functionCall subscript aggregateExpression |
 	expressionParser := PPExpressionParser new.
 	"Terms definitions"
-	parenthesedExpression := openParenthesis , expressionParser , closeParenthesis.
+	parenthesedExpression := openParenthesis trim , expressionParser , closeParenthesis trim.
 	functionCall := functionName , (openParenthesis , 
 		(((functionParameterName , ':=' asParser trim , expressionParser) / expressionParser) star separatedBy: comma trim) , 
 		closeParenthesis).
