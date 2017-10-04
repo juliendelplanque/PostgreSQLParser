@@ -1,4 +1,3 @@
-select command
+accessing
 groupByClause
-	self flag: #todo.
-	^ nil asParser
+	^ group trim , by trim , (expression plus separatedBy: comma trim)

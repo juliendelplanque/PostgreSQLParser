@@ -70,7 +70,8 @@
 		"cross",
 		"keyword",
 		"identifier",
-		"where"
+		"where",
+		"group"
 	],
 	"name" : "PSQLGrammar",
 	"type" : "normal"
