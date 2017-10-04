@@ -1,4 +1,3 @@
 select command
 unionIntersectExceptClause
-	self flag: #todo.
-	^ nil asParser
+	^ (union trim / intersect trim / except trim) , (all trim / distinct trim) optional , selectCommand trim

@@ -83,7 +83,10 @@
 		"update",
 		"share",
 		"of",
-		"nowait"
+		"nowait",
+		"union",
+		"intersect",
+		"except"
 	],
 	"name" : "PSQLGrammar",
 	"type" : "normal"
