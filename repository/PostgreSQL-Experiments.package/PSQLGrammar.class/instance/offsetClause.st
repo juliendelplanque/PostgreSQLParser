@@ -1,4 +1,3 @@
-select command
+accessing
 offsetClause
-	self flag: #todo.
-	^ nil asParser
+	^ offset trim , numericConstant trim

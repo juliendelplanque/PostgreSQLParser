@@ -73,7 +73,8 @@
 		"where",
 		"group",
 		"having",
-		"limit"
+		"limit",
+		"offset"
 	],
 	"name" : "PSQLGrammar",
 	"type" : "normal"
