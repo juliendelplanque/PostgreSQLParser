@@ -97,7 +97,8 @@
 		"isNull",
 		"isNotNull",
 		"endKeyword",
-		"in"
+		"in",
+		"parenthesedFromItems"
 	],
 	"name" : "PSQLGrammar",
 	"type" : "normal"

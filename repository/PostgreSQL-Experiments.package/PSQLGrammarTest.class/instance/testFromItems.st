@@ -15,4 +15,7 @@ testFromItems
 		parse: 'function(1, "a") AS aliasName' rule: #fromItems;
 		parse: 'function(1, "a") aliasName' rule: #fromItems;
 		parse: '"initiative" JOIN "interest" ON "initiative"."issue_id" = "interest"."issue_id"' rule: #fromItems;
-		parse: '"area_delegation" LEFT JOIN "membership"' rule: #fromItems
+		parse: '"area_delegation" LEFT JOIN "membership"' rule: #fromItems;
+		parse: '("area_delegation" LEFT JOIN "membership")' rule: #fromItems;
+		parse: 'personne LEFT JOIN these ON ((personne.cle = these.cle_personne))' rule: #fromItems;
+		parse: '(((personne LEFT JOIN these ON ((personne.cle = these.cle_personne))) LEFT JOIN civilite ON ((personne.civilite = civilite.cle))) LEFT JOIN support ON ((support.cle_personne = personne.cle)))' rule: #fromItems
