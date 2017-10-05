@@ -12,13 +12,14 @@ expression
 		 ((all / distinct) optional,
 		 (expressionParser plus separatedBy: comma trim) , orderByClause )),
 	closeParenthesis).
-	expressionParser term: parenthesedExpression / aggregateExpression / functionCall / primary.
+	expressionParser term: parenthesedExpression / aggregateExpression / functionCall / primary / selectCommand.
 	"Operators definitions"
 	subscript := openBracket , expressionParser , (colon , expressionParser) optional , closeBracket.
 	fieldSelection := period , (identifier / asterik).
 	expressionParser
 		group: [ :g | g left: typeCast trim do: [ :a :op :b | { a . op . b } ] ];
 		group: [ :g | g left: operator trim do: [ :a :op :b | { a . op . b } ] ];
+		group: [ :g | g left: in trim do: [ :a :op :b | { a . op .b } ] ];
 		group: [ :g | g left: binaryLogicalOperator trim do: [ :a :op :b | { a . op . b } ] ];
 		group: [ :g |
 			g prefix: operator trim do: [ :op :a | { op . a } ].

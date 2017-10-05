@@ -96,7 +96,8 @@
 		"typeCast",
 		"isNull",
 		"isNotNull",
-		"endKeyword"
+		"endKeyword",
+		"in"
 	],
 	"name" : "PSQLGrammar",
 	"type" : "normal"
