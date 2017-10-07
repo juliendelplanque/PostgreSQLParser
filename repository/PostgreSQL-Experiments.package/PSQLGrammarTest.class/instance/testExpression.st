@@ -12,4 +12,8 @@ testExpression
 		parse: 'affectation.cle_support = support.cle AND support.cle_personne = personne.cle AND personne.cle = clepersonne AND	affectation.cle_equipe = cleequipe AND affectation.fin <= finperiode' rule: #expression;
 		parse: 'membres(labo,dateobservation::DATE,dateobservation::DATE)' rule: #expression;
 		parse: 'personne.cle = support.cle_personne AND (support.debut <= dateobservation AND (support.fin >= dateobservation OR support.fin IS NULL)) AND datenaissance IS NOT NULL' rule: #expression;
-		parse: '(personne.cle IN (SELECT these.cle_coencadrant FROM these))' rule: #expression
+		parse: '(personne.cle IN (SELECT these.cle_coencadrant FROM these))' rule: #expression;
+		parse: '''IG''::character varying' rule: #expression;
+		parse: '1 = - 1' rule: #expression;
+		parse: 'ANY (ARRAY[(''IG''::character varying)::text, (''TECH''::character varying)::text])' rule: #expression;
+		parse: '((grade.cle_catgrade)::text = ANY (ARRAY[(''IG''::character varying)::text, (''TECH''::character varying)::text]))' rule: #expression

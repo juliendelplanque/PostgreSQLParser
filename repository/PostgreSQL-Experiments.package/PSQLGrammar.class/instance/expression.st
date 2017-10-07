@@ -1,6 +1,6 @@
 accessing
 expression
-	| expressionParser parenthesedExpression fieldSelection functionCall subscript aggregateExpression |
+	| expressionParser parenthesedExpression fieldSelection functionCall subscript aggregateExpression commaSubscript |
 	expressionParser := PPExpressionParser new.
 	"Terms definitions"
 	parenthesedExpression := openParenthesis trim , expressionParser , closeParenthesis trim.
@@ -12,21 +12,23 @@ expression
 		 ((all / distinct) optional,
 		 (expressionParser plus separatedBy: comma trim) , orderByClause )),
 	closeParenthesis).
-	expressionParser term: parenthesedExpression / aggregateExpression / functionCall / primary / selectCommand.
+	expressionParser term: (parenthesedExpression / aggregateExpression / functionCall / primary / selectCommand) , (typeCast trim , (identifierOrKeyword plus separatedBy: #space asParser plus)) optional.
 	"Operators definitions"
 	subscript := openBracket , expressionParser , (colon , expressionParser) optional , closeBracket.
+	commaSubscript := openBracket , (expressionParser trim plus separatedBy: comma trim) , closeBracket.
 	fieldSelection := period , (identifier / asterik).
 	expressionParser
-		group: [ :g | g left: typeCast trim do: [ :a :op :b | { a . op . b } ] ];
+		group: [ :g |
+			g prefix: operator trim do: [ :op :a | { op . a } ].
+			g prefix: (self buildKeyword: 'not') trim do: [ :op :a | { op . a } ].
+			g prefix: (self buildKeyword: 'any') trim do: [ :op :a | { op . a } ] ];
 		group: [ :g | g left: operator trim do: [ :a :op :b | { a . op . b } ] ];
 		group: [ :g | g left: in trim do: [ :a :op :b | { a . op .b } ] ];
 		group: [ :g | g left: binaryLogicalOperator trim do: [ :a :op :b | { a . op . b } ] ];
 		group: [ :g |
-			g prefix: operator trim do: [ :op :a | { op . a } ].
-			g prefix: (self buildKeyword: 'not') trim do: [ :op :a | { op . a } ] ];
-		group: [ :g |
 			g postfix: operator trim do: [ :a :op | { a . op } ].
 			g postfix: subscript trim do: [ :a :op | { a . op } ].
+			g postfix: commaSubscript trim do: [ :a :op | { a . op } ].
 			g postfix: fieldSelection trim do: [ :a :op | { a . op } ].
 			g postfix: (isNull , endKeyword optional) trim do: [ :a :op | { a . op } ].
 			g postfix: (isNotNull , endKeyword optional) trim do: [ :a :op | { a . op } ] ].
