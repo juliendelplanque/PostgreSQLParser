@@ -1,12 +1,10 @@
 accessing
 expression
-	| expressionParser subscript commaSubscript |
+	| expressionParser |
 	expressionParser := PPExpressionParser new.
 	"Terms definitions"
 	expressionParser term: (self expressionParserTermFor: expressionParser).
 	"Operators definitions"
-	subscript := openBracket , expressionParser , (colon , expressionParser) optional , closeBracket.
-	commaSubscript := openBracket , (expressionParser trim plus separatedBy: comma trim) , closeBracket.
 	expressionParser
 		group: [ :g |
 			g prefix: operator trim do: self prefixOperatorBlock.
@@ -17,8 +15,8 @@ expression
 		group: [ :g | g left: binaryLogicalOperator trim do: self binaryOperatorBlock ];
 		group: [ :g |
 			g postfix: operator trim do: self postfixOperatorBlock.
-			g postfix: subscript trim do: self postfixOperatorBlock.
-			g postfix: commaSubscript trim do: self postfixOperatorBlock.
+			g postfix: (self subscriptWith: expressionParser) trim do: self postfixOperatorBlock.
+			g postfix: (self commaSubscriptWith: expressionParser) trim do: self postfixOperatorBlock.
 			g postfix: fieldSelection trim do: self postfixOperatorBlock.
 			g postfix: (isNull , endKeyword optional) trim do: self postfixOperatorBlock.
 			g postfix: (isNotNull , endKeyword optional) trim do: self postfixOperatorBlock ].
