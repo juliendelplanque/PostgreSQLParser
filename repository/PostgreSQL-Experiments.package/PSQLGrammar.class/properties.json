@@ -101,7 +101,9 @@
 		"fieldSelection",
 		"notKeyword",
 		"any",
-		"andKeyword"
+		"andKeyword",
+		"isNullOperator",
+		"isNotNullOperator"
 	],
 	"name" : "PSQLGrammar",
 	"type" : "normal"

@@ -1,4 +1,4 @@
-accessing
+expression
 expression
 	| expressionParser |
 	expressionParser := PPExpressionParser new.
@@ -18,6 +18,6 @@ expression
 			g postfix: (self subscriptWith: expressionParser) trim do: self postfixOperatorBlock.
 			g postfix: (self commaSubscriptWith: expressionParser) trim do: self postfixOperatorBlock.
 			g postfix: fieldSelection trim do: self postfixOperatorBlock.
-			g postfix: (isNull , endKeyword optional) trim do: self postfixOperatorBlock.
-			g postfix: (isNotNull , endKeyword optional) trim do: self postfixOperatorBlock ].
+			g postfix: isNullOperator trim do: self postfixOperatorBlock.
+			g postfix: isNotNullOperator trim do: self postfixOperatorBlock ].
 	^ expressionParser

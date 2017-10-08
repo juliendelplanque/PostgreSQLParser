@@ -1,4 +1,4 @@
-accessing
+expression
 aggregateExpressionParserWith: expressionParser
 	^ aggregateName , (openParenthesis ,
 		(asterik /

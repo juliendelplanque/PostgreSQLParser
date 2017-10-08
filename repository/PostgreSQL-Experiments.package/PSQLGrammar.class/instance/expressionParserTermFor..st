@@ -1,4 +1,4 @@
-accessing
+expression
 expressionParserTermFor: expressionParser
 	| parenthesedExpression functionCall aggregateExpression |
 	parenthesedExpression := self parenthesedExpressionParserWith: expressionParser.

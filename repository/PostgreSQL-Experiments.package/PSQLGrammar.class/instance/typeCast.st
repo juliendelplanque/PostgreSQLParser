@@ -1,3 +1,3 @@
-accessing
+expression
 typeCast
 	^ '::' asParser
