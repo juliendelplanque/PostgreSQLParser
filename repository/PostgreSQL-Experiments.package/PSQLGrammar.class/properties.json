@@ -108,7 +108,13 @@
 		"when",
 		"then",
 		"else",
-		"conditionalExpression"
+		"conditionalExpression",
+		"create",
+		"replace",
+		"temp",
+		"temporary",
+		"view",
+		"createViewCommand"
 	],
 	"name" : "PSQLGrammar",
 	"type" : "normal"
