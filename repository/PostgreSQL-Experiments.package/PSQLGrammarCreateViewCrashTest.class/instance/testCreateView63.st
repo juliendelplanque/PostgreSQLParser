@@ -1,0 +1,4 @@
+as yet unclassified
+testCreateView63
+	self
+		parse: 'CREATE VIEW issue_supporter_in_admission_state AS SELECT DISTINCT area.unit_id, issue.area_id, issue.id AS issue_id, supporter.member_id, direct_interest_snapshot.weight FROM (((issue JOIN area ON ((area.id = issue.area_id))) JOIN supporter ON ((supporter.issue_id = issue.id))) JOIN direct_interest_snapshot ON ((((direct_interest_snapshot.issue_id = issue.id) AND (direct_interest_snapshot.event = issue.latest_snapshot_event)) AND (direct_interest_snapshot.member_id = supporter.member_id)))) WHERE (issue.state = ''admission''::issue_state)' rule: #createViewCommand

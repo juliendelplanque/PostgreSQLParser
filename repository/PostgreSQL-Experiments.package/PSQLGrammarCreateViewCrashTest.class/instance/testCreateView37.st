@@ -1,0 +1,4 @@
+as yet unclassified
+testCreateView37
+	self
+		parse: 'CREATE VIEW web_equipes_par_plateforme AS SELECT DISTINCT plateforme.cle, plateforme.nom, plateforme.description, plateforme.description_en, plateforme.siteweb, personne.nom AS resp_nom, personne.prenom AS resp_prenom, equipeexterne.nom AS equipe, equipeexterne.cle AS eid, equipeexterne.description AS desc_eq, equipeexterne.description_en AS desc_eq_en FROM (((((plateforme LEFT JOIN personne ON ((plateforme.cle_responsable = personne.cle))) LEFT JOIN r_equpla ON ((r_equpla.cle_plateforme = plateforme.cle))) LEFT JOIN equipe ON ((equipe.cle = r_equpla.cle_equipe))) LEFT JOIN r_equextequ ON ((r_equextequ.cle_equipe_interne = equipe.cle))) LEFT JOIN equipeexterne ON ((equipeexterne.cle = r_equextequ.cle_equipe_externe))) WHERE ((equipeexterne.fin >= now()) OR (equipeexterne.fin IS NULL)) ORDER BY plateforme.nom, equipeexterne.nom' rule: #createViewCommand

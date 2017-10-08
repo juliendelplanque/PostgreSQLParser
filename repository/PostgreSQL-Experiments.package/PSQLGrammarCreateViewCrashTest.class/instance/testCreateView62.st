@@ -1,0 +1,4 @@
+as yet unclassified
+testCreateView62
+	self
+		parse: 'CREATE VIEW issue_delegation AS SELECT DISTINCT ON (issue.id, delegation.truster_id) issue.id AS issue_id, delegation.id, delegation.truster_id, delegation.trustee_id, delegation.scope FROM ((((issue JOIN area ON ((area.id = issue.area_id))) JOIN delegation ON ((((delegation.unit_id = area.unit_id) OR (delegation.area_id = area.id)) OR (delegation.issue_id = issue.id)))) JOIN member ON ((delegation.truster_id = member.id))) JOIN privilege ON (((area.unit_id = privilege.unit_id) AND (delegation.truster_id = privilege.member_id)))) WHERE (member.active AND privilege.voting_right) ORDER BY issue.id, delegation.truster_id, delegation.scope DESC' rule: #createViewCommand

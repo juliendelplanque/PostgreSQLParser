@@ -1,0 +1,4 @@
+as yet unclassified
+testCreateView39
+	self
+		parse: 'CREATE VIEW web_hdrs_par_equipeexterne AS SELECT personne.nom AS nompersonne, personne.prenom AS prenompersonne, sujet.titre AS sujet, date(hdr.fin) AS soutenance, date_part(''year''::text, hdr.fin) AS finthese, equipeexterne.cle AS eid, equipeexterne.nom AS equipe, hdr.cle AS id, sujet.resume, sujet.titre_en AS sujet_en, sujet.resume_en FROM (((((hdr LEFT JOIN sujet ON ((sujet.cle = hdr.cle_sujet))) LEFT JOIN personne ON ((personne.cle = hdr.cle_personne))) LEFT JOIN equipe ON ((equipe.cle = hdr.cle_equipe))) LEFT JOIN r_equextequ ON ((equipe.cle = r_equextequ.cle_equipe_interne))) LEFT JOIN equipeexterne ON ((equipeexterne.cle = r_equextequ.cle_equipe_externe))) WHERE (((equipe.fin IS NULL) OR (equipe.fin > ''2015-01-01''::date)) AND ((equipeexterne.fin IS NULL) OR (equipeexterne.fin > ''2015-01-01''::date))) ORDER BY hdr.fin DESC' rule: #createViewCommand

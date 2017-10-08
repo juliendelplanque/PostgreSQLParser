@@ -1,0 +1,4 @@
+as yet unclassified
+testCreateView21
+	self
+		parse: 'CREATE VIEW vue_personnel_recherche_permanents AS SELECT personne.cle AS clepersonne, support.cle AS clesupport, civilite.civilite AS labelcivilite, personne.nom AS nompersonne, personne.prenom, personne.datenaissance, pays.nom AS nompays, grade.grade, employeur.nom AS nomemployeur, support.debut AS debutsupport, support.fin AS finsupport FROM personne, pays, civilite, grade, categorie, employeur, support WHERE ((((((((personne.cle = support.cle_personne) AND (personne.civilite = civilite.cle)) AND (support.cle_grade = grade.cle)) AND (support.cle_categorie = categorie.cle)) AND (support.cle_employeur = employeur.cle)) AND (personne.paysorigine = pays.cle)) AND (support.cle_grade = ANY (ARRAY[25, 51, 52, 53, 9, 10, 11, 12, 20, 21, 22, 24, 26]))) AND ((categorie.categorie)::text = ''PERMANENT''::text))' rule: #createViewCommand
