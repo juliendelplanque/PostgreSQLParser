@@ -1,0 +1,13 @@
+{
+	"commentStamp" : "",
+	"super" : "PSQLASTNode",
+	"category" : "PostgreSQL-AST",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [
+		"items"
+	],
+	"name" : "PSQLASTArrayConstructor",
+	"type" : "normal"
+}

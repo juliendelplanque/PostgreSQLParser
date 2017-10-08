@@ -1,0 +1,11 @@
+{
+	"commentStamp" : "",
+	"super" : "PSQLGrammar",
+	"category" : "PostgreSQL-AST",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [ ],
+	"name" : "PSQLASTBuilder",
+	"type" : "normal"
+}

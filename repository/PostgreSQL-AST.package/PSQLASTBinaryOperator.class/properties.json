@@ -1,0 +1,13 @@
+{
+	"commentStamp" : "",
+	"super" : "PSQLASTOperator",
+	"category" : "PostgreSQL-AST",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [
+		"right"
+	],
+	"name" : "PSQLASTBinaryOperator",
+	"type" : "normal"
+}
