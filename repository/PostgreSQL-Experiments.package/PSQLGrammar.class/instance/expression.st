@@ -1,35 +1,25 @@
 accessing
 expression
-	| expressionParser parenthesedExpression fieldSelection functionCall subscript aggregateExpression commaSubscript |
+	| expressionParser subscript commaSubscript |
 	expressionParser := PPExpressionParser new.
 	"Terms definitions"
-	parenthesedExpression := openParenthesis trim , expressionParser , closeParenthesis trim.
-	functionCall := functionName , (openParenthesis , 
-		(((functionParameterName , ':=' asParser trim , expressionParser) / expressionParser) star separatedBy: comma trim) , 
-		closeParenthesis).
-	aggregateExpression := aggregateName , (openParenthesis ,
-		(asterik /
-		 ((all / distinct) optional,
-		 (expressionParser plus separatedBy: comma trim) , orderByClause )),
-	closeParenthesis).
-	expressionParser term: (parenthesedExpression / aggregateExpression / functionCall / primary / selectCommand) , (typeCast trim , (identifierOrKeyword plus separatedBy: #space asParser plus)) optional.
+	expressionParser term: (self expressionParserTermFor: expressionParser).
 	"Operators definitions"
 	subscript := openBracket , expressionParser , (colon , expressionParser) optional , closeBracket.
 	commaSubscript := openBracket , (expressionParser trim plus separatedBy: comma trim) , closeBracket.
-	fieldSelection := period , (identifier / asterik).
 	expressionParser
 		group: [ :g |
-			g prefix: operator trim do: [ :op :a | { op . a } ].
-			g prefix: (self buildKeyword: 'not') trim do: [ :op :a | { op . a } ].
-			g prefix: (self buildKeyword: 'any') trim do: [ :op :a | { op . a } ] ];
-		group: [ :g | g left: operator trim do: [ :a :op :b | { a . op . b } ] ];
-		group: [ :g | g left: in trim do: [ :a :op :b | { a . op .b } ] ];
-		group: [ :g | g left: binaryLogicalOperator trim do: [ :a :op :b | { a . op . b } ] ];
+			g prefix: operator trim do: self prefixOperatorBlock.
+			g prefix: notKeyword trim do: self prefixOperatorBlock.
+			g prefix: any trim do: self prefixOperatorBlock ];
+		group: [ :g | g left: operator trim do: self binaryOperatorBlock ];
+		group: [ :g | g left: in trim do: self binaryOperatorBlock ];
+		group: [ :g | g left: binaryLogicalOperator trim do: self binaryOperatorBlock ];
 		group: [ :g |
-			g postfix: operator trim do: [ :a :op | { a . op } ].
-			g postfix: subscript trim do: [ :a :op | { a . op } ].
-			g postfix: commaSubscript trim do: [ :a :op | { a . op } ].
-			g postfix: fieldSelection trim do: [ :a :op | { a . op } ].
-			g postfix: (isNull , endKeyword optional) trim do: [ :a :op | { a . op } ].
-			g postfix: (isNotNull , endKeyword optional) trim do: [ :a :op | { a . op } ] ].
+			g postfix: operator trim do: self postfixOperatorBlock.
+			g postfix: subscript trim do: self postfixOperatorBlock.
+			g postfix: commaSubscript trim do: self postfixOperatorBlock.
+			g postfix: fieldSelection trim do: self postfixOperatorBlock.
+			g postfix: (isNull , endKeyword optional) trim do: self postfixOperatorBlock.
+			g postfix: (isNotNull , endKeyword optional) trim do: self postfixOperatorBlock ].
 	^ expressionParser

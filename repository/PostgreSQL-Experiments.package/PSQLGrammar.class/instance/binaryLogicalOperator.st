@@ -1,3 +1,3 @@
 accessing
 binaryLogicalOperator
-	^ (and / or) , #space asParser
+	^ (andKeyword / or) , #space asParser

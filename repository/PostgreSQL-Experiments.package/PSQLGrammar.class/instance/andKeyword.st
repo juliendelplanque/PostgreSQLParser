@@ -1,4 +1,4 @@
 keywords
-and
+andKeyword
 	<psqlkeyword>
 	^ self buildKeyword: 'and'

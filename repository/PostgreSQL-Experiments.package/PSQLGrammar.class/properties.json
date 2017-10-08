@@ -89,7 +89,6 @@
 		"except",
 		"allOrDistinctClause",
 		"columnsAndAliasesSelected",
-		"and",
 		"or",
 		"binaryLogicalOperator",
 		"columnDefinition",
@@ -98,7 +97,11 @@
 		"isNotNull",
 		"endKeyword",
 		"in",
-		"parenthesedFromItems"
+		"parenthesedFromItems",
+		"fieldSelection",
+		"notKeyword",
+		"any",
+		"andKeyword"
 	],
 	"name" : "PSQLGrammar",
 	"type" : "normal"
