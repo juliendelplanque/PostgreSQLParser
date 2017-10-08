@@ -1,0 +1,4 @@
+tests
+testSelect31
+	self
+		parse: 'SELECT equipe.cle AS cleequipe, equipe.nom AS nomequipe, personne.nom AS nompersonne, personne.prenom AS prenompersonne, sujet.titre AS sujet, domaine_diplome.domaine AS discipline, date(these.fin) AS soutenance, date_part(''year''::text, these.fin) AS finthese, (((vue_responsable_de_theses.nom)::text || '' ''::text) || (vue_responsable_de_theses.prenom)::text) AS directeur FROM (((((these JOIN sujet ON ((sujet.cle = these.cle_sujet))) JOIN domaine_diplome ON ((domaine_diplome.cle = these.cle_domaine))) JOIN equipe ON ((equipe.cle = these.cle_equipe))) JOIN personne ON ((personne.cle = these.cle_personne))) LEFT JOIN vue_responsable_de_theses ON ((vue_responsable_de_theses.cle = these.cle_responsable))) WHERE ((these.fin IS NOT NULL) AND (these.abandon = false)) ORDER BY equipe.nom, personne.nom, personne.prenom, sujet.titre' rule: #selectCommand
