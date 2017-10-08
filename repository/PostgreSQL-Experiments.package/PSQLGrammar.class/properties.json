@@ -103,7 +103,12 @@
 		"any",
 		"andKeyword",
 		"isNullOperator",
-		"isNotNullOperator"
+		"isNotNullOperator",
+		"case",
+		"when",
+		"then",
+		"else",
+		"conditionalExpression"
 	],
 	"name" : "PSQLGrammar",
 	"type" : "normal"
