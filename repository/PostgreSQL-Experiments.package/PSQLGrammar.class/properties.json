@@ -140,7 +140,21 @@
 		"plsqlRowTypeDeclaration",
 		"plsqlFieldTypeDeclaration",
 		"plsqlRecordDeclaration",
-		"record"
+		"record",
+		"declare",
+		"plpgsqlStatement",
+		"plpgsqlAssignmentStatement",
+		"perform",
+		"plpgsqlPerformStatement",
+		"plpgsqlIntoQueryStatement",
+		"plpgsqlExecuteStatement",
+		"execute",
+		"strict",
+		"plpgsqlResultValueStatement",
+		"get",
+		"current",
+		"diagnostics",
+		"plpgsqlNullStatement"
 	],
 	"name" : "PSQLGrammar",
 	"type" : "normal"

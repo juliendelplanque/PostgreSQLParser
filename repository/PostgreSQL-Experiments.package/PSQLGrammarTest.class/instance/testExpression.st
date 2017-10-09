@@ -16,4 +16,5 @@ testExpression
 		parse: '''IG''::character varying' rule: #expression;
 		parse: '1 = - 1' rule: #expression;
 		parse: 'ANY (ARRAY[(''IG''::character varying)::text, (''TECH''::character varying)::text])' rule: #expression;
-		parse: '((grade.cle_catgrade)::text = ANY (ARRAY[(''IG''::character varying)::text, (''TECH''::character varying)::text]))' rule: #expression
+		parse: '((grade.cle_catgrade)::text = ANY (ARRAY[(''IG''::character varying)::text, (''TECH''::character varying)::text]))' rule: #expression;
+		parse: '''a'' || ''b''' rule: #expression

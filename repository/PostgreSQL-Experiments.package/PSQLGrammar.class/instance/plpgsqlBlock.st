@@ -1,8 +1,8 @@
 plpgsql
 plpgsqlBlock
 	^ plpgsqlBeginLabel trim optional ,
-	plpgsqlDeclarations trim optional ,
+	(declare trim , plpgsqlDeclarations trim) optional ,
 	begin trim ,
 	plpgsqlStatements trim ,
 	endKeyword trim ,
-	plpgsqlEndLabel trim optional
+	plpgsqlEndLabel trim optional , semicolon trim

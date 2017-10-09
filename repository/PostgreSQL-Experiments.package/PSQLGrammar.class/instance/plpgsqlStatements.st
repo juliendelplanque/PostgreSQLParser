@@ -1,4 +1,3 @@
 plpgsql
 plpgsqlStatements
-	self flag: #todo.
-	^ nil asParser
+	^ (plpgsqlStatement trim plus separatedBy: semicolon) , semicolon
