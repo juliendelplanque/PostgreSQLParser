@@ -1,3 +1,3 @@
 expression
 isNotNullOperator
-	^ isNotNull , endKeyword optional
+	^ isNotNull , keywordStop optional
