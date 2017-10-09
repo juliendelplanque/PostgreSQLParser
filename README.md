@@ -4,7 +4,7 @@ A parser for PostgreSQL written in Pharo using PetitParser.
 ## Parser status
 
 | Command | Status |
---------------------
+|---------|--------|
 | ABORT | TODO |
 | ALTER AGGREGATE | TODO |
 | ALTER COLLATION | TODO |
