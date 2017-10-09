@@ -77,7 +77,7 @@ A parser for PostgreSQL written in Pharo using PetitParser.
 | CREATE SCHEMA | TODO |
 | CREATE SEQUENCE | TODO |
 | CREATE SERVER | TODO |
-| CREATE TABLE | TODO |
+| CREATE TABLE | In progress |
 | CREATE TABLE AS | TODO |
 | CREATE TABLESPACE | TODO |
 | CREATE TEXT SEARCH CONFIGURATION | TODO |
@@ -89,7 +89,7 @@ A parser for PostgreSQL written in Pharo using PetitParser.
 | CREATE TYPE | TODO |
 | CREATE USER | TODO |
 | CREATE USER MAPPING | TODO |
-| CREATE VIEW | TODO |
+| CREATE VIEW | In progress |
 | DEALLOCATE | TODO |
 | DECLARE | TODO |
 | DELETE | TODO |
@@ -158,7 +158,7 @@ A parser for PostgreSQL written in Pharo using PetitParser.
 | ROLLBACK TO SAVEPOINT | TODO |
 | SAVEPOINT | TODO |
 | SECURITY LABEL | TODO |
-| SELECT | TODO |
+| SELECT | In progress |
 | SELECT INTO | TODO |
 | SET | TODO |
 | SET CONSTRAINTS | TODO |
@@ -171,4 +171,4 @@ A parser for PostgreSQL written in Pharo using PetitParser.
 | UNLISTEN | TODO |
 | UPDATE | TODO |
 | VACUUM | TODO |
-| VALUES -- compute a set of rows
+| VALUES | TODO |
