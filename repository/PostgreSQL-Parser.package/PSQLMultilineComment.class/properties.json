@@ -1,14 +1,13 @@
 {
-	"category" : "PostgreSQL-Parser-Tokens",
-	"classinstvars" : [
-		 ],
-	"classvars" : [
-		 ],
 	"commentStamp" : "JulienDelplanque 8/13/2016 15:34",
-	"instvars" : [
-		"subcomments" ],
-	"name" : "PSQLMultilineComment",
-	"pools" : [
-		 ],
 	"super" : "PSQLComment",
-	"type" : "normal" }
+	"category" : "PostgreSQL-Parser-Tokens",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [
+		"subcomments"
+	],
+	"name" : "PSQLMultilineComment",
+	"type" : "normal"
+}

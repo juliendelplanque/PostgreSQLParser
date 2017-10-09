@@ -1,14 +1,11 @@
 {
-	"category" : "PostgreSQL-Parser-Tokens",
-	"classinstvars" : [
-		 ],
-	"classvars" : [
-		 ],
 	"commentStamp" : "JulienDelplanque 8/13/2016 15:39",
-	"instvars" : [
-		 ],
-	"name" : "PSQLMetaCommand",
-	"pools" : [
-		 ],
 	"super" : "PSQLToken",
-	"type" : "normal" }
+	"category" : "PostgreSQL-Parser-Tokens",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [ ],
+	"name" : "PSQLMetaCommand",
+	"type" : "normal"
+}

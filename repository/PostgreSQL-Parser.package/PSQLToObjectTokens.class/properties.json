@@ -1,14 +1,11 @@
 {
-	"category" : "PostgreSQL-Parser-Core",
-	"classinstvars" : [
-		 ],
-	"classvars" : [
-		 ],
 	"commentStamp" : "JulienDelplanque 8/13/2016 17:22",
-	"instvars" : [
-		 ],
-	"name" : "PSQLToObjectTokens",
-	"pools" : [
-		 ],
 	"super" : "PSQLTokenizer",
-	"type" : "normal" }
+	"category" : "PostgreSQL-Parser-Core",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [ ],
+	"name" : "PSQLToObjectTokens",
+	"type" : "normal"
+}

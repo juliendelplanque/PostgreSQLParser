@@ -1,14 +1,11 @@
 {
-	"category" : "PostgreSQL-Parser-Core",
-	"classinstvars" : [
-		 ],
-	"classvars" : [
-		 ],
 	"commentStamp" : "",
-	"instvars" : [
-		 ],
-	"name" : "PSQLTokenizerTest",
-	"pools" : [
-		 ],
 	"super" : "PPCompositeParserTest",
-	"type" : "normal" }
+	"category" : "PostgreSQL-Parser-Core",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [ ],
+	"name" : "PSQLTokenizerTest",
+	"type" : "normal"
+}

@@ -1,14 +1,11 @@
 {
-	"category" : "PostgreSQL-Parser-Tokens",
-	"classinstvars" : [
-		 ],
-	"classvars" : [
-		 ],
 	"commentStamp" : "JulienDelplanque 8/13/2016 16:09",
-	"instvars" : [
-		 ],
-	"name" : "PSQLNumericConstant",
-	"pools" : [
-		 ],
 	"super" : "PSQLSpecial",
-	"type" : "normal" }
+	"category" : "PostgreSQL-Parser-Tokens",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [ ],
+	"name" : "PSQLNumericConstant",
+	"type" : "normal"
+}

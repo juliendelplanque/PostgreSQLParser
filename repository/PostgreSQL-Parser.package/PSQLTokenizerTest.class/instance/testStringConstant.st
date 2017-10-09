@@ -12,4 +12,5 @@ testStringConstant
 BEGIN
     RETURN ($1 ~ $q$[\t\r\n\v\\]$ q$);
 END;
-$ function$' rule: #stringConstant
+$ function$' rule: #stringConstant;
+		parse: '''SELECT count(*) FROM %I ''' rule: #stringConstant

@@ -1,15 +1,14 @@
 {
-	"category" : "PostgreSQL-Parser-Tokens",
-	"classinstvars" : [
-		 ],
-	"classvars" : [
-		 ],
 	"commentStamp" : "JulienDelplanque 8/13/2016 15:37",
+	"super" : "PSQLStringConstant",
+	"category" : "PostgreSQL-Parser-Tokens",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
 	"instvars" : [
 		"tag",
-		"substrings" ],
+		"substrings"
+	],
 	"name" : "PSQLDollarQuotedStringConstant",
-	"pools" : [
-		 ],
-	"super" : "PSQLStringConstant",
-	"type" : "normal" }
+	"type" : "normal"
+}

@@ -1,10 +1,10 @@
 {
-	"category" : "PostgreSQL-Parser-Core",
-	"classinstvars" : [
-		 ],
-	"classvars" : [
-		 ],
 	"commentStamp" : "JulienDelplanque 8/13/2016 14:16",
+	"super" : "PPCompositeParser",
+	"category" : "PostgreSQL-Parser-Core",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
 	"instvars" : [
 		"whiteSpace",
 		"comment",
@@ -40,9 +40,8 @@
 		"dollarQuotedStringConstantOpenTag",
 		"dollarQuotedStringConstantCloseTag",
 		"tagIdentifier",
-		"metaCommand" ],
+		"metaCommand"
+	],
 	"name" : "PSQLTokenizer",
-	"pools" : [
-		 ],
-	"super" : "PPCompositeParser",
-	"type" : "normal" }
+	"type" : "normal"
+}
