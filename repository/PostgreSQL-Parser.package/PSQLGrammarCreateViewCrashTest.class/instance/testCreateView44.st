@@ -1,0 +1,4 @@
+as yet unclassified
+testCreateView44
+	self
+		parse: 'CREATE VIEW web_publis AS SELECT DISTINCT publi.titre, publi.halid, typepubli.intitule, typepubli.intitule_en, publi.auteurs, publi.journal, publi.page, publi.fichier, publi.cle_type AS type, date_part(''year''::text, publi.datepubli) AS annee, publi.datepubli FROM (publi LEFT JOIN typepubli ON (((publi.cle_type)::text = (typepubli.type)::text))) WHERE (((((publi.cle_type)::text <> ''THESE''::text) AND ((publi.cle_type)::text <> ''BREVET''::text)) AND ((publi.cle_type)::text <> ''HDR''::text)) AND (publi.datepubli IS NOT NULL)) ORDER BY publi.datepubli DESC, publi.cle_type' rule: #createViewCommand

@@ -1,0 +1,4 @@
+as yet unclassified
+testCreateView7
+	self
+		parse: 'CREATE VIEW vue_contractuels_recherche AS SELECT civilite.civilite AS sexe, personne.nom AS nompersonne, personne.prenom, personne.datenaissance, grade.grade AS corps, typesupport.nature AS typecontrat, support.debut AS debutsupport, support.fin AS finsupport, employeur.nom AS nomemployeur, these.fin AS finthese, these.abandon AS abandonthese FROM (((personne LEFT JOIN these ON ((personne.cle = these.cle_personne))) LEFT JOIN civilite ON ((personne.civilite = civilite.cle))) LEFT JOIN support ON ((support.cle_personne = personne.cle))), grade, typesupport, employeur WHERE ((((support.cle_grade = grade.cle) AND (support.cle_typesupport = typesupport.cle)) AND (support.cle_employeur = employeur.cle)) AND ((grade.cle = 27) OR (grade.cle = 17)))' rule: #createViewCommand

@@ -1,0 +1,4 @@
+tests
+testSelect53
+	self
+		parse: 'SELECT these.cle, personne.nom AS nompersonne, personne.prenom AS prenompersonne, sujet.titre AS sujet, date(these.fin) AS soutenance, date_part(''year''::text, these.fin) AS finthese, equipeexterne.cle AS eid, equipeexterne.nom AS equipe, sujet.titre_en AS sujet_en, sujet.resume_en FROM (((((these LEFT JOIN sujet ON ((sujet.cle = these.cle_sujet))) LEFT JOIN personne ON ((personne.cle = these.cle_personne))) LEFT JOIN equipe ON ((equipe.cle = these.cle_equipe))) LEFT JOIN r_equextequ ON ((equipe.cle = r_equextequ.cle_equipe_interne))) LEFT JOIN equipeexterne ON ((equipeexterne.cle = r_equextequ.cle_equipe_externe))) WHERE ((((these.fin < now()) AND (these.abandon = false)) AND ((equipe.fin IS NULL) OR (equipe.fin > ''2015-01-01''::date))) AND ((equipeexterne.fin IS NULL) OR (equipeexterne.fin > ''2015-01-01''::date))) ORDER BY these.fin DESC' rule: #selectCommand

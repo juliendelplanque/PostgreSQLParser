@@ -1,0 +1,4 @@
+as yet unclassified
+testCreateView47
+	self
+		parse: 'CREATE VIEW web_soutenances_futures AS SELECT DISTINCT soutenance.cle AS id, soutenance.jury, soutenance.jury_en, diplome.fin, date_part(''year''::text, diplome.fin) AS annee, sujet.titre, sujet.titre_en, sujet.resume, lieusoutenance.nom AS lieu, personne.nom, personne.prenom, pg_class.relname, diplome.cle AS diplome_id FROM (((((soutenance LEFT JOIN diplome ON ((soutenance.cle_diplome = diplome.cle))) LEFT JOIN sujet ON ((diplome.cle_sujet = sujet.cle))) LEFT JOIN lieusoutenance ON ((lieusoutenance.cle = soutenance.cle_lieusoutenance))) LEFT JOIN personne ON ((diplome.cle_personne = personne.cle))) LEFT JOIN pg_class ON ((diplome.tableoid = pg_class.oid))) WHERE ((NOT (personne.nom IS NULL)) AND (diplome.fin >= (now() - ''1 day''::interval))) ORDER BY diplome.fin DESC, personne.nom, sujet.titre' rule: #createViewCommand

@@ -1,0 +1,3 @@
+plpgsql
+plpgsqlEndLabel
+	^ plpgsqlLabel

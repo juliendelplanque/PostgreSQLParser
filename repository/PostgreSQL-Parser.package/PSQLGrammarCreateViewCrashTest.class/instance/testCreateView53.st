@@ -1,0 +1,4 @@
+as yet unclassified
+testCreateView53
+	self
+		parse: 'CREATE VIEW area_member_count AS SELECT area.id AS area_id, count(member.id) AS direct_member_count, COALESCE(sum( CASE WHEN (member.id IS NOT NULL) THEN membership_weight(area.id, member.id) ELSE 0 END)) AS member_weight FROM (((area LEFT JOIN membership ON ((area.id = membership.area_id))) LEFT JOIN privilege ON ((((privilege.unit_id = area.unit_id) AND (privilege.member_id = membership.member_id)) AND privilege.voting_right))) LEFT JOIN member ON (((member.id = privilege.member_id) AND member.active))) GROUP BY area.id' rule: #createViewCommand

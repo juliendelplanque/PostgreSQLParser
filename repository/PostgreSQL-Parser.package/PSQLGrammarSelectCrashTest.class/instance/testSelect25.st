@@ -1,0 +1,4 @@
+tests
+testSelect25
+	self
+		parse: 'SELECT personne.cle AS clepersonne, personne.nom, personne.prenom FROM personne, support WHERE ((((personne.cle = support.cle_personne) AND (support.debut <= now())) AND ((support.fin IS NULL) OR (support.fin >= now()))) AND (((NOT (support.cle IN (SELECT affectation.cle_support FROM affectation WHERE ((affectation.fin >= now()) OR (affectation.fin IS NULL))))) OR (support.cle IN (SELECT affectation.cle_support FROM affectation WHERE (affectation.cle_equipe = 0)))) OR (NOT (support.cle IN (SELECT affectation.cle_support FROM affectation)))))' rule: #selectCommand

@@ -1,0 +1,4 @@
+as yet unclassified
+testCreateView33
+	self
+		parse: 'CREATE VIEW web_actualites AS SELECT DISTINCT actualite.titrecourt, actualite.titrecourt_en, actualite.titre, actualite.titre_en, actualite.description, actualite.description_en, actualite.marquant, actualite.debut, date_part(''year''::text, actualite.debut) AS annee, actualite.fin, actualite.debutpublication, actualite.cle_categorie AS type, actualite.cle AS id, actualite.intervenant, actualite.lieu, actualite.heure, actualite.heurefin, categorie_actualite.intitule, categorie_actualite.code, actualite.url, CASE WHEN (actualite.debut IS NULL) THEN actualite.debutpublication ELSE actualite.debut END AS datetri FROM (actualite LEFT JOIN categorie_actualite ON ((actualite.cle_categorie = categorie_actualite.cle))) ORDER BY actualite.debut DESC, actualite.cle_categorie' rule: #createViewCommand

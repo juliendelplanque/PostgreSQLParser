@@ -1,0 +1,4 @@
+as yet unclassified
+testCreateView13
+	self
+		parse: 'CREATE VIEW vue_it_permanents AS SELECT personne.cle AS clepersonne, personne.nom AS nompersonne, personne.prenom, personne.datenaissance, grade.grade, employeur.nom AS nomemployeur, support.debut AS debutsupport, support.fin AS finsupport FROM personne, support, grade, categorie, employeur WHERE (((((((personne.cle = support.cle_personne) AND (support.cle_grade = grade.cle)) AND (support.cle_categorie = categorie.cle)) AND ((categorie.categorie)::text = ''PERMANENT''::text)) AND (support.cle_employeur = employeur.cle)) AND (((((support.cle_employeur = 1) OR (support.cle_employeur = 15)) OR (support.cle_employeur = 2)) OR (support.cle_employeur = 3)) OR (support.cle_employeur = 107))) AND ((grade.cle_catgrade)::text = ANY (ARRAY[(''IG''::character varying)::text, (''TECH''::character varying)::text])))' rule: #createViewCommand
