@@ -1,0 +1,3 @@
+testing
+isWhiteSpace
+	^ true

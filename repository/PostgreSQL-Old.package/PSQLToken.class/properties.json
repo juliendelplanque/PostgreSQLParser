@@ -1,0 +1,13 @@
+{
+	"commentStamp" : "JulienDelplanque 8/13/2016 15:36",
+	"super" : "Object",
+	"category" : "PostgreSQL-Old",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [
+		"contents"
+	],
+	"name" : "PSQLToken",
+	"type" : "normal"
+}

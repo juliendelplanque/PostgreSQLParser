@@ -1,0 +1,11 @@
+{
+	"commentStamp" : "JulienDelplanque 8/13/2016 15:56",
+	"super" : "PSQLSpecial",
+	"category" : "PostgreSQL-Old",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [ ],
+	"name" : "PSQLPeriod",
+	"type" : "normal"
+}

@@ -1,0 +1,3 @@
+testing
+isSemicolon
+	^ true
