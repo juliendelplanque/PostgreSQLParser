@@ -207,7 +207,16 @@
 		"betweenSymmetric",
 		"notBetweenSymmetric",
 		"symmetric",
-		"betweenConstructOperator"
+		"betweenConstructOperator",
+		"plpgsqlRaiseStatement",
+		"raise",
+		"plpgsqlRaiseLevel",
+		"plpgsqlRaiseStatement1",
+		"plpgsqlRaiseStatement2",
+		"plpgsqlRaiseStatement3",
+		"plpgsqlRaiseStatement4",
+		"plpgsqlRaiseStatement5",
+		"plpgsqlRaiseUsingOptions"
 	],
 	"name" : "PSQLGrammar",
 	"type" : "normal"
