@@ -154,7 +154,22 @@
 		"get",
 		"current",
 		"diagnostics",
-		"plpgsqlNullStatement"
+		"plpgsqlNullStatement",
+		"plpgsqlControlStructure",
+		"plpgsqlReturn",
+		"plpgsqlConditional",
+		"plpgsqlLoop",
+		"plpgsqlExceptionHandler",
+		"return",
+		"query",
+		"plpgsqlQuery",
+		"plpgsqlIfThen",
+		"plpgsqlIfThenElse",
+		"plpgsqlIfThenElsif",
+		"plpgsqlSimpleCase",
+		"plpgsqlSearchedCase",
+		"if",
+		"elsif"
 	],
 	"name" : "PSQLGrammar",
 	"type" : "normal"
