@@ -1,3 +1,3 @@
 plpgsql
 plpgsqlBeginLabel
-	^ '<<' asParser trim , identifierOrKeyword , '>>' asParser trim
+	^ '<<' asParser trim , plpgsqlLabel , '>>' asParser trim

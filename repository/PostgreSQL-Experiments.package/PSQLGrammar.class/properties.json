@@ -169,7 +169,17 @@
 		"plpgsqlSimpleCase",
 		"plpgsqlSearchedCase",
 		"if",
-		"elsif"
+		"elsif",
+		"plpgsqlLoopLoop",
+		"plpgsqlWhileLoop",
+		"plpgsqlForLoop",
+		"plpgsqlArrayLoop",
+		"loop",
+		"plpgsqlExitStatement",
+		"exit",
+		"plpgsqlLabel",
+		"continue",
+		"plpgsqlContinueStatement"
 	],
 	"name" : "PSQLGrammar",
 	"type" : "normal"

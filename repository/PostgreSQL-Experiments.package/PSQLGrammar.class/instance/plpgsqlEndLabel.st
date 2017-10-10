@@ -1,3 +1,3 @@
 plpgsql
 plpgsqlEndLabel
-	^ identifierOrKeyword
+	^ plpgsqlLabel

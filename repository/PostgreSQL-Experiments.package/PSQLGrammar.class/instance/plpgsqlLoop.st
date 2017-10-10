@@ -1,4 +1,3 @@
 plpgsql
 plpgsqlLoop
-	self flag: #todo.
-	^ nil asParser
+	^ plpgsqlLoopLoop / plpgsqlWhileLoop / plpgsqlForLoop / plpgsqlArrayLoop
