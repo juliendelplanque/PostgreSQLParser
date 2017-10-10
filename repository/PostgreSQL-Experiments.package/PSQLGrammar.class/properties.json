@@ -216,7 +216,8 @@
 		"plpgsqlRaiseStatement3",
 		"plpgsqlRaiseStatement4",
 		"plpgsqlRaiseStatement5",
-		"plpgsqlRaiseUsingOptions"
+		"plpgsqlRaiseUsingOptions",
+		"plpgsqlAssertStatement"
 	],
 	"name" : "PSQLGrammar",
 	"type" : "normal"
