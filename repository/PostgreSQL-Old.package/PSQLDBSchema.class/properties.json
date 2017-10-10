@@ -1,0 +1,13 @@
+{
+	"commentStamp" : "",
+	"super" : "Object",
+	"category" : "PostgreSQL-Old",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [
+		"commentsAndStatements"
+	],
+	"name" : "PSQLDBSchema",
+	"type" : "normal"
+}
