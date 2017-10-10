@@ -187,7 +187,10 @@
 		"slice",
 		"array",
 		"exception",
-		"plpgsqlBody"
+		"plpgsqlBody",
+		"between",
+		"betweenOperator",
+		"notBetweenOperator"
 	],
 	"name" : "PSQLGrammar",
 	"type" : "normal"

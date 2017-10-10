@@ -19,4 +19,6 @@ testExpression
 		parse: '((grade.cle_catgrade)::text = ANY (ARRAY[(''IG''::character varying)::text, (''TECH''::character varying)::text]))' rule: #expression;
 		parse: '''a'' || ''b''' rule: #expression;
 		parse: 'parentid IS NULL OR parentid = ''''' rule: #expression;
-		parse: 'x BETWEEN 0 AND 10' rule: #expression
+		parse: 'x BETWEEN 0 AND 10' rule: #expression;
+		parse: 'x NOT BETWEEN 0 AND 10' rule: #expression;
+		parse: '(x BETWEEN 0 AND 10) OR (x NOT BETWEEN 15 AND 20)' rule: #expression
