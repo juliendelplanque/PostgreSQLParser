@@ -15,5 +15,5 @@ END CASE' rule: #plpgsqlSearchedCase;
 END CASE' rule: #plpgsqlSearchedCase;
 		parse: 'CASE
                      WHEN "matrix_f"["i"]["j"]
-                     THEN ((-1::INT8) << 63, 0)::"link_strength"  
-                     ELSE "matrix_d"["i"]["j"] END' rule: #plpgsqlSearchedCase
+                     THEN ((-1::INT8) << 63, 0)::"link_strength"
+                     ELSE "matrix_d"["i"]["j"] END CASE' rule: #plpgsqlSearchedCase

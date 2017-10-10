@@ -220,7 +220,6 @@
 		"plpgsqlAssertStatement",
 		"plpgsqlUnhandledStatement",
 		"plpgsqlAssignmentLeftPart",
-		"plpgsqlCompositeValue",
 		"typeCastConstruct"
 	],
 	"name" : "PSQLGrammar",
