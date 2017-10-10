@@ -1,4 +1,4 @@
-tests
+tests-expression
 testExpression
 	self
 		parse: 'fct()' rule: #expression;
@@ -21,4 +21,12 @@ testExpression
 		parse: 'parentid IS NULL OR parentid = ''''' rule: #expression;
 		parse: 'x BETWEEN 0 AND 10' rule: #expression;
 		parse: 'x NOT BETWEEN 0 AND 10' rule: #expression;
-		parse: '(x BETWEEN 0 AND 10) OR (x NOT BETWEEN 15 AND 20)' rule: #expression
+		parse: '(x BETWEEN 0 AND 10) OR (x NOT BETWEEN 15 AND 20)' rule: #expression;
+		parse: 'x IS DISTINCT FROM y' rule: #expression;
+		parse: 'x IS NOT DISTINCT FROM y' rule: #expression;
+		parse: 'x IS TRUE' rule: #expression;
+		parse: 'x IS NOT TRUE' rule: #expression;
+		parse: 'x IS FALSE' rule: #expression;
+		parse: 'x IS NOT FALSE' rule: #expression;
+		parse: 'x IS UNKNOWN' rule: #expression;
+		parse: 'x IS NOT UNKNOWN' rule: #expression

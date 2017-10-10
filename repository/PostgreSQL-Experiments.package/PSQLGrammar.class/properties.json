@@ -190,7 +190,20 @@
 		"plpgsqlBody",
 		"between",
 		"betweenOperator",
-		"notBetweenOperator"
+		"notBetweenOperator",
+		"is",
+		"isNotDistinctFromOperator",
+		"isDistinctFromOperator",
+		"falseKeyword",
+		"trueKeyword",
+		"unknown",
+		"isTrue",
+		"isNotTrue",
+		"isFalse",
+		"isNotFalse",
+		"isNotUnknown",
+		"booleanTestConstructOperator",
+		"isUnknown"
 	],
 	"name" : "PSQLGrammar",
 	"type" : "normal"

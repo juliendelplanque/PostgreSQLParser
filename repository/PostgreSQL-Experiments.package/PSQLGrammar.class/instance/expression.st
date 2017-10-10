@@ -12,9 +12,12 @@ expression
 			g prefix: any trim do: self prefixOperatorBlock.
 			g prefix: distinct trim do: self prefixOperatorBlock.
 			g postfix: isNullOperator trim do: self postfixOperatorBlock.
-			g postfix: isNotNullOperator trim do: self postfixOperatorBlock ];
+			g postfix: isNotNullOperator trim do: self postfixOperatorBlock.
+			g postfix: booleanTestConstructOperator trim do: self postfixOperatorBlock ];
 		group: [ :g | g left: operator trim do: self binaryOperatorBlock ];
 		group: [ :g | g left: inOperator trim do: self binaryOperatorBlock ];
+		group: [ :g | g left: isDistinctFromOperator trim do: self binaryOperatorBlock ];
+		group: [ :g | g left: isNotDistinctFromOperator trim do: self binaryOperatorBlock ];
 		group: [ :g | g left: betweenOperator trim do: self binaryOperatorBlock ];
 		group: [ :g | g left: notBetweenOperator trim do: self binaryOperatorBlock ];
 		group: [ :g | g left: binaryLogicalOperator trim do: self binaryOperatorBlock ];

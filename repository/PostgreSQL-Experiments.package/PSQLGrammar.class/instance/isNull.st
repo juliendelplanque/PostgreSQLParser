@@ -1,3 +1,3 @@
 expression
 isNull
-	^ (self buildKeyword: 'is') trim , (self buildKeyword: 'null')
+	^ is trim , null
