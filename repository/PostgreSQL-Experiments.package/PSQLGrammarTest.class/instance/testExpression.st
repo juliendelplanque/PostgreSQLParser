@@ -29,4 +29,6 @@ testExpression
 		parse: 'x IS FALSE' rule: #expression;
 		parse: 'x IS NOT FALSE' rule: #expression;
 		parse: 'x IS UNKNOWN' rule: #expression;
-		parse: 'x IS NOT UNKNOWN' rule: #expression
+		parse: 'x IS NOT UNKNOWN' rule: #expression;
+		parse: 'x BETWEEN SYMMETRIC 0 AND 10' rule: #expression;
+		parse: 'x NOT BETWEEN SYMMETRIC 0 AND 10' rule: #expression
