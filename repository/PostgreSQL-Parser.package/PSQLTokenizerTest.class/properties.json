@@ -1,7 +1,7 @@
 {
 	"commentStamp" : "",
 	"super" : "PPCompositeParserTest",
-	"category" : "PostgreSQL-Parser-Core",
+	"category" : "PostgreSQL-Parser-Tests",
 	"classinstvars" : [ ],
 	"pools" : [ ],
 	"classvars" : [ ],
