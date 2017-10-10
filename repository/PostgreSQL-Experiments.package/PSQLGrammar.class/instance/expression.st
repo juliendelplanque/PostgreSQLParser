@@ -10,7 +10,9 @@ expression
 			g prefix: operator trim do: self prefixOperatorBlock.
 			g prefix: notKeyword trim do: self prefixOperatorBlock.
 			g prefix: any trim do: self prefixOperatorBlock.
-			g prefix: distinct trim do: self prefixOperatorBlock ];
+			g prefix: distinct trim do: self prefixOperatorBlock.
+			g postfix: isNullOperator trim do: self postfixOperatorBlock.
+			g postfix: isNotNullOperator trim do: self postfixOperatorBlock ];
 		group: [ :g | g left: operator trim do: self binaryOperatorBlock ];
 		group: [ :g | g left: inOperator do: self binaryOperatorBlock ];
 		group: [ :g | g left: binaryLogicalOperator trim do: self binaryOperatorBlock ];
@@ -18,7 +20,5 @@ expression
 			g postfix: operator trim do: self postfixOperatorBlock.
 			g postfix: (self subscriptWith: expressionParser) trim do: self postfixOperatorBlock.
 			g postfix: (self commaSubscriptWith: expressionParser) trim do: self postfixOperatorBlock.
-			g postfix: fieldSelection trim do: self postfixOperatorBlock.
-			g postfix: isNullOperator trim do: self postfixOperatorBlock.
-			g postfix: isNotNullOperator trim do: self postfixOperatorBlock ].
+			g postfix: fieldSelection trim do: self postfixOperatorBlock ].
 	^ expressionParser
