@@ -185,7 +185,8 @@
 		"plpgsqlQueryResultsLoop",
 		"foreach",
 		"slice",
-		"array"
+		"array",
+		"exception"
 	],
 	"name" : "PSQLGrammar",
 	"type" : "normal"
