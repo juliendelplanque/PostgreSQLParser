@@ -1,3 +1,6 @@
 accessing
 identifier
-	^ super identifier ==> [ :tokens | tokens second ]
+	^ super identifier ==> [ :tokens | 
+		PSQLASTIdentifier new
+			identifier: tokens second;
+			yourself ]

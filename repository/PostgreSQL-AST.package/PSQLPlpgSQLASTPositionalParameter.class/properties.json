@@ -1,15 +1,13 @@
 {
-	"commentStamp" : "JulienDelplanque 10/10/2017 19:50",
+	"commentStamp" : "JulienDelplanque 10/10/2017 21:38",
 	"super" : "PSQLPlpgSQLASTNode",
 	"category" : "PostgreSQL-AST",
 	"classinstvars" : [ ],
 	"pools" : [ ],
 	"classvars" : [ ],
 	"instvars" : [
-		"beginLabel",
-		"endLabel",
-		"statements"
+		"index"
 	],
-	"name" : "PSQLPlpgSQLASTLoop",
+	"name" : "PSQLPlpgSQLASTPositionalParameter",
 	"type" : "normal"
 }
