@@ -186,7 +186,8 @@
 		"foreach",
 		"slice",
 		"array",
-		"exception"
+		"exception",
+		"plpgsqlBody"
 	],
 	"name" : "PSQLGrammar",
 	"type" : "normal"

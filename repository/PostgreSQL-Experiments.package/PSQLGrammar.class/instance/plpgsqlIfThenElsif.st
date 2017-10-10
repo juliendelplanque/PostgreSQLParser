@@ -14,6 +14,6 @@ plpgsqlIfThenElsif
 		plpgsqlStatements ,
 	((elsif/(else,if)) trim , expression , then trim ,
 			plpgsqlStatements) star ,
-	else trim ,
-		plpgsqlStatements ,
+	(else trim ,
+		plpgsqlStatements) optional ,
 	endKeyword trim , if trim
