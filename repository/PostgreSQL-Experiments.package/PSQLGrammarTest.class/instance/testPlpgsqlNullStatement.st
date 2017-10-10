@@ -1,6 +1,6 @@
 tests-plpgsql
 testPlpgsqlNullStatement
 	self
-		parse: 'NULL' rule: #plpgsqlNullStatement;
+		parse: 'NULL' rule: #plpgsqlNullStatement";
 		parse: '    
-' rule: #plpgsqlNullStatement
+' rule: #plpgsqlNullStatement"

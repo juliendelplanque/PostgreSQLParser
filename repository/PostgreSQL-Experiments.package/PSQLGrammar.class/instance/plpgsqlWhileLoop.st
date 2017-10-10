@@ -1,4 +1,6 @@
 plpgsql
 plpgsqlWhileLoop
-	self flag: #todo.
-	^ nil asParser
+	^ plpgsqlBeginLabel trim optional ,
+	while trim , expression , loop trim ,
+		plpgsqlStatements ,
+	endKeyword trim , loop trim , plpgsqlLabel trim optional

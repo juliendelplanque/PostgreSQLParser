@@ -179,7 +179,13 @@
 		"exit",
 		"plpgsqlLabel",
 		"continue",
-		"plpgsqlContinueStatement"
+		"plpgsqlContinueStatement",
+		"while",
+		"reverse",
+		"plpgsqlQueryResultsLoop",
+		"foreach",
+		"slice",
+		"array"
 	],
 	"name" : "PSQLGrammar",
 	"type" : "normal"
