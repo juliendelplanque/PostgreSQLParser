@@ -217,7 +217,11 @@
 		"plpgsqlRaiseStatement4",
 		"plpgsqlRaiseStatement5",
 		"plpgsqlRaiseUsingOptions",
-		"plpgsqlAssertStatement"
+		"plpgsqlAssertStatement",
+		"plpgsqlUnhandledStatement",
+		"plpgsqlAssignmentLeftPart",
+		"plpgsqlCompositeValue",
+		"typeCastConstruct"
 	],
 	"name" : "PSQLGrammar",
 	"type" : "normal"

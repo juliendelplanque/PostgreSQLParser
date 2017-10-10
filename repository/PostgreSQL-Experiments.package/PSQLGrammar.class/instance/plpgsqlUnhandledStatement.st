@@ -1,0 +1,3 @@
+plpgsql
+plpgsqlUnhandledStatement
+	^ PPFailingParser new

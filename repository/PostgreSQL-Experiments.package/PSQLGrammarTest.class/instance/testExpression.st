@@ -31,4 +31,5 @@ testExpression
 		parse: 'x IS UNKNOWN' rule: #expression;
 		parse: 'x IS NOT UNKNOWN' rule: #expression;
 		parse: 'x BETWEEN SYMMETRIC 0 AND 10' rule: #expression;
-		parse: 'x NOT BETWEEN SYMMETRIC 0 AND 10' rule: #expression
+		parse: 'x NOT BETWEEN SYMMETRIC 0 AND 10' rule: #expression;
+		parse: '"matrix_p"["i"]["j"] > "matrix_p"["j"]["i"]'  rule: #expression

@@ -1,5 +1,5 @@
 expression
 functionCallParserWith: expressionParser
-	^ functionName , (openParenthesis , 
-		(((functionParameterName , ':=' asParser trim , expressionParser) / expressionParser) star separatedBy: comma trim) , 
-		closeParenthesis)
+	^ functionName , (openParenthesis trim , 
+		(((functionParameterName , ':=' asParser trim , expressionParser) trim / expressionParser trim) star separatedBy: comma trim) , 
+		closeParenthesis trim)

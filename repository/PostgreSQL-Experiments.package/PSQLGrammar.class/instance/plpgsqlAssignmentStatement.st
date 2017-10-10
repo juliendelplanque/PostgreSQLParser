@@ -1,3 +1,3 @@
 plpgsql
 plpgsqlAssignmentStatement
-	^ (identifier , ($. asParser , identifier) star) trim , (':=' asParser / $= asParser) trim , expression
+	^ plpgsqlAssignmentLeftPart trim , (':=' asParser / $= asParser) trim , (plpgsqlCompositeValue / expression)
