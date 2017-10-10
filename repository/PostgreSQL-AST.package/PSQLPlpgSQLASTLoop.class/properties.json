@@ -1,0 +1,15 @@
+{
+	"commentStamp" : "JulienDelplanque 10/10/2017 19:26",
+	"super" : "PSQLPlpgSQLASTNode",
+	"category" : "PostgreSQL-AST",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [
+		"beginLabel",
+		"endLabel",
+		"statements"
+	],
+	"name" : "PSQLPlpgSQLASTLoop",
+	"type" : "normal"
+}

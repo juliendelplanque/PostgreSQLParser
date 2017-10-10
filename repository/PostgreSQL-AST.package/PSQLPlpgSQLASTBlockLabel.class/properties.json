@@ -1,0 +1,13 @@
+{
+	"commentStamp" : "JulienDelplanque 10/10/2017 19:20",
+	"super" : "PSQLPlpgSQLASTNode",
+	"category" : "PostgreSQL-AST",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [
+		"labelContent"
+	],
+	"name" : "PSQLPlpgSQLASTBlockLabel",
+	"type" : "normal"
+}
