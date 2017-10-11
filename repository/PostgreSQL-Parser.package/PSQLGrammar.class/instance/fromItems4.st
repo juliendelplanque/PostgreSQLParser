@@ -5,7 +5,7 @@ fromItems4
 		openParenthesis trim,
 		(expression separatedBy: comma trim), "Using 'expression' is OK to parse function arguments"
 		closeParenthesis trim,
-		as trim optional ,
+		kw as trim optional ,
 		alias trim,
 		(openParenthesis trim ,
 			((columnDefinition plus separatedBy: comma trim) / (columnReference plus separatedBy: comma trim)),

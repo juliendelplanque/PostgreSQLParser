@@ -1,3 +1,3 @@
 expression
 isUnknown
-	^ is trim , unknown
+	^ kw is trim , kw unknown

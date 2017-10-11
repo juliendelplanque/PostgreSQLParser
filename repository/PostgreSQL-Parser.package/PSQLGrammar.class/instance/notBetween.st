@@ -1,3 +1,3 @@
 expression
 notBetween
-	^ notKeyword trim, between
+	^ kw notKeyword trim, kw between

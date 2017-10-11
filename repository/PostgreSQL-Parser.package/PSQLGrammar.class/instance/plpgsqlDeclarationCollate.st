@@ -1,3 +1,3 @@
 plpgsql
 plpgsqlDeclarationCollate
-	^ collate trim , quotedIdentifier trim
+	^ kw collate trim , quotedIdentifier trim

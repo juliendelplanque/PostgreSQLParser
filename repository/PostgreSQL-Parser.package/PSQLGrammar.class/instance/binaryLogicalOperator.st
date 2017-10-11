@@ -1,3 +1,3 @@
 expression
 binaryLogicalOperator
-	^ (andKeyword / or) , #space asParser
+	^ (kw andKeyword / kw or) , #space asParser

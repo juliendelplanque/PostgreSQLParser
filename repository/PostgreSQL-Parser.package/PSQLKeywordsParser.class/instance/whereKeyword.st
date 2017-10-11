@@ -1,4 +1,4 @@
 keywords
-where
+whereKeyword
 	<psqlkeyword>
 	^ self buildKeyword: 'where'

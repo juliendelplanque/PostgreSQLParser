@@ -1,3 +1,3 @@
 accessing
 havingClause
-	^ having trim , (expression plus separatedBy: comma trim)
+	^ kw having trim , (expression plus separatedBy: comma trim)

@@ -1,3 +1,3 @@
 plpgsql
 plpgsqlReturnForm2
-	^ return trim , next trim , expression
+	^ kw return trim , kw next trim , expression

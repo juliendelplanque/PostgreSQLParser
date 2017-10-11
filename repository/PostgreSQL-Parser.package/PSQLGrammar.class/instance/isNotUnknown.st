@@ -1,3 +1,3 @@
 expression
 isNotUnknown
-	^ is trim , notKeyword trim , unknown
+	^ kw is trim , kw notKeyword trim , kw unknown

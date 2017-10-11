@@ -1,3 +1,3 @@
 select command
 unionIntersectExceptClause
-	^ (union trim / intersect trim / except trim) , (kw all trim / distinct trim) optional , selectCommand trim
+	^ (kw union trim / kw intersect trim / kw except trim) , (kw all trim / kw distinct trim) optional , selectCommand trim

@@ -1,3 +1,3 @@
 expression
 betweenSymmetric
-	^ between trim , symmetric
+	^ kw between trim , kw symmetric

@@ -1,8 +1,8 @@
 plpgsql
 plpgsqlClassicDeclaration
 	^ identifier trim ,
-	constantKeyword trim optional ,
+	kw constantKeyword trim optional ,
 	plpgsqlDeclarationType ,
 	plpgsqlDeclarationCollate optional ,
-	(notKeyword trim , null trim) optional ,
-	((default trim / ':=' asParser trim / $= asParser trim) , expression) optional
+	(kw notKeyword trim , kw null trim) optional ,
+	((kw default trim / ':=' asParser trim / $= asParser trim) , expression) optional

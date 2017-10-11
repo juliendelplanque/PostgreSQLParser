@@ -10,10 +10,10 @@ plpgsqlIfThenElsif
 	[ ELSE
     	statements ]
 	END IF"
-	^ if trim , expression , then trim ,
+	^ kw if trim , expression , kw then trim ,
 		plpgsqlStatements ,
-	((elsif/(else,if)) trim , expression , then trim ,
+	((kw elsif/(kw else,kw if)) trim , expression , kw then trim ,
 			plpgsqlStatements) star ,
-	(else trim ,
+	(kw else trim ,
 		plpgsqlStatements) optional ,
-	endKeyword trim , if trim
+	kw endKeyword trim , kw if trim

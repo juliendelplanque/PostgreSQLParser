@@ -1,3 +1,3 @@
 expression
 inOperator
-	^ into trim not , in trim , keywordStop
+	^ kw into trim not , kw in trim , keywordStop

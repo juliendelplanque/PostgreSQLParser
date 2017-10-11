@@ -1,6 +1,6 @@
 expression
 conditionalExpression
-	^ case trim ,
-		(when trim , expression trim , then trim , expression trim) plus,
-		(else trim , expression trim) optional ,
-	endKeyword trim
+	^ kw case trim ,
+		(kw when trim , expression trim , kw then trim , expression trim) plus,
+		(kw else trim , expression trim) optional ,
+	kw endKeyword trim

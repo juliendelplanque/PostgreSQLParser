@@ -5,6 +5,6 @@ plpgsqlLoopLoop
     	statements
 	END LOOP [ label ]"
 	^ plpgsqlBeginLabel trim optional ,
-	loop trim , plpgsqlStatements ,
-	endKeyword trim , loop trim ,
+	kw loop trim , plpgsqlStatements ,
+	kw endKeyword trim , kw loop trim ,
 	plpgsqlEndLabel trim optional

@@ -1,7 +1,7 @@
 select command
 joinType
-	^ (inner trim optional, join trim) /
-	(left trim , outer trim optional , join trim) /
-	(right trim , outer trim optional , join trim) /
-	(full trim , outer trim optional , join trim) /
-	(cross trim , join trim)
+	^ (kw inner trim optional, kw join trim) /
+	(kw left trim , kw outer trim optional , kw join trim) /
+	(kw right trim , kw outer trim optional , kw join trim) /
+	(kw full trim , kw outer trim optional , kw join trim) /
+	(kw cross trim , kw join trim)

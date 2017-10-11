@@ -1,6 +1,6 @@
 plpgsql
 plpgsqlWhileLoop
 	^ plpgsqlBeginLabel trim optional ,
-	while trim , expression , loop trim ,
+	kw while trim , expression , kw loop trim ,
 		plpgsqlStatements ,
-	endKeyword trim , loop trim , plpgsqlLabel trim optional
+	kw endKeyword trim , kw loop trim , plpgsqlLabel trim optional

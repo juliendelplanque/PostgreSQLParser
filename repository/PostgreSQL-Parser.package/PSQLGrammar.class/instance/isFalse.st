@@ -1,3 +1,3 @@
 expression
 isFalse
-	^ is trim , falseKeyword
+	^ kw is trim , kw false

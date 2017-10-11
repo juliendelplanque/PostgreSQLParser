@@ -1,3 +1,3 @@
 expression
 betweenConstructOperator
-	^ (betweenSymmetric / notBetweenSymmetric / between / notBetween) , keywordStop
+	^ (betweenSymmetric / notBetweenSymmetric / kw between / notBetween) , keywordStop

@@ -1,3 +1,3 @@
 expression
 isNotNull
-	^ is trim , notKeyword trim , null
+	^ kw is trim , kw notKeyword trim , kw null

@@ -1,3 +1,3 @@
 plpgsql
 plpgsqlRaiseLevel
-	^ (self buildKeyword: 'debug') / (self buildKeyword: 'log') / (self buildKeyword: 'info') / (self buildKeyword: 'notice') / (self buildKeyword: 'warning') / (self buildKeyword: 'exception')
+	^ kw debug / kw log / kw info / kw notice / kw warning / kw exception

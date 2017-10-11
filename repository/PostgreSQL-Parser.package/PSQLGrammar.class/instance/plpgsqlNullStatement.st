@@ -1,3 +1,3 @@
 plpgsql
 plpgsqlNullStatement
-	^ null trim" / #space asParser star"
+	^ kw null trim" / #space asParser star"

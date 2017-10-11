@@ -1,3 +1,3 @@
 expression
 typeCastConstruct
-	^ (typeCast trim , ((else not , case not , endKeyword not , andKeyword not , or not , then not , identifierOrKeyword) plus separatedBy: #space asParser plus)) optional.
+	^ (typeCast trim , ((kw else not , kw case not , kw endKeyword not , kw andKeyword not , kw or not , kw then not , identifierOrKeyword) plus separatedBy: #space asParser plus)) optional.

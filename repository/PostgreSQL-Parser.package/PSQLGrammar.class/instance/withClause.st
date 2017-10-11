@@ -1,3 +1,3 @@
 select command
 withClause
-	^ with trim , recursive trim optional , (withQuery separatedBy: comma trim)
+	^ kw with trim , kw recursive trim optional , (withQuery separatedBy: comma trim)

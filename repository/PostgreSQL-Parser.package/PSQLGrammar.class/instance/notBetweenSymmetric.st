@@ -1,3 +1,3 @@
 expression
 notBetweenSymmetric
-	^ notKeyword trim, between trim , symmetric
+	^ kw notKeyword trim, kw between trim , kw symmetric

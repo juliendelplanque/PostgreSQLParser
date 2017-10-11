@@ -1,3 +1,3 @@
 expression
 nonStandardNotNull
-	^ (self buildKeyword: 'notnull')
+	^ kw notnull

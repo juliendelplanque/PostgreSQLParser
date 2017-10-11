@@ -3,6 +3,6 @@ plpgsqlIfThen
 	"IF boolean-expression THEN
     	statements
 	END IF"
-	^ if trim , expression trim , then trim ,
+	^ kw if trim , expression trim , kw then trim ,
 		plpgsqlStatements trim ,
-	endKeyword trim , if trim
+	kw endKeyword trim , kw if trim

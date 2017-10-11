@@ -1,3 +1,3 @@
 plpgsql
 plpgsqlStatements
-	^ plpgsqlStatement trim , (semicolon trim , endKeyword not , plpgsqlStatement) trim star , semicolon trim optional
+	^ plpgsqlStatement trim , (semicolon trim , kw endKeyword not , plpgsqlStatement) trim star , semicolon trim optional

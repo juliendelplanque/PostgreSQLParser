@@ -5,8 +5,8 @@ plpgsqlIfThenElse
 	ELSE
     	statements
 	END IF"
-	^ if trim , expression , then trim ,
+	^ kw if trim , expression , kw then trim ,
 		plpgsqlStatements trim ,
-	else trim ,
+	kw else trim ,
 		plpgsqlStatements trim ,
-	endKeyword trim , if trim
+	kw endKeyword trim , kw if trim

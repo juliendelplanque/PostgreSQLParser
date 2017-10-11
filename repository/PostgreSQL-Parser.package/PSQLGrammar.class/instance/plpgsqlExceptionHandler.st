@@ -13,9 +13,9 @@ plpgsqlExceptionHandler
       ... ]
 	END"
 	^ plpgsqlBeginLabel trim optional ,
-	(declare trim , plpgsqlDeclarations trim) optional ,
-	begin trim ,
+	(kw declare trim , plpgsqlDeclarations trim) optional ,
+	kw begin trim ,
 		plpgsqlStatements ,
-	exception trim ,
-		(when trim , expression , then trim , plpgsqlStatements) plus ,
-	endKeyword trim
+	kw exception trim ,
+		(kw when trim , expression , kw then trim , plpgsqlStatements) plus ,
+	kw endKeyword trim

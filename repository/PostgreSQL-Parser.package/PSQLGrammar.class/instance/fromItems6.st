@@ -8,9 +8,9 @@ fromItems6
 	
 	and the 'from_item' is manged in #fromItems parser."
 	
-	^ natural trim optional , joinType trim , fromItems trim , 
-		((on trim , expression) / 
-		(using trim ,
+	^ kw natural trim optional , joinType trim , fromItems trim , 
+		((kw on trim , expression) / 
+		(kw using trim ,
 			openParenthesis trim , 
 			(columnReference separatedBy: comma trim),
 			closeParenthesis trim)) optional

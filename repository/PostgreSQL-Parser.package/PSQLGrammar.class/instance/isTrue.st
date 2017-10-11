@@ -1,3 +1,3 @@
 expression
 isTrue
-	^ is trim , trueKeyword
+	^ kw is trim , kw true

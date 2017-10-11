@@ -1,3 +1,3 @@
 expression
 isDistinctFromOperator
-	^ is trim , distinct trim , from , keywordStop
+	^ kw is trim , kw distinct trim , kw from , keywordStop

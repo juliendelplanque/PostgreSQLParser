@@ -1,3 +1,3 @@
 accessing
 offsetClause
-	^ offset trim , numericConstant trim
+	^ kw offset trim , numericConstant trim

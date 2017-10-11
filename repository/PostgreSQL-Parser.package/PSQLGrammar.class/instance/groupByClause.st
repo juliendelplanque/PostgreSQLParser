@@ -1,3 +1,3 @@
 accessing
 groupByClause
-	^ group trim , by trim , (expression plus separatedBy: comma trim)
+	^ kw group trim , kw by trim , (expression plus separatedBy: comma trim)

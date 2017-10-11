@@ -1,4 +1,4 @@
 select command
 intoClause
 	"INTO [ TEMPORARY | TEMP | UNLOGGED ] [ TABLE ] new_table"
-	^ into trim , (temporary trim / temp trim / unlogged trim) optional , table trim optional , tableName trim
+	^ kw into trim , (kw temporary trim / kw temp trim / kw unlogged trim) optional , kw table trim optional , tableName trim

@@ -8,9 +8,9 @@ expression
 	expressionParser
 		group: [ :g |
 			g prefix: operator trim do: self prefixOperatorBlock.
-			g prefix: notKeyword trim do: self prefixOperatorBlock.
-			g prefix: any trim do: self prefixOperatorBlock.
-			g prefix: distinct trim do: self prefixOperatorBlock.
+			g prefix: kw notKeyword trim do: self prefixOperatorBlock.
+			g prefix: kw any trim do: self prefixOperatorBlock.
+			g prefix: kw distinct trim do: self prefixOperatorBlock.
 			g postfix: nullTestConstructOperator trim do: self postfixOperatorBlock.
 			g postfix: booleanTestConstructOperator trim do: self postfixOperatorBlock.
 			g postfix: (self subscriptWith: expressionParser) trim do: self postfixOperatorBlock. ];

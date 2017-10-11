@@ -1,19 +1,19 @@
 create view command
 createViewCommand
 	"CREATE [ OR REPLACE ] [ TEMP | TEMPORARY ] VIEW name [ ( column_name [, ...] ) ]
-    [ WITH ( view_option_name [= view_option_value] [, ... ] ) ]
+    [ WITH ( kw view_option_name [= kw view_option_value] [, ... ] ) ]
     AS query"
-	self flag: 'TODO: support VALUES command for view definition.'.
-	^ create trim ,
-		(or trim , replace) trim optional ,
-		(temporary / temp) trim optional ,
-		view trim ,
+	self flag: 'TODO: support VALUES command for kw view definition.'.
+	^ kw create trim ,
+		(kw or trim , kw replace) trim optional ,
+		(kw temporary / kw temp) trim optional ,
+		kw view trim ,
 		identifier trim , 
 		(openParenthesis trim ,
 			(columnName plus separatedBy: comma trim) ,
 		closeParenthesis trim) trim optional ,
-		(with trim , openParenthesis trim ,
+		(kw with trim , openParenthesis trim ,
 			((identifierOrKeyword trim , ($= asParser trim , identifierOrKeyword trim) optional ) plus separatedBy: comma trim) , 
 		closeParenthesis trim) trim optional ,
-		as trim ,
+		kw as trim ,
 		selectCommand trim

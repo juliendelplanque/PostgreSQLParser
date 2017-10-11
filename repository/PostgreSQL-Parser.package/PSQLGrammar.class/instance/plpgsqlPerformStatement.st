@@ -1,3 +1,3 @@
 plpgsql
 plpgsqlPerformStatement
-	^ perform trim , (semicolon not , #any asParser) plus
+	^ kw perform trim , (semicolon not , #any asParser) plus

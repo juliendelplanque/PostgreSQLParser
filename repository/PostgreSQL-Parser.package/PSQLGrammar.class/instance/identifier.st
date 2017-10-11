@@ -1,3 +1,3 @@
 helpers
 identifier
-	^ keyword not , identifierOrKeyword
+	^ kw keyword not , identifierOrKeyword

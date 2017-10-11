@@ -1,5 +1,5 @@
 {
-	"commentStamp" : "",
+	"commentStamp" : "JulienDelplanque 10/11/2017 16:56",
 	"super" : "PPExtendedCompositeParser",
 	"category" : "PostgreSQL-Parser-Core",
 	"classinstvars" : [ ],

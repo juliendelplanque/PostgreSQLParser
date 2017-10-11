@@ -1,3 +1,3 @@
 plpgsql
 plpgsqlReturnForm3
-	^ return trim , query trim , plpgsqlQuery
+	^ kw return trim , kw query trim , plpgsqlQuery

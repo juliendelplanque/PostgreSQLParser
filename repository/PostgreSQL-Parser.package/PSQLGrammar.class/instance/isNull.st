@@ -1,3 +1,3 @@
 expression
 isNull
-	^ is trim , null
+	^ kw is trim , kw null

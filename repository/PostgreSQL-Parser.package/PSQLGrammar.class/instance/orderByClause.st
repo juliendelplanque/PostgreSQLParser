@@ -1,6 +1,6 @@
 helpers
 orderByClause
-	^ order trim , by trim ,
+	^ kw order trim , kw by trim ,
 		((expression ,
-		(asc / desc) trim optional,
-		(nulls , (first / last) trim) trim optional) plus separatedBy: comma trim)
+		(kw asc / kw desc) trim optional,
+		(kw nulls , (kw first / kw last) trim) trim optional) plus separatedBy: comma trim)

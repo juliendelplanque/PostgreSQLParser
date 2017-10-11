@@ -1,3 +1,3 @@
 plpgsql
 plpgsqlReturnForm4
-	^ return trim , query trim , execute trim , stringConstant trim , (using trim , (expression plus separatedBy: comma trim)) optional
+	^ kw return trim , kw query trim , kw execute trim , stringConstant trim , (kw using trim , (expression plus separatedBy: comma trim)) optional

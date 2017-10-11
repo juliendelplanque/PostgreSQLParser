@@ -9,9 +9,9 @@ plpgsqlSimpleCase
   		[ ELSE
       		statements ]
 	END CASE"
-	^ case trim , expression ,
-		(when trim , (expression plus separatedBy: comma trim) , then trim ,
+	^ kw case trim , expression ,
+		(kw when trim , (expression plus separatedBy: comma trim) , kw then trim ,
 			plpgsqlStatements) plus ,
-		(else trim ,
+		(kw else trim ,
 			plpgsqlStatements) optional ,
-		endKeyword trim , case trim
+		kw endKeyword trim , kw case trim

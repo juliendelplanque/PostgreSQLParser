@@ -5,7 +5,7 @@ plpgsqlQueryResultsLoop
     	statements
 	END LOOP [ label ]"
 	^ plpgsqlBeginLabel trim optional ,
-	for trim , identifier trim , in trim , plpgsqlQuery , loop trim ,
+	kw for trim , identifier trim , kw in trim , plpgsqlQuery , kw loop trim ,
 		plpgsqlStatements ,
-	endKeyword trim , loop trim ,
+	kw endKeyword trim , kw loop trim ,
 	plpgsqlEndLabel trim optional

@@ -8,14 +8,14 @@ selectCommand
     	[ GROUP BY expression [, ...] ]
     	[ HAVING condition [, ...] ]
     	[ WINDOW window_name AS ( window_definition ) [, ...] ]
-    	[ { UNION | INTERSECT | EXCEPT } [ ALL | DISTINCT ] select ]
+    	[ { UNION | INTERSECT | EXCEPT } [ ALL | DISTINCT ] kw select ]
     	[ ORDER BY expression [ ASC | DESC | USING operator ] [ NULLS { FIRST | LAST } ] [, ...] ]
     	[ LIMIT { count | ALL } ]
     	[ OFFSET start [ ROW | ROWS ] ]
     	[ FETCH { FIRST | NEXT } [ count ] { ROW | ROWS } ONLY ]
     	[ FOR { UPDATE | SHARE } [ OF table_name [, ...] ] [ NOWAIT ] [...] ]"
 	^ withClause optional ,
-	   select trim ,
+	   kw select trim ,
 	   allOrDistinctClause optional ,
 		(asterik trim / columnsAndAliasesSelected trim),
 		fromClause optional ,

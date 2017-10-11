@@ -5,7 +5,7 @@ plpgsqlArrayLoop
     	statements
 	END LOOP [ label ]"
 	^ plpgsqlBeginLabel trim optional ,
-	foreach trim , identifier , (slice trim , numericConstant) trim optional , in trim , array trim , expression , loop trim ,
+	kw foreach trim , identifier , (kw slice trim , numericConstant) trim optional , kw in trim , kw array trim , expression , kw loop trim ,
 		plpgsqlStatements ,
-	endKeyword trim , loop trim ,
+	kw endKeyword trim , kw loop trim ,
 	plpgsqlLabel trim optional

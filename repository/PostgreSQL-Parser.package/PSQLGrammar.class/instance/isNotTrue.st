@@ -1,3 +1,3 @@
 expression
 isNotTrue
-	^ is trim , notKeyword trim , trueKeyword
+	^ kw is trim , kw notKeyword trim , kw true

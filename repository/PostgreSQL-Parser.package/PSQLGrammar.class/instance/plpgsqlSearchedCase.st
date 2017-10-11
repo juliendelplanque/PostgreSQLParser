@@ -9,8 +9,8 @@ plpgsqlSearchedCase
   		[ ELSE
       		statements ]
 	END CASE"
-	^ case trim ,
-		(when trim , expression , then trim ,
+	^ kw case trim ,
+		(kw when trim , expression , kw then trim ,
 			plpgsqlStatements) plus ,
-		(else trim , plpgsqlStatements) optional ,
-		endKeyword trim , case trim
+		(kw else trim , plpgsqlStatements) optional ,
+		kw endKeyword trim , kw case trim

@@ -1,3 +1,3 @@
 select command
 whereClause
-	^ where trim , expression
+	^ kw whereKeyword trim , expression

@@ -1,3 +1,3 @@
 plpgsql
 plsqlRecordDeclaration
-	^ identifier trim , record
+	^ identifier trim , kw record
