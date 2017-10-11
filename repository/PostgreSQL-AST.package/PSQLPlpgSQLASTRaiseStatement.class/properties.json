@@ -1,0 +1,18 @@
+{
+	"commentStamp" : "JulienDelplanque 10/11/2017 09:27",
+	"super" : "PSQLPlpgSQLASTNode",
+	"category" : "PostgreSQL-AST",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [
+		"level",
+		"usingDict",
+		"formatString",
+		"formatExpressions",
+		"conditionName",
+		"sqlState"
+	],
+	"name" : "PSQLPlpgSQLASTRaiseStatement",
+	"type" : "normal"
+}
