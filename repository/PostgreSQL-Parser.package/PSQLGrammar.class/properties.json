@@ -43,7 +43,6 @@
 		"fromItems",
 		"fromItems6",
 		"joinType",
-		"keyword",
 		"identifier",
 		"allOrDistinctClause",
 		"columnsAndAliasesSelected",
@@ -130,7 +129,11 @@
 		"plpgsqlAssertStatement",
 		"plpgsqlUnhandledStatement",
 		"plpgsqlAssignmentLeftPart",
-		"typeCastConstruct"
+		"typeCastConstruct",
+		"plpgsqlReturnForm1",
+		"plpgsqlReturnForm2",
+		"plpgsqlReturnForm3",
+		"plpgsqlReturnForm4"
 	],
 	"name" : "PSQLGrammar",
 	"type" : "normal"

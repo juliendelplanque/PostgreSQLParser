@@ -1,7 +1,7 @@
 accessing
 allOrDistinctClause
 	"ALL | DISTINCT [ ON ( expression [, ...] ) ]"
-	^  all trim /
+	^ kw all trim /
 	(distinct trim , 
 		(on trim ,
 			openParenthesis trim ,

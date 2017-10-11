@@ -1,0 +1,13 @@
+{
+	"commentStamp" : "",
+	"super" : "Object",
+	"category" : "PostgreSQL-Parser-Core",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [
+		"extendedCompositeParser"
+	],
+	"name" : "PSQLExtendedCompositeParserWrapper",
+	"type" : "normal"
+}

@@ -2,6 +2,6 @@ expression
 aggregateExpressionParserWith: expressionParser
 	^ aggregateName , (openParenthesis ,
 		(asterik /
-		 ((all / distinct) optional,
+		 ((kw all / distinct) optional,
 		 (expressionParser plus separatedBy: comma trim) , orderByClause )),
 	closeParenthesis)

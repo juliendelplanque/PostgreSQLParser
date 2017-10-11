@@ -44,7 +44,6 @@
 		"case",
 		"query",
 		"symmetric",
-		"all",
 		"or",
 		"between",
 		"notKeyword",
@@ -130,7 +129,9 @@
 		"row",
 		"rows",
 		"declare",
-		"on"
+		"on",
+		"keyword",
+		"kw"
 	],
 	"name" : "PSQLTokenizer",
 	"type" : "normal"

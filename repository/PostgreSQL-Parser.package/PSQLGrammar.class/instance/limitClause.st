@@ -1,3 +1,3 @@
 accessing
 limitClause
-	^ limit trim , (numericConstant trim / all trim)
+	^ limit trim , (numericConstant trim / kw all trim)
