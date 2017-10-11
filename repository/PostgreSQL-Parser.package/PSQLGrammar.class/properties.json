@@ -130,7 +130,8 @@
 		"plpgsqlReturnForm1",
 		"plpgsqlReturnForm2",
 		"plpgsqlReturnForm3",
-		"plpgsqlReturnForm4"
+		"plpgsqlReturnForm4",
+		"plpgsqlReturnForm5"
 	],
 	"name" : "PSQLGrammar",
 	"type" : "normal"

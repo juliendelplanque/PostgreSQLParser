@@ -14,4 +14,5 @@ testPlpgsqlReturn
                    FROM flight
                   WHERE flightdate >= $1
                     AND flightdate < ($1 + 1)''' rule: #plpgsqlReturn;
-		parse: 'RETURN (1, 2, ''three''::text)' rule: #plpgsqlReturn
+		parse: 'RETURN (1, 2, ''three''::text)' rule: #plpgsqlReturn;
+		parse: 'RETURN' rule: #plpgsqlReturn
