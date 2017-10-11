@@ -13,4 +13,7 @@ END LOOP' rule: #plpgsqlForLoop;
 		parse: '<<label>>
 FOR i IN REVERSE 10 .. 1 BY 2 LOOP
     NULL;
-END LOOP label' rule: #plpgsqlForLoop
+END LOOP label' rule: #plpgsqlForLoop;
+		parse: 'FOR i IN k..nbrspechar LOOP
+			resultat := regexp_replace(resultat,spechar[i],lettres[i],''g'');
+		END LOOP'

@@ -33,4 +33,5 @@ testExpression
 		parse: 'x BETWEEN SYMMETRIC 0 AND 10' rule: #expression;
 		parse: 'x NOT BETWEEN SYMMETRIC 0 AND 10' rule: #expression;
 		parse: '"matrix_p"["i"]["j"] > "matrix_p"["j"]["i"]'  rule: #expression;
-		parse: '((-1::INT8) << 63, 0)::"link_strength"' rule: #expression
+		parse: '((-1::INT8) << 63, 0)::"link_strength"' rule: #expression;
+		fail: 'a..nbrspechar' rule: #expression

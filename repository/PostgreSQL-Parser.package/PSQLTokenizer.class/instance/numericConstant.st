@@ -8,7 +8,7 @@ numericConstant
 	digitse[+-]digits
 "
 	^
-	(#digit asParser plus, $. asParser , #digit asParser star , ($e asParser , ($+ asParser / $- asParser) optional , #digit asParser plus) optional) /
-	(#digit asParser star , $. asParser , #digit asParser plus , ($e asParser , ($+ asParser / $- asParser) optional , #digit asParser plus) optional) /
+	(#digit asParser plus, $. asParser , $. asParser not , #digit asParser star , ($e asParser , ($+ asParser / $- asParser) optional , #digit asParser plus) optional) /
+	(#digit asParser star , $. asParser , $. asParser not , #digit asParser plus , ($e asParser , ($+ asParser / $- asParser) optional , #digit asParser plus) optional) /
 	(#digit asParser plus , $e asParser , ($+ asParser / $- asParser) optional, #digit asParser plus) /
 	#digit asParser plus

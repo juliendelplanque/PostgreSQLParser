@@ -2,6 +2,10 @@ tests-plpgsql
 testPlpgsqlStatements
 	self
 		parse: 'v_user_id := 42 ; v_user_id := 42 ;' rule: #plpgsqlStatements;
+		parse: 'resultat := str;
+		FOR i IN 1 .. nbrspechar LOOP
+			resultat := regexp_replace(resultat,spechar[i],lettres[i],''g'');
+		END LOOP;' rule: #plpgsqlStatements;
 		parse: 'BEGIN
   PERFORM "require_transaction_isolation"();
   SELECT * INTO "issue_row"
