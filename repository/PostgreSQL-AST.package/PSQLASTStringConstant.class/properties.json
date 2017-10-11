@@ -6,6 +6,6 @@
 	"pools" : [ ],
 	"classvars" : [ ],
 	"instvars" : [ ],
-	"name" : "PSQLASTNumericConstant",
+	"name" : "PSQLASTStringConstant",
 	"type" : "normal"
 }
