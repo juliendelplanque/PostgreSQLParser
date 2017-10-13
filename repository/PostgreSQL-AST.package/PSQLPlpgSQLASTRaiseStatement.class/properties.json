@@ -7,7 +7,7 @@
 	"classvars" : [ ],
 	"instvars" : [
 		"level",
-		"usingDict",
+		"usingAssocs",
 		"formatString",
 		"formatExpressions",
 		"conditionName",

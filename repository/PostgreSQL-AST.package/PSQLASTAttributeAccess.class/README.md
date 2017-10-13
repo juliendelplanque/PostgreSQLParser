@@ -1,0 +1,1 @@
+I represent an attribute access like 'identifier.attributeIdentifier'.
