@@ -1,4 +1,4 @@
-as yet unclassified
+delete command
 deleteCommand
 	self flag: #todo.
-	^ nil asParser
+	^ 'DELETE' asParser caseInsensitive , (semicolon not , #any asParser) plus

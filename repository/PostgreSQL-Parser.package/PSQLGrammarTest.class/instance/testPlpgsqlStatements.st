@@ -6,8 +6,7 @@ testPlpgsqlStatements
 		FOR i IN 1 .. nbrspechar LOOP
 			resultat := regexp_replace(resultat,spechar[i],lettres[i],''g'');
 		END LOOP;' rule: #plpgsqlStatements;
-		parse: 'BEGIN
-  PERFORM "require_transaction_isolation"();
+		parse: 'PERFORM "require_transaction_isolation"();
   SELECT * INTO "issue_row"
     FROM "issue" WHERE "id" = "issue_id_p";
   SELECT * INTO "policy_row"
@@ -349,5 +348,4 @@ testPlpgsqlStatements
     "closed" = "phase_finished",
     "phase_finished" = NULL
     WHERE "id" = "issue_id_p";
-  RETURN;
-END' rule: #plpgsqlStatements
+  RETURN;' rule: #plpgsqlStatements

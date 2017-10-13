@@ -1,4 +1,4 @@
-as yet unclassified
+update command
 updateCommand
 	self flag: #todo.
-	^ nil asParser
+	^ 'UPDATE' asParser caseInsensitive , (semicolon not , #any asParser) plus

@@ -1,3 +1,3 @@
 plpgsql
 plpgsqlQuery
-	^ selectCommand
+	^ selectCommand / insertCommand / updateCommand / deleteCommand

@@ -1,4 +1,4 @@
-as yet unclassified
+insert command
 insertCommand
 	self flag: #todo.
-	^ nil asParser
+	^ ('INSERT' asParser caseInsensitive , (semicolon not , #any asParser) plus)
