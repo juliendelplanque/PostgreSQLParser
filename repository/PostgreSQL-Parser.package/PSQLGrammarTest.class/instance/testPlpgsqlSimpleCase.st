@@ -1,15 +1,19 @@
 tests-plpgsql
 testPlpgsqlSimpleCase
 	self
-		parse: 'CASE x
-    WHEN 1, 2 THEN
-        msg := ''one or two'';
-    ELSE
-        msg := ''other value than one or two'';
+		parse: 'CASE
+    WHEN x < 10 THEN
+        msg := ''value is smaller than ten'';
+    WHEN x < 20 THEN
+        msg := ''value is smaller tham twenty'';
 END CASE' rule: #plpgsqlSimpleCase;
-		parse: 'CASE x
-    WHEN 1, 2 THEN
-        msg := ''one or two'';
-	WHEN 3, 4 THEN
-        msg := ''three or four'';
-END CASE' rule: #plpgsqlSimpleCase
+		parse: 'CASE
+    WHEN x < 10 THEN
+        msg := ''value is smaller than ten'';
+    ELSE
+        msg := ''KO'';
+END CASE' rule: #plpgsqlSimpleCase;
+		parse: 'CASE
+                     WHEN "matrix_f"["i"]["j"]
+                     THEN ((-1::INT8) << 63, 0)::"link_strength"
+                     ELSE "matrix_d"["i"]["j"] END CASE' rule: #plpgsqlSimpleCase
