@@ -1,7 +1,7 @@
 {
-	"commentStamp" : "",
+	"commentStamp" : "JulienDelplanque 10/13/2017 15:57",
 	"super" : "PSQLASTNode",
-	"category" : "PostgreSQL-AST",
+	"category" : "PostgreSQL-AST-Nodes",
 	"classinstvars" : [ ],
 	"pools" : [ ],
 	"classvars" : [ ],

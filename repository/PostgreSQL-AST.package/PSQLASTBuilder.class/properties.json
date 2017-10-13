@@ -1,7 +1,7 @@
 {
 	"commentStamp" : "",
 	"super" : "PSQLGrammar",
-	"category" : "PostgreSQL-AST",
+	"category" : "PostgreSQL-AST-Builder",
 	"classinstvars" : [ ],
 	"pools" : [ ],
 	"classvars" : [ ],
