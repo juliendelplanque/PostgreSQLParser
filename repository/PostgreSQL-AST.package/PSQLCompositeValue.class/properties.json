@@ -1,0 +1,13 @@
+{
+	"commentStamp" : "JulienDelplanque 10/13/2017 15:33",
+	"super" : "PSQLExpressionASTNode",
+	"category" : "PostgreSQL-AST",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [
+		"items"
+	],
+	"name" : "PSQLCompositeValue",
+	"type" : "normal"
+}

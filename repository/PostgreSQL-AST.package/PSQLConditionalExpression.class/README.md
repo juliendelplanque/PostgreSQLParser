@@ -1,0 +1,1 @@
+I represent a conditional expression< I store the conditional expressions as an ordered list of associations in #conditionsToExpressions and store the else expression in #elseExpression,

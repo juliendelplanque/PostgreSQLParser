@@ -1,0 +1,11 @@
+{
+	"commentStamp" : "",
+	"super" : "PSQLExpressionASTNode",
+	"category" : "PostgreSQL-AST",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [ ],
+	"name" : "PSQLAggregateExpression",
+	"type" : "normal"
+}

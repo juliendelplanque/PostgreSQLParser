@@ -1,0 +1,14 @@
+{
+	"commentStamp" : "JulienDelplanque 10/13/2017 15:48",
+	"super" : "PSQLExpressionASTNode",
+	"category" : "PostgreSQL-AST",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [
+		"conditionsToExpressions",
+		"elseExpression"
+	],
+	"name" : "PSQLConditionalExpression",
+	"type" : "normal"
+}

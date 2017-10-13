@@ -1,0 +1,1 @@
+I represent the instantiation of a composite value. My #items list holds expressions or constants.

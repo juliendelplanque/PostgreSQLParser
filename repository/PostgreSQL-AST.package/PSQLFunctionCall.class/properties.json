@@ -1,0 +1,15 @@
+{
+	"commentStamp" : "JulienDelplanque 10/13/2017 15:30",
+	"super" : "PSQLExpressionASTNode",
+	"category" : "PostgreSQL-AST",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [
+		"functionIdentifier",
+		"argumentsList",
+		"argumentsDictionary"
+	],
+	"name" : "PSQLFunctionCall",
+	"type" : "normal"
+}
