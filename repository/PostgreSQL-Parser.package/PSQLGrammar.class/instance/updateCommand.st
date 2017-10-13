@@ -1,4 +1,4 @@
 update command
 updateCommand
 	self flag: #todo.
-	^ 'UPDATE' asParser caseInsensitive , (semicolon not , #any asParser) plus
+	^ kw update , (semicolon not , #any asParser) plus
