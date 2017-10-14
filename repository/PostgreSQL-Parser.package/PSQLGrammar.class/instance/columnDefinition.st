@@ -1,3 +1,3 @@
 accessing
 columnDefinition
-	^ columnReference trim , expression
+	^ columnReference trim , (identifier plus separatedBy: #space asParser plus)

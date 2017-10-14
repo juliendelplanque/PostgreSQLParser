@@ -1,4 +1,4 @@
-accessing
+select command
 fromItems4
 	"function_name ( [ argument [, ...] ] ) [ AS ] alias [ ( column_alias [, ...] | column_definition [, ...] ) ]"
 	^ functionName ,

@@ -1,4 +1,4 @@
-accessing
+select command
 fromItems5
 	"function_name ( [ argument [, ...] ] ) AS ( column_definition [, ...] )"
 	^ functionName ,
