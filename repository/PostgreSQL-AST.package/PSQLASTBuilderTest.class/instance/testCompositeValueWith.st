@@ -1,0 +1,3 @@
+tests-expression
+testCompositeValueWith
+	self fail

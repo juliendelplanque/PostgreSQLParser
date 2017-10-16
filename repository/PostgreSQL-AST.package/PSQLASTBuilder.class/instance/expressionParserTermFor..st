@@ -7,4 +7,4 @@ expressionParserTermFor: expressionParser
 				PSQLASTBinaryOperator new
 					operator: '::';
 					left: tokens first;
-					right: (tokens second second joinUsing: ' ') ] ]
+					right: (PSQLASTIdentifier new identifier: (tokens second second joinUsing: ' '); yourself) ] ]

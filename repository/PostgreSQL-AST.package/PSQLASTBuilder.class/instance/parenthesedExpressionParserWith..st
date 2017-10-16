@@ -1,3 +1,7 @@
 expression
 parenthesedExpressionParserWith: expressionParser
-	^ (super parenthesedExpressionParserWith: expressionParser) ==> [ :tokens | tokens second ]
+	^ (super parenthesedExpressionParserWith: expressionParser)
+			==> [ :tokens | 
+				PSQLParenthesedExpression new
+					expression: tokens second;
+					yourself ]
