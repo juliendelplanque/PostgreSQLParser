@@ -1,0 +1,14 @@
+{
+	"commentStamp" : "JulienDelplanque 10/17/2017 16:09",
+	"super" : "PSQLPlpgSQLASTNode",
+	"category" : "PostgreSQL-AST-Nodes",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [
+		"conditionToStatements",
+		"elseStatements"
+	],
+	"name" : "PSQLPlpgSQLASTConditional",
+	"type" : "normal"
+}

@@ -1,0 +1,3 @@
+tests-accessing
+testPlpgsqlIfThenElsif
+	self fail

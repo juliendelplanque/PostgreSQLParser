@@ -1,0 +1,3 @@
+tests-accessing
+testPlpgsqlSearchedCase
+	self fail
