@@ -3,7 +3,7 @@ columnReference
 	^ super columnReference ==> [ :tokens |
 		tokens first ifNotNil: [ 
 			PSQLASTAttributeAccess new
-				identifier: tokens first first;
+				accessed: tokens first first;
 				attributeIdentifier: tokens second;
 				yourself ]
 			ifNil: [ 

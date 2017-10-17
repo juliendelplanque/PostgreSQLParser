@@ -1,0 +1,15 @@
+{
+	"commentStamp" : "JulienDelplanque 10/17/2017 15:07",
+	"super" : "PSQLPlpgSQLASTNode",
+	"category" : "PostgreSQL-AST-Nodes",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [
+		"target",
+		"toAssign",
+		"operator"
+	],
+	"name" : "PSQLPlpgSQLASTAssignment",
+	"type" : "normal"
+}

@@ -6,7 +6,7 @@
 	"pools" : [ ],
 	"classvars" : [ ],
 	"instvars" : [
-		"identifier",
+		"accessed",
 		"attributeIdentifier"
 	],
 	"name" : "PSQLASTAttributeAccess",

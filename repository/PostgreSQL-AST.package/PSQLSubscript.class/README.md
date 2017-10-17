@@ -1,0 +1,1 @@
+I represent a subscript i.e. something like "var[i]".
