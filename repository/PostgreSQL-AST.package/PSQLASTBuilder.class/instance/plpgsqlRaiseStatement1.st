@@ -4,6 +4,6 @@ plpgsqlRaiseStatement1
 		PSQLPlpgSQLASTRaiseStatement new
 			level: tokens second;
 			formatString: tokens third;
-			formatExpressions: (tokens fourth reject: [ :item | item = $, ]);
+			formatExpressions: (tokens fourth reject: [ :item | item = $, or: [ item isArray and: [ item isEmpty ] ] ]);
 			usingAssocs: tokens fifth;
 			yourself ]
