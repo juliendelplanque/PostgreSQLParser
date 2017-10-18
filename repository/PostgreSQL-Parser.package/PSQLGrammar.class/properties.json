@@ -131,7 +131,8 @@
 		"plpgsqlReturnForm2",
 		"plpgsqlReturnForm3",
 		"plpgsqlReturnForm4",
-		"plpgsqlReturnForm5"
+		"plpgsqlReturnForm5",
+		"plpgsqlIndexParameter"
 	],
 	"name" : "PSQLGrammar",
 	"type" : "normal"
