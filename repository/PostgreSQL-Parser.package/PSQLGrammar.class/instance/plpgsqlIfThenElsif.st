@@ -12,7 +12,7 @@ plpgsqlIfThenElsif
 	END IF"
 	^ kw if trim , expression , kw then trim ,
 		plpgsqlStatements ,
-	((kw elsif/(kw else,kw if)) trim , expression , kw then trim ,
+	((kw elsif/(kw else trim,kw if)) trim , expression , kw then trim ,
 			plpgsqlStatements) star ,
 	(kw else trim ,
 		plpgsqlStatements) optional ,
