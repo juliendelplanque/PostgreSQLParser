@@ -1,0 +1,1 @@
+I am a block I hold a label, declarations and statements.
