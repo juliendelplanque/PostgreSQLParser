@@ -1,4 +1,4 @@
-accessing
+plpgsql
 plpgsqlReturnForm2
 	^ super plpgsqlReturnForm2 ==> [ :tokens |
 		PSQLPlpgSQLASTReturnStatement new

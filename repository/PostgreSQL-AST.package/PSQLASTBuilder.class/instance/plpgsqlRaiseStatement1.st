@@ -1,4 +1,4 @@
-accessing
+plpgsql
 plpgsqlRaiseStatement1
 	^ super plpgsqlRaiseStatement1 ==> [ :tokens |
 		PSQLPlpgSQLASTRaiseStatement new

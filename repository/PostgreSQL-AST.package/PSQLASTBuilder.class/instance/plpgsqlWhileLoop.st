@@ -1,4 +1,4 @@
-accessing
+plpgsql
 plpgsqlWhileLoop
 	^ super plpgsqlWhileLoop ==> [ :tokens |
 		PSQLPlpgSQLASTWhileLoop new

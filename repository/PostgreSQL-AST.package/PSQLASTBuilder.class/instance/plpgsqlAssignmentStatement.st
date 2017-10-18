@@ -1,4 +1,4 @@
-accessing
+plpgsql
 plpgsqlAssignmentStatement
 	^ super plpgsqlAssignmentStatement ==> [ :tokens |
 		PSQLPlpgSQLASTAssignment new

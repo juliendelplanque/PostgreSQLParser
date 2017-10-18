@@ -1,4 +1,4 @@
-accessing
+plpgsql
 plpgsqlSimpleCase
 	^ super plpgsqlSimpleCase ==> [ :tokens |
 		PSQLPlpgSQLASTSimpleCase new

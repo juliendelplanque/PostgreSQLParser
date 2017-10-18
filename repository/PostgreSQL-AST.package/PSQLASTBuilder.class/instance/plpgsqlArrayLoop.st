@@ -1,4 +1,4 @@
-accessing
+plpgsql
 plpgsqlArrayLoop
 	^ super plpgsqlArrayLoop ==> [ :tokens |
 		PSQLPlpgSQLASTArrayLoop new

@@ -1,4 +1,4 @@
-accessing
+plpgsql
 plpgsqlAssignmentLeftPart
 	^ super plpgsqlAssignmentLeftPart ==> [ :tokens |
 			|target|

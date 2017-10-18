@@ -1,4 +1,4 @@
-accessing
+plpgsql
 plpgsqlIfThenElse
 	^ super plpgsqlIfThenElse ==> [ :tokens |
 		PSQLPlpgSQLASTIf new

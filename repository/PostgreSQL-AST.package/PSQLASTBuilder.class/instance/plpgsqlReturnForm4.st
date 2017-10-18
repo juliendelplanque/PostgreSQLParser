@@ -1,4 +1,4 @@
-accessing
+plpgsql
 plpgsqlReturnForm4
 	^ super plpgsqlReturnForm4 ==> [ :tokens |
 		|stmt|

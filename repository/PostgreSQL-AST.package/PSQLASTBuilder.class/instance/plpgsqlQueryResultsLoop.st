@@ -1,4 +1,4 @@
-accessing
+plpgsql
 plpgsqlQueryResultsLoop
 	^ super plpgsqlQueryResultsLoop ==> [ :tokens |
 		PSQLPlpgSQLASTQueryResultsLoop new

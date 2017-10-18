@@ -1,4 +1,4 @@
-accessing
+plpgsql
 plpgsqlRaiseUsingOptions
 	^ super plpgsqlRaiseUsingOptions ==> [ :tokens |
 		tokens second reject: [ :item  | item = $, ] thenCollect: [ :arr |

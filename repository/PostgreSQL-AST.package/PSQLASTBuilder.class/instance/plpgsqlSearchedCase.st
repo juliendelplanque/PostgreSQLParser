@@ -1,4 +1,4 @@
-accessing
+plpgsql
 plpgsqlSearchedCase
 	^ super plpgsqlSearchedCase ==> [ :tokens |
 		PSQLPlpgSQLASTSearchedCase new

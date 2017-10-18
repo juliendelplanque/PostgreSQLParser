@@ -1,4 +1,4 @@
-accessing
+plpgsql
 plpgsqlForLoop
 	^ super plpgsqlForLoop ==> [ :tokens |
 		PSQLPlpgSQLASTForLoop new
