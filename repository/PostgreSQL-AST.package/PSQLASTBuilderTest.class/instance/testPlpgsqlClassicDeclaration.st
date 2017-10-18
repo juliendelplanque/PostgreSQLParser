@@ -1,0 +1,3 @@
+tests-plpgsql
+testPlpgsqlClassicDeclaration
+	self fail

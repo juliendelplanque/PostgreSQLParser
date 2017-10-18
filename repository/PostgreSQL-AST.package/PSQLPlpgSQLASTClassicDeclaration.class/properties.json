@@ -1,0 +1,17 @@
+{
+	"commentStamp" : "JulienDelplanque 10/18/2017 22:44",
+	"super" : "PSQLPlpgSQLASTDeclaration",
+	"category" : "PostgreSQL-AST-Nodes",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [
+		"isConstant",
+		"type",
+		"collate",
+		"isNotNull",
+		"defaultExpression"
+	],
+	"name" : "PSQLPlpgSQLASTClassicDeclaration",
+	"type" : "normal"
+}

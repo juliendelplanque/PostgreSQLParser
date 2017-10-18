@@ -1,0 +1,11 @@
+{
+	"commentStamp" : "",
+	"super" : "PSQLPlpgSQLASTDeclaration",
+	"category" : "PostgreSQL-AST-Nodes",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [ ],
+	"name" : "PSQLPlpgSQLASTRowTypeDeclaration",
+	"type" : "normal"
+}
