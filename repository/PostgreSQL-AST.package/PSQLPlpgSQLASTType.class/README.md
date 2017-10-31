@@ -1,0 +1,1 @@
+I represent the type of a variable in a PL/pgSQL procedure.
