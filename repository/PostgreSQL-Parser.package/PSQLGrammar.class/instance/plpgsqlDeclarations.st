@@ -1,3 +1,3 @@
 plpgsql
 plpgsqlDeclarations
-	^ (plpgsqlDeclarationItem trim separatedBy: semicolon) , semicolon trim
+	^ (plpgsqlDeclarationItem trim separatedBy: semicolon trim) , semicolon trim
