@@ -1,3 +1,3 @@
 plpgsql
 plpgsqlRowTypeDeclaration
-	^ identifier trim , tableName , $% asParser , identifierOrKeyword
+	^ identifier trim , tableName , '%ROWTYPE' asParser caseInsensitive
