@@ -130,7 +130,6 @@
 		"plpgsqlReturnForm4",
 		"plpgsqlReturnForm5",
 		"plpgsqlIndexParameter",
-		"plpgsqlFieldTypeDeclaration",
 		"plpgsqlRecordDeclaration",
 		"plpgsqlRowTypeDeclaration",
 		"plpgsqlCopyTypeDeclaration"
