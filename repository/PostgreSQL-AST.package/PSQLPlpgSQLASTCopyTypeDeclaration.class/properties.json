@@ -1,0 +1,13 @@
+{
+	"commentStamp" : "JulienDelplanque 11/2/2017 14:15",
+	"super" : "PSQLPlpgSQLASTDeclaration",
+	"category" : "PostgreSQL-AST-Nodes",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [
+		"accessToCopyType"
+	],
+	"name" : "PSQLPlpgSQLASTCopyTypeDeclaration",
+	"type" : "normal"
+}

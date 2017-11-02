@@ -1,0 +1,1 @@
+I represent the declaration of a variable by copying a type.
