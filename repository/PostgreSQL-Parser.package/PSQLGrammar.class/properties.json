@@ -69,9 +69,6 @@
 		"plpgsqlDeclarationCollate",
 		"plpgsqlClassicDeclaration",
 		"plpgsqlAliasDeclaration",
-		"plsqlRowTypeDeclaration",
-		"plsqlFieldTypeDeclaration",
-		"plsqlRecordDeclaration",
 		"plpgsqlStatement",
 		"plpgsqlAssignmentStatement",
 		"plpgsqlPerformStatement",
@@ -132,7 +129,10 @@
 		"plpgsqlReturnForm3",
 		"plpgsqlReturnForm4",
 		"plpgsqlReturnForm5",
-		"plpgsqlIndexParameter"
+		"plpgsqlIndexParameter",
+		"plpgsqlFieldTypeDeclaration",
+		"plpgsqlRecordDeclaration",
+		"plpgsqlRowTypeDeclaration"
 	],
 	"name" : "PSQLGrammar",
 	"type" : "normal"

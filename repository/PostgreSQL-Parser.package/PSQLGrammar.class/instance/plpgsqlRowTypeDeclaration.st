@@ -1,3 +1,3 @@
 plpgsql
-plsqlRowTypeDeclaration
+plpgsqlRowTypeDeclaration
 	^ identifier trim , tableName , $% asParser , identifierOrKeyword

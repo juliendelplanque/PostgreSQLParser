@@ -1,3 +1,3 @@
 plpgsql
-plsqlRecordDeclaration
+plpgsqlRecordDeclaration
 	^ identifier trim , kw record
