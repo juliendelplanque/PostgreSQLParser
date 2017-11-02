@@ -1,5 +1,5 @@
 {
-	"commentStamp" : "",
+	"commentStamp" : "JulienDelplanque 11/2/2017 13:44",
 	"super" : "PSQLPlpgSQLASTDeclaration",
 	"category" : "PostgreSQL-AST-Nodes",
 	"classinstvars" : [ ],
