@@ -1,3 +1,3 @@
 plpgsql
 plpgsqlDeclarationItem
-	^ plpgsqlFieldTypeDeclaration / plpgsqlRowTypeDeclaration / plpgsqlAliasDeclaration / plpgsqlClassicDeclaration / plpgsqlRecordDeclaration
+	^ plpgsqlFieldTypeDeclaration / plpgsqlRowTypeDeclaration / plpgsqlCopyTypeDeclaration / plpgsqlAliasDeclaration / plpgsqlClassicDeclaration / plpgsqlRecordDeclaration
