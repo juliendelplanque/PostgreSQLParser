@@ -1,11 +1,13 @@
 {
-	"commentStamp" : "",
+	"commentStamp" : "JulienDelplanque 11/2/2017 14:00",
 	"super" : "PSQLPlpgSQLASTDeclaration",
 	"category" : "PostgreSQL-AST-Nodes",
 	"classinstvars" : [ ],
 	"pools" : [ ],
 	"classvars" : [ ],
-	"instvars" : [ ],
+	"instvars" : [
+		"tableIdentifier"
+	],
 	"name" : "PSQLPlpgSQLASTRowTypeDeclaration",
 	"type" : "normal"
 }
