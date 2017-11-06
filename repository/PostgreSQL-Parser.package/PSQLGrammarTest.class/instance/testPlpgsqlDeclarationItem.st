@@ -6,4 +6,5 @@ testPlpgsqlDeclarationItem
 		parse: 'url varchar' rule: #plpgsqlDeclarationItem;
 		parse: 'myrow tablename%ROWTYPE' rule: #plpgsqlDeclarationItem;
 		parse: 'myfield tablename.columnname%TYPE' rule: #plpgsqlDeclarationItem;
-		parse: 'arow RECORD' rule: #plpgsqlDeclarationItem
+		parse: 'arow RECORD' rule: #plpgsqlDeclarationItem;
+		parse: 'curs1 refcursor' rule: #plpgsqlDeclarationItem

@@ -132,7 +132,8 @@
 		"plpgsqlIndexParameter",
 		"plpgsqlRecordDeclaration",
 		"plpgsqlRowTypeDeclaration",
-		"plpgsqlCopyTypeDeclaration"
+		"plpgsqlCopyTypeDeclaration",
+		"plpgsqlCursorDeclaration"
 	],
 	"name" : "PSQLGrammar",
 	"type" : "normal"
