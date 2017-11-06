@@ -1,8 +1,8 @@
 plpgsql
 plpgsqlCursorStatement
-	^ plpgsqlOpenCursorBounded /
+	^ plpgsqlOpenCursorForQuery /
 	plpgsqlOpenCursorForExecute /
-	plpgsqlOpenCursorForQuery /
+	plpgsqlOpenCursorBounded /
 	plpgsqlCursorFetch /
 	plpgsqlCursorMove /
 	plpgsqlCursorDelete /
