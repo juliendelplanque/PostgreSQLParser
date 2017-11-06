@@ -133,7 +133,10 @@
 		"plpgsqlRecordDeclaration",
 		"plpgsqlRowTypeDeclaration",
 		"plpgsqlCopyTypeDeclaration",
-		"plpgsqlCursorDeclaration"
+		"plpgsqlCursorDeclaration",
+		"plpgsqlOpenCursorForQuery",
+		"plpgsqlOpenCursorForExecute",
+		"plpgsqlOpenCursorBounded"
 	],
 	"name" : "PSQLGrammar",
 	"type" : "normal"
