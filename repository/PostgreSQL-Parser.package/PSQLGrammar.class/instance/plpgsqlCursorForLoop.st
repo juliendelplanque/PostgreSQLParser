@@ -5,4 +5,11 @@ plpgsqlCursorForLoop
    		statements
 	END LOOP [ label ]
 	"
-	self halt: 'TODO'
+	^ plpgsqlBeginLabel trim optional ,
+	kw for trim , identifier trim , kw in trim , identifier trim ,
+	(openParenthesis trim ,
+		(((identifier trim , ':=' asParser) trim optional , expression trim) plus separatedBy: comma trim) ,
+	closeParenthesis trim) optional ,
+	kw loop trim ,
+	plpgsqlStatements ,
+	kw endKeyword trim , kw loop trim , plpgsqlEndLabel trim optional
