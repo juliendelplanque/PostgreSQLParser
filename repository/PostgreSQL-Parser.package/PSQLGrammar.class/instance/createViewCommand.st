@@ -1,9 +1,8 @@
-create view command
+accessing
 createViewCommand
 	"CREATE [ OR REPLACE ] [ TEMP | TEMPORARY ] VIEW name [ ( column_name [, ...] ) ]
     [ WITH ( kw view_option_name [= kw view_option_value] [, ... ] ) ]
     AS query"
-	self flag: 'TODO: support VALUES command for kw view definition.'.
 	^ kw create trim ,
 		(kw or trim , kw replace) trim optional ,
 		(kw temporary / kw temp) trim optional ,
