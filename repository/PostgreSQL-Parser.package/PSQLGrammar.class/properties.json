@@ -136,7 +136,10 @@
 		"plpgsqlCursorDeclaration",
 		"plpgsqlOpenCursorForQuery",
 		"plpgsqlOpenCursorForExecute",
-		"plpgsqlOpenCursorBounded"
+		"plpgsqlOpenCursorBounded",
+		"plpgsqlOpenCursor",
+		"plpgsqlFetchCursorDirection",
+		"plpgsqlCursorFetch"
 	],
 	"name" : "PSQLGrammar",
 	"type" : "normal"

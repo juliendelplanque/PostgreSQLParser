@@ -1,0 +1,3 @@
+plpgsql
+plpgsqlOpenCursor
+	^ plpgsqlOpenCursorBounded / plpgsqlOpenCursorForExecute / plpgsqlOpenCursorForQuery
