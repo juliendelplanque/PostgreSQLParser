@@ -1,4 +1,6 @@
 plpgsql
 plpgsqlCursorMove
 	"MOVE [ direction { FROM | IN } ] cursor"
-	self halt: 'TODO'
+	kw move trim ,
+	(plpgsqlMoveCursorDirection trim , (kw from / kw in)) trim optional ,
+	identifier

@@ -139,7 +139,9 @@
 		"plpgsqlOpenCursorBounded",
 		"plpgsqlOpenCursor",
 		"plpgsqlFetchCursorDirection",
-		"plpgsqlCursorFetch"
+		"plpgsqlCursorFetch",
+		"plpgsqlMoveCursorDirection",
+		"plpgsqlCursorMove"
 	],
 	"name" : "PSQLGrammar",
 	"type" : "normal"
