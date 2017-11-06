@@ -144,7 +144,8 @@
 		"plpgsqlCursorMove",
 		"plpgsqlCursorClose",
 		"plpgsqlCursorForLoop",
-		"plpgsqlCursorDelete"
+		"plpgsqlCursorDelete",
+		"plpgsqlCursorUpdate"
 	],
 	"name" : "PSQLGrammar",
 	"type" : "normal"
