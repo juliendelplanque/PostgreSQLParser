@@ -1,4 +1,4 @@
 plpgsql
 plpgsqlCursorClose
 	"CLOSE cursor"
-	self halt: 'TODO'
+	^ kw close trim , identifier
