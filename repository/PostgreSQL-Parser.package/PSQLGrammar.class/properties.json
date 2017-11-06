@@ -137,7 +137,7 @@
 		"plpgsqlOpenCursorForQuery",
 		"plpgsqlOpenCursorForExecute",
 		"plpgsqlOpenCursorBounded",
-		"plpgsqlOpenCursor",
+		"plpgsqlCursorStatement",
 		"plpgsqlFetchCursorDirection",
 		"plpgsqlCursorFetch",
 		"plpgsqlMoveCursorDirection",
