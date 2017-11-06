@@ -1,4 +1,4 @@
-tests
+tests-select command
 testFromItems
 	self
 		parse: 'ONLY table * AS alias (c1, c2,C3)' rule: #fromItems;
