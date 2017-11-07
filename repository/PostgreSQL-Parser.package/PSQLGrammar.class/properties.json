@@ -147,7 +147,17 @@
 		"plpgsqlCursorDelete",
 		"plpgsqlCursorUpdate",
 		"valuesClause",
-		"valuesCommand"
+		"valuesCommand",
+		"onConflictClause",
+		"returningClause",
+		"conflictTarget",
+		"conflictAction",
+		"setClause",
+		"setItem1",
+		"setItem2",
+		"setItem3",
+		"conflictTarget1",
+		"conflictTarget2"
 	],
 	"name" : "PSQLGrammar",
 	"type" : "normal"

@@ -1,3 +1,3 @@
-as yet unclassified
+shared
 withClause
 	^ kw with trim , kw recursive trim optional , (withQuery separatedBy: comma trim)
