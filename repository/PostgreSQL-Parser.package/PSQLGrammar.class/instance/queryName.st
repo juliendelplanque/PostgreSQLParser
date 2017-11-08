@@ -1,3 +1,0 @@
-helpers
-queryName
-	^ identifier

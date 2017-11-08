@@ -1,4 +1,0 @@
-tests
-testSelect3
-	self
-		parse: 'SELECT  clepersonne,  datearrivee,  sexe,  nompersonne,  prenompersonne,  datenaissance,  paysorigine,  nomcategorie,  corps,  typedusupport,  numsection,  numcmu,  debutsupport,  finsupport,  agt_genere_liste (equipe_avec_repartition(nomequipe, repartition)) AS nomequipes,  nomemployeur,  nomenseignement,  typefinancement,  financeurs,  reffinancement,  responsablethese  FROM "vue_liste_personnel_affectations"  WHERE  labo_personne(clepersonne,debut::DATE) = labo  AND		est_dans_interval(debut,fin,debutsupport,finsupport)  AND		est_dans_interval(debut,fin,debutaffectation,finaffectation)  GROUP BY  clepersonne,  datearrivee,  sexe,  nompersonne,  prenompersonne,  datenaissance,  paysorigine,  nomcategorie,  corps,  typedusupport,  numsection,  numcmu,  debutsupport,  finsupport,  nomemployeur,  nomenseignement,  typefinancement,  financeurs,  reffinancement,  responsablethese' rule: #selectCommand

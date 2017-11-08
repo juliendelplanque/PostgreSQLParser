@@ -1,3 +1,0 @@
-accessing
-conditionToStatements
-	^ conditionToStatements

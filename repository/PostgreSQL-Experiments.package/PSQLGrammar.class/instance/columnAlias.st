@@ -1,3 +1,0 @@
-helpers
-columnAlias
-	^ identifier

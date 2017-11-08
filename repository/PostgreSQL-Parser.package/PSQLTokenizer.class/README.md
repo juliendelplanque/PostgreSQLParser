@@ -1,1 +1,0 @@
-This parser only works for strings that have been pre-processed by PSQLPreprocessor!

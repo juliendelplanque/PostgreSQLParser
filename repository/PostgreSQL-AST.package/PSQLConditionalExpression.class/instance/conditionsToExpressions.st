@@ -1,3 +1,0 @@
-accessing
-conditionsToExpressions
-	^ conditionsToExpressions

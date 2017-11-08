@@ -1,3 +1,0 @@
-accessing
-constant
-	^ stringConstant / numericConstant

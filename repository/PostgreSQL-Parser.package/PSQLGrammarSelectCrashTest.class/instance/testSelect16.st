@@ -1,4 +1,0 @@
-tests
-testSelect16
-	self
-		parse: 'SELECT personne.cle AS clepersonne, civilite.civilite AS sexe, personne.nom AS nompersonne, personne.prenom AS prenompersonne, enseignement.entite AS nomenseignement, employeur.nom AS nomemployeur, support.debut AS debutsupport, support.fin AS finsupport, grade.grade AS statut FROM (((((personne JOIN civilite ON ((personne.civilite = civilite.cle))) JOIN support ON ((support.cle_personne = personne.cle))) LEFT JOIN enseignement ON ((support.cle_enseignement = enseignement.cle))) JOIN employeur ON ((support.cle_employeur = employeur.cle))) JOIN grade ON ((support.cle_grade = grade.cle))) WHERE (((grade.cle_catgrade)::text = ''MCF''::text) OR ((grade.cle_catgrade)::text = ''PR''::text))' rule: #selectCommand

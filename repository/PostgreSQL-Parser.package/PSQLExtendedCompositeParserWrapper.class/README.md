@@ -1,1 +1,0 @@
-I am a composite parser wrapper that allows to extend a PPComposite parser easily.

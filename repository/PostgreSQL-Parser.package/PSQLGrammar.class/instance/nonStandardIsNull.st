@@ -1,3 +1,0 @@
-expression
-nonStandardIsNull
-	^ kw isnull

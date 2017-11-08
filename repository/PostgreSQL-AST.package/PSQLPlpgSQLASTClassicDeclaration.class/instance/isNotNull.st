@@ -1,3 +1,0 @@
-accessing
-isNotNull
-	^ isNotNull

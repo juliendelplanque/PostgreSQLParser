@@ -1,3 +1,0 @@
-plpgsql
-plpgsqlBody
-	^ plpgsqlBlock

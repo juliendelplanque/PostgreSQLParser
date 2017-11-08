@@ -1,3 +1,0 @@
-accessing
-semicolon
-	^ $; asParser

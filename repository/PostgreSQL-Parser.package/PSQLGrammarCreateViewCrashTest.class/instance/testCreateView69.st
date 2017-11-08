@@ -1,4 +1,0 @@
-as yet unclassified
-testCreateView69
-	self
-		parse: 'CREATE VIEW open_issue AS SELECT issue.id, issue.area_id, issue.policy_id, issue.admin_notice, issue.external_reference, issue.state, issue.phase_finished, issue.created, issue.accepted, issue.half_frozen, issue.fully_frozen, issue.closed, issue.cleaned, issue.min_admission_time, issue.max_admission_time, issue.discussion_time, issue.verification_time, issue.voting_time, issue.snapshot, issue.latest_snapshot_event, issue.population, issue.voter_count, issue.status_quo_schulze_rank FROM issue WHERE (issue.closed IS NULL)' rule: #createViewCommand

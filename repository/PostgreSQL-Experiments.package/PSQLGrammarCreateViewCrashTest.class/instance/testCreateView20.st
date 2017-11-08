@@ -1,4 +1,0 @@
-as yet unclassified
-testCreateView20
-	self
-		parse: 'CREATE VIEW vue_membres_associes AS SELECT personne.cle AS clepersonne, civilite.civilite AS sexe, personne.nom AS nompersonne, personne.prenom, personne.datenaissance, grade.grade AS corps, equipe.nom AS nomequipe, typesupport.nature AS typesupport, support.debut AS debutsupport, support.fin AS finsupport, employeur.nom AS nomemployeur FROM civilite, personne, grade, support, affectation, equipe, typesupport, employeur WHERE ((((((((support.cle_personne = personne.cle) AND (personne.civilite = civilite.cle)) AND (support.cle_grade = grade.cle)) AND (affectation.cle_support = support.cle)) AND (affectation.cle_equipe = equipe.cle)) AND (support.cle_typesupport = typesupport.cle)) AND (support.cle_employeur = employeur.cle)) AND (support.cle_categorie = 4))' rule: #createViewCommand

@@ -1,1 +1,0 @@
-I take a pre-processed postgresql dump string and returns a list of tokens (subclasses of PSQLToken).

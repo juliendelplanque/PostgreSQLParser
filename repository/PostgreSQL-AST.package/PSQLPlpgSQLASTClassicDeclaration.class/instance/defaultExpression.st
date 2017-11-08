@@ -1,3 +1,0 @@
-accessing
-defaultExpression
-	^ defaultExpression

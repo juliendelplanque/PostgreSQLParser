@@ -1,1 +1,0 @@
-I represent an identifier of a table, variable, functions, etc..

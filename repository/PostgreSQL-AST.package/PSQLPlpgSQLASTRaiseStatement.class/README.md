@@ -1,1 +1,0 @@
-I am a RAISE statement. I hold data about what is raised. Some of my attributes may be nil, it is ok depending on the RAISE form that has been parsed.
