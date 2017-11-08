@@ -8,7 +8,9 @@ INSERT INTO table_name [ AS alias ] [ ( column_name [, ...] ) ]
 	
 	^ withClause trim optional ,
 		kw insert trim , kw into trim , tableName trim , (kw as trim , alias) optional , 
-		(openParenthesis trim , (columnName plus separatedBy: comma trim) , closeParenthesis trim) trim optional ,
+		(openParenthesis trim , 
+			(expression plus separatedBy: comma trim) , "Apparently, a column name can be generated from an expression."
+		closeParenthesis trim) trim optional ,
 		valuesClause trim ,
 		onConflictClause trim optional ,
 		returningClause trim optional
