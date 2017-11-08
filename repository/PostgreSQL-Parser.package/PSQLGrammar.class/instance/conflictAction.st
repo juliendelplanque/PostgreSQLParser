@@ -7,4 +7,4 @@ conflictAction
                   } [, ...]
               [ WHERE condition ]"
 	^ (kw do trim , kw nothing) /
-	(kw do trim , kw update trim , setClause trim , kw where trim , expression)
+	(kw do trim , kw update trim , setClause trim , kw whereKeyword trim , expression)
