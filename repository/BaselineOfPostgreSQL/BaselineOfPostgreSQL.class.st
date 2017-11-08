@@ -10,7 +10,8 @@ BaselineOfPostgreSQL >> baseline: spec [
 	
 	spec for: #'common' do: [
 		spec 
-			package: #'PostgreSQL' with: [ spec requires: #('PetitParser' 'PetitParserExtension') ];
+			package: #'PostgreSQL-Parser' with: [ spec requires: #('PetitParser' 'PetitParserExtension') ];
+			package: #'PostgreSQL-AST' with: [ spec requires: #('PostgreSQL-Parser') ];
 		project: 'PetitParser' with: [
 			spec
 				className: 'ConfigurationOfPetitParser';
