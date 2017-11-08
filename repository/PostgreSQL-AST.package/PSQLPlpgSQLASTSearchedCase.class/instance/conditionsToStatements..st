@@ -1,3 +1,0 @@
-accessing
-conditionsToStatements: anObject
-	super conditionToStatements: anObject

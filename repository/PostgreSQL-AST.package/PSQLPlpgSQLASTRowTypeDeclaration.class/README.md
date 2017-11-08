@@ -1,1 +1,0 @@
-I represent the declaration of a row variable.

@@ -1,1 +1,0 @@
-I hold a numeric constant in #content.

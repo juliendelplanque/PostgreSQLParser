@@ -1,4 +1,0 @@
-tests
-testSelect33
-	self
-		parse: 'SELECT personne.nom, personne.prenom, grade.grade, typesupport.nature, support.debut, support.fin, typefinancement.type, employeur.nom AS employeur, labo.nom AS laboratoire, categorie.categorie FROM personne, support, typesupport, grade, typefinancement, employeur, categorie, labo WHERE (((((((personne.cle = support.cle_personne) AND (personne.cle_labo = labo.cle)) AND (support.cle_typesupport = typesupport.cle)) AND (support.cle_grade = grade.cle)) AND (support.cle_typefinancement = typefinancement.cle)) AND (support.cle_employeur = employeur.cle)) AND (support.cle_categorie = categorie.cle)) ORDER BY personne.nom, personne.prenom' rule: #selectCommand

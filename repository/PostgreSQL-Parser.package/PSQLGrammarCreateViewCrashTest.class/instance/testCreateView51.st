@@ -1,4 +1,0 @@
-as yet unclassified
-testCreateView51
-	self
-		parse: 'CREATE VIEW web_zooms AS SELECT zoom.cle, zoom.titre, zoom.titre_en, zoom.cle_couleur, zoom.cle_actu, actualite.debut, actualite.heure, actualite.intervenant, actualite.cle_categorie, actualite.titre AS titre_actu, actualite.titre_en AS titre_actu_en, actualite.titrecourt, actualite.titrecourt_en, actualite.heurefin, actualite.description, actualite.description_en, categorie_actualite.code, s_cat_zoom.nom AS type FROM (((zoom LEFT JOIN actualite ON ((zoom.cle_actu = actualite.cle))) LEFT JOIN categorie_actualite ON ((actualite.cle_categorie = categorie_actualite.cle))) LEFT JOIN s_cat_zoom ON ((s_cat_zoom.cle = zoom.cle_cat_zoom)))' rule: #createViewCommand

@@ -1,3 +1,0 @@
-accessing
-quotedIdentifier
-	^ simpleQuotedIdentifier / unicodeQuotedIdentifier

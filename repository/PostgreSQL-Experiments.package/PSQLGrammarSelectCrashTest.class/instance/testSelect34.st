@@ -1,4 +1,0 @@
-tests
-testSelect34
-	self
-		parse: 'SELECT DISTINCT actualite.titrecourt, actualite.titrecourt_en, actualite.titre, actualite.titre_en, actualite.description, actualite.description_en, actualite.marquant, actualite.debut, date_part(''year''::text, actualite.debut) AS annee, actualite.fin, actualite.debutpublication, actualite.cle_categorie, actualite.cle AS id, actualite.intervenant, actualite.lieu, actualite.heure, actualite.heurefin, categorie_actualite.intitule, categorie_actualite.code AS type FROM (actualite LEFT JOIN categorie_actualite ON ((actualite.cle_categorie = categorie_actualite.cle))) WHERE (actualite.debut >= (now() - ''1 day''::interval)) ORDER BY actualite.debut DESC, actualite.cle_categorie' rule: #selectCommand

@@ -1,1 +1,0 @@
-I represent an abstract declaration, my subclasses implement concrete declarations.

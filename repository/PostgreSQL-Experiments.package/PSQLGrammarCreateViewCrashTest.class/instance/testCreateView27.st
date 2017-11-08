@@ -1,4 +1,0 @@
-as yet unclassified
-testCreateView27
-	self
-		parse: 'CREATE VIEW vue_supports_expirants_dans_trente_jours AS SELECT personne.cle, personne.nom, personne.prenom, date_trunc(''day''::text, ((support.fin)::timestamp with time zone - now())) AS delai, support.cle AS clesupport FROM personne, vue_support_le_plus_recent, support WHERE ((((support.cle = vue_support_le_plus_recent.clesupport) AND (support.fin IS NOT NULL)) AND (personne.cle = vue_support_le_plus_recent.clepersonne)) AND ((((support.fin)::timestamp with time zone - now()) > ''00:00:00''::interval) AND (((support.fin)::timestamp with time zone - now()) < ''30 days''::interval))) GROUP BY personne.cle, personne.nom, personne.prenom, support.fin, support.cle' rule: #createViewCommand

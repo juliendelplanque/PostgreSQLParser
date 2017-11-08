@@ -1,3 +1,0 @@
-plpgsql
-plpgsqlQuery
-	^ selectCommand

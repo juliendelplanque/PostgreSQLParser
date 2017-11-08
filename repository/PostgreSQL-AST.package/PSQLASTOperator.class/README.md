@@ -1,1 +1,0 @@
-I represent an abstract operator. The operator is stored in #operator as a String.

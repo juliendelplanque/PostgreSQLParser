@@ -1,4 +1,0 @@
-as yet unclassified
-testCreateView8
-	self
-		parse: 'CREATE VIEW vue_financements_des_supports AS SELECT financements.clesupport, financements.reffinancement, financements.typefinancement, agt_genere_liste((financements.financeurs)::text) AS financeurs FROM (SELECT support.cle AS clesupport, support.financement AS reffinancement, typefinancement.type AS typefinancement, employeur.nom AS financeurs, r_supfin.principal FROM (((support LEFT JOIN r_supfin ON ((support.cle = r_supfin.cle_support))) LEFT JOIN employeur ON ((r_supfin.cle_financeur = employeur.cle))) LEFT JOIN typefinancement ON ((support.cle_typefinancement = typefinancement.cle))) ORDER BY support.cle, r_supfin.principal DESC) financements GROUP BY financements.clesupport, financements.reffinancement, financements.typefinancement' rule: #createViewCommand

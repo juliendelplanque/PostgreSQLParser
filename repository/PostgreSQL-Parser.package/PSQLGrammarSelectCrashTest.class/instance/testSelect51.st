@@ -1,4 +1,0 @@
-tests
-testSelect51
-	self
-		parse: 'SELECT these.cle, personne.nom AS nompersonne, personne.prenom AS prenompersonne, sujet.titre AS sujet, sujet.resume, date(these.fin) AS soutenance, date_part(''year''::text, these.fin) AS finthese, equipeexterne.cle AS eid, equipeexterne.nom AS equipe, soutenance.jury, sujet.titre_en AS sujet_en, sujet.resume_en, soutenance.jury_en FROM ((((((these LEFT JOIN sujet ON ((sujet.cle = these.cle_sujet))) LEFT JOIN personne ON ((personne.cle = these.cle_personne))) LEFT JOIN equipe ON ((equipe.cle = these.cle_equipe))) LEFT JOIN r_equextequ ON ((equipe.cle = r_equextequ.cle_equipe_interne))) LEFT JOIN equipeexterne ON ((equipeexterne.cle = r_equextequ.cle_equipe_externe))) LEFT JOIN soutenance ON ((soutenance.cle_diplome = these.cle))) WHERE ((equipeexterne.fin >= ''2015-01-01''::date) OR (equipeexterne.fin IS NULL)) ORDER BY personne.nom' rule: #selectCommand

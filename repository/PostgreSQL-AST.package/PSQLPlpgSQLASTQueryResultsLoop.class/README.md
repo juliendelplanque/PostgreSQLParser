@@ -1,1 +1,0 @@
-I am a loop iterating on the results of a query.
