@@ -157,8 +157,9 @@ Class {
 		'setItem3',
 		'conflictTarget1',
 		'conflictTarget2',
-		'updateWhereClause',
-		'nullExpression'
+		'nullExpression',
+		'usingClause',
+		'updateDeleteWhereClause'
 	],
 	#category : #PostgreSQL-Parser-Core
 }
@@ -385,8 +386,17 @@ PSQLGrammar >> defaultDeclarationType [
 
 { #category : #'delete command' }
 PSQLGrammar >> deleteCommand [
-	self flag: #todo.
-	^  kw delete , (semicolon not , #any asParser) plus
+	"https://www.postgresql.org/docs/9.6/static/sql-delete.html
+	[ WITH [ RECURSIVE ] with_query [, ...] ]
+		DELETE FROM [ ONLY ] table_name [ * ] [ [ AS ] alias ]
+   		[ USING using_list ]
+    	[ WHERE condition | WHERE CURRENT OF cursor_name ]
+    	[ RETURNING * | output_expression [ [ AS ] output_name ] [, ...] ]"
+	^ withClause trim optional ,
+	kw delete trim , kw from trim , kw only trim optional , tableName trim , $* asParser trim optional , (kw as trim optional , identifier) optional ,
+		usingClause optional ,
+		updateDeleteWhereClause trim optional ,
+		returningClause trim optional
 ]
 
 { #category : #expression }
@@ -1446,14 +1456,20 @@ PSQLGrammar >> updateCommand [
 		kw update trim , kw only trim optional , tableName trim , $* asParser trim optional , (kw as trim optional , identifier) optional ,
 		setClause trim ,
 		fromClause trim optional ,
-		updateWhereClause trim optional ,
+		updateDeleteWhereClause trim optional ,
 		returningClause trim optional
 ]
 
 { #category : #'update command' }
-PSQLGrammar >> updateWhereClause [
+PSQLGrammar >> updateDeleteWhereClause [
 	"WHERE condition | WHERE CURRENT OF cursor_name"
 	^ kw whereKeyword trim , ((kw current trim , kw of trim , identifier) / expression)
+]
+
+{ #category : #'delete command' }
+PSQLGrammar >> usingClause [
+	"USING using_list"
+	^ kw using trim , (expression separatedBy: comma trim)
 ]
 
 { #category : #'insert command' }

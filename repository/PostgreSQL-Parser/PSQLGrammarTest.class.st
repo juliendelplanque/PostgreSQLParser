@@ -95,6 +95,17 @@ PSQLGrammarTest >> testCreateViewCommand [
 		parse: 'CREATE OR REPLACE TEMPORARY VIEW test_view (a ,b, c) WITH (option=value, option2 , option3 = value3) AS SELECT * FROM table' rule: #createViewCommand
 ]
 
+{ #category : #'tests-delete command' }
+PSQLGrammarTest >> testDeleteCommand [
+	self
+		parse: 'DELETE FROM films USING producers WHERE producer_id = producers.id AND producers.name = ''foo''' rule: #deleteCommand;
+		parse: 'DELETE FROM films WHERE producer_id IN (SELECT id FROM producers WHERE name = ''foo'')' rule: #deleteCommand;
+		parse: 'DELETE FROM films WHERE kind <> ''Musical''' rule: #deleteCommand;
+		parse: 'DELETE FROM films' rule: #deleteCommand;
+		parse: 'DELETE FROM tasks WHERE status = ''DONE'' RETURNING *' rule: #deleteCommand;
+		parse: 'DELETE FROM tasks WHERE CURRENT OF c_tasks' rule: #deleteCommand
+]
+
 { #category : #tests-expression }
 PSQLGrammarTest >> testExpression [
 	self
@@ -1513,10 +1524,10 @@ PSQLGrammarTest >> testUpdateCommand [
 ]
 
 { #category : #'tests-update command' }
-PSQLGrammarTest >> testUpdateWhereClause [
+PSQLGrammarTest >> testUpdateDeleteWhereClause [
 	self
-		parse: 'WHERE id = 5' rule: #updateWhereClause;
-		parse: 'WHERE CURRENT OF curs1' rule: #updateWhereClause
+		parse: 'WHERE id = 5' rule: #updateDeleteWhereClause;
+		parse: 'WHERE CURRENT OF curs1' rule: #updateDeleteWhereClause
 ]
 
 { #category : #'tests-values command' }
