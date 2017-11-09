@@ -156,7 +156,8 @@ Class {
 		'setItem2',
 		'setItem3',
 		'conflictTarget1',
-		'conflictTarget2'
+		'conflictTarget2',
+		'updateWhereClause'
 	],
 	#category : #PostgreSQL-Parser-Core
 }
@@ -441,19 +442,19 @@ PSQLGrammar >> forClause [
 	^ kw for trim , (kw update trim / kw share trim) , (kw of trim , (expression plus separatedBy: comma trim)) optional , kw nowait trim optional
 ]
 
-{ #category : #'select command' }
+{ #category : #shared }
 PSQLGrammar >> fromClause [
 	"See https://www.postgresql.org/docs/9.1/static/sql-select.html#SQL-FROM"
 	^ kw from trim , (fromItems plus separatedBy: comma trim)
 ]
 
-{ #category : #'select command' }
+{ #category : #shared }
 PSQLGrammar >> fromItems [
 	"Have a look at #fromItems6 if you wonder why #fromItems6 is not treated as the others."
 	^ (parenthesedFromItems / ((fromItems4 / fromItems5 / fromItems1 / fromItems2 / fromItems3) , fromItems6 optional)) , fromItems6 optional
 ]
 
-{ #category : #'select command' }
+{ #category : #shared }
 PSQLGrammar >> fromItems1 [
 	"[ ONLY ] table_name [ * ] [ [ AS ] alias [ ( column_alias [, ...] ) ] ]"
 	^ kw only trim optional ,
@@ -464,7 +465,7 @@ PSQLGrammar >> fromItems1 [
 					closeParenthesis trim) optional) optional
 ]
 
-{ #category : #'select command' }
+{ #category : #shared }
 PSQLGrammar >> fromItems2 [
 	"This should be implemented as:
 		( select ) [ AS ] alias [ ( column_alias [, ...] ) ]
@@ -479,7 +480,7 @@ PSQLGrammar >> fromItems2 [
 			 closeParenthesis trim) optional
 ]
 
-{ #category : #'select command' }
+{ #category : #shared }
 PSQLGrammar >> fromItems3 [
 	"with_query_name [ [ AS ] alias [ ( column_alias [, ...] ) ] ]"
 	^ queryName , (
@@ -489,7 +490,7 @@ PSQLGrammar >> fromItems3 [
 			closeParenthesis trim) optional) optional
 ]
 
-{ #category : #'select command' }
+{ #category : #shared }
 PSQLGrammar >> fromItems4 [
 	"function_name ( [ argument [, ...] ] ) [ AS ] alias [ ( column_alias [, ...] | column_definition [, ...] ) ]"
 	^ functionName ,
@@ -503,7 +504,7 @@ PSQLGrammar >> fromItems4 [
 		closeParenthesis trim) optional
 ]
 
-{ #category : #'select command' }
+{ #category : #shared }
 PSQLGrammar >> fromItems5 [
 	"function_name ( [ argument [, ...] ] ) AS ( column_definition [, ...] )"
 	^ functionName ,
@@ -516,7 +517,7 @@ PSQLGrammar >> fromItems5 [
 		closeParenthesis trim) optional
 ]
 
-{ #category : #'select command' }
+{ #category : #shared }
 PSQLGrammar >> fromItems6 [
 	"from_item [ NATURAL ] join_type from_item [ ON join_condition | USING ( join_column [, ...] ) ]
 	
@@ -1289,7 +1290,7 @@ PSQLGrammar >> queryName [
 	^ identifier
 ]
 
-{ #category : #'insert command' }
+{ #category : #shared }
 PSQLGrammar >> returningClause [
 	"RETURNING * | output_expression [ [ AS ] output_name ] [, ...]"
 	
@@ -1425,8 +1426,28 @@ PSQLGrammar >> unionIntersectExceptClause [
 
 { #category : #'update command' }
 PSQLGrammar >> updateCommand [
-	self flag: #todo.
-	^ kw update , (semicolon not , #any asParser) plus
+	"https://www.postgresql.org/docs/9.6/static/sql-update.html
+	[ WITH [ RECURSIVE ] with_query [, ...] ]
+		UPDATE [ ONLY ] table_name [ * ] [ [ AS ] alias ]
+    	SET { column_name = { expression | DEFAULT } |
+          ( column_name [, ...] ) = ( { expression | DEFAULT } [, ...] ) |
+          ( column_name [, ...] ) = ( sub-SELECT )
+        } [, ...]
+    	[ FROM from_list ]
+    	[ WHERE condition | WHERE CURRENT OF cursor_name ]
+    	[ RETURNING * | output_expression [ [ AS ] output_name ] [, ...] ]"
+	^ withClause trim optional ,
+		kw update trim , kw only trim optional , tableName trim , $* asParser trim optional , (kw as trim optional , identifier) optional ,
+		setClause trim ,
+		fromClause trim optional ,
+		updateWhereClause trim optional ,
+		returningClause trim optional
+]
+
+{ #category : #'update command' }
+PSQLGrammar >> updateWhereClause [
+	"WHERE condition | WHERE CURRENT OF cursor_name"
+	^ kw whereKeyword trim , ((kw current trim , kw of trim , identifier) / expression)
 ]
 
 { #category : #'insert command' }

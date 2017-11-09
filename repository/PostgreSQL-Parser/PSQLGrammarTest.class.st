@@ -1366,6 +1366,29 @@ PSQLGrammarTest >> testUnionIntersectExceptClause [
 		parse: 'INTERSECT SELECT employee_id FROM hipos ORDER BY employee_id' rule: #unionIntersectExceptClause
 ]
 
+{ #category : #'tests-update command' }
+PSQLGrammarTest >> testUpdateCommand [
+	self
+		parse: 'UPDATE films SET kind = ''Dramatic'' WHERE kind = ''Drama''' rule: #updateCommand;
+		parse: 'UPDATE weather SET temp_lo = temp_lo+1, temp_hi = temp_lo+15, prcp = DEFAULT WHERE city = ''San Francisco'' AND date = ''2003-07-03''' rule: #updateCommand;
+		parse: 'UPDATE weather SET temp_lo = temp_lo+1, temp_hi = temp_lo+15, prcp = DEFAULT WHERE city = ''San Francisco'' AND date = ''2003-07-03'' RETURNING temp_lo, temp_hi, prcp' rule: #updateCommand;
+		parse: 'UPDATE weather SET (temp_lo, temp_hi, prcp) = (temp_lo+1, temp_lo+15, DEFAULT) WHERE city = ''San Francisco'' AND date = ''2003-07-03''' rule: #updateCommand;
+		parse: 'UPDATE employees SET sales_count = sales_count + 1 FROM accounts WHERE accounts.name = ''Acme Corporation'' AND employees.id = accounts.sales_person' rule: #updateCommand;
+		parse: 'UPDATE employees SET sales_count = sales_count + 1 WHERE id = (SELECT sales_person FROM accounts WHERE name = ''Acme Corporation'')' rule: #updateCommand;
+		parse: 'UPDATE accounts SET (contact_first_name, contact_last_name) = (SELECT first_name, last_name FROM salesmen WHERE salesmen.id = accounts.sales_id)' rule: #updateCommand;
+		parse: 'UPDATE accounts SET contact_first_name = first_name, contact_last_name = last_name FROM salesmen WHERE salesmen.id = accounts.sales_id' rule: #updateCommand;
+		parse: 'UPDATE summary s SET (sum_x, sum_y, avg_x, avg_y) = (SELECT sum(x), sum(y), avg(x), avg(y) FROM data d WHERE d.group_id = s.group_id)' rule: #updateCommand;
+		parse: 'UPDATE wines SET stock = stock + 24 WHERE winename = ''Chateau Lafite 2003''' rule: #updateCommand;
+		parse: 'UPDATE films SET kind = ''Dramatic'' WHERE CURRENT OF c_films' rule: #updateCommand
+]
+
+{ #category : #'tests-update command' }
+PSQLGrammarTest >> testUpdateWhereClause [
+	self
+		parse: 'WHERE id = 5' rule: #updateWhereClause;
+		parse: 'WHERE CURRENT OF curs1' rule: #updateWhereClause
+]
+
 { #category : #'tests-values command' }
 PSQLGrammarTest >> testValuesCommand [
 	self
