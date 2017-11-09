@@ -607,7 +607,7 @@ INSERT INTO table_name [ AS alias ] [ ( column_name [, ...] ) ]
 { #category : #'select command' }
 PSQLGrammar >> intoClause [
 	"INTO [ TEMPORARY | TEMP | UNLOGGED ] [ TABLE ] new_table"
-	^ kw into trim , (kw temporary trim / kw temp trim / kw unlogged trim) optional , kw table trim optional , tableName trim
+	^ kw into trim , (kw temporary trim / kw temp trim / kw unlogged trim) optional , kw table trim optional , expression trim
 ]
 
 { #category : #expression }
@@ -777,7 +777,7 @@ PSQLGrammar >> plpgsqlBeginLabel [
 { #category : #plpgsql }
 PSQLGrammar >> plpgsqlBlock [
 	^ plpgsqlBeginLabel trim optional ,
-	(kw declare trim , plpgsqlDeclarations trim) optional ,
+	(kw declare trim , plpgsqlDeclarations trim optional) optional ,
 	kw begin trim ,
 	plpgsqlStatements trim ,
 	kw endKeyword trim ,
