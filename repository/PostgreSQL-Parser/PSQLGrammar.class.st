@@ -272,7 +272,7 @@ PSQLGrammar >> conflictAction [
                   } [, ...]
               [ WHERE condition ]"
 	^ (kw do trim , kw nothing) /
-	(kw do trim , kw update trim , setClause trim , kw whereKeyword trim , expression)
+	(kw do trim , kw update trim , setClause trim , (kw whereKeyword trim , expression) optional)
 ]
 
 { #category : #'insert command' }
@@ -288,10 +288,10 @@ PSQLGrammar >> conflictTarget [
 { #category : #'insert command' }
 PSQLGrammar >> conflictTarget1 [
 	"( { index_column_name | ( index_expression ) } [ COLLATE collation ] [ opclass ] [, ...] ) [ WHERE index_predicate ]"
-	self flag: 'TODO'.
-	^ openParenthesis trim ,
-	(columnName / ( openParenthesis trim , expression trim , closeParenthesis )) ,
-	nil asParser
+	self flag: 'TODO'. "Not sure of how to parse the rest of this..."
+	^ (( openParenthesis trim , expression trim , closeParenthesis ) / columnName) ,
+	"Missing something between"
+	(kw whereKeyword trim , expression) optional
 ]
 
 { #category : #'insert command' }

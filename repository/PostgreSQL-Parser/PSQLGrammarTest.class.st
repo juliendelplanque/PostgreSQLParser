@@ -75,6 +75,12 @@ PSQLGrammarTest >> testConditionalExpression [
 	parse: 'CASE WHEN 1 = 1 THEN ''Ok'' ELSE CASE WHEN 1 = 2 THEN ''Ooops''::text END END' rule: #conditionalExpression
 ]
 
+{ #category : #'tests-insert command' }
+PSQLGrammarTest >> testConflictTarget [
+	self
+		parse: '(did)' rule: #conflictTarget
+]
+
 { #category : #'tests-create view command' }
 PSQLGrammarTest >> testCreateViewCommand [
 	self
