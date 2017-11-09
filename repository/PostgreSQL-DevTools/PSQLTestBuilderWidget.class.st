@@ -60,12 +60,20 @@ PSQLTestBuilderWidget class >> open [
 
 { #category : #processing }
 PSQLTestBuilderWidget >> compile [
+	(Smalltalk at: (self testClassTextField text asString asSymbol))
+		compile: self outputText text asString.
 	UIManager default inform: 'Test compiled'
 ]
 
 { #category : #accessing }
 PSQLTestBuilderWidget >> compileButton [
 	^ compileButton
+]
+
+{ #category : #initialization }
+PSQLTestBuilderWidget >> initialize [
+	super initialize.
+	self title: 'Test builder'
 ]
 
 { #category : #initialization }
