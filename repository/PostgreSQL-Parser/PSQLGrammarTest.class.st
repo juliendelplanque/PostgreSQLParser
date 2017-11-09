@@ -71,8 +71,10 @@ PSQLGrammarTest >> testCommaSubscript [
 
 { #category : #tests-expression }
 PSQLGrammarTest >> testConditionalExpression [
-	self parse: 'CASE WHEN (actualite.debut IS NULL) THEN actualite.debutpublication ELSE actualite.debut END' rule: #conditionalExpression;
-	parse: 'CASE WHEN 1 = 1 THEN ''Ok'' ELSE CASE WHEN 1 = 2 THEN ''Ooops''::text END END' rule: #conditionalExpression
+	self
+		parse: 'CASE WHEN (actualite.debut IS NULL) THEN actualite.debutpublication ELSE actualite.debut END' rule: #conditionalExpression;
+		parse: 'CASE WHEN 1 = 1 THEN ''Ok'' ELSE CASE WHEN 1 = 2 THEN ''Ooops''::text END END' rule: #conditionalExpression;
+		parse: 'CASE WHEN "policy_row"."defeat_strength" = ''simple''::"defeat_strength" THEN NULL ELSE "matrix_p"[1]["i"]."primary" >= 0 END' rule: #conditionalExpression
 ]
 
 { #category : #'tests-insert command' }
@@ -130,7 +132,8 @@ PSQLGrammarTest >> testExpression [
 		parse: '"matrix_p"["i"]["j"] > "matrix_p"["j"]["i"]'  rule: #expression;
 		parse: '((-1::INT8) << 63, 0)::"link_strength"' rule: #expression;
 		fail: 'a..nbrspechar' rule: #expression;
-		parse: '''{{" "," "," "},{" "," "," "},{" "," "," "}}''' rule: #expression
+		parse: '''{{" "," "," "},{" "," "," "},{" "," "," "}}''' rule: #expression;
+		parse: '"matrix_p"[1]["i"]."primary" >= 0' rule: #expression
 ]
 
 { #category : #tests-accessing }
@@ -213,7 +216,36 @@ PSQLGrammarTest >> testFromItems2 [
 	self
 		parse: '(SELECT * FROM table) AS alias' rule: #fromItems2;
 		parse: '(SELECT * FROM table) AS alias (c1,c2,C3)' rule: #fromItems2;
-		parse: '(VALUES (1, ''one''), (2, ''two''), (3, ''three'')) alias (c1 , c2)' rule: #fromItems2
+		parse: '(VALUES (1, ''one''), (2, ''two''), (3, ''three'')) alias (c1 , c2)' rule: #fromItems2;
+		parse: '(
+        SELECT "new_initiative"."id" AS "initiative_id"
+        FROM "initiative" "old_initiative"
+        JOIN "initiative" "new_initiative"
+          ON "new_initiative"."issue_id" = "issue_id_p"
+          AND "new_initiative"."indirect_majority" = FALSE
+        JOIN "battle" "battle_win"
+          ON "battle_win"."issue_id" = "issue_id_p"
+          AND "battle_win"."winning_initiative_id" = "new_initiative"."id"
+          AND "battle_win"."losing_initiative_id" = "old_initiative"."id"
+        JOIN "battle" "battle_lose"
+          ON "battle_lose"."issue_id" = "issue_id_p"
+          AND "battle_lose"."losing_initiative_id" = "new_initiative"."id"
+          AND "battle_lose"."winning_initiative_id" = "old_initiative"."id"
+        WHERE "old_initiative"."issue_id" = "issue_id_p"
+        AND "old_initiative"."indirect_majority" = TRUE
+        AND CASE WHEN "policy_row"."indirect_majority_strict" THEN
+          "battle_win"."count" * "policy_row"."indirect_majority_den" >
+          "policy_row"."indirect_majority_num" *
+          ("battle_win"."count"+"battle_lose"."count")
+        ELSE
+          "battle_win"."count" * "policy_row"."indirect_majority_den" >=
+          "policy_row"."indirect_majority_num" *
+          ("battle_win"."count"+"battle_lose"."count")
+        END
+        AND "battle_win"."count" >= "policy_row"."indirect_majority_positive"
+        AND "issue_row"."voter_count"-"battle_lose"."count" >=
+            "policy_row"."indirect_majority_non_negative"
+      ) AS "subquery"' rule: #fromItems2
 ]
 
 { #category : #'tests-select command' }
@@ -1316,7 +1348,34 @@ PSQLGrammarTest >> testSelectCommand [
 		parse: 'SELECT DISTINCT ON (id, name) *' rule: #selectCommand;
 		parse: 'SELECT DISTINCT ON (id, name) result, other, onemore' rule: #selectCommand;
 		parse: 'SELECT ALL id, name, test AS result, other, onemore' rule: #selectCommand;
-		parse: 'SELECT count(id) FROM table1' rule: #selectCommand
+		parse: 'SELECT count(id) FROM table1' rule: #selectCommand;
+		parse: 'SELECT "new_initiative"."id" AS "initiative_id"
+        FROM "initiative" "old_initiative"
+        JOIN "initiative" "new_initiative"
+          ON "new_initiative"."issue_id" = "issue_id_p"
+          AND "new_initiative"."indirect_majority" = FALSE
+        JOIN "battle" "battle_win"
+          ON "battle_win"."issue_id" = "issue_id_p"
+          AND "battle_win"."winning_initiative_id" = "new_initiative"."id"
+          AND "battle_win"."losing_initiative_id" = "old_initiative"."id"
+        JOIN "battle" "battle_lose"
+          ON "battle_lose"."issue_id" = "issue_id_p"
+          AND "battle_lose"."losing_initiative_id" = "new_initiative"."id"
+          AND "battle_lose"."winning_initiative_id" = "old_initiative"."id"
+        WHERE "old_initiative"."issue_id" = "issue_id_p"
+        AND "old_initiative"."indirect_majority" = TRUE
+        AND CASE WHEN "policy_row"."indirect_majority_strict" THEN
+          "battle_win"."count" * "policy_row"."indirect_majority_den" >
+          "policy_row"."indirect_majority_num" *
+          ("battle_win"."count"+"battle_lose"."count")
+        ELSE
+          "battle_win"."count" * "policy_row"."indirect_majority_den" >=
+          "policy_row"."indirect_majority_num" *
+          ("battle_win"."count"+"battle_lose"."count")
+        END
+        AND "battle_win"."count" >= "policy_row"."indirect_majority_positive"
+        AND "issue_row"."voter_count"-"battle_lose"."count" >=
+            "policy_row"."indirect_majority_non_negative"' rule: #selectCommand
 ]
 
 { #category : #'tests-select command' }
@@ -1324,6 +1383,12 @@ PSQLGrammarTest >> testSelectIntoCommand [
 	self
 		parse: 'SELECT equipe.cle INTO cleequipe FROM personne,affectation,support,equipe WHERE personne.cle = clepersonne::int4 AND clepersonne::int4 = personne.cle AND	abandon::bool = FALSE AND support.cle_personne = personne.cle AND affectation.cle_support = support.cle AND affectation.cle_equipe = equipe.cle AND (dateobservation::date > affectation.debut AND (dateobservation::date <= affectation.fin OR dateobservation::date <= (affectation.fin + ''1 YEAR''::INTERVAL)))' rule: #selectIntoCommand;
 		parse: 'SELECT cle INTO clepersonne FROM personne WHERE uidpersonne = uid' rule: #selectIntoCommand
+]
+
+{ #category : #tests-shared }
+PSQLGrammarTest >> testSetClause [
+	self
+		parse: 'SET "reverse_beat_path" = CASE WHEN "policy_row"."defeat_strength" = ''simple''::"defeat_strength" THEN NULL ELSE "matrix_p"[1]["i"]."primary" >= 0 END' rule: #setClause
 ]
 
 { #category : #tests-accessing }
@@ -1379,7 +1444,72 @@ PSQLGrammarTest >> testUpdateCommand [
 		parse: 'UPDATE accounts SET contact_first_name = first_name, contact_last_name = last_name FROM salesmen WHERE salesmen.id = accounts.sales_id' rule: #updateCommand;
 		parse: 'UPDATE summary s SET (sum_x, sum_y, avg_x, avg_y) = (SELECT sum(x), sum(y), avg(x), avg(y) FROM data d WHERE d.group_id = s.group_id)' rule: #updateCommand;
 		parse: 'UPDATE wines SET stock = stock + 24 WHERE winename = ''Chateau Lafite 2003''' rule: #updateCommand;
-		parse: 'UPDATE films SET kind = ''Dramatic'' WHERE CURRENT OF c_films' rule: #updateCommand
+		parse: 'UPDATE films SET kind = ''Dramatic'' WHERE CURRENT OF c_films' rule: #updateCommand;
+		parse: 'UPDATE "initiative" SET
+      "direct_majority" =
+        CASE WHEN "policy_row"."direct_majority_strict" THEN
+          "positive_votes" * "policy_row"."direct_majority_den" >
+          "policy_row"."direct_majority_num" * ("positive_votes"+"negative_votes")
+        ELSE
+          "positive_votes" * "policy_row"."direct_majority_den" >=
+          "policy_row"."direct_majority_num" * ("positive_votes"+"negative_votes")
+        END
+        AND "positive_votes" >= "policy_row"."direct_majority_positive"
+        AND "issue_row"."voter_count"-"negative_votes" >=
+            "policy_row"."direct_majority_non_negative",
+        "indirect_majority" =
+        CASE WHEN "policy_row"."indirect_majority_strict" THEN
+          "positive_votes" * "policy_row"."indirect_majority_den" >
+          "policy_row"."indirect_majority_num" * ("positive_votes"+"negative_votes")
+        ELSE
+          "positive_votes" * "policy_row"."indirect_majority_den" >=
+          "policy_row"."indirect_majority_num" * ("positive_votes"+"negative_votes")
+        END
+        AND "positive_votes" >= "policy_row"."indirect_majority_positive"
+        AND "issue_row"."voter_count"-"negative_votes" >=
+            "policy_row"."indirect_majority_non_negative",
+      "schulze_rank"           = "rank_ary"["i"],
+      "better_than_status_quo" = "rank_ary"["i"] < "rank_ary"[1],
+      "worse_than_status_quo"  = "rank_ary"["i"] > "rank_ary"[1],
+      "multistage_majority"    = "rank_ary"["i"] >= "rank_ary"[1],
+      "reverse_beat_path"      = CASE WHEN "policy_row"."defeat_strength" = ''simple''::"defeat_strength"
+                                 THEN NULL
+                                 ELSE "matrix_p"[1]["i"]."primary" >= 0 END,
+      "eligible"               = FALSE,
+      "winner"                 = FALSE,
+      "rank"                   = NULL  
+      WHERE "id" = "initiative_id_v"' rule: #updateCommand;
+	parse: 'UPDATE "initiative" SET "indirect_majority" = TRUE
+      FROM (
+        SELECT "new_initiative"."id" AS "initiative_id"
+        FROM "initiative" "old_initiative"
+        JOIN "initiative" "new_initiative"
+          ON "new_initiative"."issue_id" = "issue_id_p"
+          AND "new_initiative"."indirect_majority" = FALSE
+        JOIN "battle" "battle_win"
+          ON "battle_win"."issue_id" = "issue_id_p"
+          AND "battle_win"."winning_initiative_id" = "new_initiative"."id"
+          AND "battle_win"."losing_initiative_id" = "old_initiative"."id"
+        JOIN "battle" "battle_lose"
+          ON "battle_lose"."issue_id" = "issue_id_p"
+          AND "battle_lose"."losing_initiative_id" = "new_initiative"."id"
+          AND "battle_lose"."winning_initiative_id" = "old_initiative"."id"
+        WHERE "old_initiative"."issue_id" = "issue_id_p"
+        AND "old_initiative"."indirect_majority" = TRUE
+        AND CASE WHEN "policy_row"."indirect_majority_strict" THEN
+          "battle_win"."count" * "policy_row"."indirect_majority_den" >
+          "policy_row"."indirect_majority_num" *
+          ("battle_win"."count"+"battle_lose"."count")
+        ELSE
+          "battle_win"."count" * "policy_row"."indirect_majority_den" >=
+          "policy_row"."indirect_majority_num" *
+          ("battle_win"."count"+"battle_lose"."count")
+        END
+        AND "battle_win"."count" >= "policy_row"."indirect_majority_positive"
+        AND "issue_row"."voter_count"-"battle_lose"."count" >=
+            "policy_row"."indirect_majority_non_negative"
+      ) AS "subquery"
+      WHERE "id" = "subquery"."initiative_id"' rule: #updateCommand
 ]
 
 { #category : #'tests-update command' }

@@ -157,7 +157,8 @@ Class {
 		'setItem3',
 		'conflictTarget1',
 		'conflictTarget2',
-		'updateWhereClause'
+		'updateWhereClause',
+		'nullExpression'
 	],
 	#category : #PostgreSQL-Parser-Core
 }
@@ -403,7 +404,8 @@ PSQLGrammar >> expression [
 			g prefix: kw distinct trim do: self prefixOperatorBlock.
 			g postfix: nullTestConstructOperator trim do: self postfixOperatorBlock.
 			g postfix: booleanTestConstructOperator trim do: self postfixOperatorBlock.
-			g postfix: (self subscriptWith: expressionParser) trim do: self postfixOperatorBlock. ];
+			g postfix: (self commaSubscriptWith: expressionParser) trim do: self postfixOperatorBlock.
+			g postfix: fieldSelection trim do: self postfixOperatorBlock ];
 		group: [ :g | g left: operator trim do: self binaryOperatorBlock ];
 		group: [ :g | g left: inOperator trim do: self binaryOperatorBlock ];
 		group: [ :g | g left: isDistinctFromOperator trim do: self binaryOperatorBlock ];
@@ -412,8 +414,7 @@ PSQLGrammar >> expression [
 		group: [ :g | g left: binaryLogicalOperator trim do: self binaryOperatorBlock ];
 		group: [ :g |
 			g postfix: operator trim do: self postfixOperatorBlock.
-			g postfix: (self commaSubscriptWith: expressionParser) trim do: self postfixOperatorBlock.
-			g postfix: fieldSelection trim do: self postfixOperatorBlock ].
+			g postfix: (self subscriptWith: expressionParser) trim do: self postfixOperatorBlock ].
 	^ expressionParser
 ]
 
@@ -424,7 +425,7 @@ PSQLGrammar >> expressionParserTermFor: expressionParser [
 	functionCall := self functionCallParserWith: expressionParser.
 	aggregateExpression := self aggregateExpressionParserWith: expressionParser.
 	compositeValue := self compositeValueWith: expressionParser.
-	^ (parenthesedExpression / compositeValue / conditionalExpression / aggregateExpression / functionCall / primary / selectCommand) , typeCastConstruct optional.
+	^ (parenthesedExpression / nullExpression / compositeValue / conditionalExpression / aggregateExpression / functionCall / primary / selectCommand) , typeCastConstruct optional.
 ]
 
 { #category : #accessing }
@@ -451,7 +452,7 @@ PSQLGrammar >> fromClause [
 { #category : #shared }
 PSQLGrammar >> fromItems [
 	"Have a look at #fromItems6 if you wonder why #fromItems6 is not treated as the others."
-	^ (parenthesedFromItems / ((fromItems4 / fromItems5 / fromItems1 / fromItems2 / fromItems3) , fromItems6 optional)) , fromItems6 optional
+	^ (parenthesedFromItems / (fromItems4 / fromItems5 / fromItems1 / fromItems2 / fromItems3)) , fromItems6 star
 ]
 
 { #category : #shared }
@@ -674,6 +675,11 @@ PSQLGrammar >> notBetween [
 { #category : #expression }
 PSQLGrammar >> notBetweenSymmetric [
 	^ kw notKeyword trim, kw between trim , kw symmetric
+]
+
+{ #category : #expression }
+PSQLGrammar >> nullExpression [
+	^ kw null
 ]
 
 { #category : #expression }
