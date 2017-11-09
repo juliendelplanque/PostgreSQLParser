@@ -144,7 +144,8 @@ PSQLGrammarTest >> testExpression [
 		parse: '((-1::INT8) << 63, 0)::"link_strength"' rule: #expression;
 		fail: 'a..nbrspechar' rule: #expression;
 		parse: '''{{" "," "," "},{" "," "," "},{" "," "," "}}''' rule: #expression;
-		parse: '"matrix_p"[1]["i"]."primary" >= 0' rule: #expression
+		parse: '"matrix_p"[1]["i"]."primary" >= 0' rule: #expression;
+		parse: '(SELECT * FROM table) AS subquery' rule: #expression
 ]
 
 { #category : #tests-accessing }

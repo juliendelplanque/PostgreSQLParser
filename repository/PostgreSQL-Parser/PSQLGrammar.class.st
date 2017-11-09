@@ -159,7 +159,8 @@ Class {
 		'conflictTarget2',
 		'nullExpression',
 		'usingClause',
-		'updateDeleteWhereClause'
+		'updateDeleteWhereClause',
+		'notInOperator'
 	],
 	#category : #PostgreSQL-Parser-Core
 }
@@ -418,10 +419,12 @@ PSQLGrammar >> expression [
 			g postfix: fieldSelection trim do: self postfixOperatorBlock ];
 		group: [ :g | g left: operator trim do: self binaryOperatorBlock ];
 		group: [ :g | g left: inOperator trim do: self binaryOperatorBlock ];
+		group: [ :g | g left: notInOperator trim do: self binaryOperatorBlock ];
 		group: [ :g | g left: isDistinctFromOperator trim do: self binaryOperatorBlock ];
 		group: [ :g | g left: isNotDistinctFromOperator trim do: self binaryOperatorBlock ];
 		group: [ :g | g left: betweenConstructOperator trim do: self binaryOperatorBlock ];
 		group: [ :g | g left: binaryLogicalOperator trim do: self binaryOperatorBlock ];
+		group: [ :g | g left: kw as trim do: self binaryOperatorBlock ];
 		group: [ :g |
 			g postfix: operator trim do: self postfixOperatorBlock.
 			g postfix: (self subscriptWith: expressionParser) trim do: self postfixOperatorBlock ].
@@ -685,6 +688,11 @@ PSQLGrammar >> notBetween [
 { #category : #expression }
 PSQLGrammar >> notBetweenSymmetric [
 	^ kw notKeyword trim, kw between trim , kw symmetric
+]
+
+{ #category : #expression }
+PSQLGrammar >> notInOperator [
+	^ kw notKeyword trim , kw in
 ]
 
 { #category : #expression }
