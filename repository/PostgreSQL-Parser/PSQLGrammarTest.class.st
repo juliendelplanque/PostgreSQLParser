@@ -145,7 +145,9 @@ PSQLGrammarTest >> testExpression [
 		fail: 'a..nbrspechar' rule: #expression;
 		parse: '''{{" "," "," "},{" "," "," "},{" "," "," "}}''' rule: #expression;
 		parse: '"matrix_p"[1]["i"]."primary" >= 0' rule: #expression;
-		parse: '(SELECT * FROM table) AS subquery' rule: #expression
+		parse: '(SELECT * FROM table) AS subquery' rule: #expression;
+		parse: 'e''\\''' rule: #expression;
+		parse: 'ts_headline(''pg_catalog.simple'', replace(replace("body_p", e''\\'', e''\\\\''), ''*'', e''\\*''), "text_search_query"("query_text_p"), ''StartSel=* StopSel=* HighlightAll=TRUE'' )' rule: #expression
 ]
 
 { #category : #tests-expression }
@@ -920,7 +922,8 @@ PSQLGrammarTest >> testPlpgsqlReturn [
                   WHERE flightdate >= $1
                     AND flightdate < ($1 + 1)''' rule: #plpgsqlReturn;
 		parse: 'RETURN (1, 2, ''three''::text)' rule: #plpgsqlReturn;
-		parse: 'RETURN' rule: #plpgsqlReturn
+		parse: 'RETURN' rule: #plpgsqlReturn;
+		parse: 'RETURN ts_headline(''pg_catalog.simple'', replace(replace("body_p", e''\\'', e''\\\\''), ''*'', e''\\*''), "text_search_query"("query_text_p"), ''StartSel=* StopSel=* HighlightAll=TRUE'' )' rule: #plpgsqlReturn
 ]
 
 { #category : #tests-plpgsql }
