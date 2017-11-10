@@ -147,7 +147,10 @@ PSQLGrammarTest >> testExpression [
 		parse: '"matrix_p"[1]["i"]."primary" >= 0' rule: #expression;
 		parse: '(SELECT * FROM table) AS subquery' rule: #expression;
 		parse: 'e''\\''' rule: #expression;
-		parse: 'ts_headline(''pg_catalog.simple'', replace(replace("body_p", e''\\'', e''\\\\''), ''*'', e''\\*''), "text_search_query"("query_text_p"), ''StartSel=* StopSel=* HighlightAll=TRUE'' )' rule: #expression
+		parse: 'ts_headline(''pg_catalog.simple'', replace(replace("body_p", e''\\'', e''\\\\''), ''*'', e''\\*''), "text_search_query"("query_text_p"), ''StartSel=* StopSel=* HighlightAll=TRUE'' )' rule: #expression;
+		parse: '"weight_ary"["i"]::INTEGER' rule: #expression;
+		parse: '"weight_ary"["i"]::NUMERIC(18,19)' rule: #expression;
+		parse: '"weight_ary"["i"]::NUMERIC(18,9)::NUMERIC(12,3)' rule: #expression
 ]
 
 { #category : #tests-expression }
@@ -1442,6 +1445,12 @@ PSQLGrammarTest >> testSubscript [
 		parse: 'mytable.two_d_column[17][34]' rule: #expression;
 		parse: '$1[10:42]' rule: #expression;
 		parse: '(arrayfunction(a,b))[42]' rule: #expression
+]
+
+{ #category : #tests-expression }
+PSQLGrammarTest >> testTypeCastConstruct [
+	self
+		parse: '::NUMERIC(18,9)' rule: #typeCastConstruct
 ]
 
 { #category : #tests-accessing }
