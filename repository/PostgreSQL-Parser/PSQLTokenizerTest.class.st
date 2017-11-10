@@ -116,6 +116,12 @@ PSQLTokenizerTest >> testDollarQuotedStringConstantOpenTag [
 		parse: '$hello$' rule: #dollarQuotedStringConstantOpenTag
 ]
 
+{ #category : #tests-accessing }
+PSQLTokenizerTest >> testEscapeStringConstant [
+	self 
+		parse: 'e''\\''' rule: #escapeStringConstant
+]
+
 { #category : #tests }
 PSQLTokenizerTest >> testHexBitStringConstant [
 	self

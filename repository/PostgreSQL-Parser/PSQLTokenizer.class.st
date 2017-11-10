@@ -40,7 +40,8 @@ Class {
 		'dollarQuotedStringConstantCloseTag',
 		'tagIdentifier',
 		'metaCommand',
-		'kw'
+		'kw',
+		'escapeStringConstant'
 	],
 	#category : #PostgreSQL-Parser-Core
 }
@@ -121,6 +122,11 @@ PSQLTokenizer >> dollarQuotedStringConstantCloseTag [
 { #category : #accessing }
 PSQLTokenizer >> dollarQuotedStringConstantOpenTag [
 	^ $$ asParser , tagIdentifier optional , $$ asParser
+]
+
+{ #category : #accessing }
+PSQLTokenizer >> escapeStringConstant [
+	^ $e asParser caseInsensitive ,  $' asParser, $' asParser negate star , $' asParser
 ]
 
 { #category : #accessing }
@@ -251,7 +257,7 @@ PSQLTokenizer >> start [
 
 { #category : #accessing }
 PSQLTokenizer >> stringConstant [
-	^ bitStringConstant / dollarQuotedStringConstant / stringConstantWithUnicodeEscape / simpleStringConstant
+	^ escapeStringConstant / bitStringConstant / dollarQuotedStringConstant / stringConstantWithUnicodeEscape / simpleStringConstant
 ]
 
 { #category : #accessing }
