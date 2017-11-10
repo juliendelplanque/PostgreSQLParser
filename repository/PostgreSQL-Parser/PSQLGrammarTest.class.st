@@ -199,7 +199,7 @@ PSQLGrammarTest >> testFromClause [
 		parse: 'FROM (((personne LEFT JOIN these ON ((personne.cle = these.cle_personne))) LEFT JOIN civilite ON ((personne.civilite = civilite.cle))) LEFT JOIN support ON ((support.cle_personne = personne.cle))), grade, typesupport, employeur' rule: #fromClause
 ]
 
-{ #category : #'tests-select command' }
+{ #category : #tests-shared }
 PSQLGrammarTest >> testFromItems [
 	self
 		parse: 'ONLY table * AS alias (c1, c2,C3)' rule: #fromItems;
@@ -222,7 +222,7 @@ PSQLGrammarTest >> testFromItems [
 		parse: '(((personne LEFT JOIN these ON ((personne.cle = these.cle_personne))) LEFT JOIN civilite ON ((personne.civilite = civilite.cle))) LEFT JOIN support ON ((support.cle_personne = personne.cle)))' rule: #fromItems
 ]
 
-{ #category : #'tests-select command' }
+{ #category : #tests-shared }
 PSQLGrammarTest >> testFromItems1 [
 	self
 		parse: 'ONLY table * AS alias (c1, c2,C3)' rule: #fromItems1;
@@ -231,7 +231,7 @@ PSQLGrammarTest >> testFromItems1 [
 		parse: 'ONLY table *' rule: #fromItems1
 ]
 
-{ #category : #'tests-select command' }
+{ #category : #tests-shared }
 PSQLGrammarTest >> testFromItems2 [
 	self
 		parse: '(SELECT * FROM table) AS alias' rule: #fromItems2;
@@ -268,7 +268,7 @@ PSQLGrammarTest >> testFromItems2 [
       ) AS "subquery"' rule: #fromItems2
 ]
 
-{ #category : #'tests-select command' }
+{ #category : #tests-shared }
 PSQLGrammarTest >> testFromItems3 [
 	self
 		parse: 'queryName' rule: #fromItems3;
@@ -276,28 +276,32 @@ PSQLGrammarTest >> testFromItems3 [
 		parse: 'queryName AS aliasName (c1,C2, c3   )' rule: #fromItems3
 ]
 
-{ #category : #'tests-select command' }
+{ #category : #tests-shared }
 PSQLGrammarTest >> testFromItems4 [
 	self
-		parse: 'function(1, "a") AS aliasName (c1, C2, "C3")' rule: #fromItems4;
-		parse: 'function(1, "a") aliasName (c1, C2, "C3")' rule: #fromItems4;
-		parse: 'function(1, "a") AS aliasName' rule: #fromItems4;
-		parse: 'function(1, "a") aliasName' rule: #fromItems4;
 		parse: 'membres(labo,dateobservation::DATE,dateobservation::DATE) AS mbrs( clepersonne INTEGER, datearrivee DATE, sexe VARCHAR, nompersonne VARCHAR, prenompersonne VARCHAR, datenaissance DATE, paysorigine VARCHAR, nomcategorie VARCHAR, corps VARCHAR, typedusupport VARCHAR, numsection INT2, numcmu INT2, debutsupport DATE, finsupport DATE, nomequipes TEXT, nomemployeur VARCHAR, nomenseignement VARCHAR, typefinancement VARCHAR, financeurs TEXT, reffinancement VARCHAR, responsablethese TEXT )' rule: #fromItems4;
 		parse: 'membres(1, (now())::date) membres(clepersonne integer, datearrivee date, sexe character varying, nompersonne character varying, prenompersonne character varying, datenaissance date, paysorigine character varying, nomcategorie character varying, corps character varying, typedusupport character varying, numsection smallint, numcmu smallint, debutsupport date, finsupport date, nomequipes text, nomemployeur character varying, nomenseignement character varying, typefinancement character varying, financeurs text, reffinancement character varying, responsablethese text)' rule: #fromItems4
 ]
 
-{ #category : #'tests-select command' }
+{ #category : #tests-shared }
 PSQLGrammarTest >> testFromItems5 [
 	self
 		parse: 'membres(labo,dateobservation::DATE,dateobservation::DATE) AS ( clepersonne INTEGER, datearrivee DATE, sexe VARCHAR, nompersonne VARCHAR, prenompersonne VARCHAR, datenaissance DATE, paysorigine VARCHAR, nomcategorie VARCHAR, corps VARCHAR, typedusupport VARCHAR, numsection INT2, numcmu INT2, debutsupport DATE, finsupport DATE, nomequipes TEXT, nomemployeur VARCHAR, nomenseignement VARCHAR, typefinancement VARCHAR, financeurs TEXT, reffinancement VARCHAR, responsablethese TEXT )' rule: #fromItems5
 ]
 
-{ #category : #'tests-select command' }
+{ #category : #tests-shared }
 PSQLGrammarTest >> testFromItems6 [
 	self
 		parse: 'JOIN "interest" ON "initiative"."issue_id" = "interest"."issue_id"' rule: #fromItems6;
 		parse: 'LEFT JOIN "membership"' rule: #fromItems6
+]
+
+{ #category : #tests-shared }
+PSQLGrammarTest >> testFromItems7 [
+	self
+		parse: 'function(1, "a") aliasName' rule: #fromItems7;
+		parse: 'function(1, "a") AS aliasName (c1, C2, "C3")' rule: #fromItems7;
+		parse: 'function(1, "a") aliasName (c1, C2, "C3")' rule: #fromItems7
 ]
 
 { #category : #tests }
@@ -1367,7 +1371,7 @@ WHILE amount_owed < 42 LOOP
 END LOOP label' rule: #plpgsqlWhileLoop
 ]
 
-{ #category : #tests }
+{ #category : #'tests-select command' }
 PSQLGrammarTest >> testSelectCommand [
 	self
 		parse: 'SELECT 1 + 1' rule: #selectCommand;
@@ -1401,7 +1405,9 @@ PSQLGrammarTest >> testSelectCommand [
         END
         AND "battle_win"."count" >= "policy_row"."indirect_majority_positive"
         AND "issue_row"."voter_count"-"battle_lose"."count" >=
-            "policy_row"."indirect_majority_non_negative"' rule: #selectCommand
+            "policy_row"."indirect_majority_non_negative"' rule: #selectCommand;
+		parse: 'SELECT * FROM
+            "delegation_chain_for_closed_issue"("member_id_p", "issue_id_p")' rule: #selectCommand
 ]
 
 { #category : #'tests-select command' }

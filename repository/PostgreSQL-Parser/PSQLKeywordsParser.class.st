@@ -383,6 +383,12 @@ PSQLKeywordsParser >> last [
 ]
 
 { #category : #keywords }
+PSQLKeywordsParser >> lateral [
+	<psqlkeyword>
+	^ self buildKeyword: 'lateral'
+]
+
+{ #category : #keywords }
 PSQLKeywordsParser >> left [
 	<psqlkeyword>
 	^ self buildKeyword: 'left'
@@ -511,6 +517,12 @@ PSQLKeywordsParser >> or [
 PSQLKeywordsParser >> order [
 	<psqlkeyword>
 	^ self buildKeyword: 'order'
+]
+
+{ #category : #keywords }
+PSQLKeywordsParser >> ordinality [
+	<psqlkeyword>
+	^ self buildKeyword: 'ordinality'
 ]
 
 { #category : #keywords }

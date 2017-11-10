@@ -163,7 +163,8 @@ Class {
 		'notInOperator',
 		'extractFunctionCall',
 		'selectIntoCommandAlternative',
-		'selectIntoCommandClassic'
+		'selectIntoCommandClassic',
+		'fromItems7'
 	],
 	#category : #PostgreSQL-Parser-Core
 }
@@ -467,19 +468,32 @@ PSQLGrammar >> forClause [
 
 { #category : #shared }
 PSQLGrammar >> fromClause [
-	"See https://www.postgresql.org/docs/9.1/static/sql-select.html#SQL-FROM"
 	^ kw from trim , (fromItems plus separatedBy: comma trim)
 ]
 
 { #category : #shared }
 PSQLGrammar >> fromItems [
-	"Have a look at #fromItems6 if you wonder why #fromItems6 is not treated as the others."
-	^ (parenthesedFromItems / (fromItems4 / fromItems5 / fromItems1 / fromItems2 / fromItems3)) , fromItems6 star
+	"Have a look at #fromItems6 if you wonder why #fromItems6 is not treated as the others.
+	
+	[ ONLY ] table_name [ * ] [ [ AS ] alias [ ( column_alias [, ...] ) ] ]
+                [ TABLESAMPLE sampling_method ( argument [, ...] ) [ REPEATABLE ( seed ) ] ] <- #fromItems1
+    [ LATERAL ] ( select ) [ AS ] alias [ ( column_alias [, ...] ) ] <- #fromItems2
+    with_query_name [ [ AS ] alias [ ( column_alias [, ...] ) ] ] <- #fromItems3
+    [ LATERAL ] function_name ( [ argument [, ...] ] )
+                [ WITH ORDINALITY ] [ [ AS ] alias [ ( column_alias [, ...] ) ] ] <- #fromItems 7
+    [ LATERAL ] function_name ( [ argument [, ...] ] ) [ AS ] alias ( column_definition [, ...] ) <- #fromItems4
+    [ LATERAL ] function_name ( [ argument [, ...] ] ) AS ( column_definition [, ...] ) <- #fromItems5
+    [ LATERAL ] ROWS FROM( function_name ( [ argument [, ...] ] ) [ AS ( column_definition [, ...] ) ] [, ...] )
+                [ WITH ORDINALITY ] [ [ AS ] alias [ ( column_alias [, ...] ) ] ] <- This is not implemented yet
+    from_item [ NATURAL ] join_type from_item [ ON join_condition | USING ( join_column [, ...] ) ] <- #fromItems6"
+	^ (parenthesedFromItems / ( fromItems4 / fromItems5 / fromItems7 / fromItems1 / fromItems2 / fromItems3)) , fromItems6 star
 ]
 
 { #category : #shared }
 PSQLGrammar >> fromItems1 [
-	"[ ONLY ] table_name [ * ] [ [ AS ] alias [ ( column_alias [, ...] ) ] ]"
+	"[ ONLY ] table_name [ * ] [ [ AS ] alias [ ( column_alias [, ...] ) ] ]
+                [ TABLESAMPLE sampling_method ( argument [, ...] ) [ REPEATABLE ( seed ) ] ]"
+	self flag: 'Not fully implemented'.
 	^ kw only trim optional ,
 			tableName trim , asterik trim optional ,
 				(kw as trim optional , alias trim ,
@@ -491,12 +505,13 @@ PSQLGrammar >> fromItems1 [
 { #category : #shared }
 PSQLGrammar >> fromItems2 [
 	"This should be implemented as:
-		( select ) [ AS ] alias [ ( column_alias [, ...] ) ]
+		[ LATERAL ] ( select ) [ AS ] alias [ ( column_alias [, ...] ) ]
 	But is implemented as:
-		( values | select ) [ AS ] alias [ ( column_alias [, ...] ) ]
+		[ LATERAL ] ( values | select ) [ AS ] alias [ ( column_alias [, ...] ) ]
 	since using a VALUES query is just like if a select query is used except
 	that the results are defined directly in the query."
-	^ openParenthesis trim , (valuesCommand / selectCommand) , closeParenthesis trim , kw as trim optional ,
+	^ kw lateral trim optional ,
+		openParenthesis trim , (valuesCommand / selectCommand) , closeParenthesis trim , kw as trim optional ,
 			alias trim ,
 			(openParenthesis trim,
 			 (columnAlias separatedBy: comma trim),
@@ -515,29 +530,31 @@ PSQLGrammar >> fromItems3 [
 
 { #category : #shared }
 PSQLGrammar >> fromItems4 [
-	"function_name ( [ argument [, ...] ] ) [ AS ] alias [ ( column_alias [, ...] | column_definition [, ...] ) ]"
-	^ functionName ,
+	"[ LATERAL ] function_name ( [ argument [, ...] ] ) [ AS ] alias ( column_definition [, ...] )"
+	^ kw lateral trim optional , 
+		functionName ,
 		openParenthesis trim,
 		(expression separatedBy: comma trim), "Using 'expression' is OK to parse function arguments"
 		closeParenthesis trim,
 		kw as trim optional ,
 		alias trim,
 		(openParenthesis trim ,
-			((columnDefinition plus separatedBy: comma trim) / (columnReference plus separatedBy: comma trim)),
-		closeParenthesis trim) optional
+			(columnDefinition plus separatedBy: comma trim),
+		closeParenthesis trim)
 ]
 
 { #category : #shared }
 PSQLGrammar >> fromItems5 [
-	"function_name ( [ argument [, ...] ] ) AS ( column_definition [, ...] )"
-	^ functionName ,
+	"[ LATERAL ] function_name ( [ argument [, ...] ] ) AS ( column_definition [, ...] )"
+	^ kw lateral trim optional , 
+		functionName trim ,
 		openParenthesis trim,
 		(expression separatedBy: comma trim), "Using 'expression' is OK to parse function arguments"
 		closeParenthesis trim,
 		kw as trim ,
 		(openParenthesis trim ,
 			(columnDefinition plus separatedBy: comma trim),
-		closeParenthesis trim) optional
+		closeParenthesis trim)
 ]
 
 { #category : #shared }
@@ -556,6 +573,22 @@ PSQLGrammar >> fromItems6 [
 			openParenthesis trim , 
 			(columnReference separatedBy: comma trim),
 			closeParenthesis trim)) optional
+]
+
+{ #category : #shared }
+PSQLGrammar >> fromItems7 [
+	"[ LATERAL ] function_name ( [ argument [, ...] ] ) [ WITH ORDINALITY ] [ [ AS ] alias [ ( column_alias [, ...] ) ] ]"
+	^ kw lateral trim optional , 
+		functionName ,
+		openParenthesis trim,
+		(expression separatedBy: comma trim), "Using 'expression' is OK to parse function arguments"
+		closeParenthesis trim,
+		(kw with trim , kw ordinality trim) optional ,
+		(kw as trim optional ,
+		alias trim,
+		(openParenthesis trim ,
+			(columnAlias plus separatedBy: comma trim),
+		closeParenthesis trim) optional ) optional
 ]
 
 { #category : #expression }
