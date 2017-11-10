@@ -328,6 +328,18 @@ PSQLGrammarSelectCrashTest >> testSelect57 [
 ]
 
 { #category : #tests }
+PSQLGrammarSelectCrashTest >> testSelect58 [
+	self
+		parse: 'SELECT "area_delegation".*
+        FROM "area_delegation" LEFT JOIN "membership"
+        ON "membership"."area_id" = "area_id_p"
+        AND "membership"."member_id" = "area_delegation"."truster_id"
+        WHERE "area_delegation"."area_id" = "area_id_p"
+        AND "area_delegation"."trustee_id" = "member_id_p"
+        AND "membership"."member_id" ISNULL' rule: #selectCommand
+]
+
+{ #category : #tests }
 PSQLGrammarSelectCrashTest >> testSelect6 [
 	self
 		parse: 'SELECT personne.cle, (((personne.nom)::text || '' ''::text) || (personne.prenom)::text) AS nomprenom FROM personne ORDER BY personne.nom, personne.prenom' rule: #selectCommand

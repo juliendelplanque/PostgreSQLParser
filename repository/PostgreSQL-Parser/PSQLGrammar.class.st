@@ -1384,7 +1384,7 @@ PSQLGrammar >> selectCommand [
 	^ withClause optional ,
 	   kw select trim ,
 	   allOrDistinctClause optional ,
-		(asterik trim / columnsAndAliasesSelected trim),
+		(((identifier , $. asParser) optional , asterik trim) / columnsAndAliasesSelected trim),
 		fromClause optional ,
 		whereClause optional ,
 		groupByClause optional ,
