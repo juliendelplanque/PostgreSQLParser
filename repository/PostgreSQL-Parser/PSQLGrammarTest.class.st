@@ -990,7 +990,13 @@ PSQLGrammarTest >> testPlpgsqlStatement [
 		parse: 'CLOSE curs1' rule: #plpgsqlStatement;
 		parse: 'FOR record_var in curs1 (key1 := 1, key2 := 42) LOOP
 	var := record;
-END LOOP' rule: #plpgsqlStatement
+END LOOP' rule: #plpgsqlStatement;
+		parse: 'FOR "output_row" IN
+            SELECT * FROM
+            "delegation_chain_for_closed_issue"("member_id_p", "issue_id_p")
+          LOOP
+            RETURN NEXT "output_row";
+          END LOOP' rule: #plpgsqlStatement
 ]
 
 { #category : #tests-plpgsql }
@@ -1404,6 +1410,12 @@ PSQLGrammarTest >> testSelectIntoCommand [
 		parse: 'SELECT equipe.cle INTO cleequipe FROM personne,affectation,support,equipe WHERE personne.cle = clepersonne::int4 AND clepersonne::int4 = personne.cle AND	abandon::bool = FALSE AND support.cle_personne = personne.cle AND affectation.cle_support = support.cle AND affectation.cle_equipe = equipe.cle AND (dateobservation::date > affectation.debut AND (dateobservation::date <= affectation.fin OR dateobservation::date <= (affectation.fin + ''1 YEAR''::INTERVAL)))' rule: #selectIntoCommand;
 		parse: 'SELECT cle INTO clepersonne FROM personne WHERE uidpersonne = uid' rule: #selectIntoCommand;
 		parse: 'SELECT INTO "issue_row" * FROM "issue" WHERE "id" = "issue_id_p"' rule: #selectIntoCommand
+]
+
+{ #category : #'tests-select command' }
+PSQLGrammarTest >> testSelectIntoCommandAlternative [
+	self
+		parse: 'SELECT INTO "issue_row" * FROM "issue" WHERE "id" = "issue_id_p"' rule: #selectIntoCommandAlternative
 ]
 
 { #category : #tests-shared }

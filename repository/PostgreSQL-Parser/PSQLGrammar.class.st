@@ -161,7 +161,9 @@ Class {
 		'usingClause',
 		'updateDeleteWhereClause',
 		'notInOperator',
-		'extractFunctionCall'
+		'extractFunctionCall',
+		'selectIntoCommandAlternative',
+		'selectIntoCommandClassic'
 	],
 	#category : #PostgreSQL-Parser-Core
 }
@@ -1365,6 +1367,34 @@ PSQLGrammar >> selectCommand [
 
 { #category : #'select command' }
 PSQLGrammar >> selectIntoCommand [
+	^ selectIntoCommandAlternative / selectIntoCommandClassic
+]
+
+{ #category : #'select command' }
+PSQLGrammar >> selectIntoCommandAlternative [
+	"Alternative way to construct a SELECT INTO that was found in a DB schema.
+	It is similar to #selectIntoClassic but with the following construct allowed:
+	
+	SELECT INTO table * | columns ...
+	"
+	^ withClause optional ,
+	   kw select trim , kw into trim , tableName trim  ,
+		(asterik trim / columnsAndAliasesSelected trim) ,
+		fromClause optional ,
+		whereClause optional ,
+		groupByClause optional ,
+		havingClause optional ,
+		windowClause optional ,
+		unionIntersectExceptClause optional ,
+		orderByClause optional ,
+		limitClause optional ,
+		offsetClause optional ,
+		fetchClause optional ,
+		forClause optional	
+]
+
+{ #category : #'select command' }
+PSQLGrammar >> selectIntoCommandClassic [
 	"[ WITH [ RECURSIVE ] with_query [, ...] ]
 SELECT [ ALL | DISTINCT [ ON ( expression [, ...] ) ] ]
     * | expression [ [ AS ] output_name ] [, ...]
