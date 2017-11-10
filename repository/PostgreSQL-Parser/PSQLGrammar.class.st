@@ -160,7 +160,8 @@ Class {
 		'nullExpression',
 		'usingClause',
 		'updateDeleteWhereClause',
-		'notInOperator'
+		'notInOperator',
+		'extractFunctionCall'
 	],
 	#category : #PostgreSQL-Parser-Core
 }
@@ -438,7 +439,13 @@ PSQLGrammar >> expressionParserTermFor: expressionParser [
 	functionCall := self functionCallParserWith: expressionParser.
 	aggregateExpression := self aggregateExpressionParserWith: expressionParser.
 	compositeValue := self compositeValueWith: expressionParser.
-	^ (parenthesedExpression / nullExpression / compositeValue / conditionalExpression / aggregateExpression / functionCall / primary / selectCommand) , typeCastConstruct optional.
+	^ (parenthesedExpression / nullExpression / compositeValue / conditionalExpression / aggregateExpression / extractFunctionCall / functionCall / primary / selectCommand) , typeCastConstruct optional.
+]
+
+{ #category : #expression }
+PSQLGrammar >> extractFunctionCall [
+	"Parses a call to the EXTRACT(x FROM y) function."
+	^ identifier trim , openParenthesis trim , expression trim , kw from trim , expression trim , closeParenthesis
 ]
 
 { #category : #accessing }

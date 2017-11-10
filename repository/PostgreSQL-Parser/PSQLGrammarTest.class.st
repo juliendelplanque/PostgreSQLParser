@@ -148,6 +148,14 @@ PSQLGrammarTest >> testExpression [
 		parse: '(SELECT * FROM table) AS subquery' rule: #expression
 ]
 
+{ #category : #tests-expression }
+PSQLGrammarTest >> testExtractFunctionCall [
+	self
+		parse: 'EXTRACT(MONTH FROM dateobservation)' rule: #extractFunctionCall;
+		parse: 'EXTRACT(DAY FROM origine)' rule: #extractFunctionCall;
+		parse: 'EXTRACT(MONTH FROM origine)' rule: #extractFunctionCall
+]
+
 { #category : #tests-accessing }
 PSQLGrammarTest >> testFetchClause [
 	self
