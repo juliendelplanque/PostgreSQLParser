@@ -1074,7 +1074,7 @@ PSQLGrammar >> plpgsqlMoveCursorDirection [
 
 { #category : #plpgsql }
 PSQLGrammar >> plpgsqlNullStatement [
-	^ kw null trim" / #space asParser star"
+	^ kw null trim / kw endKeyword not not trim
 ]
 
 { #category : #plpgsql }
