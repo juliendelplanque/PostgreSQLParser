@@ -489,3 +489,27 @@ PSQLASTBuilder >> simpleStringConstant [
 			content: (String newFrom: tokens flattened allButFirst allButLast);
 			yourself ]
 ]
+
+{ #category : #'delete command' }
+PSQLASTBuilder >> usingClause [
+	^ super usingClause ==> [ :tokens |
+		tokens second ]
+]
+
+{ #category : #shared }
+PSQLASTBuilder >> withClause [
+	^ super withClause ==> [ :tokens |
+		PSQLASTWithClause new
+			isRecursive: tokens second isNotNil;
+			queries: (tokens third reject: [ :item | item = $, ]);
+			yourself ]
+]
+
+{ #category : #shared }
+PSQLASTBuilder >> withQuery [
+	^ super withQuery ==> [ :tokens |
+		(PSQLASTTableAlias new
+			identifier: tokens first;
+			columnAliases: (tokens second ifNotNil: [ :array | array second reject: [ :token | token = $, ] ]  ifNil: [ #() ]);
+			yourself) -> tokens fifth ]
+]

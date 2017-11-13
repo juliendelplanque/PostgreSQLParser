@@ -589,3 +589,38 @@ PSQLASTBuilderTest >> testSimpleStringConstant [
 		assert: node class equals: PSQLASTStringConstant;
 		assert: node content equals: 'test'
 ]
+
+{ #category : #tests-shared }
+PSQLASTBuilderTest >> testWithClause [
+	| node |
+	node := builder withClause parse: 'WITH table AS (SELECT * FROM foo), table2(id,text) AS (SELECT * FROM bar)'.
+	self
+		assert: node class equals: PSQLASTWithClause;
+		deny: node isRecursive;
+		assert: node queries size equals: 2.
+		
+	node := builder withClause parse: 'WITH RECURSIVE table AS (SELECT * FROM foo), table2(id,text) AS (SELECT * FROM bar)'.
+	self
+		assert: node class equals: PSQLASTWithClause;
+		assert: node isRecursive;
+		assert: node queries size equals: 2.
+]
+
+{ #category : #tests-shared }
+PSQLASTBuilderTest >> testWithQuery [
+	| node |
+	node := builder withQuery parse: 'table AS (SELECT * FROM foo)'.
+	self
+		assert: node class equals: Association;
+		assert: node head class equals: PSQLASTTableAlias;
+		assert: node head identifier identifier equals: 'table';
+		assert: node head columnAliases size equals: 0.
+		
+	node := builder withQuery parse: 'table(id,bar) AS (SELECT * FROM foo)'.
+	self
+		assert: node class equals: Association;
+		assert: node head class equals: PSQLASTTableAlias;
+		assert: node head identifier identifier equals: 'table';
+		assert: node head columnAliases size equals: 2;
+		assert: (node head columnAliases allSatisfy: [ :item | item class = PSQLASTIdentifier ])
+]
