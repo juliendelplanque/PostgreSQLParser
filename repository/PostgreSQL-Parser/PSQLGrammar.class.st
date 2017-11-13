@@ -248,10 +248,12 @@ PSQLGrammar >> columnReference [
 	^ (correlation , period) optional , columnName
 ]
 
-{ #category : #accessing }
+{ #category : #'select command' }
 PSQLGrammar >> columnsAndAliasesSelected [
-	"expression [ [ AS ] output_name ] [, ...]"
-	^ (expression , (kw as trim , columnAlias) optional) plus separatedBy: comma trim
+	^ (
+			((identifier , $. asParser) optional , asterik trim) /
+			(expression , (kw as trim , columnAlias) optional)
+		) plus separatedBy: comma trim
 ]
 
 { #category : #expression }
@@ -1391,7 +1393,7 @@ PSQLGrammar >> selectCommand [
 	^ withClause optional ,
 	   kw select trim ,
 	   allOrDistinctClause optional ,
-		(((identifier , $. asParser) optional , asterik trim) / columnsAndAliasesSelected trim),
+		columnsAndAliasesSelected trim,
 		fromClause optional ,
 		whereClause optional ,
 		groupByClause optional ,
@@ -1419,7 +1421,7 @@ PSQLGrammar >> selectIntoCommandAlternative [
 	"
 	^ withClause optional ,
 	   kw select trim , kw into trim , identifierWithOptionalFieldAccess trim  ,
-		(asterik trim / columnsAndAliasesSelected trim) ,
+		columnsAndAliasesSelected trim ,
 		fromClause optional ,
 		whereClause optional ,
 		groupByClause optional ,
@@ -1453,7 +1455,7 @@ SELECT [ ALL | DISTINCT [ ON ( expression [, ...] ) ] ]
 	^ withClause optional ,
 	   kw select trim ,
 	   allOrDistinctClause optional ,
-		(asterik trim / columnsAndAliasesSelected trim),
+		columnsAndAliasesSelected trim,
 		intoClause ,
 		fromClause optional ,
 		whereClause optional ,
@@ -1606,7 +1608,7 @@ PSQLGrammar >> withClause [
 	^ kw with trim , kw recursive trim optional , (withQuery separatedBy: comma trim)
 ]
 
-{ #category : #'select command' }
+{ #category : #shared }
 PSQLGrammar >> withQuery [
 	^ identifier trim ,
 	  		(openParenthesis trim ,

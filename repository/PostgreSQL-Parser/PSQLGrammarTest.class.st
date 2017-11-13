@@ -358,7 +358,13 @@ PSQLGrammarTest >> testInsertCommand [
 		parse: 'INSERT INTO distributors (did, dname) VALUES (7, ''Redline GmbH'') ON CONFLICT (did) DO NOTHING' rule: #insertCommand;
 		parse: 'INSERT INTO distributors AS d (did, dname) VALUES (8, ''Anvil Distribution'') ON CONFLICT (did) DO UPDATE SET dname = EXCLUDED.dname || '' (formerly '' || d.dname || '')'' WHERE d.zipcode <> ''21201''' rule: #insertCommand;
 		parse: 'INSERT INTO distributors (did, dname) VALUES (9, ''Antwerp Design'') ON CONFLICT ON CONSTRAINT distributors_pkey DO NOTHING' rule: #insertCommand;
-		parse: 'INSERT INTO distributors (did, dname) VALUES (10, ''Conrad International'') ON CONFLICT (did) WHERE is_active DO NOTHING' rule: #insertCommand
+		parse: 'INSERT INTO distributors (did, dname) VALUES (10, ''Conrad International'') ON CONFLICT (did) WHERE is_active DO NOTHING' rule: #insertCommand;
+		parse: 'WITH upd AS (
+  UPDATE employees SET sales_count = sales_count + 1 WHERE id =
+    (SELECT sales_person FROM accounts WHERE name = ''Acme Corporation'')
+    RETURNING *
+)
+INSERT INTO employees_log SELECT *, current_timestamp FROM upd' rule: #insertCommand
 ]
 
 { #category : #tests-keywords }
@@ -1413,7 +1419,8 @@ PSQLGrammarTest >> testSelectCommand [
         AND "issue_row"."voter_count"-"battle_lose"."count" >=
             "policy_row"."indirect_majority_non_negative"' rule: #selectCommand;
 		parse: 'SELECT * FROM
-            "delegation_chain_for_closed_issue"("member_id_p", "issue_id_p")' rule: #selectCommand
+            "delegation_chain_for_closed_issue"("member_id_p", "issue_id_p")' rule: #selectCommand;
+		parse: 'SELECT *, current_timestamp FROM upd' rule: #selectCommand
 ]
 
 { #category : #'tests-select command' }
