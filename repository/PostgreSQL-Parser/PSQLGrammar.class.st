@@ -1612,7 +1612,7 @@ PSQLGrammar >> withClause [
 PSQLGrammar >> withQuery [
 	^ identifier trim ,
 	  		(openParenthesis trim ,
-			(identifierOrKeyword separatedBy: comma trim ) ,
+			(identifier separatedBy: comma trim ) ,
 			closeParenthesis trim) optional ,
 	  kw as trim ,
 	  openParenthesis trim ,
