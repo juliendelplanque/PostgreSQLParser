@@ -419,8 +419,10 @@ PSQLGrammar >> expression [
 			g prefix: kw distinct trim do: self prefixOperatorBlock.
 			g postfix: nullTestConstructOperator trim do: self postfixOperatorBlock.
 			g postfix: booleanTestConstructOperator trim do: self postfixOperatorBlock.
+			g postfix: (self subscriptWith: expressionParser) trim do: self postfixOperatorBlock.
 			g postfix: (self commaSubscriptWith: expressionParser) trim do: self postfixOperatorBlock.
-			g postfix: fieldSelection trim do: self postfixOperatorBlock ];
+			g postfix: fieldSelection trim do: self postfixOperatorBlock.
+			g postfix: typeCastConstruct trim do: self postfixOperatorBlock. ];
 		group: [ :g | g left: operator trim do: self binaryOperatorBlock ];
 		group: [ :g | g left: inOperator trim do: self binaryOperatorBlock ];
 		group: [ :g | g left: notInOperator trim do: self binaryOperatorBlock ];
@@ -430,8 +432,7 @@ PSQLGrammar >> expression [
 		group: [ :g | g left: binaryLogicalOperator trim do: self binaryOperatorBlock ];
 		group: [ :g | g left: kw as trim do: self binaryOperatorBlock ];
 		group: [ :g |
-			g postfix: operator trim do: self postfixOperatorBlock.
-			g postfix: (self subscriptWith: expressionParser) trim do: self postfixOperatorBlock ].
+			g postfix: operator trim do: self postfixOperatorBlock ].
 	^ expressionParser
 ]
 
@@ -1510,7 +1511,7 @@ PSQLGrammar >> typeCast [
 
 { #category : #expression }
 PSQLGrammar >> typeCastConstruct [
-	^ (typeCast trim , 
+	^ typeCast trim , 
 			((
 			kw else not , 
 			kw case not , 
@@ -1519,7 +1520,7 @@ PSQLGrammar >> typeCastConstruct [
 			kw or not , 
 			kw then not,
 			identifierOrKeyword , (openParenthesis trim , (constant separatedBy: comma trim) , closeParenthesis trim) optional
-			) plus separatedBy: #space asParser plus)) optional.
+			) plus separatedBy: #space asParser plus).
 ]
 
 { #category : #'select command' }
