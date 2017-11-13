@@ -103,7 +103,11 @@ PSQLGrammarTest >> testDeleteCommand [
 		parse: 'DELETE FROM films WHERE kind <> ''Musical''' rule: #deleteCommand;
 		parse: 'DELETE FROM films' rule: #deleteCommand;
 		parse: 'DELETE FROM tasks WHERE status = ''DONE'' RETURNING *' rule: #deleteCommand;
-		parse: 'DELETE FROM tasks WHERE CURRENT OF c_tasks' rule: #deleteCommand
+		parse: 'DELETE FROM tasks WHERE CURRENT OF c_tasks' rule: #deleteCommand;
+		parse: 'WITH t AS (
+    DELETE FROM foo
+)
+DELETE FROM bar' rule: #deleteCommand
 ]
 
 { #category : #tests-expression }
@@ -1420,7 +1424,23 @@ PSQLGrammarTest >> testSelectCommand [
             "policy_row"."indirect_majority_non_negative"' rule: #selectCommand;
 		parse: 'SELECT * FROM
             "delegation_chain_for_closed_issue"("member_id_p", "issue_id_p")' rule: #selectCommand;
-		parse: 'SELECT *, current_timestamp FROM upd' rule: #selectCommand
+		parse: 'SELECT *, current_timestamp FROM upd' rule: #selectCommand;
+		parse: 'WITH regional_sales AS (
+        SELECT region, SUM(amount) AS total_sales
+        FROM orders
+        GROUP BY region
+     ), top_regions AS (
+        SELECT region
+        FROM regional_sales
+        WHERE total_sales > (SELECT SUM(total_sales)/10 FROM regional_sales)
+     )
+SELECT region,
+       product,
+       SUM(quantity) AS product_units,
+       SUM(amount) AS product_sales
+FROM orders
+WHERE region IN (SELECT region FROM top_regions)
+GROUP BY region, product' rule: #selectCommand
 ]
 
 { #category : #'tests-select command' }
