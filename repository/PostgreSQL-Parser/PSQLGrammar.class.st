@@ -164,7 +164,8 @@ Class {
 		'extractFunctionCall',
 		'selectIntoCommandAlternative',
 		'selectIntoCommandClassic',
-		'fromItems7'
+		'fromItems7',
+		'identifierWithOptionalFieldAccess'
 	],
 	#category : #PostgreSQL-Parser-Core
 }
@@ -398,7 +399,7 @@ PSQLGrammar >> deleteCommand [
     	[ WHERE condition | WHERE CURRENT OF cursor_name ]
     	[ RETURNING * | output_expression [ [ AS ] output_name ] [, ...] ]"
 	^ withClause trim optional ,
-	kw delete trim , kw from trim , kw only trim optional , tableName trim , $* asParser trim optional , (kw as trim optional , identifier) optional ,
+	kw delete trim , kw from trim , kw only trim optional , identifierWithOptionalFieldAccess trim , $* asParser trim optional , (kw as trim optional , identifier) optional ,
 		usingClause optional ,
 		updateDeleteWhereClause trim optional ,
 		returningClause trim optional
@@ -496,7 +497,7 @@ PSQLGrammar >> fromItems1 [
                 [ TABLESAMPLE sampling_method ( argument [, ...] ) [ REPEATABLE ( seed ) ] ]"
 	self flag: 'Not fully implemented'.
 	^ kw only trim optional ,
-			tableName trim , asterik trim optional ,
+			identifierWithOptionalFieldAccess trim , asterik trim optional ,
 				(kw as trim optional , alias trim ,
 					(openParenthesis trim ,
 					(columnAlias separatedBy: comma trim),
@@ -624,6 +625,11 @@ PSQLGrammar >> identifier [
 	^ kw keyword not , identifierOrKeyword
 ]
 
+{ #category : #helpers }
+PSQLGrammar >> identifierWithOptionalFieldAccess [
+	^ identifier , ($. asParser , identifier) optional
+]
+
 { #category : #expression }
 PSQLGrammar >> inOperator [
 	^ kw into trim not , kw in trim , keywordStop
@@ -638,7 +644,7 @@ INSERT INTO table_name [ AS alias ] [ ( column_name [, ...] ) ]
     [ RETURNING * | output_expression [ [ AS ] output_name ] [, ...] ]"
 	
 	^ withClause trim optional ,
-		kw insert trim , kw into trim , tableName trim , (kw as trim , alias) optional , 
+		kw insert trim , kw into trim , identifierWithOptionalFieldAccess trim , (kw as trim , alias) optional , 
 		(openParenthesis trim , 
 			(expression plus separatedBy: comma trim) , "Apparently, a column name can be generated from an expression."
 		closeParenthesis trim) trim optional ,
@@ -1412,7 +1418,7 @@ PSQLGrammar >> selectIntoCommandAlternative [
 	SELECT INTO table * | columns ...
 	"
 	^ withClause optional ,
-	   kw select trim , kw into trim , tableName trim  ,
+	   kw select trim , kw into trim , identifierWithOptionalFieldAccess trim  ,
 		(asterik trim / columnsAndAliasesSelected trim) ,
 		fromClause optional ,
 		whereClause optional ,
@@ -1541,7 +1547,7 @@ PSQLGrammar >> updateCommand [
     	[ WHERE condition | WHERE CURRENT OF cursor_name ]
     	[ RETURNING * | output_expression [ [ AS ] output_name ] [, ...] ]"
 	^ withClause trim optional ,
-		kw update trim , kw only trim optional , tableName trim , $* asParser trim optional , (kw as trim optional , identifier) optional ,
+		kw update trim , kw only trim optional , identifierWithOptionalFieldAccess trim , $* asParser trim optional , (kw as trim optional , identifier) optional ,
 		setClause trim ,
 		fromClause trim optional ,
 		updateDeleteWhereClause trim optional ,
