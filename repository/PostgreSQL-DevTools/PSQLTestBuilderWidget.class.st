@@ -1,3 +1,6 @@
+"
+I am a widget helping to build tests for a PetitParser.
+"
 Class {
 	#name : #PSQLTestBuilderWidget,
 	#superclass : #ComposableModel,
@@ -30,6 +33,11 @@ PSQLTestBuilderWidget class >> defaultSpec [
 					row
 						add: #ruleLabel;
 						add: #ruleTextField ] height: self inputTextHeight;
+				
+				newRow: [ :row |
+					row
+						add: #testClassLabel;
+						add: #testClassTextField ] height: self inputTextHeight;
 				newRow: [ :row |
 					row
 						add: #testSelectorLabel;
@@ -40,8 +48,6 @@ PSQLTestBuilderWidget class >> defaultSpec [
 				add: #inputText;
 				add: #outputTextLabel height: self inputTextHeight;
 				add: #outputText;
-				add: #testClassLabel height: self inputTextHeight;
-				add: #testClassTextField height: self inputTextHeight;
 				add: #compileButton height: self buttonHeight ];
 		yourself
 ]
@@ -56,6 +62,42 @@ PSQLTestBuilderWidget class >> open [
 				
 	inst window extent: 400@600.
 	^ inst
+]
+
+{ #category : #checking }
+PSQLTestBuilderWidget >> checkRuleTextField [
+	| parserClass |
+	parserClass := self testClass new parserClass.
+	(parserClass methods anySatisfy: [ :method | method selector = self rule ])
+		ifFalse: [ 
+			self error: ('Rule "{1}" is not defined in "{2}".' format: { self rule . parserClass }) ]
+]
+
+{ #category : #checking }
+PSQLTestBuilderWidget >> checkTestClassTextField [
+	Smalltalk at: self testClassName asSymbol ifAbsent: [ 
+		self error: ('Class named "{1}" does not exist in the system.' format: { self testClassName }) ]
+]
+
+{ #category : #checking }
+PSQLTestBuilderWidget >> checkTestIndexTextField [
+	(self testIndexString matchesRegex: '\d+')
+		ifFalse: [ self error: ('"{1}" is not a valid index.' format: { self testIndexString }) ]
+]
+
+{ #category : #checking }
+PSQLTestBuilderWidget >> checkTestSelectorPrefixTextField [
+	self testSelectorPrefix isEmpty
+		ifTrue: [ self error: 'You must provide a selector prefix for the test.' ]
+]
+
+{ #category : #checking }
+PSQLTestBuilderWidget >> checkUserInputs [
+	self
+		checkTestClassTextField;
+		checkRuleTextField;
+		checkTestSelectorPrefixTextField;
+		checkTestIndexTextField
 ]
 
 { #category : #processing }
@@ -83,8 +125,18 @@ PSQLTestBuilderWidget >> initializePresenter [
 		
 	self outputText
 		enabled: false.
+	
+	self testSelectorPrefixTextField
+		autoAccept: true.
 		
+	self testClassTextField
+		autoAccept: true.
+		
+	self ruleTextField
+		autoAccept: true.
+			
 	self testIndexTextField
+		autoAccept: true;
 		text: '0'.
 		
 	self compileButton
@@ -142,6 +194,11 @@ PSQLTestBuilderWidget >> outputTextLabel [
 ]
 
 { #category : #accessing }
+PSQLTestBuilderWidget >> rule [
+	^ self ruleTextField text asString
+]
+
+{ #category : #accessing }
 PSQLTestBuilderWidget >> ruleLabel [
 	^ ruleLabel
 ]
@@ -152,8 +209,18 @@ PSQLTestBuilderWidget >> ruleTextField [
 ]
 
 { #category : #accessing }
+PSQLTestBuilderWidget >> testClass [
+	^ Smalltalk at: self testClassName asSymbol
+]
+
+{ #category : #accessing }
 PSQLTestBuilderWidget >> testClassLabel [
 	^ testClassLabel
+]
+
+{ #category : #accessing }
+PSQLTestBuilderWidget >> testClassName [
+	^ self testClassTextField text asString
 ]
 
 { #category : #accessing }
@@ -162,8 +229,18 @@ PSQLTestBuilderWidget >> testClassTextField [
 ]
 
 { #category : #accessing }
+PSQLTestBuilderWidget >> testIndex [
+	^ self testIndexString asNumber
+]
+
+{ #category : #accessing }
 PSQLTestBuilderWidget >> testIndexLabel [
 	^ testIndexLabel
+]
+
+{ #category : #accessing }
+PSQLTestBuilderWidget >> testIndexString [
+	^ self testIndexTextField text asString
 ]
 
 { #category : #accessing }
@@ -177,12 +254,19 @@ PSQLTestBuilderWidget >> testSelectorLabel [
 ]
 
 { #category : #accessing }
+PSQLTestBuilderWidget >> testSelectorPrefix [
+	^ self testSelectorPrefixTextField text asString
+]
+
+{ #category : #accessing }
 PSQLTestBuilderWidget >> testSelectorPrefixTextField [
 	^ testSelectorPrefixTextField
 ]
 
 { #category : #processing }
 PSQLTestBuilderWidget >> textAccepted: aString [
+	self checkUserInputs.
+	
 	self outputText
 		text: ('{1}{2}
 	self
