@@ -1387,6 +1387,14 @@ WHILE amount_owed < 42 LOOP
 END LOOP label' rule: #plpgsqlWhileLoop
 ]
 
+{ #category : #tests-shared }
+PSQLGrammarTest >> testReturningClause [
+	self
+		parse: 'RETURNING *' rule: #returningClause;
+		parse: 'RETURNING id, name' rule: #returningClause;
+		parse: 'RETURNING *,id' rule: #returningClause
+]
+
 { #category : #'tests-select command' }
 PSQLGrammarTest >> testSelectCommand [
 	self
