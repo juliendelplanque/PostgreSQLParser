@@ -591,6 +591,24 @@ PSQLASTBuilderTest >> testSimpleStringConstant [
 ]
 
 { #category : #tests-shared }
+PSQLASTBuilderTest >> testUpdateDeleteWhereClause [
+	| node |
+	node := builder updateDeleteWhereClause parse: 'WHERE id = 1'.
+	self
+		assert: node class equals: PSQLASTUpdateDeleteWhereClause;
+		deny: node hasCursor;
+		assert: node hasCondition;
+		assert: node condition class equals: PSQLASTBinaryOperator.
+		
+	node := builder updateDeleteWhereClause parse: 'WHERE CURRENT OF cursor'.
+	self
+		assert: node class equals: PSQLASTUpdateDeleteWhereClause;
+		assert: node hasCursor;
+		deny: node hasCondition;
+		assert: node currentOfCursor class equals: PSQLASTIdentifier
+]
+
+{ #category : #tests-shared }
 PSQLASTBuilderTest >> testWithClause [
 	| node |
 	node := builder withClause parse: 'WITH table AS (SELECT * FROM foo), table2(id,text) AS (SELECT * FROM bar)'.

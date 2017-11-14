@@ -490,6 +490,17 @@ PSQLASTBuilder >> simpleStringConstant [
 			yourself ]
 ]
 
+{ #category : #shared }
+PSQLASTBuilder >> updateDeleteWhereClause [
+	^ super updateDeleteWhereClause ==> [ :tokens |
+		|node|
+		node := PSQLASTUpdateDeleteWhereClause new.
+		tokens second isArray
+			ifTrue: [ node currentOfCursor: tokens second third ]
+			ifFalse: [ node condition: tokens second ].
+		node ]
+]
+
 { #category : #'delete command' }
 PSQLASTBuilder >> usingClause [
 	^ super usingClause ==> [ :tokens |

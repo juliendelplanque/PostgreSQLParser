@@ -1556,7 +1556,7 @@ PSQLGrammar >> updateCommand [
 		returningClause trim optional
 ]
 
-{ #category : #'update command' }
+{ #category : #shared }
 PSQLGrammar >> updateDeleteWhereClause [
 	"WHERE condition | WHERE CURRENT OF cursor_name"
 	^ kw whereKeyword trim , ((kw current trim , kw of trim , identifier) / expression)
