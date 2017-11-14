@@ -401,7 +401,7 @@ PSQLGrammar >> deleteCommand [
     	[ WHERE condition | WHERE CURRENT OF cursor_name ]
     	[ RETURNING * | output_expression [ [ AS ] output_name ] [, ...] ]"
 	^ withClause trim optional ,
-	kw delete trim , kw from trim , kw only trim optional , identifierWithOptionalFieldAccess trim , $* asParser trim optional , (kw as trim optional , identifier) optional ,
+	kw delete trim , kw from trim , kw only trim optional , identifierWithOptionalFieldAccess trim , asterik trim optional , (kw as trim optional , identifier) optional ,
 		usingClause optional ,
 		updateDeleteWhereClause trim optional ,
 		returningClause trim optional
@@ -1535,7 +1535,7 @@ PSQLGrammar >> unionIntersectExceptClause [
 	^ (kw union trim / kw intersect trim / kw except trim) , (kw all trim / kw distinct trim) optional , selectCommand trim
 ]
 
-{ #category : #'update command' }
+{ #category : #accessing }
 PSQLGrammar >> updateCommand [
 	"https://www.postgresql.org/docs/9.6/static/sql-update.html
 	[ WITH [ RECURSIVE ] with_query [, ...] ]
@@ -1548,7 +1548,7 @@ PSQLGrammar >> updateCommand [
     	[ WHERE condition | WHERE CURRENT OF cursor_name ]
     	[ RETURNING * | output_expression [ [ AS ] output_name ] [, ...] ]"
 	^ withClause trim optional ,
-		kw update trim , kw only trim optional , identifierWithOptionalFieldAccess trim , $* asParser trim optional , (kw as trim optional , identifier) optional ,
+		kw update trim , kw only trim optional , identifierWithOptionalFieldAccess trim , asterik trim optional , (kw as trim optional , identifier) optional ,
 		setClause trim ,
 		fromClause trim optional ,
 		updateDeleteWhereClause trim optional ,

@@ -4,6 +4,12 @@ Class {
 	#category : 'PostgreSQL-AST-Builder'
 }
 
+{ #category : #accessing }
+PSQLASTBuilder >> asterik [
+	^ super asterik ==> [ :tokens |
+		PSQLASTWildCard new ]
+]
+
 { #category : #'accessing - blocks' }
 PSQLASTBuilder >> binaryOperatorBlock [
 	^ [ :exp1 :op :exp2 |
