@@ -105,6 +105,21 @@ DELETE FROM bar'.
 		assert: node hasWhereClause;
 		assert: node whereClause class equals: PSQLASTUpdateDeleteWhereClause;
 		deny: node areDescendantTablesIncluded.
+		
+	node := builder deleteCommand parse: 'DELETE FROM tasks USING test WHERE status = ''DONE'' RETURNING *'.
+	self
+		assert: node class equals: PSQLASTDeleteQuery;
+		assert: node tableName class equals: PSQLASTIdentifier;
+		assert: node tableName identifier equals: 'tasks';
+		deny: node hasWithClause;
+		deny: node hasAlias;
+		assert: node hasReturningClause;
+		assert: node returningClause class equals: PSQLASTReturningClause;
+		assert: node hasUsingList;
+		assert: node usingList size equals: 1;
+		assert: node hasWhereClause;
+		assert: node whereClause class equals: PSQLASTUpdateDeleteWhereClause;
+		deny: node areDescendantTablesIncluded.
 ]
 
 { #category : #tests-expression }
