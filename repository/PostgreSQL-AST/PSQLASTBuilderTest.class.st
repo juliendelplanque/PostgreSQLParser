@@ -47,6 +47,66 @@ PSQLASTBuilderTest >> testConditionalExpression [
 		assert: node elseExpression class equals: PSQLASTAttributeAccess
 ]
 
+{ #category : #'tests-delete command' }
+PSQLASTBuilderTest >> testDeleteCommand [
+	| node |
+	node := builder deleteCommand parse: 'DELETE FROM films'.
+	self
+		assert: node class equals: PSQLASTDeleteQuery;
+		assert: node tableName class equals: PSQLASTIdentifier;
+		assert: node tableName identifier equals: 'films';
+		deny: node hasWithClause;
+		deny: node hasAlias;
+		deny: node hasReturningClause;
+		deny: node hasUsingList;
+		deny: node hasWhereClause;
+		deny: node areDescendantTablesIncluded.
+		
+	node := builder deleteCommand parse: 'DELETE FROM films * AS filmsalias'.
+	self
+		assert: node class equals: PSQLASTDeleteQuery;
+		assert: node tableName class equals: PSQLASTIdentifier;
+		assert: node tableName identifier equals: 'films';
+		deny: node hasWithClause;
+		assert: node hasAlias;
+		assert: node alias class equals: PSQLASTIdentifier;
+		assert: node alias identifier equals: 'filmsalias';
+		deny: node hasReturningClause;
+		deny: node hasUsingList;
+		deny: node hasWhereClause;
+		assert: node areDescendantTablesIncluded.
+		
+	node := builder deleteCommand parse: 'WITH t AS (
+    DELETE FROM foo
+)
+DELETE FROM bar'.
+	self
+		assert: node class equals: PSQLASTDeleteQuery;
+		assert: node tableName class equals: PSQLASTIdentifier;
+		assert: node tableName identifier equals: 'bar';
+		assert: node hasWithClause;
+		assert: node withClause class equals: PSQLASTWithClause;
+		deny: node hasAlias;
+		deny: node hasReturningClause;
+		deny: node hasUsingList;
+		deny: node hasWhereClause;
+		deny: node areDescendantTablesIncluded.
+		
+	node := builder deleteCommand parse: 'DELETE FROM tasks WHERE status = ''DONE'' RETURNING *'.
+	self
+		assert: node class equals: PSQLASTDeleteQuery;
+		assert: node tableName class equals: PSQLASTIdentifier;
+		assert: node tableName identifier equals: 'tasks';
+		deny: node hasWithClause;
+		deny: node hasAlias;
+		assert: node hasReturningClause;
+		assert: node returningClause class equals: PSQLASTReturningClause;
+		deny: node hasUsingList;
+		assert: node hasWhereClause;
+		assert: node whereClause class equals: PSQLASTUpdateDeleteWhereClause;
+		deny: node areDescendantTablesIncluded.
+]
+
 { #category : #tests-expression }
 PSQLASTBuilderTest >> testExpressionParserTermFor [
 	| node |
@@ -87,6 +147,21 @@ PSQLASTBuilderTest >> testIdentifier [
 	self
 		assert: node class equals: PSQLASTIdentifier;
 		assert: node identifier equals: 'id'
+]
+
+{ #category : #tests }
+PSQLASTBuilderTest >> testIdentifierWithOptionalFieldAccess [
+	| node |
+	node := builder identifierWithOptionalFieldAccess parse: 'id'.
+	self
+		assert: node class equals: PSQLASTIdentifier;
+		assert: node identifier equals: 'id'.
+		
+	node := builder identifierWithOptionalFieldAccess parse: 'id.attribute'.
+	self
+		assert: node class equals: PSQLASTAttributeAccess;
+		assert: node accessed identifier equals: 'id';
+		assert: node attributeIdentifier identifier equals: 'attribute'.
 ]
 
 { #category : #tests-accessing }
@@ -578,6 +653,15 @@ PSQLASTBuilderTest >> testPositionalParameter [
 	self
 		assert: node class equals: PSQLPlpgSQLASTPositionalParameter;
 		assert: node index equals: 1
+]
+
+{ #category : #tests-shared }
+PSQLASTBuilderTest >> testReturningClause [
+	| node |
+	node := builder returningClause parse: 'RETURNING *,id'.
+	self
+		assert: node class equals: PSQLASTReturningClause;
+		assert: node returnedList size equals: 2
 ]
 
 { #category : #tests-accessing }

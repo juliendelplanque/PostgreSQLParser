@@ -59,6 +59,21 @@ PSQLASTBuilder >> conditionalExpression [
 			yourself ]
 ]
 
+{ #category : #'delete command' }
+PSQLASTBuilder >> deleteCommand [
+	^ super deleteCommand ==> [ :tokens |
+		PSQLASTDeleteQuery new
+			withClause: tokens first;
+			isOnlySpecified: tokens fourth isNotNil;
+			tableName: tokens fifth;
+			areDescendantTablesIncluded: tokens sixth isNotNil;
+			alias: (tokens seventh ifNotNil: #second);
+			usingList: tokens eighth;
+			whereClause: tokens ninth;
+			returningClause: tokens last;
+			yourself ]
+]
+
 { #category : #expression }
 PSQLASTBuilder >> expressionParserTermFor: expressionParser [
 	^ (super expressionParserTermFor: expressionParser) ==> [ :tokens |
@@ -93,6 +108,18 @@ PSQLASTBuilder >> identifier [
 { #category : #accessing }
 PSQLASTBuilder >> identifierOrKeyword [
 	^ super identifierOrKeyword ==> [ :tokens | String newFrom: tokens flattened ]
+]
+
+{ #category : #accessing }
+PSQLASTBuilder >> identifierWithOptionalFieldAccess [
+	^ super identifierWithOptionalFieldAccess ==> [ :tokens |
+		tokens second
+			ifNil: [ tokens first ]
+			ifNotNil: [ 
+				PSQLASTAttributeAccess new
+					accessed: tokens first;
+					attributeIdentifier: tokens second second;
+					yourself ] ]
 ]
 
 { #category : #accessing }
@@ -480,6 +507,14 @@ PSQLASTBuilder >> prefixOperatorBlock [
 				operator: op;
 				expression: exp;
 				yourself ]
+]
+
+{ #category : #shared }
+PSQLASTBuilder >> returningClause [
+	^ super returningClause ==> [ :tokens |
+		PSQLASTReturningClause new
+			returnedList: (tokens second reject: [ :token | token = $, ]);
+			yourself ]
 ]
 
 { #category : #accessing }
