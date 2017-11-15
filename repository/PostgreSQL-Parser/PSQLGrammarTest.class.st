@@ -198,7 +198,7 @@ PSQLGrammarTest >> testForClause [
 		parse: 'FOR SHARE OF table1,table2 , table3 NOWAIT' rule: #forClause
 ]
 
-{ #category : #'tests-select command' }
+{ #category : #tests-shared }
 PSQLGrammarTest >> testFromClause [
 	"A smoke test with multiple FROM clauses extracted from existing open-source schemas."
 	self

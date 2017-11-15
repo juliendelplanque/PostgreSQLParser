@@ -125,6 +125,14 @@ PSQLASTBuilder >> expressionParserTermFor: expressionParser [
 ]
 
 { #category : #shared }
+PSQLASTBuilder >> fromClause [
+	^ super fromClause ==> [ :tokens |
+		PSQLASTFromClause new
+			items: (tokens second reject: [ :item | item = $, ] thenCollect: #first);
+			yourself ]
+]
+
+{ #category : #shared }
 PSQLASTBuilder >> fromItems [
 	^ super fromItems ==> [ :tokens |
 		tokens second
