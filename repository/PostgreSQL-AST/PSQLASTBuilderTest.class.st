@@ -151,7 +151,13 @@ PSQLASTBuilderTest >> testExpressionParserTermFor [
 		assert: node class equals: PSQLASTBinaryOperator;
 		assert: node left class equals: PSQLASTStringConstant;
 		assert: node operator equals: '::';
-		assert: node right class equals: PSQLASTIdentifier
+		assert: node right class equals: PSQLASTIdentifier.
+		
+	node := builder expression parse: 'fct()'.
+	self
+		assert: node class equals: PSQLASTFunctionCall;
+		assert: node argumentsList isEmpty;
+		assert: node argumentsDictionary isEmpty
 ]
 
 { #category : #tests-shared }
