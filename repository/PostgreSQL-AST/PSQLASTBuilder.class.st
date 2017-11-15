@@ -196,6 +196,12 @@ PSQLASTBuilder >> parenthesedExpressionParserWith: expressionParser [
 					yourself ]
 ]
 
+{ #category : #shared }
+PSQLASTBuilder >> parenthesedFromItems [
+	^ super parenthesedFromItems ==> [ :tokens |
+		tokens second "Just remove parentheses" ]
+]
+
 { #category : #plpgsql }
 PSQLASTBuilder >> plpgsqlAliasDeclaration [
 	^ super plpgsqlAliasDeclaration ==> [ :tokens |
