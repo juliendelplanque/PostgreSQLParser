@@ -165,7 +165,8 @@ Class {
 		'selectIntoCommandAlternative',
 		'selectIntoCommandClassic',
 		'fromItems7',
-		'identifierWithOptionalFieldAccess'
+		'identifierWithOptionalFieldAccess',
+		'defaultValues'
 	],
 	#category : #PostgreSQL-Parser-Core
 }
@@ -390,6 +391,11 @@ PSQLGrammar >> defaultDeclarationType [
 	^ kw collate not , kw notKeyword not , kw default not , ':=' asParser not , '=' asParser not , identifierOrKeyword trim plus , (
 	(openParenthesis trim , numericConstant trim , closeParenthesis trim) /
 	(openBracket trim , closeBracket trim) plus) optional
+]
+
+{ #category : #'insert command' }
+PSQLGrammar >> defaultValues [
+	^ kw default trim , kw values
 ]
 
 { #category : #'delete command' }
@@ -1570,7 +1576,7 @@ PSQLGrammar >> usingClause [
 { #category : #'insert command' }
 PSQLGrammar >> valuesClause [
 	"DEFAULT VALUES | VALUES ( { expression | DEFAULT } [, ...] ) [, ...] | query"
-	^ (kw default trim , kw values) /
+	^ defaultValues /
 	valuesCommand /
 	selectCommand
 ]
@@ -1580,7 +1586,7 @@ PSQLGrammar >> valuesCommand [
 	"This should implement:
 		VALUES ( expression [, ...] ) [, ...]
 	But it implements:
-		VALUES ( { expression | DEFAULT } [, ...] )
+		VALUES ( { expression | DEFAULT } [, ...] ) [, ...]
 	instead in order to be reusable in #insertCommand.
 	
 	Please manage this fact while building the AST."
