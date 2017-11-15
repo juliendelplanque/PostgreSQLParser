@@ -546,9 +546,9 @@ PSQLGrammar >> fromItems4 [
 		functionCall trim ,
 		kw as trim optional ,
 		alias trim,
-		(openParenthesis trim ,
+		openParenthesis trim ,
 			(columnDefinition plus separatedBy: comma trim),
-		closeParenthesis trim)
+		closeParenthesis trim
 ]
 
 { #category : #shared }
