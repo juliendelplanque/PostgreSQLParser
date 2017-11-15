@@ -47,6 +47,22 @@ PSQLASTBuilderTest >> testConditionalExpression [
 		assert: node elseExpression class equals: PSQLASTAttributeAccess
 ]
 
+{ #category : #'tests-insert command' }
+PSQLASTBuilderTest >> testConflictAction [
+	| node |
+	node := builder conflictAction parse: 'DO NOTHING'.
+	self
+		assert: node class equals: PSQLASTConflictAction;
+		assert: node isDoNothing;
+		deny: node isDoUpdateSet.
+		
+	node := builder conflictAction parse: 'DO UPDATE SET id = 1, foo=''bar'', default=DEFAULT'.
+	self
+		assert: node class equals: PSQLASTConflictAction;
+		deny: node isDoNothing;
+		assert: node isDoUpdateSet
+]
+
 { #category : #'tests-delete command' }
 PSQLASTBuilderTest >> testDeleteCommand [
 	| node |
@@ -179,6 +195,38 @@ PSQLASTBuilderTest >> testIdentifierWithOptionalFieldAccess [
 		assert: node attributeIdentifier identifier equals: 'attribute'.
 ]
 
+{ #category : #'tests-insert command' }
+PSQLASTBuilderTest >> testInsertCommand [
+	| node |
+	node := builder insertCommand parse: 'INSERT INTO table (id, name) VALUES (DEFAULT, ''john'')'.
+	self
+		assert: node class equals: PSQLASTInsertQuery;
+		deny: node hasWithClause;
+		deny: node hasAlias;
+		assert: node tableName class equals: PSQLASTIdentifier;
+		assert: node tableName identifier equals: 'table';
+		assert: node hasColumns;
+		assert: node columns size equals: 2;
+		assert: node valuesClause class equals: Array;
+		deny: node hasOnConflictClause;
+		deny: node hasReturningClause.
+		
+	node := builder insertCommand parse: 'INSERT INTO table AS t (id, name) VALUES (DEFAULT, ''john''), (SELECT * FROM foo) ON CONFLICT DO NOTHING RETURNING *'.
+	self
+		assert: node class equals: PSQLASTInsertQuery;
+		deny: node hasWithClause;
+		assert: node hasAlias;
+		assert: node alias identifier equals: 't';
+		assert: node tableName class equals: PSQLASTIdentifier;
+		assert: node tableName identifier equals: 'table';
+		assert: node hasColumns;
+		assert: node columns size equals: 2;
+		assert: node valuesClause class equals: Array;
+		assert: node hasOnConflictClause;
+		assert: node onConflictClause class equals: PSQLASTOnConflictClause;
+		assert: node hasReturningClause
+]
+
 { #category : #tests-accessing }
 PSQLASTBuilderTest >> testNumericConstant [
 	| node |
@@ -187,6 +235,16 @@ PSQLASTBuilderTest >> testNumericConstant [
 	self
 		assert: node class equals: PSQLASTNumericConstant;
 		assert: node content equals: '1.21'
+]
+
+{ #category : #'tests-insert command' }
+PSQLASTBuilderTest >> testOnConflictClause [
+	| node |
+	node := builder onConflictClause parse: 'ON CONFLICT DO NOTHING'.
+	self
+		assert: node class equals: PSQLASTOnConflictClause;
+		deny: node hasTarget;
+		assert: node action class equals: PSQLASTConflictAction
 ]
 
 { #category : #tests-expression }
@@ -705,6 +763,45 @@ PSQLASTBuilderTest >> testUpdateDeleteWhereClause [
 		assert: node hasCursor;
 		deny: node hasCondition;
 		assert: node currentOfCursor class equals: PSQLASTIdentifier
+]
+
+{ #category : #'tests-insert command' }
+PSQLASTBuilderTest >> testValuesClause [
+	| node |
+	node := builder valuesClause parse: 'VALUES (1, DEFAULT, var+1)'.
+	self
+		assert: node class equals: Array.
+		
+	node := builder valuesClause parse: 'DEFAULT VALUES'.
+	self
+		assert: node class equals: PSQLASTDefaultValues.
+		
+	node := builder valuesClause parse: 'SELECT * FROM foo'.
+	self
+		assert: node class equals: PSQLASTSelectQuery.
+]
+
+{ #category : #'tests-values command' }
+PSQLASTBuilderTest >> testValuesCommand [
+	| node |
+	node := builder valuesCommand parse: 'VALUES (1, DEFAULT, var+1)'.
+	self
+		assert: node class equals: Array;
+		assert: node size equals: 1;
+		assert: node first class equals: Array;
+		assert: node first size equals: 3;
+		assert: node first first class equals: PSQLASTNumericConstant;
+		assert: node first second class equals: PSQLASTDefaultValue;
+		assert: node first third class equals: PSQLASTBinaryOperator.
+		
+	node := builder valuesCommand parse: 'VALUES (1, 2, 3), (4,5,6), (7,8,9)'.
+	self
+		assert: node class equals: Array;
+		assert: node size equals: 3.
+	node do: [ :row |
+		self
+			assert: row class equals: Array;
+			assert: row size equals: 3 ]
 ]
 
 { #category : #tests-shared }
