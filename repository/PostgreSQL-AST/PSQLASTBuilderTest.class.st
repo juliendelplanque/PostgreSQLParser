@@ -179,6 +179,21 @@ PSQLASTBuilderTest >> testFromItems1 [
 		deny: node hasColumnAliases
 ]
 
+{ #category : #tests-shared }
+PSQLASTBuilderTest >> testFromItems2 [
+	| node |
+	node := builder fromItems2 parse: '(SELECT * FROM foo) AS t (c1,c2,c3)'.
+	self
+		assert: node class equals: PSQLASTFromClauseItemType2;
+		deny: node hasLateral;
+		assert: node hasAlias;
+		assert: node alias class equals: PSQLASTIdentifier;
+		assert: node hasColumnAliases;
+		assert: node columnAliases class equals: Array;
+		assert: node columnAliases size equals: 3;
+		assert: node valuesOrSelect class equals: PSQLASTSelectQuery
+]
+
 { #category : #tests-expression }
 PSQLASTBuilderTest >> testFunctionCallParserWith [
 	| node |
