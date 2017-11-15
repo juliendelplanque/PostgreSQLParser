@@ -20,7 +20,7 @@ PSQLASTBuilderTest >> testCompositeValueWith [
 	| node |
 	node := builder expression parse: '(1, id*3, table.attribute)'.
 	self
-		assert: node class equals: PSQLCompositeValue;
+		assert: node class equals: PSQLASTCompositeValue;
 		assert: node items size equals: 3;
 		assert: node items first class equals: PSQLASTNumericConstant;
 		assert: node items second class equals: PSQLASTBinaryOperator;
@@ -29,7 +29,7 @@ PSQLASTBuilderTest >> testCompositeValueWith [
 	node := builder expression parse: '((-1::INT8) << 63, 0)::"link_strength"'.
 	self
 		assert: node class equals: PSQLASTBinaryOperator;
-		assert: node left class equals: PSQLCompositeValue;
+		assert: node left class equals: PSQLASTCompositeValue;
 		assert: node left items size equals: 2;
 		assert: node operator equals: '::';
 		assert: node right class equals: PSQLASTIdentifier.
@@ -40,9 +40,9 @@ PSQLASTBuilderTest >> testConditionalExpression [
 	| node |
 	node := builder expression parse: 'CASE WHEN (actualite.debut IS NULL) THEN actualite.debutpublication ELSE actualite.debut END'.
 	self
-		assert: node class equals: PSQLConditionalExpression;
+		assert: node class equals: PSQLASTConditionalExpression;
 		assert: node conditionsToExpressions size equals: 1;
-		assert: node conditionsToExpressions first head class equals: PSQLParenthesedExpression;
+		assert: node conditionsToExpressions first head class equals: PSQLASTParenthesedExpression;
 		assert: node conditionsToExpressions first tail class equals: PSQLASTAttributeAccess;
 		assert: node elseExpression class equals: PSQLASTAttributeAccess
 ]
@@ -213,7 +213,7 @@ PSQLASTBuilderTest >> testFunctionCallParserWith [
 	| node |
 	node := builder expression parse: 'fct(1, id, arg := ''argument'', 41 + 1)'.
 	self
-		assert: node class equals: PSQLFunctionCall;
+		assert: node class equals: PSQLASTFunctionCall;
 		assert: node functionIdentifier class equals: PSQLASTIdentifier;
 		assert: node functionIdentifier identifier equals: 'fct';
 		assert: node argumentsList size equals: 3;
@@ -314,7 +314,7 @@ PSQLASTBuilderTest >> testParenthesedExpressionParserWith [
 	| node |
 	node := builder expression parse: '(id+1)'.
 	self
-		assert: node class equals: PSQLParenthesedExpression;
+		assert: node class equals: PSQLASTParenthesedExpression;
 		assert: node expression class equals: PSQLASTBinaryOperator
 ]
 
@@ -357,8 +357,8 @@ PSQLASTBuilderTest >> testPlpgsqlAssignmentLeftPart [
 	| node |
 	node := builder plpgsqlAssignmentLeftPart parse: 'truc.machin[id][3]'.
 	self
-		assert: node class equals: PSQLSubscript;
-		assert: node target class equals: PSQLSubscript;
+		assert: node class equals: PSQLASTSubscript;
+		assert: node target class equals: PSQLASTSubscript;
 		assert: node target target class equals: PSQLASTAttributeAccess;
 		assert: node target target accessed class equals: PSQLASTIdentifier
 ]
@@ -370,7 +370,7 @@ PSQLASTBuilderTest >> testPlpgsqlAssignmentStatement [
 	self
 		assert: node class equals: PSQLPlpgSQLASTAssignment;
 		assert: node operator equals: ':=';
-		assert: node target class equals: PSQLSubscript;
+		assert: node target class equals: PSQLASTSubscript;
 		assert: node toAssign class equals: PSQLASTNumericConstant
 ]
 

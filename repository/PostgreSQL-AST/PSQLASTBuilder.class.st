@@ -45,7 +45,7 @@ PSQLASTBuilder >> compositeValueWith: anExpressionParser [
 	^ (super compositeValueWith: anExpressionParser)
 		==> [ :tokens |
 			|node|
-			node := PSQLCompositeValue new
+			node := PSQLASTCompositeValue new
 						items: (tokens second reject: [ :item | item = $, ] thenCollect: #first);
 						yourself.
 			tokens fourth ifNotNil: [ 
@@ -59,7 +59,7 @@ PSQLASTBuilder >> compositeValueWith: anExpressionParser [
 { #category : #expression }
 PSQLASTBuilder >> conditionalExpression [
 	^ super conditionalExpression ==> [ :tokens |
-		PSQLConditionalExpression new
+		PSQLASTConditionalExpression new
 			conditionsToExpressions: (tokens second collect: [ :item | item second -> item fourth ]);
 			elseExpression: tokens third second;
 			yourself ]
@@ -227,7 +227,7 @@ PSQLASTBuilder >> onConflictClause [
 PSQLASTBuilder >> parenthesedExpressionParserWith: expressionParser [
 	^ (super parenthesedExpressionParserWith: expressionParser)
 			==> [ :tokens | 
-				PSQLParenthesedExpression new
+				PSQLASTParenthesedExpression new
 					expression: tokens second;
 					yourself ]
 ]
@@ -271,7 +271,7 @@ PSQLASTBuilder >> plpgsqlAssignmentLeftPart [
 								attributeIdentifier: subTokens second;
 								yourself ].
 			tokens third do: [ :subscriptTokens | "Then manage subscripts."
-				target := PSQLSubscript new
+				target := PSQLASTSubscript new
 								target: target;
 								subscriptExpression: subscriptTokens second;
 								yourself ].
@@ -583,7 +583,7 @@ PSQLASTBuilder >> postfixOperatorBlock [
 						expression: exp;
 						yourself ]
 				ifTrue: [ 
-					PSQLSubscript new
+					PSQLASTSubscript new
 						target: exp;
 						subscriptExpression: op second;
 						yourself ] ]
