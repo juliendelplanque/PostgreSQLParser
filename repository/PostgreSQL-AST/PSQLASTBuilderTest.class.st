@@ -173,6 +173,18 @@ PSQLASTBuilderTest >> testExpressionParserTermFor [
 ]
 
 { #category : #tests-shared }
+PSQLASTBuilderTest >> testFromItems [
+	| node |
+	node :=  builder fromItems parse: '(((personne LEFT JOIN these ON ((personne.cle = these.cle_personne))) LEFT JOIN civilite ON ((personne.civilite = civilite.cle))) LEFT JOIN support ON ((support.cle_personne = personne.cle)))'.
+	
+	self
+		assert: node class equals: PSQLASTFromClauseItemType6;
+		assert: node leftFromItem class equals: PSQLASTFromClauseItemType6;
+		assert: node leftFromItem leftFromItem class equals: PSQLASTFromClauseItemType6;
+		assert: node leftFromItem leftFromItem leftFromItem class equals: PSQLASTFromClauseItemType1
+]
+
+{ #category : #tests-shared }
 PSQLASTBuilderTest >> testFromItems1 [
 	| node |
 	node := builder fromItems1 parse: 'ONLY table * AS alias (c1, c2,C3)'.
@@ -255,6 +267,33 @@ PSQLASTBuilderTest >> testFromItems5 [
 		
 	node columnDefinitions do: [ :columnDefinition |
 		self assert: columnDefinition class equals: PSQLASTColumnDefinition ]
+]
+
+{ #category : #tests-shared }
+PSQLASTBuilderTest >> testFromItems6 [
+	| node |
+	node := builder fromItems6 parse: 'JOIN "interest" ON "initiative"."issue_id" = "interest"."issue_id"'.
+	self
+		assert: node class equals: PSQLASTFromClauseItemType6;
+		assert: node leftFromItem isNil; "This is normal at this step"
+		assert: node joinType equals: 'JOIN';
+		assert: node rightFromItem class equals: PSQLASTFromClauseItemType1;
+		assert: node hasJoinCondition;
+		assert: node joinCondition class equals: PSQLASTBinaryOperator;
+		deny: node hasNatural;
+		deny: node hasUsingList.
+		
+	node := builder fromItems6 parse: 'NATURAL INNER JOIN test USING (foo)'.
+	self
+		assert: node class equals: PSQLASTFromClauseItemType6;
+		assert: node leftFromItem isNil; "This is normal at this step"
+		assert: node joinType equals: 'INNER JOIN';
+		assert: node rightFromItem class equals: PSQLASTFromClauseItemType1;
+		deny: node hasJoinCondition;
+		assert: node hasNatural;
+		assert: node hasUsingList;
+		assert: node usingList class equals: Array;
+		assert: node usingList size equals: 1
 ]
 
 { #category : #tests-shared }

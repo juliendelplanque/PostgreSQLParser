@@ -125,6 +125,20 @@ PSQLASTBuilder >> expressionParserTermFor: expressionParser [
 ]
 
 { #category : #shared }
+PSQLASTBuilder >> fromItems [
+	^ super fromItems ==> [ :tokens |
+		tokens second
+			ifEmpty: [ tokens first ]
+			ifNotEmpty: [ 
+				tokens second
+					inject: tokens first
+					into: [ :fromItem :current |
+						current
+							leftFromItem: fromItem;
+							yourself ] ] ]
+]
+
+{ #category : #shared }
 PSQLASTBuilder >> fromItems1 [
 	^ super fromItems1 ==> [ :tokens |
 		PSQLASTFromClauseItemType1 new
@@ -181,6 +195,22 @@ PSQLASTBuilder >> fromItems5 [
 			columnDefinitions: (tokens fifth ifNotNil: [ :subTokens |
 				subTokens reject: [ :item | item = $, ] thenCollect: #first ]);
 			yourself ]
+]
+
+{ #category : #shared }
+PSQLASTBuilder >> fromItems6 [
+	^ super fromItems6 ==> [ :tokens |
+		|node|
+		node := PSQLASTFromClauseItemType6 new
+			hasNatural: tokens first isNotNil;
+			joinType: tokens second;
+			rightFromItem: tokens third;
+			yourself.
+		tokens fourth ifNotNil: [ :subTokens |
+			subTokens first asLowercase = 'on'
+				ifTrue: [ node joinCondition: subTokens second ]
+				ifFalse: [ node usingList: (subTokens third reject: [ :item | item = $, ]) ] ].
+		node ]
 ]
 
 { #category : #shared }
@@ -265,6 +295,12 @@ PSQLASTBuilder >> isNotNull [
 { #category : #accessing }
 PSQLASTBuilder >> isNull [
 	^ super isNull ==> [ :tokens | tokens joinUsing: ' ' ]
+]
+
+{ #category : #shared }
+PSQLASTBuilder >> joinType [
+	^ super joinType ==> [ :tokens |
+		(tokens flattened reject: #isNil) joinUsing: ' ' ]
 ]
 
 { #category : #accessing }
