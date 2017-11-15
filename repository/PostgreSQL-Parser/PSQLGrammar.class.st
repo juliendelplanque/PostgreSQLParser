@@ -555,10 +555,7 @@ PSQLGrammar >> fromItems4 [
 PSQLGrammar >> fromItems5 [
 	"[ LATERAL ] function_name ( [ argument [, ...] ] ) AS ( column_definition [, ...] )"
 	^ kw lateral trim optional , 
-		functionName trim ,
-		openParenthesis trim,
-		(expression separatedBy: comma trim), "Using 'expression' is OK to parse function arguments"
-		closeParenthesis trim,
+		functionCall trim ,
 		kw as trim ,
 		(openParenthesis trim ,
 			(columnDefinition plus separatedBy: comma trim),
