@@ -601,9 +601,10 @@ PSQLGrammar >> fromItems7 [
 
 { #category : #expression }
 PSQLGrammar >> functionCall [
+	"Only for function call with argument list (does not support argument dict)."
 	^ functionName trim ,
 		openParenthesis trim,
-		(expression separatedBy: comma trim), "Using 'expression' is OK to parse function arguments"
+		(expression separatedBy: comma trim) optional, "Using 'expression' is OK to parse function arguments"
 		closeParenthesis trim
 ]
 

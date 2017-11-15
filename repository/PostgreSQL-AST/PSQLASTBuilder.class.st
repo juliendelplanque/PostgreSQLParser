@@ -147,6 +147,16 @@ PSQLASTBuilder >> fromItems3 [
 ]
 
 { #category : #expression }
+PSQLASTBuilder >> functionCall [
+	^ super functionCall ==> [ :tokens |
+		PSQLASTFunctionCall new
+			functionIdentifier: tokens first;
+			argumentsList: (tokens third ifNotNil: [ :list | list reject: [ :item | item = $, ] ] ifNil: [ #() ]);
+			argumentsDictionary: Dictionary new;
+			yourself ]
+]
+
+{ #category : #expression }
 PSQLASTBuilder >> functionCallParserWith: expressionParser [
 	^ (super functionCallParserWith: expressionParser)
 		==> [ :tokens |
