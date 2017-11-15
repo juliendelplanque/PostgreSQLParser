@@ -20,6 +20,20 @@ PSQLASTBuilder >> binaryOperatorBlock [
 				yourself ]
 ]
 
+{ #category : #shared }
+PSQLASTBuilder >> columnDefinition [
+	^ super columnDefinition ==> [ :tokens |
+		PSQLASTColumnDefinition new
+			columnName: tokens first;
+			type: (PSQLASTIdentifier new
+						identifier: ((tokens second flattened collect: [ :item | 
+							item isCharacter
+								ifTrue: [ ' ' ]
+								ifFalse: [ item identifier ] ]) joinUsing: '');
+						yourself);
+			yourself ]
+]
+
 { #category : #accessing }
 PSQLASTBuilder >> columnReference [
 	^ super columnReference ==> [ :tokens |

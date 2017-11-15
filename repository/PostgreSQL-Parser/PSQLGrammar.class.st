@@ -235,7 +235,7 @@ PSQLGrammar >> columnAlias [
 	^ identifier
 ]
 
-{ #category : #accessing }
+{ #category : #shared }
 PSQLGrammar >> columnDefinition [
 	^ columnReference trim , (identifier plus separatedBy: #space asParser plus)
 ]

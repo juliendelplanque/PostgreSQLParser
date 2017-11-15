@@ -15,6 +15,18 @@ PSQLASTBuilderTest >> setUp [
 	builder := PSQLASTBuilder new
 ]
 
+{ #category : #tests-shared }
+PSQLASTBuilderTest >> testColumnDefinition [
+		| node |
+	node := builder columnDefinition parse: 'c VARYING CHAR'.
+	self
+		assert: node class equals: PSQLASTColumnDefinition;
+		assert: node columnName class equals: PSQLASTIdentifier;
+		assert: node columnName identifier equals: 'c';
+		assert: node type class equals: PSQLASTIdentifier;
+		assert: node type identifier equals: 'VARYING CHAR'
+]
+
 { #category : #tests-expression }
 PSQLASTBuilderTest >> testCompositeValueWith [
 	| node |
