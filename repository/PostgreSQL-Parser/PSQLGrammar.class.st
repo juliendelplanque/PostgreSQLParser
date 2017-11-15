@@ -166,7 +166,8 @@ Class {
 		'selectIntoCommandClassic',
 		'fromItems7',
 		'identifierWithOptionalFieldAccess',
-		'defaultValues'
+		'defaultValues',
+		'functionCall'
 	],
 	#category : #PostgreSQL-Parser-Core
 }
@@ -542,10 +543,7 @@ PSQLGrammar >> fromItems3 [
 PSQLGrammar >> fromItems4 [
 	"[ LATERAL ] function_name ( [ argument [, ...] ] ) [ AS ] alias ( column_definition [, ...] )"
 	^ kw lateral trim optional , 
-		functionName ,
-		openParenthesis trim,
-		(expression separatedBy: comma trim), "Using 'expression' is OK to parse function arguments"
-		closeParenthesis trim,
+		functionCall trim ,
 		kw as trim optional ,
 		alias trim,
 		(openParenthesis trim ,
@@ -599,6 +597,14 @@ PSQLGrammar >> fromItems7 [
 		(openParenthesis trim ,
 			(columnAlias plus separatedBy: comma trim),
 		closeParenthesis trim) optional ) optional
+]
+
+{ #category : #expression }
+PSQLGrammar >> functionCall [
+	^ functionName trim ,
+		openParenthesis trim,
+		(expression separatedBy: comma trim), "Using 'expression' is OK to parse function arguments"
+		closeParenthesis trim
 ]
 
 { #category : #expression }
