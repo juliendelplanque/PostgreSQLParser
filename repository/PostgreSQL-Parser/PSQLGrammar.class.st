@@ -570,13 +570,13 @@ PSQLGrammar >> fromItems6 [
 	
 	[ NATURAL ] join_type from_item [ ON join_condition | USING ( join_column [, ...] ) ]
 	
-	and the 'from_item' is manged in #fromItems parser."
+	and the 'from_item' is managed in #fromItems parser."
 	
 	^ kw natural trim optional , joinType trim , fromItems trim , 
 		((kw on trim , expression) / 
 		(kw using trim ,
 			openParenthesis trim , 
-			(columnReference separatedBy: comma trim),
+			(columnReference plus separatedBy: comma trim),
 			closeParenthesis trim)) optional
 ]
 
@@ -716,6 +716,15 @@ PSQLGrammar >> isTrue [
 { #category : #expression }
 PSQLGrammar >> isUnknown [
 	^ kw is trim , kw unknown
+]
+
+{ #category : #shared }
+PSQLGrammar >> joinType [
+	^ (kw inner trim optional, kw join trim) /
+	(kw left trim , kw outer trim optional , kw join trim) /
+	(kw right trim , kw outer trim optional , kw join trim) /
+	(kw full trim , kw outer trim optional , kw join trim) /
+	(kw cross trim , kw join trim)
 ]
 
 { #category : #helpers }
