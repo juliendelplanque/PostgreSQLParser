@@ -110,6 +110,19 @@ PSQLASTBuilder >> expressionParserTermFor: expressionParser [
 					right: (PSQLASTIdentifier new identifier: (tokens second second joinUsing: ' '); yourself) ] ]
 ]
 
+{ #category : #shared }
+PSQLASTBuilder >> fromItems1 [
+	^ super fromItems1 ==> [ :tokens |
+		PSQLASTFromClauseItemType1 new
+			hasOnly: tokens first isNotNil;
+			tableName: tokens second;
+			areDescendantTablesIncluded: tokens third isNotNil;
+			alias: (tokens fourth ifNotNil: #second);
+			columnAliases: (tokens fourth ifNotNil: [ :subTokens |
+				(subTokens third ifNotNil: #second) reject: [ :item | item = $, ] ])
+			yourself ]
+]
+
 { #category : #expression }
 PSQLASTBuilder >> functionCallParserWith: expressionParser [
 	^ (super functionCallParserWith: expressionParser)

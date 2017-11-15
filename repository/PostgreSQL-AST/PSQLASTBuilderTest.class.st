@@ -154,6 +154,31 @@ PSQLASTBuilderTest >> testExpressionParserTermFor [
 		assert: node right class equals: PSQLASTIdentifier
 ]
 
+{ #category : #tests-shared }
+PSQLASTBuilderTest >> testFromItems1 [
+	| node |
+	node := builder fromItems1 parse: 'ONLY table * AS alias (c1, c2,C3)'.
+	self
+		assert: node class equals: PSQLASTFromClauseItemType1;
+		assert: node hasOnly;
+		assert: node areDescendantTablesIncluded;
+		assert: node tableName class equals: PSQLASTIdentifier;
+		assert: node hasAlias;
+		assert: node alias class equals: PSQLASTIdentifier;
+		assert: node hasColumnAliases;
+		assert: node columnAliases class equals: Array;
+		assert: node columnAliases size equals: 3.
+		
+	node := builder fromItems1 parse: 'table'.
+	self
+		assert: node class equals: PSQLASTFromClauseItemType1;
+		deny: node hasOnly;
+		deny: node areDescendantTablesIncluded;
+		assert: node tableName class equals: PSQLASTIdentifier;
+		deny: node hasAlias;
+		deny: node hasColumnAliases
+]
+
 { #category : #tests-expression }
 PSQLASTBuilderTest >> testFunctionCallParserWith [
 	| node |
