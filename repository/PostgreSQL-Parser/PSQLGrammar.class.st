@@ -531,8 +531,8 @@ PSQLGrammar >> fromItems2 [
 { #category : #shared }
 PSQLGrammar >> fromItems3 [
 	"with_query_name [ [ AS ] alias [ ( column_alias [, ...] ) ] ]"
-	^ queryName , (
-			kw as trim optional , alias , 
+	^ queryName trim , (
+			kw as trim optional , alias trim , 
 			(openParenthesis trim,
 			(columnAlias separatedBy: comma trim),
 			closeParenthesis trim) optional) optional

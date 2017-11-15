@@ -135,6 +135,17 @@ PSQLASTBuilder >> fromItems2 [
 			yourself ]
 ]
 
+{ #category : #shared }
+PSQLASTBuilder >> fromItems3 [
+	^ super fromItems3 ==> [ :tokens |
+		PSQLASTFromClauseItemType3 new
+			withQueryName: tokens first;
+			alias: (tokens second ifNotNil: #second);
+			columnAliases: (tokens second ifNotNil: [ :subTokens |
+				(subTokens third ifNotNil: #second) reject: [ :item | item = $, ] ]);
+			yourself ]
+]
+
 { #category : #expression }
 PSQLASTBuilder >> functionCallParserWith: expressionParser [
 	^ (super functionCallParserWith: expressionParser)

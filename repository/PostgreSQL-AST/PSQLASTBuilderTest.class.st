@@ -194,6 +194,20 @@ PSQLASTBuilderTest >> testFromItems2 [
 		assert: node valuesOrSelect class equals: PSQLASTSelectQuery
 ]
 
+{ #category : #tests-shared }
+PSQLASTBuilderTest >> testFromItems3 [
+	| node |
+	node := builder fromItems3 parse: 'queryName queryAlias (c1,c2,c3)'.
+	self
+		assert: node class equals: PSQLASTFromClauseItemType3;
+		assert: node withQueryName class equals: PSQLASTIdentifier;
+		assert: node hasAlias;
+		assert: node alias class equals: PSQLASTIdentifier;
+		assert: node hasColumnAliases;
+		assert: node columnAliases class equals: Array;
+		assert: node columnAliases size equals: 3
+]
+
 { #category : #tests-expression }
 PSQLASTBuilderTest >> testFunctionCallParserWith [
 	| node |
