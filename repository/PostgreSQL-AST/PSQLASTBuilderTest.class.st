@@ -60,7 +60,8 @@ PSQLASTBuilderTest >> testConflictAction [
 	self
 		assert: node class equals: PSQLASTConflictAction;
 		deny: node isDoNothing;
-		assert: node isDoUpdateSet
+		assert: node isDoUpdateSet;
+		assert: node setClause class equals: PSQLASTSetClause
 ]
 
 { #category : #'tests-delete command' }
@@ -241,6 +242,12 @@ PSQLASTBuilderTest >> testNumericConstant [
 PSQLASTBuilderTest >> testOnConflictClause [
 	| node |
 	node := builder onConflictClause parse: 'ON CONFLICT DO NOTHING'.
+	self
+		assert: node class equals: PSQLASTOnConflictClause;
+		deny: node hasTarget;
+		assert: node action class equals: PSQLASTConflictAction.
+		
+	node := builder onConflictClause parse: 'ON CONFLICT DO UPDATE SET id = 1, foo=''bar'', default=DEFAULT'.
 	self
 		assert: node class equals: PSQLASTOnConflictClause;
 		deny: node hasTarget;
@@ -735,6 +742,58 @@ PSQLASTBuilderTest >> testReturningClause [
 	self
 		assert: node class equals: PSQLASTReturningClause;
 		assert: node returnedList size equals: 2
+]
+
+{ #category : #tests-shared }
+PSQLASTBuilderTest >> testSetClause [
+	| node |
+	node := builder setClause parse: 'SET column = 1+1, (column1, column2, column3) = (SELECT c1,c2,c3 FROM foo), (column1, column2, column3) = (SELECT c1,c2,c3 FROM foo)'.
+	self
+		assert: node class equals: PSQLASTSetClause;
+		assert: node items class equals: Array;
+		assert: node items size equals: 3
+]
+
+{ #category : #tests-shared }
+PSQLASTBuilderTest >> testSetItem1 [
+	| node |
+	node := builder setItem1 parse: 'column = 1+1'.
+	self
+		assert: node class equals: PSQLASTSetClauseItemType1;
+		assert: node left class equals: PSQLASTIdentifier;
+		assert: node right class equals: PSQLASTBinaryOperator
+]
+
+{ #category : #tests-shared }
+PSQLASTBuilderTest >> testSetItem2 [
+	| node |
+	node := builder setItem2 parse: '(column1, column2, column3) = (1+1, DEFAULT, 42)'.
+	self
+		assert: node class equals: PSQLASTSetClauseItemType2;
+		assert: node left class equals: Array;
+		assert: node left size equals: 3;
+		assert: node right class equals: Array;
+		assert: node right size equals: 3;
+		assert: node right first class equals: PSQLASTBinaryOperator;
+		assert: node right second class equals: PSQLASTDefaultValue;
+		assert: node right third class equals: PSQLASTNumericConstant.
+		
+	node left do: [ :leftItem |
+		self assert: leftItem class equals: PSQLASTIdentifier ].
+]
+
+{ #category : #tests-shared }
+PSQLASTBuilderTest >> testSetItem3 [
+	| node |
+	node := builder setItem3 parse: '(column1, column2, column3) = (SELECT c1,c2,c3 FROM foo)'.
+	self
+		assert: node class equals: PSQLASTSetClauseItemType3;
+		assert: node left class equals: Array;
+		assert: node left size equals: 3;
+		assert: node right class equals: PSQLASTSelectQuery.
+		
+	node left do: [ :leftItem |
+		self assert: leftItem class equals: PSQLASTIdentifier ].
 ]
 
 { #category : #tests-accessing }

@@ -564,6 +564,44 @@ PSQLASTBuilder >> returningClause [
 			yourself ]
 ]
 
+{ #category : #shared }
+PSQLASTBuilder >> setClause [
+	^ super setClause ==> [ :tokens |
+		PSQLASTSetClause new
+			items: (tokens second reject: [ :item | item = $, ]);
+			yourself ]
+]
+
+{ #category : #shared }
+PSQLASTBuilder >> setItem1 [
+	^ super setItem1 ==> [ :tokens |
+		PSQLASTSetClauseItemType1 new
+			left: tokens first;
+			right: (tokens third isString
+						ifFalse: [ tokens third ]
+						ifTrue: [ PSQLASTDefaultValue new ]) ]
+]
+
+{ #category : #shared }
+PSQLASTBuilder >> setItem2 [
+	^ super setItem2 ==> [ :tokens |
+		PSQLASTSetClauseItemType2 new
+			left: (tokens second reject: [ :item | item = $, ] thenCollect: #first);
+			right: (tokens sixth 
+						reject: [ :item | item = $, ]
+						thenCollect: [ :item | item first isString ifTrue: [ PSQLASTDefaultValue new ] ifFalse: [ item first ] ]);
+			yourself ]
+]
+
+{ #category : #shared }
+PSQLASTBuilder >> setItem3 [
+	^ super setItem3 ==> [ :tokens |
+		PSQLASTSetClauseItemType3 new
+			left: (tokens second reject: [ :item | item = $, ] thenCollect: #first);
+			right: tokens sixth;
+			yourself ]
+]
+
 { #category : #accessing }
 PSQLASTBuilder >> simpleStringConstant [
 	^ super simpleStringConstant ==> [ :tokens |
