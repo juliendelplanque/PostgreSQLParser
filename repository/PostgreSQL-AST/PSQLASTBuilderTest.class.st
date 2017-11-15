@@ -225,7 +225,8 @@ PSQLASTBuilderTest >> testInsertCommand [
 		assert: node valuesClause class equals: Array;
 		assert: node hasOnConflictClause;
 		assert: node onConflictClause class equals: PSQLASTOnConflictClause;
-		assert: node hasReturningClause
+		assert: node hasReturningClause;
+		assert: node returningClause class equals: PSQLASTReturningClause
 ]
 
 { #category : #tests-accessing }
