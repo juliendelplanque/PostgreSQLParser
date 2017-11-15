@@ -1551,7 +1551,7 @@ PSQLGrammar >> unionIntersectExceptClause [
 	^ (kw union trim / kw intersect trim / kw except trim) , (kw all trim / kw distinct trim) optional , selectCommand trim
 ]
 
-{ #category : #accessing }
+{ #category : #'update command' }
 PSQLGrammar >> updateCommand [
 	"https://www.postgresql.org/docs/9.6/static/sql-update.html
 	[ WITH [ RECURSIVE ] with_query [, ...] ]

@@ -155,7 +155,7 @@ PSQLASTBuilder >> fromItems1 [
 			areDescendantTablesIncluded: tokens third isNotNil;
 			alias: (tokens fourth ifNotNil: #second);
 			columnAliases: (tokens fourth ifNotNil: [ :subTokens |
-				(subTokens third ifNotNil: #second) reject: [ :item | item = $, ] ])
+				subTokens third ifNotNil: [ :subsubTokens | subsubTokens second reject: [ :item | item = $, ] ] ifNil: [ #() ] ])
 			yourself ]
 ]
 
@@ -754,6 +754,21 @@ PSQLASTBuilder >> simpleStringConstant [
 	^ super simpleStringConstant ==> [ :tokens |
 		PSQLASTStringConstant new
 			content: (String newFrom: tokens flattened allButFirst allButLast);
+			yourself ]
+]
+
+{ #category : #'update command' }
+PSQLASTBuilder >> updateCommand [
+	^ super updateCommand ==> [ :tokens |
+		PSQLASTUpdateQuery new
+			withClause: tokens first;
+			hasOnly: tokens third isNotNil;
+			tableName: tokens fourth;
+			areDescendantTablesIncluded: tokens fifth isNotNil;
+			alias: (tokens sixth ifNotNil: #second);
+			setClause: tokens seventh;
+			whereClause: tokens eighth;
+			returningClause: tokens ninth;
 			yourself ]
 ]
 

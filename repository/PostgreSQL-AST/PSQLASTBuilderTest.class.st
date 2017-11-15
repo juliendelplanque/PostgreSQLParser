@@ -982,6 +982,11 @@ PSQLASTBuilderTest >> testSimpleStringConstant [
 		assert: node content equals: 'test'
 ]
 
+{ #category : #'tests-update command' }
+PSQLASTBuilderTest >> testUpdateCommand [
+	self fail
+]
+
 { #category : #tests-shared }
 PSQLASTBuilderTest >> testUpdateDeleteWhereClause [
 	| node |

@@ -1,3 +1,6 @@
+"
+I represent an UPDATE query.
+"
 Class {
 	#name : #PSQLASTUpdateQuery,
 	#superclass : #PSQLASTCRUDQuery,
@@ -8,7 +11,8 @@ Class {
 		'fromClause',
 		'whereClause',
 		'returningClause',
-		'areDescendantTablesIncluded'
+		'areDescendantTablesIncluded',
+		'hasOnly'
 	],
 	#category : #PostgreSQL-AST-Nodes
 }
@@ -46,6 +50,16 @@ PSQLASTUpdateQuery >> fromClause: anObject [
 { #category : #testing }
 PSQLASTUpdateQuery >> hasFromClause [
 	^ self fromClause isNotNil
+]
+
+{ #category : #accessing }
+PSQLASTUpdateQuery >> hasOnly [
+	^ hasOnly
+]
+
+{ #category : #accessing }
+PSQLASTUpdateQuery >> hasOnly: anObject [
+	hasOnly := anObject
 ]
 
 { #category : #testing }
