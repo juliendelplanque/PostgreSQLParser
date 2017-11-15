@@ -557,9 +557,9 @@ PSQLGrammar >> fromItems5 [
 	^ kw lateral trim optional , 
 		functionCall trim ,
 		kw as trim ,
-		(openParenthesis trim ,
+		openParenthesis trim ,
 			(columnDefinition plus separatedBy: comma trim),
-		closeParenthesis trim)
+		closeParenthesis trim
 ]
 
 { #category : #shared }
