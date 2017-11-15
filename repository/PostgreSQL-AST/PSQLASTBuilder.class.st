@@ -183,6 +183,20 @@ PSQLASTBuilder >> fromItems5 [
 			yourself ]
 ]
 
+{ #category : #shared }
+PSQLASTBuilder >> fromItems7 [
+	^ super fromItems7 ==> [ :tokens |
+		PSQLASTFromClauseItemType7 new
+			hasLateral: tokens first isNotNil;
+			functionCall: tokens second;
+			hasWithOrdinality: tokens third isNotNil;
+			alias: (tokens fourth ifNotNil: #second);
+			columnAliases: (tokens fourth ifNotNil: [ :subTokens |
+				(subTokens third ifNotNil: #second)
+					reject: [ :item | item = $, ] thenCollect: #first ]);
+			yourself ]
+]
+
 { #category : #expression }
 PSQLASTBuilder >> functionCall [
 	^ super functionCall ==> [ :tokens |

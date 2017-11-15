@@ -257,6 +257,25 @@ PSQLASTBuilderTest >> testFromItems5 [
 		self assert: columnDefinition class equals: PSQLASTColumnDefinition ]
 ]
 
+{ #category : #tests-shared }
+PSQLASTBuilderTest >> testFromItems7 [
+	| node |
+	node := builder fromItems7 parse: 'LATERAL fct() WITH ORDINALITY AS t (c1, c2)'.
+	self
+		assert: node class equals: PSQLASTFromClauseItemType7;
+		assert: node hasLateral;
+		assert: node functionCall class equals: PSQLASTFunctionCall;
+		assert: node hasWithOrdinality;
+		assert: node hasAlias;
+		assert: node alias class equals: PSQLASTIdentifier;
+		assert: node hasColumnAliases;
+		assert: node columnAliases class equals: Array;
+		assert: node columnAliases size equals: 2.
+		
+	node columnAliases do: [ :columnAlias |
+		self assert: columnAlias class equals: PSQLASTIdentifier ]
+]
+
 { #category : #tests-expression }
 PSQLASTBuilderTest >> testFunctionCallParserWith [
 	| node |
