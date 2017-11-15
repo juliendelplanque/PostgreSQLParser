@@ -2,20 +2,20 @@
 I represent the instantiation of a composite value. My #items list holds expressions or constants.
 "
 Class {
-	#name : #PSQLCompositeValue,
-	#superclass : #PSQLExpressionASTNode,
+	#name : #PSQLASTCompositeValue,
+	#superclass : #PSQLASTExpressionASTNode,
 	#instVars : [
 		'items'
 	],
-	#category : 'PostgreSQL-AST-Nodes'
+	#category : #PostgreSQL-AST-Nodes
 }
 
 { #category : #accessing }
-PSQLCompositeValue >> items [
+PSQLASTCompositeValue >> items [
 	^ items
 ]
 
 { #category : #accessing }
-PSQLCompositeValue >> items: anObject [
+PSQLASTCompositeValue >> items: anObject [
 	items := anObject
 ]

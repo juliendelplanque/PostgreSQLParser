@@ -2,7 +2,7 @@
 I am an abstract AST node of a PostgreSQL expression.
 "
 Class {
-	#name : #PSQLExpressionASTNode,
+	#name : #PSQLASTExpressionASTNode,
 	#superclass : #PSQLASTNode,
-	#category : 'PostgreSQL-AST-Nodes'
+	#category : #PostgreSQL-AST-Nodes
 }

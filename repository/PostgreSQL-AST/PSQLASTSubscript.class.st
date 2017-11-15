@@ -2,31 +2,31 @@
 I represent a subscript i.e. something like ""var[i]"".
 "
 Class {
-	#name : #PSQLSubscript,
-	#superclass : #PSQLExpressionASTNode,
+	#name : #PSQLASTSubscript,
+	#superclass : #PSQLASTExpressionASTNode,
 	#instVars : [
 		'target',
 		'subscriptExpression'
 	],
-	#category : 'PostgreSQL-AST-Nodes'
+	#category : #PostgreSQL-AST-Nodes
 }
 
 { #category : #accessing }
-PSQLSubscript >> subscriptExpression [
+PSQLASTSubscript >> subscriptExpression [
 	^ subscriptExpression
 ]
 
 { #category : #accessing }
-PSQLSubscript >> subscriptExpression: anObject [
+PSQLASTSubscript >> subscriptExpression: anObject [
 	subscriptExpression := anObject
 ]
 
 { #category : #accessing }
-PSQLSubscript >> target [
+PSQLASTSubscript >> target [
 	^ target
 ]
 
 { #category : #accessing }
-PSQLSubscript >> target: anObject [
+PSQLASTSubscript >> target: anObject [
 	target := anObject
 ]

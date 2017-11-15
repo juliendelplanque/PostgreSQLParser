@@ -2,42 +2,42 @@
 I represent the call of a function. I hold positional arguments in #argumentsList and keyed arguments in argumentsDictionary.
 "
 Class {
-	#name : #PSQLFunctionCall,
-	#superclass : #PSQLExpressionASTNode,
+	#name : #PSQLASTFunctionCall,
+	#superclass : #PSQLASTExpressionASTNode,
 	#instVars : [
 		'functionIdentifier',
 		'argumentsList',
 		'argumentsDictionary'
 	],
-	#category : 'PostgreSQL-AST-Nodes'
+	#category : #PostgreSQL-AST-Nodes
 }
 
 { #category : #accessing }
-PSQLFunctionCall >> argumentsDictionary [
+PSQLASTFunctionCall >> argumentsDictionary [
 	^ argumentsDictionary
 ]
 
 { #category : #accessing }
-PSQLFunctionCall >> argumentsDictionary: anObject [
+PSQLASTFunctionCall >> argumentsDictionary: anObject [
 	argumentsDictionary := anObject
 ]
 
 { #category : #accessing }
-PSQLFunctionCall >> argumentsList [
+PSQLASTFunctionCall >> argumentsList [
 	^ argumentsList
 ]
 
 { #category : #accessing }
-PSQLFunctionCall >> argumentsList: anObject [
+PSQLASTFunctionCall >> argumentsList: anObject [
 	argumentsList := anObject
 ]
 
 { #category : #accessing }
-PSQLFunctionCall >> functionIdentifier [
+PSQLASTFunctionCall >> functionIdentifier [
 	^ functionIdentifier
 ]
 
 { #category : #accessing }
-PSQLFunctionCall >> functionIdentifier: anObject [
+PSQLASTFunctionCall >> functionIdentifier: anObject [
 	functionIdentifier := anObject
 ]
