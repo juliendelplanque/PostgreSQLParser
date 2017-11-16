@@ -15,6 +15,11 @@ PSQLASTBuilderTest >> setUp [
 	builder := PSQLASTBuilder new
 ]
 
+{ #category : #'tests-select command' }
+PSQLASTBuilderTest >> testAllOrDistinctClause [
+	self fail
+]
+
 { #category : #tests-shared }
 PSQLASTBuilderTest >> testColumnDefinition [
 		| node |

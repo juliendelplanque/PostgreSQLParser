@@ -4,6 +4,19 @@ Class {
 	#category : 'PostgreSQL-AST-Builder'
 }
 
+{ #category : #'select command' }
+PSQLASTBuilder >> allOrDistinctClause [
+	^ super allOrDistinctClause ==> [ :tokens |
+		tokens size = 1
+			ifTrue: [ PSQLASTAllClause new ]
+			ifFalse: [ |node|
+				node := PSQLASTDistinctClause new.
+				tokens second ifNotNil: [ 
+					node
+						expressions: (tokens second third reject: [ :item | item = $, ]) ].
+				node ] ]
+]
+
 { #category : #accessing }
 PSQLASTBuilder >> asterik [
 	^ super asterik ==> [ :tokens |

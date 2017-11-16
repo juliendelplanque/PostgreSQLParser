@@ -192,7 +192,7 @@ PSQLGrammar >> alias [
 	^ identifier
 ]
 
-{ #category : #accessing }
+{ #category : #'select command' }
 PSQLGrammar >> allOrDistinctClause [
 	"ALL | DISTINCT [ ON ( expression [, ...] ) ]"
 	^ kw all trim /
