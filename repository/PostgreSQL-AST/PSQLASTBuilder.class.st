@@ -767,8 +767,9 @@ PSQLASTBuilder >> updateCommand [
 			areDescendantTablesIncluded: tokens fifth isNotNil;
 			alias: (tokens sixth ifNotNil: #second);
 			setClause: tokens seventh;
-			whereClause: tokens eighth;
-			returningClause: tokens ninth;
+			fromClause: tokens eighth;
+			whereClause: tokens ninth;
+			returningClause: tokens last;
 			yourself ]
 ]
 

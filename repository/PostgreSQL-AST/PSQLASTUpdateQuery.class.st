@@ -48,6 +48,11 @@ PSQLASTUpdateQuery >> fromClause: anObject [
 ]
 
 { #category : #testing }
+PSQLASTUpdateQuery >> hasAlias [
+	^ self alias isNotNil
+]
+
+{ #category : #testing }
 PSQLASTUpdateQuery >> hasFromClause [
 	^ self fromClause isNotNil
 ]
