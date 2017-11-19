@@ -8,4 +8,4 @@ os:
     - linux
     - osx
 smalltalk:
-    - Pharo-6.1
+    - Pharo-61
