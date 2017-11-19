@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'extendedCompositeParser'
 	],
-	#category : #PostgreSQL-Parser-Core
+	#category : #PostgreSQL-Parser-Others
 }
 
 { #category : #'reflective operations' }

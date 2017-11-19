@@ -8,7 +8,7 @@ e.g. '$function$ body $inner$in$ inner$$ function$'
 Class {
 	#name : #PSQLPreprocessor,
 	#superclass : #Object,
-	#category : #PostgreSQL-Parser-Core
+	#category : #PostgreSQL-Parser-Others
 }
 
 { #category : #pre-processing }

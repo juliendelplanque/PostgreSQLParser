@@ -4,7 +4,7 @@ I am a parser for the keywords of PostgreSQL.
 Class {
 	#name : #PSQLKeywordsParser,
 	#superclass : #PPExtendedCompositeParser,
-	#category : #PostgreSQL-Parser-Core
+	#category : #PostgreSQL-Parser-Others
 }
 
 { #category : #keywords }
