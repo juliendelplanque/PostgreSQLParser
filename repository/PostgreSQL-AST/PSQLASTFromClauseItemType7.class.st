@@ -11,7 +11,7 @@ Class {
 		'alias',
 		'columnAliases'
 	],
-	#category : #PostgreSQL-AST-Nodes
+	#category : #PostgreSQL-AST
 }
 
 { #category : #accessing }

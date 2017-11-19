@@ -8,7 +8,7 @@ Class {
 		'conditionsToExpressions',
 		'elseExpression'
 	],
-	#category : #PostgreSQL-AST-Nodes
+	#category : #PostgreSQL-AST
 }
 
 { #category : #accessing }

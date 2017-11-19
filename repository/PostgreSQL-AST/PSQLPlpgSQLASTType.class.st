@@ -9,7 +9,7 @@ Class {
 		'size',
 		'dimensions'
 	],
-	#category : 'PostgreSQL-AST-Nodes'
+	#category : #PostgreSQL-AST
 }
 
 { #category : #accessing }

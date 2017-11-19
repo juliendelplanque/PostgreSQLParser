@@ -9,7 +9,7 @@ Class {
 		'endLabel',
 		'statements'
 	],
-	#category : 'PostgreSQL-AST-Nodes'
+	#category : #PostgreSQL-AST
 }
 
 { #category : #accessing }

@@ -8,7 +8,7 @@ Class {
 		'currentOfCursor',
 		'condition'
 	],
-	#category : #PostgreSQL-AST-Nodes
+	#category : #PostgreSQL-AST
 }
 
 { #category : #accessing }

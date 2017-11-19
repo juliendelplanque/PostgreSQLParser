@@ -10,7 +10,7 @@ Class {
 		'identifier',
 		'columnAliases'
 	],
-	#category : #PostgreSQL-AST-Nodes
+	#category : #PostgreSQL-AST
 }
 
 { #category : #accessing }

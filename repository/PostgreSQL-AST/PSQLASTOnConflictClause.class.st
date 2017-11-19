@@ -8,7 +8,7 @@ Class {
 		'target',
 		'action'
 	],
-	#category : #PostgreSQL-AST-Nodes
+	#category : #PostgreSQL-AST
 }
 
 { #category : #accessing }

@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'accessToCopyType'
 	],
-	#category : 'PostgreSQL-AST-Nodes'
+	#category : #PostgreSQL-AST
 }
 
 { #category : #accessing }

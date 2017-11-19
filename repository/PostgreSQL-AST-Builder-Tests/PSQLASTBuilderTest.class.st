@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'builder'
 	],
-	#category : 'PostgreSQL-AST-Tests'
+	#category : #PostgreSQL-AST-Builder-Tests
 }
 
 { #category : #initialization }

@@ -9,7 +9,7 @@ Class {
 		'sliceNumber',
 		'arrayExpression'
 	],
-	#category : 'PostgreSQL-AST-Nodes'
+	#category : #PostgreSQL-AST
 }
 
 { #category : #accessing }

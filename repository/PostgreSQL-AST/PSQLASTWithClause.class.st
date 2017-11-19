@@ -8,7 +8,7 @@ Class {
 		'isRecursive',
 		'queries'
 	],
-	#category : #PostgreSQL-AST-Nodes
+	#category : #PostgreSQL-AST
 }
 
 { #category : #accessing }

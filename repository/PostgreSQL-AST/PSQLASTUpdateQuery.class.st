@@ -14,7 +14,7 @@ Class {
 		'areDescendantTablesIncluded',
 		'hasOnly'
 	],
-	#category : #PostgreSQL-AST-Nodes
+	#category : #PostgreSQL-AST
 }
 
 { #category : #accessing }

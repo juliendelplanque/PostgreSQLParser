@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'items'
 	],
-	#category : #PostgreSQL-AST-Nodes
+	#category : #PostgreSQL-AST
 }
 
 { #category : #accessing }

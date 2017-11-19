@@ -11,7 +11,7 @@ Class {
 		'isNotNull',
 		'defaultExpression'
 	],
-	#category : 'PostgreSQL-AST-Nodes'
+	#category : #PostgreSQL-AST
 }
 
 { #category : #accessing }
