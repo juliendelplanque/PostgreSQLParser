@@ -378,6 +378,14 @@ PSQLASTBuilder >> numericConstant [
 			yourself ]
 ]
 
+{ #category : #'select command' }
+PSQLASTBuilder >> offsetClause [
+	^ super offsetClause ==> [ :tokens |
+		PSQLASTOffsetClause new
+			offset: tokens second;
+			yourself ]
+]
+
 { #category : #'insert command' }
 PSQLASTBuilder >> onConflictClause [
 	^ super onConflictClause ==> [ :tokens |

@@ -512,6 +512,16 @@ PSQLASTBuilderTest >> testNumericConstant [
 		assert: node content equals: '1.21'
 ]
 
+{ #category : #'tests-select command' }
+PSQLASTBuilderTest >> testOffsetClause [
+	| node |
+	node := builder offsetClause parse: 'OFFSET 42'.
+	
+	self
+		assert: node class equals: PSQLASTOffsetClause;
+		assert: node offset class equals: PSQLASTNumericConstant.
+]
+
 { #category : #'tests-insert command' }
 PSQLASTBuilderTest >> testOnConflictClause [
 	| node |
