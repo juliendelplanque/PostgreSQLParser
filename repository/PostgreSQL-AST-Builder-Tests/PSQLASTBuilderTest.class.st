@@ -232,6 +232,27 @@ PSQLASTBuilderTest >> testExpressionParserTermFor [
 		assert: node argumentsDictionary isEmpty
 ]
 
+{ #category : #'tests-select command' }
+PSQLASTBuilderTest >> testFetchClause [
+	| node |
+	node := builder fetchClause parse: 'FETCH NEXT ROW ONLY'.
+	
+	self
+		assert: node class equals: PSQLASTFetchClause;
+		assert: node isNext;
+		deny: node isFirst;
+		deny: node hasCount.
+		
+	node := builder fetchClause parse: 'FETCH FIRST 5 ROWS ONLY'.
+	
+	self
+		assert: node class equals: PSQLASTFetchClause;
+		deny: node isNext;
+		assert: node isFirst;
+		assert: node hasCount;
+		assert: node count class equals: PSQLASTNumericConstant
+]
+
 { #category : #tests-shared }
 PSQLASTBuilderTest >> testFromClause [
 	| node |

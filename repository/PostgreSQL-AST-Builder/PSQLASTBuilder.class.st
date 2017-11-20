@@ -159,6 +159,15 @@ PSQLASTBuilder >> expressionParserTermFor: expressionParser [
 					right: (PSQLASTIdentifier new identifier: (tokens second second joinUsing: ' '); yourself) ] ]
 ]
 
+{ #category : #'select command' }
+PSQLASTBuilder >> fetchClause [
+	^ super fetchClause ==> [ :tokens |
+		PSQLASTFetchClause new
+			isFirst: tokens second asUppercase = 'FIRST';
+			count: tokens third;
+			yourself ]
+]
+
 { #category : #shared }
 PSQLASTBuilder >> fromClause [
 	^ super fromClause ==> [ :tokens |
