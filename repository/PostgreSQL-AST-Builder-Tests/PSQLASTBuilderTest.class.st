@@ -512,6 +512,44 @@ PSQLASTBuilderTest >> testOnConflictClause [
 		assert: node action class equals: PSQLASTConflictAction
 ]
 
+{ #category : #'tests-select command' }
+PSQLASTBuilderTest >> testOrderByClause [
+	| node |
+	node := builder orderByClause parse: 'ORDER BY c1, c2 ASC , c3 NULLS FIRST , c4 DESC NULLS LAST'.
+	
+	self
+		assert: node class equals: PSQLASTOrderByClause;
+		assert: node items size equals: 4;
+		"c1"
+		assert: node items first class equals: PSQLASTOrderByClauseItem;
+		assert: node items first expression class equals: PSQLASTIdentifier;
+		deny: node items first hasIsAscOrIsDesc;
+		deny: node items first hasNullsFirstOrNullsLast;
+		"c2"
+		assert: node items second class equals: PSQLASTOrderByClauseItem;
+		assert: node items second expression class equals: PSQLASTIdentifier;
+		assert: node items second hasIsAscOrIsDesc;
+		assert: node items second isAsc;
+		deny: node items second isDesc;
+		deny: node items second hasNullsFirstOrNullsLast;
+		"c3"
+		assert: node items third class equals: PSQLASTOrderByClauseItem;
+		assert: node items third expression class equals: PSQLASTIdentifier;
+		deny: node items third hasIsAscOrIsDesc;
+		assert: node items third hasNullsFirstOrNullsLast;
+		assert: node items third isNullsFirst;
+		deny: node items third isNullsLast;
+		"c4"
+		assert: node items fourth class equals: PSQLASTOrderByClauseItem;
+		assert: node items fourth expression class equals: PSQLASTIdentifier;
+		assert: node items fourth hasIsAscOrIsDesc;
+		assert: node items fourth isDesc;
+		deny: node items fourth isAsc;
+		assert: node items fourth hasNullsFirstOrNullsLast;
+		deny: node items fourth isNullsFirst;
+		assert: node items fourth isNullsLast
+]
+
 { #category : #tests-expression }
 PSQLASTBuilderTest >> testParenthesedExpressionParserWith [
 	| node |

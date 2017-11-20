@@ -167,7 +167,8 @@ Class {
 		'fromItems7',
 		'identifierWithOptionalFieldAccess',
 		'defaultValues',
-		'functionCall'
+		'functionCall',
+		'asOperator'
 	],
 	#category : #PostgreSQL-Parser-Core
 }
@@ -203,6 +204,11 @@ PSQLGrammar >> allOrDistinctClause [
 			closeParenthesis trim
 		) optional
 	)
+]
+
+{ #category : #expression }
+PSQLGrammar >> asOperator [
+	^ kw asc not , kw as
 ]
 
 { #category : #expression }
@@ -439,7 +445,7 @@ PSQLGrammar >> expression [
 		group: [ :g | g left: isNotDistinctFromOperator trim do: self binaryOperatorBlock ];
 		group: [ :g | g left: betweenConstructOperator trim do: self binaryOperatorBlock ];
 		group: [ :g | g left: binaryLogicalOperator trim do: self binaryOperatorBlock ];
-		group: [ :g | g left: kw as trim do: self binaryOperatorBlock ];
+		group: [ :g | g left: asOperator trim do: self binaryOperatorBlock ];
 		group: [ :g |
 			g postfix: operator trim do: self postfixOperatorBlock ].
 	^ expressionParser
@@ -782,7 +788,7 @@ PSQLGrammar >> onConflictClause [
 	^ kw on trim , kw conflict trim , conflictTarget trim optional , conflictAction
 ]
 
-{ #category : #helpers }
+{ #category : #'select command' }
 PSQLGrammar >> orderByClause [
 	^ kw order trim , kw by trim ,
 		((expression ,

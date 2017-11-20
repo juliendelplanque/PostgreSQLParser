@@ -17,6 +17,11 @@ PSQLASTBuilder >> allOrDistinctClause [
 				node ] ]
 ]
 
+{ #category : #expression }
+PSQLASTBuilder >> asOperator [
+	^ super asOperator ==> [ :tokens | tokens second ]
+]
+
 { #category : #accessing }
 PSQLASTBuilder >> asterik [
 	^ super asterik ==> [ :tokens |
@@ -371,6 +376,21 @@ PSQLASTBuilder >> onConflictClause [
 		PSQLASTOnConflictClause new
 			target: tokens third;
 			action: tokens fourth;
+			yourself ]
+]
+
+{ #category : #'select command' }
+PSQLASTBuilder >> orderByClause [
+	^ super orderByClause ==> [ :tokens |
+		PSQLASTOrderByClause new
+			items: (tokens third reject: [ :item | item = $, ] thenCollect: [ :array |
+				|item|
+				item := array first.
+				PSQLASTOrderByClauseItem new
+					expression: item first;
+					isAsc: (item second ifNotNil: [ item second asUppercase = 'ASC' ]);
+					isNullsFirst: (item third ifNotNil: [ item third second asUppercase = 'FIRST' ]);
+					yourself ]);
 			yourself ]
 ]
 
