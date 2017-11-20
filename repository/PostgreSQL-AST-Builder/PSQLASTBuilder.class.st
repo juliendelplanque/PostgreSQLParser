@@ -7,13 +7,13 @@ Class {
 { #category : #'select command' }
 PSQLASTBuilder >> allOrDistinctClause [
 	^ super allOrDistinctClause ==> [ :tokens |
-		tokens size = 1
+		tokens isString
 			ifTrue: [ PSQLASTAllClause new ]
 			ifFalse: [ |node|
 				node := PSQLASTDistinctClause new.
 				tokens second ifNotNil: [ 
 					node
-						expressions: (tokens second third reject: [ :item | item = $, ]) ].
+						expressions: (tokens second third reject: [ :item | item = $, ] thenCollect: #first) ].
 				node ] ]
 ]
 

@@ -17,7 +17,24 @@ PSQLASTBuilderTest >> setUp [
 
 { #category : #'tests-select command' }
 PSQLASTBuilderTest >> testAllOrDistinctClause [
-	self fail
+	| node |
+	node := builder allOrDistinctClause parse: 'ALL'.
+	
+	self
+		assert: node class equals: PSQLASTAllClause.
+		
+	node := builder allOrDistinctClause parse: 'DISTINCT'.
+	
+	self
+		assert: node class equals: PSQLASTDistinctClause;
+		deny: node hasExpressions.
+		
+	node := builder allOrDistinctClause parse: 'DISTINCT ON (c1, c2, fct())'.
+	
+	self
+		assert: node class equals: PSQLASTDistinctClause;
+		assert: node hasExpressions;
+		assert: node expressions size equals: 3
 ]
 
 { #category : #tests-shared }
