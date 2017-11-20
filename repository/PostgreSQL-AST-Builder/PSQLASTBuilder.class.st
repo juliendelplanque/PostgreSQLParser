@@ -150,6 +150,14 @@ PSQLASTBuilder >> deleteCommand [
 			yourself ]
 ]
 
+{ #category : #accessing }
+PSQLASTBuilder >> escapeStringConstant [
+	^ super escapeStringConstant ==> [ :tokens |
+		PSQLASTStringConstant new
+			content: (String newFrom: tokens flattened allButFirst allButLast);
+			yourself ]
+]
+
 { #category : #expression }
 PSQLASTBuilder >> expressionParserTermFor: expressionParser [
 	^ (super expressionParserTermFor: expressionParser) ==> [ :tokens |
