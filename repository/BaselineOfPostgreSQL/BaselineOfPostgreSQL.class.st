@@ -44,7 +44,7 @@ BaselineOfPostgreSQL >> defineGroups: spec [
 		group: 'parser-tests' with: #('parser' 'PostgreSQL-Parser-Tests');
 		group: 'ast' with: #('PostgreSQL-AST');
 		group: 'ast-builder' with: #('ast' 'PostgreSQL-AST-Builder');
-		group: 'ast-builder-tests' with: #('ast-builder' 'PostgreSQL-AST-Builder-Tests');
+		group: 'ast-builder-tests' with: #('ast-builder' 'PostgreSQL-AST-Builder-Tests' 'PostgreSQL-AST-Builder-SmokeTests');
 		group: 'core' with: #('parser' 'ast' 'ast-builder');
 		group: 'core-tests' with: #('core' 'parser-tests' 'ast-builder-tests')
 ]
@@ -56,5 +56,6 @@ BaselineOfPostgreSQL >> definePackages: spec [
 		package: #'PostgreSQL-Parser-Tests' with: [ spec requires: #('PetitParser-Tests' 'PostgreSQL-Parser') ];
 		package: #'PostgreSQL-AST';
 		package: #'PostgreSQL-AST-Builder' with: [ spec requires: #('PostgreSQL-AST' 'PostgreSQL-Parser') ];
-		package: #'PostgreSQL-AST-Builder-Tests' with: [ spec requires: #('PostgreSQL-AST-Builder') ]
+		package: #'PostgreSQL-AST-Builder-Tests' with: [ spec requires: #('PostgreSQL-AST-Builder') ];
+		package: #'PostgreSQL-AST-Builder-SmokeTests' with: [ spec requires: #('PostgreSQL-AST-Builder' 'PostgreSQL-Parser-Tests') ]
 ]
