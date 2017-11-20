@@ -486,6 +486,22 @@ PSQLASTBuilderTest >> testInsertCommand [
 		assert: node returningClause class equals: PSQLASTReturningClause
 ]
 
+{ #category : #'tests-select command' }
+PSQLASTBuilderTest >> testLimitClause [
+	| node |
+	node := builder limitClause parse: 'LIMIT ALL'.
+	
+	self
+		assert: node class equals: PSQLASTLimitClause;
+		assert: node limit class equals: PSQLASTAllClause.
+		
+	node := builder limitClause parse: 'LIMIT 42'.
+	
+	self
+		assert: node class equals: PSQLASTLimitClause;
+		assert: node limit class equals: PSQLASTNumericConstant.
+]
+
 { #category : #tests-accessing }
 PSQLASTBuilderTest >> testNumericConstant [
 	| node |

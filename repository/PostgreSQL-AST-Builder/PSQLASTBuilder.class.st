@@ -362,6 +362,14 @@ PSQLASTBuilder >> joinType [
 		(tokens flattened reject: #isNil) joinUsing: ' ' ]
 ]
 
+{ #category : #'select command' }
+PSQLASTBuilder >> limitClause [
+	^ super limitClause ==> [ :tokens |
+		PSQLASTLimitClause new
+			limit: (tokens second isString ifTrue: [ PSQLASTAllClause new ] ifFalse: [ tokens second ]);
+			yourself ]
+]
+
 { #category : #accessing }
 PSQLASTBuilder >> numericConstant [
 	^ super numericConstant ==> [ :tokens |
