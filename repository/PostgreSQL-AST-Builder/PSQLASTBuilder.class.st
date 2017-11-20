@@ -1,7 +1,10 @@
+"
+I build an AST using PSQLASTNode subclasses from source code given as input.
+"
 Class {
 	#name : #PSQLASTBuilder,
 	#superclass : #PSQLGrammar,
-	#category : 'PostgreSQL-AST-Builder'
+	#category : #PostgreSQL-AST-Builder
 }
 
 { #category : #'select command' }
