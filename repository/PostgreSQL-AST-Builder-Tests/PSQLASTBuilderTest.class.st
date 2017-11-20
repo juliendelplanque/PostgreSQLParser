@@ -1132,6 +1132,16 @@ PSQLASTBuilderTest >> testValuesCommand [
 			assert: row size equals: 3 ]
 ]
 
+{ #category : #'tests-select command' }
+PSQLASTBuilderTest >> testWhereClause [
+	| node |
+	node := builder whereClause parse: 'WHERE t.id = 42'.
+	
+	self
+		assert: node class equals: PSQLASTSelectWhereClause;
+		assert: node condition class equals: PSQLASTBinaryOperator
+]
+
 { #category : #tests-shared }
 PSQLASTBuilderTest >> testWithClause [
 	| node |

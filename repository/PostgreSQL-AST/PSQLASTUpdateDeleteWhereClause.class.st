@@ -3,23 +3,12 @@ I represent the WHERE clause for an UPDATE/DELETE query.
 "
 Class {
 	#name : #PSQLASTUpdateDeleteWhereClause,
-	#superclass : #PSQLASTNode,
+	#superclass : #PSQLASTSelectWhereClause,
 	#instVars : [
-		'currentOfCursor',
-		'condition'
+		'currentOfCursor'
 	],
 	#category : #PostgreSQL-AST
 }
-
-{ #category : #accessing }
-PSQLASTUpdateDeleteWhereClause >> condition [
-	^ condition
-]
-
-{ #category : #accessing }
-PSQLASTUpdateDeleteWhereClause >> condition: anObject [
-	condition := anObject
-]
 
 { #category : #accessing }
 PSQLASTUpdateDeleteWhereClause >> currentOfCursor [
@@ -29,11 +18,6 @@ PSQLASTUpdateDeleteWhereClause >> currentOfCursor [
 { #category : #accessing }
 PSQLASTUpdateDeleteWhereClause >> currentOfCursor: anObject [
 	currentOfCursor := anObject
-]
-
-{ #category : #testing }
-PSQLASTUpdateDeleteWhereClause >> hasCondition [
-	^ self condition isNotNil
 ]
 
 { #category : #testing }

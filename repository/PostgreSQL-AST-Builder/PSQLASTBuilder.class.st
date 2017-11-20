@@ -834,6 +834,14 @@ PSQLASTBuilder >> valuesCommand [
 							ifFalse: [ subItem first ] ] ] ]
 ]
 
+{ #category : #'select command' }
+PSQLASTBuilder >> whereClause [
+	^ super whereClause ==> [ :tokens |
+		PSQLASTSelectWhereClause new
+			condition: tokens second;
+			yourself ]
+]
+
 { #category : #shared }
 PSQLASTBuilder >> withClause [
 	^ super withClause ==> [ :tokens |
