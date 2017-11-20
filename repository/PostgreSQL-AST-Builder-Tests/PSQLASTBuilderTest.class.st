@@ -1114,6 +1114,29 @@ PSQLASTBuilderTest >> testReturningClause [
 		assert: node returnedList size equals: 2
 ]
 
+{ #category : #'tests-select command' }
+PSQLASTBuilderTest >> testSelectCommand [
+	| node |
+	node := builder selectCommand parse: 'SELECT c1, c2, c3 FROM t ORDER BY c1 OFFSET 42'.
+	
+	self
+		assert: node class equals: PSQLASTSelectQuery;
+		assert: node allOrDistinctClause isNil;
+		assert: node columnsAndAliasesSelected class equals: Array;
+		assert: node columnsAndAliasesSelected size equals: 3;
+		assert: node fromClause class equals: PSQLASTFromClause;
+		assert: node whereClause isNil;
+		assert: node groupByClause isNil;
+		assert: node havingClause isNil;
+		assert: node windowClause isNil;
+		assert: node unionIntersectExceptClause isNil;
+		assert: node orderByClause class equals: PSQLASTOrderByClause;
+		assert: node limitClause isNil;
+		assert: node offsetClause class equals: PSQLASTOffsetClause;
+		assert: node fetchClause isNil;
+		assert: node forClause isNil
+]
+
 { #category : #tests-shared }
 PSQLASTBuilderTest >> testSetClause [
 	| node |

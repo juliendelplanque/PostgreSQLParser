@@ -813,6 +813,27 @@ PSQLASTBuilder >> returningClause [
 			yourself ]
 ]
 
+{ #category : #'select command' }
+PSQLASTBuilder >> selectCommand [
+	^ super selectCommand ==> [ :tokens |
+		PSQLASTSelectQuery new
+			withClause: tokens first;
+			allOrDistinctClause: tokens third;
+			columnsAndAliasesSelected: tokens fourth;
+			fromClause: tokens fifth;
+			whereClause: tokens sixth;
+			groupByClause: tokens seventh;
+			havingClause: tokens eighth;
+			windowClause: tokens ninth;
+			unionIntersectExceptClause: (tokens at: 10);
+			orderByClause: (tokens at: 11);
+			limitClause: (tokens at: 12);
+			offsetClause: (tokens at: 13);
+			fetchClause: (tokens at: 14);
+			forClause: (tokens at: 15);
+			yourself ]
+]
+
 { #category : #shared }
 PSQLASTBuilder >> setClause [
 	^ super setClause ==> [ :tokens |
