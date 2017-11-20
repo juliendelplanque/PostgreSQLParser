@@ -461,7 +461,7 @@ PSQLGrammar >> extractFunctionCall [
 	^ identifier trim , openParenthesis trim , expression trim , kw from trim , expression trim , closeParenthesis
 ]
 
-{ #category : #accessing }
+{ #category : #'select command' }
 PSQLGrammar >> fetchClause [
 	^ kw fetch trim , (kw first trim / kw next trim) , numericConstant trim optional , (kw rows trim / kw row trim) , kw only trim
 ]
@@ -618,12 +618,12 @@ PSQLGrammar >> functionParameterName [
 	^ identifier
 ]
 
-{ #category : #accessing }
+{ #category : #'select command' }
 PSQLGrammar >> groupByClause [
 	^ kw group trim , kw by trim , (expression plus separatedBy: comma trim)
 ]
 
-{ #category : #accessing }
+{ #category : #'select command' }
 PSQLGrammar >> havingClause [
 	^ kw having trim , (expression plus separatedBy: comma trim)
 ]
@@ -731,7 +731,7 @@ PSQLGrammar >> keywordStop [
 	^ (#space asParser / openBracket / closeBracket / openParenthesis / closeParenthesis / nil asParser) not not
 ]
 
-{ #category : #accessing }
+{ #category : #'select command' }
 PSQLGrammar >> limitClause [
 	^ kw limit trim , (numericConstant trim / kw all trim)
 ]
@@ -771,7 +771,7 @@ PSQLGrammar >> nullTestConstructOperator [
 	^ (isNull / isNotNull / nonStandardIsNull / nonStandardNotNull) , keywordStop
 ]
 
-{ #category : #accessing }
+{ #category : #'select command' }
 PSQLGrammar >> offsetClause [
 	^ kw offset trim , numericConstant trim
 ]

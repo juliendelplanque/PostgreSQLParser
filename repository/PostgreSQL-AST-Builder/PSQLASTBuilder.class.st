@@ -286,6 +286,14 @@ PSQLASTBuilder >> functionCallParserWith: expressionParser [
 				yourself ]
 ]
 
+{ #category : #'select command' }
+PSQLASTBuilder >> groupByClause [
+	^ super groupByClause ==> [ :tokens |
+		PSQLASTGroupByClause new
+			expressions: (tokens third reject: [ :item | item = $, ] thenCollect: #first);
+			yourself ]
+]
+
 { #category : #accessing }
 PSQLASTBuilder >> identifier [
 	^ super identifier ==> [ :tokens | 

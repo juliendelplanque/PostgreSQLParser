@@ -406,6 +406,17 @@ PSQLASTBuilderTest >> testFunctionCallParserWith [
 		assert: node argumentsDictionary associations first tail class equals: PSQLASTStringConstant
 ]
 
+{ #category : #'tests-select command' }
+PSQLASTBuilderTest >> testGroupByClause [
+	| node |
+	node := builder groupByClause parse: 'GROUP BY column'.
+	
+	self
+		assert: node class equals: PSQLASTGroupByClause;
+		assert: node expressions size equals: 1;
+		assert: node expressions first class equals: PSQLASTIdentifier
+]
+
 { #category : #tests-accessing }
 PSQLASTBuilderTest >> testIdentifier [
 	| node |
