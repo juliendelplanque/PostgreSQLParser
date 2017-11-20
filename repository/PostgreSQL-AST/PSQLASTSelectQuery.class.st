@@ -1,3 +1,6 @@
+"
+I represent a SELECT query.
+"
 Class {
 	#name : #PSQLASTSelectQuery,
 	#superclass : #PSQLASTCRUDQuery,

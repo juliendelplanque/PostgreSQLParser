@@ -535,6 +535,40 @@ PSQLASTBuilderTest >> testInsertCommand [
 ]
 
 { #category : #'tests-select command' }
+PSQLASTBuilderTest >> testIntoClause [
+	| node |
+	node := builder intoClause parse: 'INTO t'.
+	
+	self
+		assert: node class equals: PSQLASTIntoClause;
+		deny: node isTemporary;
+		deny: node isTemp;
+		deny: node isUnlogged;
+		deny: node hasTable;
+		assert: node newTable class equals: PSQLASTIdentifier.
+		
+	node := builder intoClause parse: 'INTO TEMPORARY TABLE t'.
+	
+	self
+		assert: node class equals: PSQLASTIntoClause;
+		assert: node isTemporary;
+		deny: node isTemp;
+		deny: node isUnlogged;
+		assert: node hasTable;
+		assert: node newTable class equals: PSQLASTIdentifier.
+		
+	node := builder intoClause parse: 'INTO UNLOGGED t'.
+	
+	self
+		assert: node class equals: PSQLASTIntoClause;
+		deny: node isTemporary;
+		deny: node isTemp;
+		assert: node isUnlogged;
+		deny: node hasTable;
+		assert: node newTable class equals: PSQLASTIdentifier.
+]
+
+{ #category : #'tests-select command' }
 PSQLASTBuilderTest >> testLimitClause [
 	| node |
 	node := builder limitClause parse: 'LIMIT ALL'.

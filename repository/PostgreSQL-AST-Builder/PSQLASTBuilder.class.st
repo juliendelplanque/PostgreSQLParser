@@ -366,6 +366,16 @@ PSQLASTBuilder >> insertCommand [
 			yourself ]
 ]
 
+{ #category : #'select command' }
+PSQLASTBuilder >> intoClause [
+	^ super intoClause ==> [ :tokens |
+		PSQLASTIntoClause new
+			type: (tokens second ifNotNil: #asUppercase);
+			hasTable: tokens third isNotNil;
+			newTable: tokens fourth;
+			yourself ]
+]
+
 { #category : #accessing }
 PSQLASTBuilder >> isNotNull [
 	^ super isNotNull ==> [ :tokens | tokens joinUsing: ' ' ]
@@ -831,6 +841,28 @@ PSQLASTBuilder >> selectCommand [
 			offsetClause: (tokens at: 13);
 			fetchClause: (tokens at: 14);
 			forClause: (tokens at: 15);
+			yourself ]
+]
+
+{ #category : #'select command' }
+PSQLASTBuilder >> selectIntoCommandClassic [
+	^ super selectIntoCommandClassic ==> [ :tokens |
+		PSQLASTSelectIntoQuery new
+			withClause: tokens first;
+			allOrDistinctClause: tokens third;
+			columnsAndAliasesSelected: tokens fourth;
+			intoClause: tokens fifth;
+			fromClause: tokens sixth;
+			whereClause: tokens seventh;
+			groupByClause: tokens eighth;
+			havingClause: tokens ninth;
+			windowClause: (tokens at: 10);
+			unionIntersectExceptClause: (tokens at: 11);
+			orderByClause: (tokens at: 12);
+			limitClause: (tokens at: 13);
+			offsetClause: (tokens at: 14);
+			fetchClause: (tokens at: 15);
+			forClause: (tokens at: 16);
 			yourself ]
 ]
 
