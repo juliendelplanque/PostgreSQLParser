@@ -15,6 +15,18 @@ PSQLASTBuilderTest >> setUp [
 	builder := PSQLASTBuilder new
 ]
 
+{ #category : #tests-expression }
+PSQLASTBuilderTest >> testAggregateExpressionParserForm3With [
+	| node |
+	node := builder expression parse: 'count(*)'.
+	self
+		assert: node class equals: PSQLASTAggregateFunctionCall;
+		assert: node functionIdentifier class equals: PSQLASTIdentifier;
+		assert: node functionIdentifier identifier equals: 'count';
+		assert: node expressions size equals: 1;
+		assert: node expressions first class equals: PSQLASTWildCard
+]
+
 { #category : #'tests-select command' }
 PSQLASTBuilderTest >> testAllOrDistinctClause [
 	| node |
@@ -84,7 +96,15 @@ PSQLASTBuilderTest >> testColumnsAndAliasesSelected [
 	
 	self
 		assert: node class equals: Array;
-		assert: node size equals: 3
+		assert: node size equals: 3.
+		
+	node := builder columnsAndAliasesSelected parse: 'count(*), foo'.
+	
+	self
+		assert: node class equals: Array;
+		assert: node size equals: 2;
+		assert: node first class equals: PSQLASTAggregateFunctionCall;
+		assert: node second class equals: PSQLASTIdentifier
 ]
 
 { #category : #tests-expression }

@@ -7,6 +7,38 @@ Class {
 	#category : #PostgreSQL-AST-Builder
 }
 
+{ #category : #expression }
+PSQLASTBuilder >> aggregateExpressionParserForm1With: expressionParser [
+	^ (super aggregateExpressionParserForm1With: expressionParser) ==> [ :tokens |
+			PSQLASTAggregateFunctionCall new
+				functionIdentifier: tokens first;
+				expressions: (tokens third reject: [ :item | item = $, ]);
+				orderByClause: tokens fourth;
+				yourself ]
+]
+
+{ #category : #expression }
+PSQLASTBuilder >> aggregateExpressionParserForm2With: expressionParser [
+	^ (super aggregateExpressionParserForm2With: expressionParser) ==> [ :tokens |
+			PSQLASTAggregateFunctionCall new
+				functionIdentifier: tokens first;
+				isAll: tokens third asUppercase = 'ALL';
+				isDistinct: tokens third asUppercase = 'DISTINCT'; 
+				expressions: (tokens fourth reject: [ :item | item = $, ]);
+				orderByClause: tokens fifth;
+				yourself ]
+]
+
+{ #category : #expression }
+PSQLASTBuilder >> aggregateExpressionParserForm3With: expressionParser [
+	^ (super aggregateExpressionParserForm3With: expressionParser) ==> [ :tokens |
+			PSQLASTAggregateFunctionCall new
+				functionIdentifier: tokens first;
+				expressions: { tokens third };
+				orderByClause: tokens fourth;
+				yourself ]
+]
+
 { #category : #'select command' }
 PSQLASTBuilder >> allOrDistinctClause [
 	^ super allOrDistinctClause ==> [ :tokens |

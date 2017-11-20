@@ -174,13 +174,45 @@ Class {
 }
 
 { #category : #expression }
+PSQLGrammar >> aggregateExpressionParserForm1With: expressionParser [
+	^ aggregateName , 
+		openParenthesis ,
+		(expressionParser plus separatedBy: comma trim) trim ,
+		orderByClause optional,
+		closeParenthesis
+]
+
+{ #category : #expression }
+PSQLGrammar >> aggregateExpressionParserForm2With: expressionParser [
+	^ aggregateName , 
+		openParenthesis ,
+		(kw all / kw distinct) trim ,
+		(expressionParser plus separatedBy: comma trim) trim ,
+		orderByClause optional,
+		closeParenthesis
+]
+
+{ #category : #expression }
+PSQLGrammar >> aggregateExpressionParserForm3With: expressionParser [
+	^ aggregateName , 
+		openParenthesis ,
+		asterik trim , 
+		orderByClause optional,
+		closeParenthesis
+]
+
+{ #category : #expression }
+PSQLGrammar >> aggregateExpressionParserForm4With: expressionParse [
+	self flag: #todo.
+	^ PPFailingParser new
+]
+
+{ #category : #expression }
 PSQLGrammar >> aggregateExpressionParserWith: expressionParser [
-	self flag: 'Check if the orderByClause should not be outside the parentheses.'.
-	^ aggregateName , (openParenthesis ,
-		(asterik /
-		 ((kw all / kw distinct) optional,
-		 (expressionParser plus separatedBy: comma trim) , orderByClause )),
-	closeParenthesis)
+	^ (self aggregateExpressionParserForm1With: expressionParser) /
+	(self aggregateExpressionParserForm2With: expressionParser) /
+	(self aggregateExpressionParserForm3With: expressionParser) /
+	(self aggregateExpressionParserForm4With: expressionParser)
 ]
 
 { #category : #accessing }
