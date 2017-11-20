@@ -253,8 +253,7 @@ PSQLGrammar >> columnReference [
 { #category : #'select command' }
 PSQLGrammar >> columnsAndAliasesSelected [
 	^ (
-			((identifier , $. asParser) optional , asterik trim) /
-			(expression , (kw as trim , columnAlias) optional)
+			((identifier , $. asParser) optional , asterik trim) / expression
 		) plus separatedBy: comma trim
 ]
 
@@ -467,7 +466,7 @@ PSQLGrammar >> fetchClause [
 	^ kw fetch trim , (kw first trim / kw next trim) , numericConstant trim optional , (kw rows trim / kw row trim) , kw only trim
 ]
 
-{ #category : #accessing }
+{ #category : #expression }
 PSQLGrammar >> fieldSelection [
 	^ period , (identifier / asterik)
 ]

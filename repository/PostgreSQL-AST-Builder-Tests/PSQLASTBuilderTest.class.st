@@ -49,6 +49,44 @@ PSQLASTBuilderTest >> testColumnDefinition [
 		assert: node type identifier equals: 'VARYING CHAR'
 ]
 
+{ #category : #'tests-select command' }
+PSQLASTBuilderTest >> testColumnsAndAliasesSelected [
+	| node |
+	node := builder columnsAndAliasesSelected parse: '*'.
+	
+	self
+		assert: node class equals: Array;
+		assert: node size equals: 1;
+		assert: node first class equals: PSQLASTWildCard.
+		
+	node := builder columnsAndAliasesSelected parse: 'id.*'.
+	
+	self
+		assert: node class equals: Array;
+		assert: node size equals: 1;
+		assert: node first class equals: PSQLASTAttributeAccess;
+		assert: node first accessed class equals: PSQLASTIdentifier ;
+		assert: node first attributeIdentifier class equals: PSQLASTWildCard.
+		
+	node := builder columnsAndAliasesSelected parse: 'column AS c'.
+	
+	self
+		assert: node class equals: Array;
+		assert: node size equals: 1;
+		assert: node first class equals: PSQLASTBinaryOperator;
+		assert: node first operator equals: 'AS';
+		assert: node first left class equals: PSQLASTIdentifier;
+		assert: node first left identifier equals: 'column';
+		assert: node first right class equals: PSQLASTIdentifier;
+		assert: node first right identifier equals: 'c'.
+		
+	node := builder columnsAndAliasesSelected parse: '*, col AS c, count(x)'.
+	
+	self
+		assert: node class equals: Array;
+		assert: node size equals: 3
+]
+
 { #category : #tests-expression }
 PSQLASTBuilderTest >> testCompositeValueWith [
 	| node |

@@ -59,6 +59,23 @@ PSQLASTBuilder >> columnReference [
 				tokens second ] ]
 ]
 
+{ #category : #'select command' }
+PSQLASTBuilder >> columnsAndAliasesSelected [
+	^ super columnsAndAliasesSelected ==> [ :tokens |
+		tokens reject: [ :item | item = $, ] thenCollect: [ :item |
+			item first isArray
+				ifTrue: [
+					item first first
+						ifNotNil: [ 
+							PSQLASTAttributeAccess new 
+								accessed: item first first first;
+								attributeIdentifier: item first second;
+								yourself ]
+						ifNil: [ item first second ] ]
+				ifFalse: [ 
+					item first ] ] ]
+]
+
 { #category : #expression }
 PSQLASTBuilder >> commaSubscriptWith: expressionParser [
 	^ (super commaSubscriptWith: expressionParser) ==> [ :tokens |
