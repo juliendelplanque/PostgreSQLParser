@@ -18,11 +18,18 @@ BaselineOfPostgreSQL >> baseline: spec [
 { #category : #baselines }
 BaselineOfPostgreSQL >> defineDependencies: spec [
 	spec
-		project: 'PetitParser' with: [
+		project: 'PetitParser-Core' with: [
 			spec
 				className: 'ConfigurationOfPetitParser';
 				version: #stable;
-				repository: 'http://smalltalkhub.com/mc/Pharo/MetaRepoForPharo50/main' ];
+				repository: 'http://smalltalkhub.com/mc/Pharo/MetaRepoForPharo50/main';
+				loads: #('Core') ];
+		project: 'PetitParser-Tests' with: [
+			spec
+				className: 'ConfigurationOfPetitParser';
+				version: #stable;
+				repository: 'http://smalltalkhub.com/mc/Pharo/MetaRepoForPharo50/main';
+				loads: #('Tests') ];
 		project: 'PetitParserExtension' with: [
 			spec
 				className: 'ConfigurationOfPetitParserExtension';
@@ -45,8 +52,8 @@ BaselineOfPostgreSQL >> defineGroups: spec [
 { #category : #baselines }
 BaselineOfPostgreSQL >> definePackages: spec [
 	spec 
-		package: #'PostgreSQL-Parser' with: [ spec requires: #('PetitParser' 'PetitParserExtension') ];
-		package: #'PostgreSQL-Parser-Tests' with: [ spec requires: #('PostgreSQL-Parser') ];
+		package: #'PostgreSQL-Parser' with: [ spec requires: #('PetitParser-Core' 'PetitParserExtension') ];
+		package: #'PostgreSQL-Parser-Tests' with: [ spec requires: #('PetitParser-Tests' 'PostgreSQL-Parser') ];
 		package: #'PostgreSQL-AST';
 		package: #'PostgreSQL-AST-Builder' with: [ spec requires: #('PostgreSQL-AST' 'PostgreSQL-Parser') ];
 		package: #'PostgreSQL-AST-Builder-Tests' with: [ spec requires: #('PostgreSQL-AST-Builder') ]
