@@ -1,3 +1,6 @@
+"
+I represent the alternative way to write a SELECT INTO query (e.g. ""SELECT INTO newTable * ..."").
+"
 Class {
 	#name : #PSQLASTAlternativeSelectIntoQuery,
 	#superclass : #PSQLASTSelectIntoQuery,

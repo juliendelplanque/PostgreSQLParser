@@ -1,3 +1,6 @@
+"
+I represent the construction of an Array.
+"
 Class {
 	#name : #PSQLASTArrayConstructor,
 	#superclass : #PSQLASTNode,
