@@ -1172,6 +1172,35 @@ PSQLASTBuilderTest >> testSelectCommand [
 ]
 
 { #category : #'tests-select command' }
+PSQLASTBuilderTest >> testSelectIntoCommandAlternative [
+	| node |
+	node := builder selectIntoCommandAlternative parse: 'SELECT INTO newTable c1, c2, c3 FROM t ORDER BY c1 OFFSET 42'.
+	
+	self
+		assert: node class equals: PSQLASTAlternativeSelectIntoQuery;
+		assert: node allOrDistinctClause isNil;
+		assert: node columnsAndAliasesSelected class equals: Array;
+		assert: node columnsAndAliasesSelected size equals: 3;
+		assert: node intoClause class equals: PSQLASTIntoClause;
+		assert: node intoClause newTable class equals: PSQLASTIdentifier;
+		assert: node intoClause newTable identifier equals: 'newTable';
+		deny: node intoClause isTemporary;
+		deny: node intoClause isTemp;
+		deny: node intoClause isUnlogged;
+		assert: node fromClause class equals: PSQLASTFromClause;
+		assert: node whereClause isNil;
+		assert: node groupByClause isNil;
+		assert: node havingClause isNil;
+		assert: node windowClause isNil;
+		assert: node unionIntersectExceptClause isNil;
+		assert: node orderByClause class equals: PSQLASTOrderByClause;
+		assert: node limitClause isNil;
+		assert: node offsetClause class equals: PSQLASTOffsetClause;
+		assert: node fetchClause isNil;
+		assert: node forClause isNil
+]
+
+{ #category : #'tests-select command' }
 PSQLASTBuilderTest >> testSelectIntoCommandClassic [
 	| node |
 	node := builder selectIntoCommandClassic parse: 'SELECT c1, c2, c3 INTO newTable FROM t ORDER BY c1 OFFSET 42'.
