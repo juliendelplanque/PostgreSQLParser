@@ -1064,6 +1064,50 @@ PSQLASTBuilderTest >> testSimpleStringConstant [
 		assert: node content equals: 'test'
 ]
 
+{ #category : #'tests-select command' }
+PSQLASTBuilderTest >> testUnionIntersectExceptClause [
+	| node |
+	node := builder  unionIntersectExceptClause parse: 'UNION SELECT * FROM foo'.
+	
+	self
+		assert: node class equals: PSQLASTUnionClause;
+		assert: node isDistinct;
+		deny: node isAll";
+		assert: node selectQuery class equals: PSQLASTSelectQuery".
+		
+	node := builder  unionIntersectExceptClause parse: 'UNION DISTINCT SELECT * FROM foo'.
+	
+	self
+		assert: node class equals: PSQLASTUnionClause;
+		assert: node isDistinct;
+		deny: node isAll;
+		assert: node selectQuery class equals: PSQLASTSelectQuery.
+		
+	node := builder  unionIntersectExceptClause parse: 'UNION ALL SELECT * FROM foo'.
+	
+	self
+		assert: node class equals: PSQLASTUnionClause;
+		deny: node isDistinct;
+		assert: node isAll;
+		assert: node selectQuery class equals: PSQLASTSelectQuery.
+		
+	node := builder  unionIntersectExceptClause parse: 'INTERSECT ALL SELECT * FROM foo'.
+	
+	self
+		assert: node class equals: PSQLASTIntersectClause;
+		deny: node isDistinct;
+		assert: node isAll;
+		assert: node selectQuery class equals: PSQLASTSelectQuery.
+		
+	node := builder  unionIntersectExceptClause parse: 'EXCEPT DISTINCT SELECT * FROM foo'.
+	
+	self
+		assert: node class equals: PSQLASTExceptClause;
+		assert: node isDistinct;
+		deny: node isAll;
+		assert: node selectQuery class equals: PSQLASTSelectQuery
+]
+
 { #category : #'tests-update command' }
 PSQLASTBuilderTest >> testUpdateCommand [
 	| node |

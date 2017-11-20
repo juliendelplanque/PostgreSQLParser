@@ -803,6 +803,19 @@ PSQLASTBuilder >> simpleStringConstant [
 			yourself ]
 ]
 
+{ #category : #'select command' }
+PSQLASTBuilder >> unionIntersectExceptClause [
+	^ super unionIntersectExceptClause ==> [ :tokens |
+		({
+			'UNION' -> PSQLASTUnionClause.
+			'INTERSECT' -> PSQLASTIntersectClause.
+			'EXCEPT' -> PSQLASTExceptClause
+		} asDictionary at: tokens first asUppercase) new
+			isDistinct: (tokens second isNil or: [ tokens second asUppercase = 'DISTINCT' ]);
+			selectQuery: tokens third;
+			yourself ]
+]
+
 { #category : #'update command' }
 PSQLASTBuilder >> updateCommand [
 	^ super updateCommand ==> [ :tokens |
