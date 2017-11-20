@@ -294,6 +294,14 @@ PSQLASTBuilder >> groupByClause [
 			yourself ]
 ]
 
+{ #category : #'select command' }
+PSQLASTBuilder >> havingClause [
+	^ super havingClause ==> [ :tokens |
+		PSQLASTHavingClause new
+			expressions: (tokens second reject: [ :item | item = $, ] thenCollect: #first);
+			yourself ]
+]
+
 { #category : #accessing }
 PSQLASTBuilder >> identifier [
 	^ super identifier ==> [ :tokens | 

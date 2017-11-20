@@ -417,6 +417,17 @@ PSQLASTBuilderTest >> testGroupByClause [
 		assert: node expressions first class equals: PSQLASTIdentifier
 ]
 
+{ #category : #'tests-select command' }
+PSQLASTBuilderTest >> testHavingClause [
+	| node |
+	node := builder  havingClause parse: 'HAVING column'.
+	
+	self
+		assert: node class equals: PSQLASTHavingClause;
+		assert: node expressions size equals: 1;
+		assert: node expressions first class equals: PSQLASTIdentifier
+]
+
 { #category : #tests-accessing }
 PSQLASTBuilderTest >> testIdentifier [
 	| node |
