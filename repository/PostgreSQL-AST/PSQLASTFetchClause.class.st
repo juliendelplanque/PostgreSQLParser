@@ -1,5 +1,5 @@
 "
-I represent a FETCH clause AST node.
+I represent a FETCH clause AST node in a SELECT query.
 "
 Class {
 	#name : #PSQLASTFetchClause,

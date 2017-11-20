@@ -253,6 +253,33 @@ PSQLASTBuilderTest >> testFetchClause [
 		assert: node count class equals: PSQLASTNumericConstant
 ]
 
+{ #category : #'tests-select command' }
+PSQLASTBuilderTest >> testForClause [
+	| node |
+	node := builder forClause parse: 'FOR UPDATE'.
+	
+	self
+		assert: node class equals: PSQLASTForClause;
+		assert: node isUpdate;
+		deny: node isShare;
+		deny: node hasOfTables;
+		deny: node isNoWait.
+		
+	node := builder forClause parse: 'FOR SHARE OF t1, t2, t3 NOWAIT'.
+	
+	self
+		assert: node class equals: PSQLASTForClause;
+		deny: node isUpdate;
+		assert: node isShare;
+		assert: node hasOfTables;
+		assert: node ofTables class equals: Array;
+		assert: node ofTables size equals: 3;
+		assert: node ofTables first class equals: PSQLASTIdentifier;
+		assert: node ofTables second class equals: PSQLASTIdentifier;
+		assert: node ofTables third class equals: PSQLASTIdentifier;
+		assert: node isNoWait
+]
+
 { #category : #tests-shared }
 PSQLASTBuilderTest >> testFromClause [
 	| node |

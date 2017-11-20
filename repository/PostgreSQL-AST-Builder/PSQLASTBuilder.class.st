@@ -168,6 +168,17 @@ PSQLASTBuilder >> fetchClause [
 			yourself ]
 ]
 
+{ #category : #'select command' }
+PSQLASTBuilder >> forClause [
+	^ super forClause ==> [ :tokens |
+		PSQLASTForClause new
+			isUpdate: tokens second asUppercase = 'UPDATE';
+			ofTables: (tokens third ifNotNil: [ :array |
+				array second reject: [ :item | item = $, ] thenCollect: #first ]);
+			isNoWait: tokens fourth isNotNil;
+			yourself ]
+]
+
 { #category : #shared }
 PSQLASTBuilder >> fromClause [
 	^ super fromClause ==> [ :tokens |
