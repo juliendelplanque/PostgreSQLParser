@@ -18,5 +18,7 @@ PSQLLibpgQueryBasedASTBuilder >> libpgqueryParse: aString [
 PSQLLibpgQueryBasedASTBuilder >> parse: aString [
 	| json |
 	json := self libpgqueryParse: aString.
-	^ json
+	^ (json
+		psqlJSONAccept: PSQLStringExtractor new)
+			psqlJSONAccept: PSQLStatementsExtractor new
 ]

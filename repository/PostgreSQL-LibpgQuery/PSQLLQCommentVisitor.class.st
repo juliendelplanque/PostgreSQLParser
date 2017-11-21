@@ -22,31 +22,12 @@ PSQLLQCommentVisitor >> ensureObjnameIsArrayOfStrings: aDictionary [
 
 { #category : #visiting }
 PSQLLQCommentVisitor >> visitDictionary: aDictionary [
-	| target |
+
 	self assert: (aDictionary at: 'comment') isString.
 	self ensureObjnameIsArrayOfStrings: aDictionary.
 	
-	(aDictionary at: 'objname') size = 1
-		ifTrue: [ 
-			^ PSQLASTLQComment new
-				comment: (aDictionary at: 'comment');
-				target:( PSQLASTIdentifier new
-							identifier: (aDictionary at: 'objname') first;
-							yourself) ].
-						
-	target := PSQLASTIdentifier new
-					identifier: (aDictionary at: 'objname') first;
-					yourself.
-	
-	 (aDictionary at: 'objname') allButFirst do: [ :string |
-			target := PSQLASTAttributeAccess new
-							accessed: target;
-							attributeIdentifier: (PSQLASTIdentifier new
-														identifier: string;
-														yourself);
-							yourself ].
 	^ PSQLASTLQComment new
 		comment: (aDictionary at: 'comment');
-		target: target;
+		target: (self convertToIdentifierOrAttributeAccess:  (aDictionary at: 'objname'));
 		yourself
 ]

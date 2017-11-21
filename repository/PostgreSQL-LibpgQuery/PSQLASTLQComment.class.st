@@ -1,3 +1,6 @@
+"
+I am the AST node representing a 'COMMENT ON' statement.
+"
 Class {
 	#name : #PSQLASTLQComment,
 	#superclass : #PSQLASTNode,

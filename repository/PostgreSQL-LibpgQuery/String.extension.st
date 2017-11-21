@@ -4,3 +4,9 @@ Extension { #name : #String }
 String >> psqlJSONAccept: aPSQLJSONVisitor [
 	^ aPSQLJSONVisitor visitString: self
 ]
+
+{ #category : #'*PostgreSQL-LibpgQuery' }
+String >> psqlRemoveComments [
+	^ PSQLCommentsRemover new
+		parse: self
+]
