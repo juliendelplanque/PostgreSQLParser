@@ -33,7 +33,7 @@ PSQLLQCreateFunctionVisitor >> ensureLanguage: createFunctionNode from: aDiction
 { #category : #visiting }
 PSQLLQCreateFunctionVisitor >> ensureParameters: createFunctionNode from: aDictionary [
 	| parameters |
-	parameters := (aDictionary at: 'parameters') collect: [ :subDict |
+	parameters := (aDictionary at: 'parameters' ifAbsent: [ createFunctionNode parameters: #(). ^ self ]) collect: [ :subDict |
 						PSQLASTLQFunctionParameter new
 							identifier: (PSQLASTIdentifier new
 												identifier: ((subDict at: 'FunctionParameter') at: 'name');
