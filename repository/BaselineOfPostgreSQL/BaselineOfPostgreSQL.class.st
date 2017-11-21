@@ -30,6 +30,12 @@ BaselineOfPostgreSQL >> defineDependencies: spec [
 				version: #stable;
 				repository: 'http://smalltalkhub.com/mc/Pharo/MetaRepoForPharo50/main';
 				loads: #('Tests') ];
+		project: 'PetitParser-Gui' with: [
+			spec
+				className: 'ConfigurationOfPetitParser';
+				version: #stable;
+				repository: 'http://smalltalkhub.com/mc/Pharo/MetaRepoForPharo50/main';
+				loads: #('Gui') ];
 		project: 'PetitParserExtension' with: [
 			spec
 				className: 'ConfigurationOfPetitParserExtension';
@@ -64,5 +70,5 @@ BaselineOfPostgreSQL >> definePackages: spec [
 		package: #'PostgreSQL-AST-Builder-Tests' with: [ spec requires: #('PostgreSQL-AST-Builder') ];
 		package: #'PostgreSQL-AST-Builder-SmokeTests' with: [ spec requires: #('PostgreSQL-AST-Builder' 'PostgreSQL-Parser-Tests') ];
 		package: #'PostgreSQL-LibpgQuery' with: [ spec requires: #('LibpgqueryBridge') ];
-		package: #'PostgreSQL-DevTools'
+		package: #'PostgreSQL-DevTools' with: [ spec requires: #('PetitParser-Gui') ]
 ]
