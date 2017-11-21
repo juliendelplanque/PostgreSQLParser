@@ -33,6 +33,13 @@ PSQLVisitorMethodsGenerator class >> defaultSpec [
 		yourself
 ]
 
+{ #category : #'instance creation' }
+PSQLVisitorMethodsGenerator class >> open [
+	<script>
+	"Just for the button to appear in the browser."
+	super open
+]
+
 { #category : #actions }
 PSQLVisitorMethodsGenerator >> generate [
 	| visitorClass |
