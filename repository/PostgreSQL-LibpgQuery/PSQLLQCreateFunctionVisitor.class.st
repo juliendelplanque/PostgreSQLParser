@@ -14,7 +14,7 @@ PSQLLQCreateFunctionVisitor >> visitDictionary: aDictionary [
 					parse: (bodyASTDict at: 'arg') first trimmed psqlRemoveComments
 					onError: [ :ppFailure | self error: 'Function parsing failed.' ].
 	self flag: 'TODO gather the other informations.'.
-	
+
 	^ PSQLASTLQCreateFunction new
 		identifier: functionIdentifier;
 		body: bodyAST;
