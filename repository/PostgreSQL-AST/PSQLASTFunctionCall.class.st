@@ -41,3 +41,8 @@ PSQLASTFunctionCall >> functionIdentifier [
 PSQLASTFunctionCall >> functionIdentifier: anObject [
 	functionIdentifier := anObject
 ]
+
+{ #category : #printing }
+PSQLASTFunctionCall >> innerPrintOn: aStream [
+	aStream << self functionIdentifier identifier
+]

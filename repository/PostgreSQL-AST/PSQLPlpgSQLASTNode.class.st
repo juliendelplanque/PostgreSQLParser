@@ -6,18 +6,3 @@ Class {
 	#superclass : #PSQLASTNode,
 	#category : #PostgreSQL-AST
 }
-
-{ #category : #printing }
-PSQLPlpgSQLASTNode >> innerPrintOn: aStream [
-	"To override if needed."
-]
-
-{ #category : #printing }
-PSQLPlpgSQLASTNode >> printOn: aStream [
-	super printOn: aStream.
-	aStream
-		<< $(.
-	self innerPrintOn: aStream.
-	aStream
-		<< $)
-]

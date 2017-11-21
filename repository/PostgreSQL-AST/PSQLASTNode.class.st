@@ -21,3 +21,18 @@ PSQLASTNode class >> isAbstract [
 PSQLASTNode class >> withAllConcreteSubclasses [
 	^ self withAllSubclasses reject: #isAbstract
 ]
+
+{ #category : #printing }
+PSQLASTNode >> innerPrintOn: aStream [
+	"To override if needed."
+]
+
+{ #category : #printing }
+PSQLASTNode >> printOn: aStream [
+	super printOn: aStream.
+	aStream
+		<< $(.
+	self innerPrintOn: aStream.
+	aStream
+		<< $)
+]

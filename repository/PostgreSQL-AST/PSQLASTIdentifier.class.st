@@ -19,3 +19,8 @@ PSQLASTIdentifier >> identifier [
 PSQLASTIdentifier >> identifier: anObject [
 	identifier := anObject
 ]
+
+{ #category : #printing }
+PSQLASTIdentifier >> innerPrintOn: aStream [
+	aStream << self identifier
+]

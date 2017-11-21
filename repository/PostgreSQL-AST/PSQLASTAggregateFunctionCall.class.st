@@ -47,6 +47,11 @@ PSQLASTAggregateFunctionCall >> initialize [
 		isDistinct: false
 ]
 
+{ #category : #printing }
+PSQLASTAggregateFunctionCall >> innerPrintOn: aStream [
+	aStream << self functionIdentifier identifier
+]
+
 { #category : #accessing }
 PSQLASTAggregateFunctionCall >> isAll [
 	^ isAll
