@@ -34,7 +34,11 @@ BaselineOfPostgreSQL >> defineDependencies: spec [
 			spec
 				className: 'ConfigurationOfPetitParserExtension';
 				version: #stable;
-				repository: 'http://smalltalkhub.com/mc/Moose/PetitParserExtensions/main' ]
+				repository: 'http://smalltalkhub.com/mc/Moose/PetitParserExtensions/main' ];
+		project: 'LibpgqueryBridge' with: [ 
+			spec
+				repository: 'github://juliendelplanque/LibpgqueryBridge/repository';
+				baseline: 'LibpgqueryBridge' ] 
 ]
 
 { #category : #baselines }
@@ -59,5 +63,6 @@ BaselineOfPostgreSQL >> definePackages: spec [
 		package: #'PostgreSQL-AST-Builder' with: [ spec requires: #('PostgreSQL-AST' 'PostgreSQL-Parser') ];
 		package: #'PostgreSQL-AST-Builder-Tests' with: [ spec requires: #('PostgreSQL-AST-Builder') ];
 		package: #'PostgreSQL-AST-Builder-SmokeTests' with: [ spec requires: #('PostgreSQL-AST-Builder' 'PostgreSQL-Parser-Tests') ];
+		package: #'PostgreSQL-LibpgQuery' with: [ spec requires: #('LibpgqueryBridge') ];
 		package: #'PostgreSQL-DevTools'
 ]
