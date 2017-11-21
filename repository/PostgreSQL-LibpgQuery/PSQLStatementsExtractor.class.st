@@ -1,3 +1,6 @@
+"
+I convert statement dictionaries to corresponding AST nodes using a suitable visitor.
+"
 Class {
 	#name : #PSQLStatementsExtractor,
 	#superclass : #PSQLJSONVisitor,
