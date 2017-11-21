@@ -609,6 +609,12 @@ PSQLASTBuilder >> plpgsqlDeclarationType [
 ]
 
 { #category : #plpgsql }
+PSQLASTBuilder >> plpgsqlDeclarations [
+	^ super plpgsqlDeclarations ==> [ :tokens |
+		tokens first reject: [ :item | item = $; ] ]
+]
+
+{ #category : #plpgsql }
 PSQLASTBuilder >> plpgsqlForLoop [
 	^ super plpgsqlForLoop ==> [ :tokens |
 		PSQLPlpgSQLASTForLoop new
