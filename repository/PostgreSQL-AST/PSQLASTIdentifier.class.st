@@ -10,6 +10,13 @@ Class {
 	#category : #PostgreSQL-AST
 }
 
+{ #category : #'instance creation' }
+PSQLASTIdentifier class >> identifier: aString [
+	^ self new
+		identifier: aString;
+		yourself
+]
+
 { #category : #accessing }
 PSQLASTIdentifier >> identifier [
 	^ identifier
