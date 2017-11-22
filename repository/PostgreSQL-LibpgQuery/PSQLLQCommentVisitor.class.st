@@ -10,9 +10,9 @@ Class {
 { #category : #visiting }
 PSQLLQCommentVisitor >> visitDictionary: aDictionary [
 	| target |
-	self assert: (aDictionary at: 'comment') isString.
-	"self ensureObjnameIsArrayOfStrings: aDictionary."
-	self assert: (aDictionary at: 'objname') isArray.
+	self
+		assert: (aDictionary at: 'comment') isString;
+		assert: (aDictionary at: 'objname') isArray.
 	
 	target := (aDictionary at: 'objname') size = 1
 					ifTrue: [ (aDictionary at: 'objname') first extractString psqlJSONAccept: PSQLTypeNameExtractor new ]
