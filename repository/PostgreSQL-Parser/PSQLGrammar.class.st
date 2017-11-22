@@ -712,7 +712,7 @@ PSQLGrammar >> isDistinctFromOperator [
 
 { #category : #expression }
 PSQLGrammar >> isFalse [
-	^ kw is trim , kw false
+	^ kw is trim , kw falseKeyword
 ]
 
 { #category : #expression }
@@ -722,7 +722,7 @@ PSQLGrammar >> isNotDistinctFromOperator [
 
 { #category : #expression }
 PSQLGrammar >> isNotFalse [
-	^ kw is trim , kw notKeyword trim , kw false
+	^ kw is trim , kw notKeyword trim , kw falseKeyword
 ]
 
 { #category : #expression }
@@ -732,7 +732,7 @@ PSQLGrammar >> isNotNull [
 
 { #category : #expression }
 PSQLGrammar >> isNotTrue [
-	^ kw is trim , kw notKeyword trim , kw true
+	^ kw is trim , kw notKeyword trim , kw trueKeyword
 ]
 
 { #category : #expression }
@@ -747,7 +747,7 @@ PSQLGrammar >> isNull [
 
 { #category : #expression }
 PSQLGrammar >> isTrue [
-	^ kw is trim , kw true
+	^ kw is trim , kw trueKeyword
 ]
 
 { #category : #expression }

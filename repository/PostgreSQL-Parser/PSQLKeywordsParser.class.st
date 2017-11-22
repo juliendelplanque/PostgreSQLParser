@@ -3,8 +3,134 @@ I am a parser for the keywords of PostgreSQL.
 "
 Class {
 	#name : #PSQLKeywordsParser,
-	#superclass : #PPExtendedCompositeParser,
-	#category : #PostgreSQL-Parser-Others
+	#superclass : #PPCompositeParser,
+	#instVars : [
+		'is',
+		'inner',
+		'else',
+		'left',
+		'view',
+		'isnull',
+		'nulls',
+		'strict',
+		'trueKeyword',
+		'info',
+		'when',
+		'recursive',
+		'no',
+		'first',
+		'declare',
+		'with',
+		'limit',
+		'in',
+		'endKeyword',
+		'set',
+		'exit',
+		'only',
+		'ordinality',
+		'elsif',
+		'distinct',
+		'group',
+		'nowait',
+		'create',
+		'constantKeyword',
+		'natural',
+		'notnull',
+		'execute',
+		'perform',
+		'from',
+		'slice',
+		'union',
+		'assert',
+		'using',
+		'forward',
+		'lateral',
+		'exception',
+		'fetch',
+		'case',
+		'offset',
+		'do',
+		'outer',
+		'prior',
+		'rows',
+		'having',
+		'if',
+		'null',
+		'unlogged',
+		'array',
+		'get',
+		'or',
+		'for',
+		'table',
+		'query',
+		'asc',
+		'move',
+		'on',
+		'foreach',
+		'warning',
+		'share',
+		'select',
+		'current',
+		'andKeyword',
+		'nothing',
+		'last',
+		'begin',
+		'between',
+		'notKeyword',
+		'keyword',
+		'notice',
+		'desc',
+		'delete',
+		'right',
+		'row',
+		'symmetric',
+		'intersect',
+		'relative',
+		'by',
+		'debug',
+		'absolute',
+		'record',
+		'returning',
+		'temp',
+		'temporary',
+		'conflict',
+		'as',
+		'cursor',
+		'unknown',
+		'whereKeyword',
+		'loop',
+		'while',
+		'update',
+		'constraint',
+		'full',
+		'insert',
+		'join',
+		'continue',
+		'all',
+		'into',
+		'scroll',
+		'falseKeyword',
+		'then',
+		'reverse',
+		'collate',
+		'open',
+		'next',
+		'backward',
+		'cross',
+		'default',
+		'close',
+		'any',
+		'replace',
+		'values',
+		'log',
+		'except',
+		'diagnostics',
+		'of',
+		'order',
+		'raise',
+		'return'
+	],
+	#category : #PostgreSQL-Parser-Core
 }
 
 { #category : #keywords }
@@ -239,13 +365,8 @@ PSQLKeywordsParser >> exit [
 	^ self buildKeyword: 'exit'
 ]
 
-{ #category : #initialization }
-PSQLKeywordsParser >> extendedRulesProtocol [
-	^ #keywords
-]
-
 { #category : #keywords }
-PSQLKeywordsParser >> false [
+PSQLKeywordsParser >> falseKeyword [
 	"<psqlkeyword>"
 	^ self buildKeyword: 'false'
 ]
@@ -647,7 +768,7 @@ PSQLKeywordsParser >> slice [
 
 { #category : #accessing }
 PSQLKeywordsParser >> start [
-	"This method as to be implemented but we dom't care what it returns since this parser is not meant to be used alone."
+	"This method as to be implemented but we don't care what it returns since this parser is not meant to be used alone."
 	^ nil asParser
 ]
 
@@ -687,7 +808,7 @@ PSQLKeywordsParser >> then [
 ]
 
 { #category : #keywords }
-PSQLKeywordsParser >> true [
+PSQLKeywordsParser >> trueKeyword [
 	"<psqlkeyword>"
 	^ self buildKeyword: 'true'
 ]

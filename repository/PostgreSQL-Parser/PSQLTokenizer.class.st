@@ -146,7 +146,7 @@ PSQLTokenizer >> identifierOrKeyword [
 { #category : #initialization }
 PSQLTokenizer >> initialize [
 	super initialize.
-	kw := PSQLExtendedCompositeParserWrapper new extendedCompositeParser: PSQLKeywordsParser new
+	kw := PSQLKeywordsParser new
 
 ]
 
