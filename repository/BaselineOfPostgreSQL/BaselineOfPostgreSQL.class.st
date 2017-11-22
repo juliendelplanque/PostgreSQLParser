@@ -36,11 +36,6 @@ BaselineOfPostgreSQL >> defineDependencies: spec [
 				version: #stable;
 				repository: 'http://smalltalkhub.com/mc/Pharo/MetaRepoForPharo50/main';
 				loads: #('Gui') ];
-		project: 'PetitParserExtension' with: [
-			spec
-				className: 'ConfigurationOfPetitParserExtension';
-				version: #stable;
-				repository: 'http://smalltalkhub.com/mc/Moose/PetitParserExtensions/main' ];
 		baseline: 'LibpgqueryBridge' with: [ 
 			spec
 				repository: 'github://juliendelplanque/LibpgqueryBridge/repository' ] 
