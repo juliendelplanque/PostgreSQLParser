@@ -6,7 +6,7 @@ Class {
 
 { #category : #accessing }
 PSQLGrammarPLpgSQLBodyCrashTest >> parserClass [
-	^ PSQLGrammar
+	^ PSQLPlpgSQLGrammar
 ]
 
 { #category : #tests }
