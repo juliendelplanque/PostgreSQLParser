@@ -42,7 +42,6 @@ Class {
 		'fromItems',
 		'fromItems6',
 		'joinType',
-		'identifier',
 		'allOrDistinctClause',
 		'columnsAndAliasesSelected',
 		'binaryLogicalOperator',
@@ -165,7 +164,6 @@ Class {
 		'selectIntoCommandAlternative',
 		'selectIntoCommandClassic',
 		'fromItems7',
-		'identifierWithOptionalFieldAccess',
 		'defaultValues',
 		'functionCall',
 		'asOperator'
@@ -608,16 +606,6 @@ PSQLGrammar >> groupByClause [
 { #category : #'select command' }
 PSQLGrammar >> havingClause [
 	^ kw having trim , (expression plus separatedBy: comma trim)
-]
-
-{ #category : #helpers }
-PSQLGrammar >> identifier [
-	^ kw keyword not , identifierOrKeyword
-]
-
-{ #category : #helpers }
-PSQLGrammar >> identifierWithOptionalFieldAccess [
-	^ identifier , ($. asParser , identifier) optional
 ]
 
 { #category : #expression }
