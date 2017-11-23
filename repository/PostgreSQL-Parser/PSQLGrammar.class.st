@@ -1335,7 +1335,7 @@ PSQLGrammar >> plpgsqlReturnForm5 [
 
 { #category : #plpgsql }
 PSQLGrammar >> plpgsqlRowTypeDeclaration [
-	^ identifier trim , tableName , '%ROWTYPE' asParser caseInsensitive
+	^ identifier trim , identifier , '%ROWTYPE' asParser caseInsensitive
 ]
 
 { #category : #plpgsql }
