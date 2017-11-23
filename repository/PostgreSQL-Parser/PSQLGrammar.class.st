@@ -773,7 +773,7 @@ PSQLGrammar >> parenthesedFromItems [
 
 { #category : #plpgsql }
 PSQLGrammar >> plpgsqlAliasDeclaration [
-	^ identifier trim , alias trim , kw for trim , (plpgsqlIndexParameter trim / identifier trim)
+	^ identifier trim , identifier trim , kw for trim , (plpgsqlIndexParameter trim / identifier trim)
 ]
 
 { #category : #plpgsql }
