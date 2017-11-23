@@ -375,62 +375,6 @@ PSQLGrammar >> createViewCommand [
 		selectCommand trim
 ]
 
-{ #category : #'as yet unclassified' }
-PSQLGrammar >> currentResultValueStatement [
-	"GET [ CURRENT ] DIAGNOSTICS variable { = | := } item [ , ... ]"
-	^ kw get trim , kw current trim optional , kw diagnostics trim , identifier , ($= asParser / ':=' asParser) trim , ('ROW_COUNT' asParser caseInsensitive / 'RESULT_OID' asParser caseInsensitive / 'PG_CONTEXT' asParser caseInsensitive)
-]
-
-{ #category : #'as yet unclassified' }
-PSQLGrammar >> declareBlock [
-	^ plpgsqlBeginLabel trim optional ,
-	(kw declare trim , plpgsqlDeclarations trim) optional ,
-	kw begin trim ,
-	plpgsqlStatements trim ,
-	kw endKeyword trim ,
-	plpgsqlEndLabel trim optional , semicolon trim
-]
-
-{ #category : #'as yet unclassified' }
-PSQLGrammar >> declareExceptionHandler [
-	"[ <<label>> ]
-	[ DECLARE
-    	declarations ]
-	BEGIN
-    	statements
-	EXCEPTION
-    	WHEN condition [ OR condition ... ] THEN
-        	handler_statements
-    	[ WHEN condition [ OR condition ... ] THEN
-          handler_statements
-      ... ]
-	END"
-	^ plpgsqlBeginLabel trim optional ,
-	(kw declare trim , plpgsqlDeclarations trim) optional ,
-	kw begin trim ,
-		plpgsqlStatements ,
-	kw exception trim ,
-		(kw when trim , expression , kw then trim , plpgsqlStatements) plus ,
-	kw endKeyword trim
-]
-
-{ #category : #'as yet unclassified' }
-PSQLGrammar >> defaultClassicDeclaration [
-	^ identifier trim ,
-	kw constantKeyword trim optional ,
-	plpgsqlDeclarationType ,
-	plpgsqlDeclarationCollate optional ,
-	(kw notKeyword trim , kw null trim) optional ,
-	((kw default trim / ':=' asParser trim / $= asParser trim) , expression) optional
-]
-
-{ #category : #'as yet unclassified' }
-PSQLGrammar >> defaultDeclarationType [
-	^ kw collate not , kw notKeyword not , kw default not , ':=' asParser not , '=' asParser not , identifierOrKeyword trim plus , (
-	(openParenthesis trim , numericConstant trim , closeParenthesis trim) /
-	(openBracket trim , closeBracket trim) plus) optional
-]
-
 { #category : #'insert command' }
 PSQLGrammar >> defaultValues [
 	^ kw default trim , kw values
@@ -925,6 +869,12 @@ PSQLGrammar >> plpgsqlCopyTypeDeclaration [
 ]
 
 { #category : #plpgsql }
+PSQLGrammar >> plpgsqlCurrentResultValueStatement [
+	"GET [ CURRENT ] DIAGNOSTICS variable { = | := } item [ , ... ]"
+	^ kw get trim , kw current trim optional , kw diagnostics trim , identifier , ($= asParser / ':=' asParser) trim , ('ROW_COUNT' asParser caseInsensitive / 'RESULT_OID' asParser caseInsensitive / 'PG_CONTEXT' asParser caseInsensitive)
+]
+
+{ #category : #plpgsql }
 PSQLGrammar >> plpgsqlCursorClose [
 	"CLOSE cursor"
 	^ kw close trim , identifier
@@ -1020,6 +970,56 @@ PSQLGrammar >> plpgsqlDeclarationType [
 { #category : #plpgsql }
 PSQLGrammar >> plpgsqlDeclarations [
 	^ (plpgsqlDeclarationItem trim separatedBy: semicolon trim) , semicolon trim
+]
+
+{ #category : #plpgsql }
+PSQLGrammar >> plpgsqlDeclareBlock [
+	^ plpgsqlBeginLabel trim optional ,
+	(kw declare trim , plpgsqlDeclarations trim) optional ,
+	kw begin trim ,
+	plpgsqlStatements trim ,
+	kw endKeyword trim ,
+	plpgsqlEndLabel trim optional , semicolon trim
+]
+
+{ #category : #plpgsql }
+PSQLGrammar >> plpgsqlDeclareExceptionHandler [
+	"[ <<label>> ]
+	[ DECLARE
+    	declarations ]
+	BEGIN
+    	statements
+	EXCEPTION
+    	WHEN condition [ OR condition ... ] THEN
+        	handler_statements
+    	[ WHEN condition [ OR condition ... ] THEN
+          handler_statements
+      ... ]
+	END"
+	^ plpgsqlBeginLabel trim optional ,
+	(kw declare trim , plpgsqlDeclarations trim) optional ,
+	kw begin trim ,
+		plpgsqlStatements ,
+	kw exception trim ,
+		(kw when trim , expression , kw then trim , plpgsqlStatements) plus ,
+	kw endKeyword trim
+]
+
+{ #category : #plpgsql }
+PSQLGrammar >> plpgsqlDefaultClassicDeclaration [
+	^ identifier trim ,
+	kw constantKeyword trim optional ,
+	plpgsqlDeclarationType ,
+	plpgsqlDeclarationCollate optional ,
+	(kw notKeyword trim , kw null trim) optional ,
+	((kw default trim / ':=' asParser trim / $= asParser trim) , expression) optional
+]
+
+{ #category : #plpgsql }
+PSQLGrammar >> plpgsqlDefaultDeclarationType [
+	^ kw collate not , kw notKeyword not , kw default not , ':=' asParser not , '=' asParser not , identifierOrKeyword trim plus , (
+	(openParenthesis trim , numericConstant trim , closeParenthesis trim) /
+	(openBracket trim , closeBracket trim) plus) optional
 ]
 
 { #category : #plpgsql }
