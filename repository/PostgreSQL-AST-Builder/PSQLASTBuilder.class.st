@@ -7,6 +7,11 @@ Class {
 	#category : #PostgreSQL-AST-Builder
 }
 
+{ #category : #accessing }
+PSQLASTBuilder class >> dependencies [
+	^ { PSQLValuesASTBuilder }
+]
+
 { #category : #expression }
 PSQLASTBuilder >> aggregateExpressionParserForm1With: expressionParser [
 	^ (super aggregateExpressionParserForm1With: expressionParser) ==> [ :tokens |
@@ -698,18 +703,9 @@ PSQLASTBuilder >> usingClause [
 		tokens second ]
 ]
 
-{ #category : #'values command' }
+{ #category : #dependencies }
 PSQLASTBuilder >> valuesCommand [
-	^ super valuesCommand ==> [ :tokens |
-		tokens second
-			reject: [ :item | item = $, ]
-			thenCollect: [ :item | 
-				item first second
-					reject: [ :subitem | subitem = $, ]
-					thenCollect: [ :subItem |
-						subItem first = 'DEFAULT'
-							ifTrue: [ PSQLASTDefaultValue new ]
-							ifFalse: [ subItem first ] ] ] ]
+	^ (self dependencyAt: PSQLValuesASTBuilder) valuesCommand
 ]
 
 { #category : #'select command' }

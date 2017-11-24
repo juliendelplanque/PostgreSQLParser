@@ -1,5 +1,5 @@
 "
-I process PL/pgSQL source code as input and build an AST using PSQLASTNode subclasses from source code given as input.
+I process PL/pgSQL source code as input and build an AST using PSQLASTNode subclasses.
 "
 Class {
 	#name : #PSQLPlpgSQLASTBuilder,

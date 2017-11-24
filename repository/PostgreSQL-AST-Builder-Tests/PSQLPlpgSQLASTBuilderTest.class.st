@@ -7,7 +7,7 @@ Class {
 	#category : #PostgreSQL-AST-Builder-Tests
 }
 
-{ #category : #initialization }
+{ #category : #running }
 PSQLPlpgSQLASTBuilderTest >> setUp [
 	builder := PSQLPlpgSQLASTBuilder new
 ]
