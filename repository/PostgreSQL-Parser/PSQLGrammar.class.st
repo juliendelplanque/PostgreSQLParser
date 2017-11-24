@@ -1,5 +1,7 @@
 "
-I parse expressions as defined in https://www.postgresql.org/docs/9.1/static/sql-expressions.html
+I parse everything I can parse from SQL code from PostgreSQL.
+
+I should be splitted in different parsers in the future.
 "
 Class {
 	#name : #PSQLGrammar,
@@ -100,6 +102,11 @@ Class {
 	],
 	#category : #PostgreSQL-Parser-Core
 }
+
+{ #category : #accessing }
+PSQLGrammar class >> dependencies [
+	^ { PSQLValuesGrammar }
+]
 
 { #category : #expression }
 PSQLGrammar >> aggregateExpressionParserForm1With: expressionParser [
@@ -931,20 +938,9 @@ PSQLGrammar >> valuesClause [
 	selectCommand
 ]
 
-{ #category : #'values command' }
+{ #category : #dependencies }
 PSQLGrammar >> valuesCommand [
-	"This should implement:
-		VALUES ( expression [, ...] ) [, ...]
-	But it implements:
-		VALUES ( { expression | DEFAULT } [, ...] ) [, ...]
-	instead in order to be reusable in #insertCommand.
-	
-	Please manage this fact while building the AST."
-	
-	^ kw values trim ,
-	((openParenthesis trim,
-		((kw default / expression) plus separatedBy: comma trim) ,
-	closeParenthesis trim) plus separatedBy: comma trim)
+	^ (self dependencyAt: PSQLValuesGrammar) valuesCommand
 ]
 
 { #category : #'select command' }

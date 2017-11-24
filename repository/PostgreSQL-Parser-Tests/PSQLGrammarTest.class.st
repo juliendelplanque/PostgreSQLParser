@@ -635,13 +635,6 @@ PSQLGrammarTest >> testUpdateDeleteWhereClause [
 		parse: 'WHERE CURRENT OF curs1' rule: #updateDeleteWhereClause
 ]
 
-{ #category : #'tests-values command' }
-PSQLGrammarTest >> testValuesCommand [
-	self
-		parse: 'VALUES (1, ''one''), (2, ''two''), (3, ''three'')' rule: #valuesCommand;
-		parse: 'VALUES (1, DEFAULT)' rule: #valuesCommand
-]
-
 { #category : #'tests-select command' }
 PSQLGrammarTest >> testWhereClause [
 	self
