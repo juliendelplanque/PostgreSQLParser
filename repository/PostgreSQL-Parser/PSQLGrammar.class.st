@@ -393,12 +393,12 @@ PSQLGrammar >> forClause [
 	^ kw for trim , (kw update trim / kw share trim) , (kw of trim , (expression plus separatedBy: comma trim)) optional , kw nowait trim optional
 ]
 
-{ #category : #shared }
+{ #category : #'shared - from clause' }
 PSQLGrammar >> fromClause [
 	^ kw from trim , (fromItems plus separatedBy: comma trim)
 ]
 
-{ #category : #shared }
+{ #category : #'shared - from clause' }
 PSQLGrammar >> fromItems [
 	"Have a look at #fromItems6 if you wonder why #fromItems6 is not treated as the others.
 	
@@ -416,20 +416,20 @@ PSQLGrammar >> fromItems [
 	^ (parenthesedFromItems / ( fromItems4 / fromItems5 / fromItems7 / fromItems1 / fromItems2 / fromItems3)) , fromItems6 star
 ]
 
-{ #category : #shared }
+{ #category : #'shared - from clause' }
 PSQLGrammar >> fromItems1 [
 	"[ ONLY ] table_name [ * ] [ [ AS ] alias [ ( column_alias [, ...] ) ] ]
                 [ TABLESAMPLE sampling_method ( argument [, ...] ) [ REPEATABLE ( seed ) ] ]"
 	self flag: 'Not fully implemented'.
 	^ kw only trim optional ,
 			identifierWithOptionalFieldAccess trim , asterik trim optional ,
-				(kw as trim optional , alias trim ,
+				(kw as trim optional , identifier trim ,
 					(openParenthesis trim ,
-					(columnAlias separatedBy: comma trim),
+					(identifier separatedBy: comma trim),
 					closeParenthesis trim) optional) optional
 ]
 
-{ #category : #shared }
+{ #category : #'shared - from clause' }
 PSQLGrammar >> fromItems2 [
 	"This should be implemented as:
 		[ LATERAL ] ( select ) [ AS ] alias [ ( column_alias [, ...] ) ]
@@ -439,35 +439,35 @@ PSQLGrammar >> fromItems2 [
 	that the results are defined directly in the query."
 	^ kw lateral trim optional ,
 		openParenthesis trim , (valuesCommand / selectCommand) , closeParenthesis trim , kw as trim optional ,
-			alias trim ,
+			identifier trim ,
 			(openParenthesis trim,
-			 (columnAlias separatedBy: comma trim),
+			 (identifier separatedBy: comma trim),
 			 closeParenthesis trim) optional
 ]
 
-{ #category : #shared }
+{ #category : #'shared - from clause' }
 PSQLGrammar >> fromItems3 [
 	"with_query_name [ [ AS ] alias [ ( column_alias [, ...] ) ] ]"
-	^ queryName trim , (
-			kw as trim optional , alias trim , 
+	^ identifier trim , (
+			kw as trim optional , identifier trim , 
 			(openParenthesis trim,
-			(columnAlias separatedBy: comma trim),
+			(identifier separatedBy: comma trim),
 			closeParenthesis trim) optional) optional
 ]
 
-{ #category : #shared }
+{ #category : #'shared - from clause' }
 PSQLGrammar >> fromItems4 [
 	"[ LATERAL ] function_name ( [ argument [, ...] ] ) [ AS ] alias ( column_definition [, ...] )"
 	^ kw lateral trim optional , 
 		functionCall trim ,
 		kw as trim optional ,
-		alias trim,
+		identifier trim,
 		openParenthesis trim ,
 			(columnDefinition plus separatedBy: comma trim),
 		closeParenthesis trim
 ]
 
-{ #category : #shared }
+{ #category : #'shared - from clause' }
 PSQLGrammar >> fromItems5 [
 	"[ LATERAL ] function_name ( [ argument [, ...] ] ) AS ( column_definition [, ...] )"
 	^ kw lateral trim optional , 
@@ -478,7 +478,7 @@ PSQLGrammar >> fromItems5 [
 		closeParenthesis trim
 ]
 
-{ #category : #shared }
+{ #category : #'shared - from clause' }
 PSQLGrammar >> fromItems6 [
 	"from_item [ NATURAL ] join_type from_item [ ON join_condition | USING ( join_column [, ...] ) ]
 	
@@ -496,16 +496,16 @@ PSQLGrammar >> fromItems6 [
 			closeParenthesis trim)) optional
 ]
 
-{ #category : #shared }
+{ #category : #'shared - from clause' }
 PSQLGrammar >> fromItems7 [
 	"[ LATERAL ] function_name ( [ argument [, ...] ] ) [ WITH ORDINALITY ] [ [ AS ] alias [ ( column_alias [, ...] ) ] ]"
 	^ kw lateral trim optional , 
 		functionCall trim ,
 		(kw with trim , kw ordinality trim) optional ,
 		(kw as trim optional ,
-		alias trim,
+		identifier trim,
 		(openParenthesis trim ,
-			(columnAlias plus separatedBy: comma trim),
+			(identifier plus separatedBy: comma trim),
 		closeParenthesis trim) optional ) optional
 ]
 
@@ -624,7 +624,7 @@ PSQLGrammar >> isUnknown [
 	^ kw is trim , kw unknown
 ]
 
-{ #category : #shared }
+{ #category : #'shared - from clause' }
 PSQLGrammar >> joinType [
 	^ (kw inner trim optional, kw join trim) /
 	(kw left trim , kw outer trim optional , kw join trim) /
@@ -702,7 +702,7 @@ PSQLGrammar >> parenthesedExpressionParserWith: expressionParser [
 	^ openParenthesis trim , expressionParser , closeParenthesis trim.
 ]
 
-{ #category : #shared }
+{ #category : #'shared - from clause' }
 PSQLGrammar >> parenthesedFromItems [
 	"Have a look at #fromItems6 if you wonder why #fromItems6 is not treated as the others."
 	^ openParenthesis trim , fromItems trim , closeParenthesis trim
@@ -832,7 +832,7 @@ SELECT [ ALL | DISTINCT [ ON ( expression [, ...] ) ] ]
 		forClause optional	
 ]
 
-{ #category : #shared }
+{ #category : #'shared - set clause' }
 PSQLGrammar >> setClause [
 	"SET { column_name = { expression | DEFAULT } |
                     ( column_name [, ...] ) = ( { expression | DEFAULT } [, ...] ) |
@@ -842,13 +842,13 @@ PSQLGrammar >> setClause [
 	((setItem1 / setItem2 / setItem3) plus separatedBy: comma trim)
 ]
 
-{ #category : #shared }
+{ #category : #'shared - set clause' }
 PSQLGrammar >> setItem1 [
 	"column_name = { expression | DEFAULT }"
 	^ columnName trim , $= asParser trim , (kw default / expression)
 ]
 
-{ #category : #shared }
+{ #category : #'shared - set clause' }
 PSQLGrammar >> setItem2 [
 	"( column_name [, ...] ) = ( { expression | DEFAULT } [, ...] )"
 	^ openParenthesis trim , (columnName plus separatedBy: comma trim) trim , closeParenthesis trim ,
@@ -856,7 +856,7 @@ PSQLGrammar >> setItem2 [
 	openParenthesis trim , ((kw default / expression) plus separatedBy: comma trim) , closeParenthesis
 ]
 
-{ #category : #shared }
+{ #category : #'shared - set clause' }
 PSQLGrammar >> setItem3 [
 	"( column_name [, ...] ) = ( sub-SELECT )"
 	^ openParenthesis trim , (columnName plus separatedBy: comma trim) , closeParenthesis trim ,
