@@ -92,7 +92,12 @@ Class {
 
 { #category : #accessing }
 PSQLPlpgSQLGrammar class >> dependencies [
-	^ { self sqlParser }
+	^ { self sqlParser . self insertQueryParser }
+]
+
+{ #category : #accessing }
+PSQLPlpgSQLGrammar class >> insertQueryParser [
+	^ PSQLInsertQueryGrammar
 ]
 
 { #category : #accessing }
@@ -132,7 +137,7 @@ PSQLPlpgSQLGrammar >> identifierWithOptionalFieldAccess [
 
 { #category : #dependencies }
 PSQLPlpgSQLGrammar >> insertCommand [
-	^ (self dependencyAt: self class sqlParser) insertCommand
+	^ (self dependencyAt: self class insertQueryParser) insertCommand
 ]
 
 { #category : #dependencies }
