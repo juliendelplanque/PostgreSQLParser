@@ -92,22 +92,52 @@ Class {
 
 { #category : #accessing }
 PSQLPlpgSQLGrammar class >> dependencies [
-	^ { PSQLGrammar }
+	^ { self sqlParser }
+]
+
+{ #category : #accessing }
+PSQLPlpgSQLGrammar class >> sqlParser [
+	^ PSQLGrammar
 ]
 
 { #category : #dependencies }
 PSQLPlpgSQLGrammar >> deleteCommand [
-	^ (self dependencyAt: PSQLGrammar) deleteCommand
+	^ (self dependencyAt: self class sqlParser) deleteCommand
+]
+
+{ #category : #dependencies }
+PSQLPlpgSQLGrammar >> escapeStringConstant [
+	^ (self dependencyAt: self class sqlParser) escapeStringConstant
 ]
 
 { #category : #dependencies }
 PSQLPlpgSQLGrammar >> expression [
-	^ (self dependencyAt: PSQLGrammar) expression
+	^ (self dependencyAt: self class sqlParser) expression
+]
+
+{ #category : #helpers }
+PSQLPlpgSQLGrammar >> identifier [
+	^ (self dependencyAt: self class sqlParser) identifier
+]
+
+{ #category : #helpers }
+PSQLPlpgSQLGrammar >> identifierOrKeyword [
+	^ (self dependencyAt: self class sqlParser) identifierOrKeyword
+]
+
+{ #category : #helpers }
+PSQLPlpgSQLGrammar >> identifierWithOptionalFieldAccess [
+	^ (self dependencyAt: self class sqlParser) identifierWithOptionalFieldAccess
 ]
 
 { #category : #dependencies }
 PSQLPlpgSQLGrammar >> insertCommand [
-	^ (self dependencyAt: PSQLGrammar) insertCommand
+	^ (self dependencyAt: self class sqlParser) insertCommand
+]
+
+{ #category : #dependencies }
+PSQLPlpgSQLGrammar >> numericConstant [
+	^ (self dependencyAt: self class sqlParser) numericConstant
 ]
 
 { #category : #plpgsql }
@@ -726,13 +756,23 @@ PSQLPlpgSQLGrammar >> plpgsqlWhileLoop [
 ]
 
 { #category : #dependencies }
+PSQLPlpgSQLGrammar >> positionalParameter [
+	^ (self dependencyAt: self class sqlParser) positionalParameter
+]
+
+{ #category : #dependencies }
 PSQLPlpgSQLGrammar >> selectCommand [
-	^ (self dependencyAt: PSQLGrammar) selectCommand
+	^ (self dependencyAt: self class sqlParser) selectCommand
 ]
 
 { #category : #dependencies }
 PSQLPlpgSQLGrammar >> selectIntoCommand [
-	^ (self dependencyAt: PSQLGrammar) selectIntoCommand
+	^ (self dependencyAt: self class sqlParser) selectIntoCommand
+]
+
+{ #category : #dependencies }
+PSQLPlpgSQLGrammar >> simpleStringConstant [
+	^ (self dependencyAt: self class sqlParser) simpleStringConstant
 ]
 
 { #category : #accessing }
@@ -747,5 +787,5 @@ PSQLPlpgSQLGrammar >> subscriptWith: expressionParser [
 
 { #category : #dependencies }
 PSQLPlpgSQLGrammar >> updateCommand [
-	^ (self dependencyAt: PSQLGrammar) updateCommand
+	^ (self dependencyAt: self class sqlParser) updateCommand
 ]

@@ -25,7 +25,17 @@ Class {
 
 { #category : #accessing }
 PSQLInsertQueryGrammar class >> dependencies [
-	^ { PSQLGrammar . PSQLValuesGrammar }
+	^ { self sqlParser . self valuesCommandParser }
+]
+
+{ #category : #accessing }
+PSQLInsertQueryGrammar class >> sqlParser [
+	^ PSQLGrammar
+]
+
+{ #category : #accessing }
+PSQLInsertQueryGrammar class >> valuesCommandParser [
+	^ PSQLValuesGrammar
 ]
 
 { #category : #'insert command' }
@@ -72,7 +82,7 @@ PSQLInsertQueryGrammar >> defaultValues [
 
 { #category : #dependencies }
 PSQLInsertQueryGrammar >> expression [
-	^ (self dependencyAt: PSQLGrammar) expression
+	^ (self dependencyAt: self class sqlParser) expression
 ]
 
 { #category : #'insert command' }
@@ -101,17 +111,17 @@ PSQLInsertQueryGrammar >> onConflictClause [
 
 { #category : #dependencies }
 PSQLInsertQueryGrammar >> returningClause [
-	^ (self dependencyAt: PSQLGrammar) returningClause
+	^ (self dependencyAt: self class sqlParser) returningClause
 ]
 
 { #category : #dependencies }
 PSQLInsertQueryGrammar >> selectCommand [
-	^ (self dependencyAt: PSQLGrammar) selectCommand
+	^ (self dependencyAt: self class sqlParser) selectCommand
 ]
 
 { #category : #dependencies }
 PSQLInsertQueryGrammar >> setClause [
-	^ (self dependencyAt: PSQLGrammar) setClause
+	^ (self dependencyAt: self class sqlParser) setClause
 ]
 
 { #category : #accessing }
@@ -129,10 +139,10 @@ PSQLInsertQueryGrammar >> valuesClause [
 
 { #category : #dependencies }
 PSQLInsertQueryGrammar >> valuesCommand [
-	^ (self dependencyAt: PSQLValuesGrammar) valuesCommand
+	^ (self dependencyAt: self class valuesCommandParser) valuesCommand
 ]
 
 { #category : #dependencies }
 PSQLInsertQueryGrammar >> withClause [
-	^ (self dependencyAt: PSQLGrammar) withClause
+	^ (self dependencyAt: self class sqlParser) withClause
 ]

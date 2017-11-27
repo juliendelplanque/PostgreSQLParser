@@ -98,7 +98,17 @@ Class {
 
 { #category : #accessing }
 PSQLGrammar class >> dependencies [
-	^ { PSQLValuesGrammar . PSQLInsertQueryGrammar }
+	^ { self valuesCommandParser . self insertQueryParser }
+]
+
+{ #category : #accessing }
+PSQLGrammar class >> insertQueryParser [
+	^ PSQLInsertQueryGrammar
+]
+
+{ #category : #accessing }
+PSQLGrammar class >> valuesCommandParser [
+	^ PSQLValuesGrammar
 ]
 
 { #category : #expression }
@@ -503,7 +513,7 @@ PSQLGrammar >> inOperator [
 
 { #category : #dependencies }
 PSQLGrammar >> insertCommand [
-	^ (self dependencyAt: PSQLInsertQueryGrammar) insertCommand
+	^ (self dependencyAt: self class insertQueryParser) insertCommand
 ]
 
 { #category : #'select command' }
@@ -864,7 +874,7 @@ PSQLGrammar >> usingClause [
 
 { #category : #dependencies }
 PSQLGrammar >> valuesCommand [
-	^ (self dependencyAt: PSQLValuesGrammar) valuesCommand
+	^ (self dependencyAt: self class valuesCommandParser) valuesCommand
 ]
 
 { #category : #'select command' }

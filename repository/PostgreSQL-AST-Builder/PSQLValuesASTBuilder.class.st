@@ -8,8 +8,8 @@ Class {
 }
 
 { #category : #accessing }
-PSQLValuesASTBuilder class >> dependencies [
-	^ { PSQLASTBuilder }
+PSQLValuesASTBuilder class >> sqlParser [
+	^ PSQLASTBuilder
 ]
 
 { #category : #accessing }

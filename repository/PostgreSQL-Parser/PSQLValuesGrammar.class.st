@@ -13,12 +13,17 @@ Class {
 
 { #category : #accessing }
 PSQLValuesGrammar class >> dependencies [
-	^ { PSQLGrammar }
+	^ { self sqlParser }
+]
+
+{ #category : #accessing }
+PSQLValuesGrammar class >> sqlParser [
+	^ PSQLGrammar
 ]
 
 { #category : #dependencies }
 PSQLValuesGrammar >> expression [
-	^ (self dependencyAt: PSQLGrammar) expression
+	^ (self dependencyAt: self class sqlParser) expression
 ]
 
 { #category : #accessing }

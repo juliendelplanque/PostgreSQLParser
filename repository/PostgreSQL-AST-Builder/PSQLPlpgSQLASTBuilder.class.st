@@ -8,48 +8,8 @@ Class {
 }
 
 { #category : #accessing }
-PSQLPlpgSQLASTBuilder class >> dependencies [
-	^ { PSQLASTBuilder }
-]
-
-{ #category : #dependencies }
-PSQLPlpgSQLASTBuilder >> deleteCommand [
-	^ (self dependencyAt: PSQLASTBuilder) deleteCommand
-]
-
-{ #category : #dependencies }
-PSQLPlpgSQLASTBuilder >> escapeStringConstant [
-	^ (self dependencyAt: PSQLASTBuilder) escapeStringConstant
-]
-
-{ #category : #dependencies }
-PSQLPlpgSQLASTBuilder >> expression [
-	^ (self dependencyAt: PSQLASTBuilder) expression
-]
-
-{ #category : #helpers }
-PSQLPlpgSQLASTBuilder >> identifier [
-	^ (self dependencyAt: PSQLASTBuilder) identifier
-]
-
-{ #category : #helpers }
-PSQLPlpgSQLASTBuilder >> identifierOrKeyword [
-	^ (self dependencyAt: PSQLASTBuilder) identifierOrKeyword
-]
-
-{ #category : #helpers }
-PSQLPlpgSQLASTBuilder >> identifierWithOptionalFieldAccess [
-	^ (self dependencyAt: PSQLASTBuilder) identifierWithOptionalFieldAccess
-]
-
-{ #category : #dependencies }
-PSQLPlpgSQLASTBuilder >> insertCommand [
-	^ (self dependencyAt: PSQLASTBuilder) insertCommand
-]
-
-{ #category : #dependencies }
-PSQLPlpgSQLASTBuilder >> numericConstant [
-	^ (self dependencyAt: PSQLASTBuilder) numericConstant
+PSQLPlpgSQLASTBuilder class >> sqlParser [
+	^ PSQLASTBuilder
 ]
 
 { #category : #plpgsql }
@@ -383,29 +343,4 @@ PSQLPlpgSQLASTBuilder >> plpgsqlWhileLoop [
 			condition: tokens third;
 			statements: tokens fifth;
 			yourself ]
-]
-
-{ #category : #dependencies }
-PSQLPlpgSQLASTBuilder >> positionalParameter [
-	^ (self dependencyAt: PSQLASTBuilder) positionalParameter
-]
-
-{ #category : #dependencies }
-PSQLPlpgSQLASTBuilder >> selectCommand [
-	^ (self dependencyAt: PSQLASTBuilder) selectCommand
-]
-
-{ #category : #dependencies }
-PSQLPlpgSQLASTBuilder >> selectIntoCommand [
-	^ (self dependencyAt: PSQLASTBuilder) selectIntoCommand
-]
-
-{ #category : #dependencies }
-PSQLPlpgSQLASTBuilder >> simpleStringConstant [
-	^ (self dependencyAt: PSQLASTBuilder) simpleStringConstant
-]
-
-{ #category : #dependencies }
-PSQLPlpgSQLASTBuilder >> updateCommand [
-	^ (self dependencyAt: PSQLASTBuilder) updateCommand
 ]

@@ -8,8 +8,13 @@ Class {
 }
 
 { #category : #accessing }
-PSQLASTBuilder class >> dependencies [
-	^ { PSQLValuesASTBuilder . PSQLInsertQueryASTBuilder }
+PSQLASTBuilder class >> insertQueryParser [
+	^ PSQLInsertQueryASTBuilder
+]
+
+{ #category : #accessing }
+PSQLASTBuilder class >> valuesCommandParser [
+	^ PSQLValuesASTBuilder
 ]
 
 { #category : #expression }
@@ -382,11 +387,6 @@ PSQLASTBuilder >> identifierWithOptionalFieldAccess [
 					yourself ] ]
 ]
 
-{ #category : #dependencies }
-PSQLASTBuilder >> insertCommand [
-	^ (self dependencyAt: PSQLInsertQueryASTBuilder) insertCommand
-]
-
 { #category : #'select command' }
 PSQLASTBuilder >> intoClause [
 	^ super intoClause ==> [ :tokens |
@@ -665,11 +665,6 @@ PSQLASTBuilder >> updateDeleteWhereClause [
 PSQLASTBuilder >> usingClause [
 	^ super usingClause ==> [ :tokens |
 		tokens second ]
-]
-
-{ #category : #dependencies }
-PSQLASTBuilder >> valuesCommand [
-	^ (self dependencyAt: PSQLValuesASTBuilder) valuesCommand
 ]
 
 { #category : #'select command' }

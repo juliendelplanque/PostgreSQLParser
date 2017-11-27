@@ -5,8 +5,13 @@ Class {
 }
 
 { #category : #accessing }
-PSQLInsertQueryASTBuilder class >> dependencies [
-	^ { PSQLASTBuilder . PSQLValuesASTBuilder }
+PSQLInsertQueryASTBuilder class >> sqlParser [
+	^ PSQLASTBuilder
+]
+
+{ #category : #accessing }
+PSQLInsertQueryASTBuilder class >> valuesCommandParser [
+	^ PSQLValuesASTBuilder
 ]
 
 { #category : #'insert command' }
@@ -25,11 +30,6 @@ PSQLInsertQueryASTBuilder >> conflictAction [
 PSQLInsertQueryASTBuilder >> defaultValues [
 	^ super defaultValues ==> [ :tokens |
 		PSQLASTDefaultValues new ]
-]
-
-{ #category : #dependencies }
-PSQLInsertQueryASTBuilder >> expression [
-	^ (self dependencyAt: PSQLASTBuilder) expression
 ]
 
 { #category : #helpers }
@@ -68,29 +68,4 @@ PSQLInsertQueryASTBuilder >> onConflictClause [
 			target: tokens third;
 			action: tokens fourth;
 			yourself ]
-]
-
-{ #category : #dependencies }
-PSQLInsertQueryASTBuilder >> returningClause [
-	^ (self dependencyAt: PSQLASTBuilder) returningClause
-]
-
-{ #category : #dependencies }
-PSQLInsertQueryASTBuilder >> selectCommand [
-	^ (self dependencyAt: PSQLASTBuilder) selectCommand
-]
-
-{ #category : #dependencies }
-PSQLInsertQueryASTBuilder >> setClause [
-	^ (self dependencyAt: PSQLASTBuilder) setClause
-]
-
-{ #category : #dependencies }
-PSQLInsertQueryASTBuilder >> valuesCommand [
-	^ (self dependencyAt: PSQLValuesASTBuilder) valuesCommand
-]
-
-{ #category : #dependencies }
-PSQLInsertQueryASTBuilder >> withClause [
-	^ (self dependencyAt: PSQLASTBuilder) withClause
 ]
