@@ -1,3 +1,6 @@
+"
+I process INSERT query source code as input and build an AST using PSQLASTNode subclasses.
+"
 Class {
 	#name : #PSQLInsertQueryASTBuilder,
 	#superclass : #PSQLInsertQueryGrammar,

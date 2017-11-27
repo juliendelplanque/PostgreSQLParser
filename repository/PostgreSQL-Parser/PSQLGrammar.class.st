@@ -98,12 +98,17 @@ Class {
 
 { #category : #accessing }
 PSQLGrammar class >> dependencies [
-	^ { self valuesCommandParser . self insertQueryParser }
+	^ { self valuesCommandParser . self insertQueryParser . self updateQueryParser }
 ]
 
 { #category : #accessing }
 PSQLGrammar class >> insertQueryParser [
 	^ PSQLInsertQueryGrammar
+]
+
+{ #category : #accessing }
+PSQLGrammar class >> updateQueryParser [
+	^ PSQLUpdateQueryGrammar
 ]
 
 { #category : #accessing }
@@ -840,24 +845,9 @@ PSQLGrammar >> unionIntersectExceptClause [
 	^ (kw union trim / kw intersect trim / kw except trim) , (kw all trim / kw distinct trim) optional , selectCommand trim
 ]
 
-{ #category : #'update command' }
+{ #category : #dependencies }
 PSQLGrammar >> updateCommand [
-	"https://www.postgresql.org/docs/9.6/static/sql-update.html
-	[ WITH [ RECURSIVE ] with_query [, ...] ]
-		UPDATE [ ONLY ] table_name [ * ] [ [ AS ] alias ]
-    	SET { column_name = { expression | DEFAULT } |
-          ( column_name [, ...] ) = ( { expression | DEFAULT } [, ...] ) |
-          ( column_name [, ...] ) = ( sub-SELECT )
-        } [, ...]
-    	[ FROM from_list ]
-    	[ WHERE condition | WHERE CURRENT OF cursor_name ]
-    	[ RETURNING * | output_expression [ [ AS ] output_name ] [, ...] ]"
-	^ withClause trim optional ,
-		kw update trim , kw only trim optional , identifierWithOptionalFieldAccess trim , asterik trim optional , (kw as trim optional , identifier) optional ,
-		setClause trim ,
-		fromClause trim optional ,
-		updateDeleteWhereClause trim optional ,
-		returningClause trim optional
+	^ (self dependencyAt: self class updateQueryParser) updateCommand
 ]
 
 { #category : #shared }

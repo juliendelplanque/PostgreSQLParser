@@ -1,5 +1,5 @@
 "
-I process VALUS command source code as input and build an AST using PSQLASTNode subclasses.
+I process VALUES command source code as input and build an AST using PSQLASTNode subclasses.
 "
 Class {
 	#name : #PSQLValuesASTBuilder,

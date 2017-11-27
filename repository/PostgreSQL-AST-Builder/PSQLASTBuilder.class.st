@@ -13,6 +13,11 @@ PSQLASTBuilder class >> insertQueryParser [
 ]
 
 { #category : #accessing }
+PSQLASTBuilder class >> updateQueryParser [
+	^ PSQLUpdateQueryASTBuilder
+]
+
+{ #category : #accessing }
 PSQLASTBuilder class >> valuesCommandParser [
 	^ PSQLValuesASTBuilder
 ]
@@ -631,22 +636,6 @@ PSQLASTBuilder >> unionIntersectExceptClause [
 		} asDictionary at: tokens first asUppercase) new
 			isDistinct: (tokens second isNil or: [ tokens second asUppercase = 'DISTINCT' ]);
 			selectQuery: tokens third;
-			yourself ]
-]
-
-{ #category : #'update command' }
-PSQLASTBuilder >> updateCommand [
-	^ super updateCommand ==> [ :tokens |
-		PSQLASTUpdateQuery new
-			withClause: tokens first;
-			hasOnly: tokens third isNotNil;
-			tableName: tokens fourth;
-			areDescendantTablesIncluded: tokens fifth isNotNil;
-			alias: (tokens sixth ifNotNil: #second);
-			setClause: tokens seventh;
-			fromClause: tokens eighth;
-			whereClause: tokens ninth;
-			returningClause: tokens last;
 			yourself ]
 ]
 
