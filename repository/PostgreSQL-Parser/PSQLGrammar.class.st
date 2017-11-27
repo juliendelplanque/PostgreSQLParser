@@ -21,15 +21,9 @@ Class {
 		'columnReference',
 		'columnsAndAliasesSelected',
 		'conditionalExpression',
-		'conflictAction',
-		'conflictTarget',
-		'conflictTarget1',
-		'conflictTarget2',
 		'correlation',
 		'createViewCommand',
-		'defaultValues',
 		'deleteCommand',
-		'expression',
 		'extractFunctionCall',
 		'fetchClause',
 		'fieldSelection',
@@ -72,17 +66,13 @@ Class {
 		'nullExpression',
 		'nullTestConstructOperator',
 		'offsetClause',
-		'onConflictClause',
 		'orderByClause',
 		'parenthesedFromItems',
 		'primary',
 		'queryName',
-		'returningClause',
-		'selectCommand',
 		'selectIntoCommand',
 		'selectIntoCommandAlternative',
 		'selectIntoCommandClassic',
-		'setClause',
 		'setItem1',
 		'setItem2',
 		'setItem3',
@@ -93,19 +83,22 @@ Class {
 		'updateCommand',
 		'updateDeleteWhereClause',
 		'usingClause',
-		'valuesClause',
-		'valuesCommand',
 		'whereClause',
 		'windowClause',
+		'withQuery',
+		'setClause',
+		'expression',
 		'withClause',
-		'withQuery'
+		'selectCommand',
+		'returningClause',
+		'valuesCommand'
 	],
 	#category : #PostgreSQL-Parser-Core
 }
 
 { #category : #accessing }
 PSQLGrammar class >> dependencies [
-	^ { PSQLValuesGrammar }
+	^ { PSQLValuesGrammar . PSQLInsertQueryGrammar }
 ]
 
 { #category : #expression }
@@ -248,43 +241,6 @@ PSQLGrammar >> conditionalExpression [
 	kw endKeyword trim
 ]
 
-{ #category : #'insert command' }
-PSQLGrammar >> conflictAction [
-	"DO NOTHING
-    DO UPDATE SET { column_name = { expression | DEFAULT } |
-                    ( column_name [, ...] ) = ( { expression | DEFAULT } [, ...] ) |
-                    ( column_name [, ...] ) = ( sub-SELECT )
-                  } [, ...]
-              [ WHERE condition ]"
-	^ (kw do trim , kw nothing) /
-	(kw do trim , kw update trim , setClause trim , (kw whereKeyword trim , expression) optional)
-]
-
-{ #category : #'insert command' }
-PSQLGrammar >> conflictTarget [
-	"( { index_column_name | ( index_expression ) } [ COLLATE collation ] [ opclass ] [, ...] ) [ WHERE index_predicate ]
-	
-	or
-	
-   ON CONSTRAINT constraint_name"
-	^ conflictTarget1 / conflictTarget2
-]
-
-{ #category : #'insert command' }
-PSQLGrammar >> conflictTarget1 [
-	"( { index_column_name | ( index_expression ) } [ COLLATE collation ] [ opclass ] [, ...] ) [ WHERE index_predicate ]"
-	self flag: 'TODO'. "Not sure of how to parse the rest of this..."
-	^ (( openParenthesis trim , expression trim , closeParenthesis ) / columnName) ,
-	"Missing something between"
-	(kw whereKeyword trim , expression) optional
-]
-
-{ #category : #'insert command' }
-PSQLGrammar >> conflictTarget2 [
-	"ON CONSTRAINT constraint_name"
-	^ kw on trim , kw constraint trim , identifier
-]
-
 { #category : #accessing }
 PSQLGrammar >> correlation [
 	^ identifier
@@ -308,11 +264,6 @@ PSQLGrammar >> createViewCommand [
 		closeParenthesis trim) trim optional ,
 		kw as trim ,
 		selectCommand trim
-]
-
-{ #category : #'insert command' }
-PSQLGrammar >> defaultValues [
-	^ kw default trim , kw values
 ]
 
 { #category : #'delete command' }
@@ -550,22 +501,9 @@ PSQLGrammar >> inOperator [
 	^ kw into trim not , kw in trim , keywordStop
 ]
 
-{ #category : #'insert command' }
+{ #category : #dependencies }
 PSQLGrammar >> insertCommand [
-	"[ WITH [ RECURSIVE ] with_query [, ...] ]
-INSERT INTO table_name [ AS alias ] [ ( column_name [, ...] ) ]
-    { DEFAULT VALUES | VALUES ( { expression | DEFAULT } [, ...] ) [, ...] | query }
-    [ ON CONFLICT [ conflict_target ] conflict_action ]
-    [ RETURNING * | output_expression [ [ AS ] output_name ] [, ...] ]"
-	
-	^ withClause trim optional ,
-		kw insert trim , kw into trim , identifierWithOptionalFieldAccess trim , (kw as trim , alias) optional , 
-		(openParenthesis trim , 
-			(expression plus separatedBy: comma trim) , "Apparently, a column name can be generated from an expression."
-		closeParenthesis trim) trim optional ,
-		valuesClause trim ,
-		onConflictClause trim optional ,
-		returningClause trim optional
+	^ (self dependencyAt: PSQLInsertQueryGrammar) insertCommand
 ]
 
 { #category : #'select command' }
@@ -681,12 +619,6 @@ PSQLGrammar >> nullTestConstructOperator [
 { #category : #'select command' }
 PSQLGrammar >> offsetClause [
 	^ kw offset trim , numericConstant trim
-]
-
-{ #category : #'insert command' }
-PSQLGrammar >> onConflictClause [
-	"ON CONFLICT [ conflict_target ] conflict_action"
-	^ kw on trim , kw conflict trim , conflictTarget trim optional , conflictAction
 ]
 
 { #category : #'select command' }
@@ -928,14 +860,6 @@ PSQLGrammar >> updateDeleteWhereClause [
 PSQLGrammar >> usingClause [
 	"USING using_list"
 	^ kw using trim , (expression separatedBy: comma trim)
-]
-
-{ #category : #'insert command' }
-PSQLGrammar >> valuesClause [
-	"DEFAULT VALUES | VALUES ( { expression | DEFAULT } [, ...] ) [, ...] | query"
-	^ defaultValues /
-	valuesCommand /
-	selectCommand
 ]
 
 { #category : #dependencies }
