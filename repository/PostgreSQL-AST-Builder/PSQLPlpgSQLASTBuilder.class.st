@@ -27,17 +27,17 @@ PSQLPlpgSQLASTBuilder >> expression [
 	^ (self dependencyAt: PSQLASTBuilder) expression
 ]
 
-{ #category : #dependencies }
+{ #category : #helpers }
 PSQLPlpgSQLASTBuilder >> identifier [
 	^ (self dependencyAt: PSQLASTBuilder) identifier
 ]
 
-{ #category : #dependencies }
+{ #category : #helpers }
 PSQLPlpgSQLASTBuilder >> identifierOrKeyword [
 	^ (self dependencyAt: PSQLASTBuilder) identifierOrKeyword
 ]
 
-{ #category : #dependencies }
+{ #category : #helpers }
 PSQLPlpgSQLASTBuilder >> identifierWithOptionalFieldAccess [
 	^ (self dependencyAt: PSQLASTBuilder) identifierWithOptionalFieldAccess
 ]

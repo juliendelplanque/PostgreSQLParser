@@ -9,7 +9,7 @@ Class {
 
 { #category : #accessing }
 PSQLASTBuilder class >> dependencies [
-	^ { PSQLValuesASTBuilder }
+	^ { PSQLValuesASTBuilder . PSQLInsertQueryASTBuilder }
 ]
 
 { #category : #expression }
@@ -152,24 +152,6 @@ PSQLASTBuilder >> conditionalExpression [
 			conditionsToExpressions: (tokens second collect: [ :item | item second -> item fourth ]);
 			elseExpression: tokens third second;
 			yourself ]
-]
-
-{ #category : #'insert command' }
-PSQLASTBuilder >> conflictAction [
-	^ super conflictAction ==> [ :tokens |
-		tokens size = 2
-			ifTrue: [ PSQLASTConflictAction new "DO NOTHING" ]
-			ifFalse: [ 
-				PSQLASTConflictAction new
-					setClause: tokens third;
-					condition: (tokens fourth ifNotNil: #second);
-					yourself ] ]
-]
-
-{ #category : #'insert command' }
-PSQLASTBuilder >> defaultValues [
-	^ super defaultValues ==> [ :tokens |
-		PSQLASTDefaultValues new ]
 ]
 
 { #category : #'delete command' }
@@ -400,18 +382,9 @@ PSQLASTBuilder >> identifierWithOptionalFieldAccess [
 					yourself ] ]
 ]
 
-{ #category : #'insert command' }
+{ #category : #dependencies }
 PSQLASTBuilder >> insertCommand [
-	^ super insertCommand ==> [ :tokens |
-		PSQLASTInsertQuery new
-			withClause: tokens first;
-			tableName: tokens fourth;
-			alias: (tokens fifth ifNotNil: #second);
-			columns: (tokens sixth ifNotNil: [ :subTokens | subTokens second reject: [ :item | item = $, ] ]);
-			valuesClause: tokens seventh;
-			onConflictClause: tokens eighth;
-			returningClause: tokens ninth;
-			yourself ]
+	^ (self dependencyAt: PSQLInsertQueryASTBuilder) insertCommand
 ]
 
 { #category : #'select command' }
@@ -461,15 +434,6 @@ PSQLASTBuilder >> offsetClause [
 	^ super offsetClause ==> [ :tokens |
 		PSQLASTOffsetClause new
 			offset: tokens second;
-			yourself ]
-]
-
-{ #category : #'insert command' }
-PSQLASTBuilder >> onConflictClause [
-	^ super onConflictClause ==> [ :tokens |
-		PSQLASTOnConflictClause new
-			target: tokens third;
-			action: tokens fourth;
 			yourself ]
 ]
 
