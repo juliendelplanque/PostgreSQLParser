@@ -57,7 +57,7 @@ BaselineOfPostgreSQL >> defineGroups: spec [
 { #category : #baselines }
 BaselineOfPostgreSQL >> definePackages: spec [
 	spec 
-		package: #'PostgreSQL-Parser' with: [ spec requires: #('PetitParser-Core' 'PetitParserExtension') ];
+		package: #'PostgreSQL-Parser' with: [ spec requires: #('PetitParser-Core') ];
 		package: #'PostgreSQL-Parser-Tests' with: [ spec requires: #('PetitParser-Tests' 'PostgreSQL-Parser') ];
 		package: #'PostgreSQL-AST';
 		package: #'PostgreSQL-AST-Builder' with: [ spec requires: #('PostgreSQL-AST' 'PostgreSQL-Parser') ];
