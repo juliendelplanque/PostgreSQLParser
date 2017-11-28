@@ -18,6 +18,11 @@ PSQLASTBuilder class >> insertQueryParser [
 ]
 
 { #category : #accessing }
+PSQLASTBuilder class >> selectQueryParser [
+	^ PSQLSelectQueryASTBuilder
+]
+
+{ #category : #accessing }
 PSQLASTBuilder class >> updateQueryParser [
 	^ PSQLUpdateQueryASTBuilder
 ]
@@ -57,19 +62,6 @@ PSQLASTBuilder >> aggregateExpressionParserForm3With: expressionParser [
 				expressions: { tokens third };
 				orderByClause: tokens fourth;
 				yourself ]
-]
-
-{ #category : #'select command' }
-PSQLASTBuilder >> allOrDistinctClause [
-	^ super allOrDistinctClause ==> [ :tokens |
-		tokens isString
-			ifTrue: [ PSQLASTAllClause new ]
-			ifFalse: [ |node|
-				node := PSQLASTDistinctClause new.
-				tokens second ifNotNil: [ 
-					node
-						expressions: (tokens second third reject: [ :item | item = $, ] thenCollect: #first) ].
-				node ] ]
 ]
 
 { #category : #expression }
@@ -117,23 +109,6 @@ PSQLASTBuilder >> columnReference [
 				yourself ]
 			ifNil: [ 
 				tokens second ] ]
-]
-
-{ #category : #'select command' }
-PSQLASTBuilder >> columnsAndAliasesSelected [
-	^ super columnsAndAliasesSelected ==> [ :tokens |
-		tokens reject: [ :item | item = $, ] thenCollect: [ :item |
-			item first isArray
-				ifTrue: [
-					item first first
-						ifNotNil: [ 
-							PSQLASTAttributeAccess new 
-								accessed: item first first first;
-								attributeIdentifier: item first second;
-								yourself ]
-						ifNil: [ item first second ] ]
-				ifFalse: [ 
-					item first ] ] ]
 ]
 
 { #category : #expression }
@@ -187,26 +162,6 @@ PSQLASTBuilder >> expressionParserTermFor: expressionParser [
 					operator: '::';
 					left: tokens first;
 					right: (PSQLASTIdentifier new identifier: (tokens second second joinUsing: ' '); yourself) ] ]
-]
-
-{ #category : #'select command' }
-PSQLASTBuilder >> fetchClause [
-	^ super fetchClause ==> [ :tokens |
-		PSQLASTFetchClause new
-			isFirst: tokens second asUppercase = 'FIRST';
-			count: tokens third;
-			yourself ]
-]
-
-{ #category : #'select command' }
-PSQLASTBuilder >> forClause [
-	^ super forClause ==> [ :tokens |
-		PSQLASTForClause new
-			isUpdate: tokens second asUppercase = 'UPDATE';
-			ofTables: (tokens third ifNotNil: [ :array |
-				array second reject: [ :item | item = $, ] thenCollect: #first ]);
-			isNoWait: tokens fourth isNotNil;
-			yourself ]
 ]
 
 { #category : #shared }
@@ -341,22 +296,6 @@ PSQLASTBuilder >> functionCallParserWith: expressionParser [
 				yourself ]
 ]
 
-{ #category : #'select command' }
-PSQLASTBuilder >> groupByClause [
-	^ super groupByClause ==> [ :tokens |
-		PSQLASTGroupByClause new
-			expressions: (tokens third reject: [ :item | item = $, ] thenCollect: #first);
-			yourself ]
-]
-
-{ #category : #'select command' }
-PSQLASTBuilder >> havingClause [
-	^ super havingClause ==> [ :tokens |
-		PSQLASTHavingClause new
-			expressions: (tokens second reject: [ :item | item = $, ] thenCollect: #first);
-			yourself ]
-]
-
 { #category : #accessing }
 PSQLASTBuilder >> identifier [
 	^ super identifier ==> [ :tokens | 
@@ -382,16 +321,6 @@ PSQLASTBuilder >> identifierWithOptionalFieldAccess [
 					yourself ] ]
 ]
 
-{ #category : #'select command' }
-PSQLASTBuilder >> intoClause [
-	^ super intoClause ==> [ :tokens |
-		PSQLASTIntoClause new
-			type: (tokens second ifNotNil: #asUppercase);
-			hasTable: tokens third isNotNil;
-			newTable: tokens fourth;
-			yourself ]
-]
-
 { #category : #accessing }
 PSQLASTBuilder >> isNotNull [
 	^ super isNotNull ==> [ :tokens | tokens joinUsing: ' ' ]
@@ -408,14 +337,6 @@ PSQLASTBuilder >> joinType [
 		(tokens flattened reject: #isNil) joinUsing: ' ' ]
 ]
 
-{ #category : #'select command' }
-PSQLASTBuilder >> limitClause [
-	^ super limitClause ==> [ :tokens |
-		PSQLASTLimitClause new
-			limit: (tokens second isString ifTrue: [ PSQLASTAllClause new ] ifFalse: [ tokens second ]);
-			yourself ]
-]
-
 { #category : #accessing }
 PSQLASTBuilder >> numericConstant [
 	^ super numericConstant ==> [ :tokens |
@@ -424,15 +345,7 @@ PSQLASTBuilder >> numericConstant [
 			yourself ]
 ]
 
-{ #category : #'select command' }
-PSQLASTBuilder >> offsetClause [
-	^ super offsetClause ==> [ :tokens |
-		PSQLASTOffsetClause new
-			offset: tokens second;
-			yourself ]
-]
-
-{ #category : #'select command' }
+{ #category : #shared }
 PSQLASTBuilder >> orderByClause [
 	^ super orderByClause ==> [ :tokens |
 		PSQLASTOrderByClause new
@@ -503,73 +416,6 @@ PSQLASTBuilder >> returningClause [
 			yourself ]
 ]
 
-{ #category : #'select command' }
-PSQLASTBuilder >> selectCommand [
-	^ super selectCommand ==> [ :tokens |
-		PSQLASTSelectQuery new
-			withClause: tokens first;
-			allOrDistinctClause: tokens third;
-			columnsAndAliasesSelected: tokens fourth;
-			fromClause: tokens fifth;
-			whereClause: tokens sixth;
-			groupByClause: tokens seventh;
-			havingClause: tokens eighth;
-			windowClause: tokens ninth;
-			unionIntersectExceptClause: (tokens at: 10);
-			orderByClause: (tokens at: 11);
-			limitClause: (tokens at: 12);
-			offsetClause: (tokens at: 13);
-			fetchClause: (tokens at: 14);
-			forClause: (tokens at: 15);
-			yourself ]
-]
-
-{ #category : #'select command' }
-PSQLASTBuilder >> selectIntoCommandAlternative [
-	^ super selectIntoCommandAlternative ==> [ :tokens |
-		PSQLASTAlternativeSelectIntoQuery new
-			withClause: tokens first;
-			intoClause: (PSQLASTIntoClause new
-								newTable: tokens fourth;
-								hasTable: false;
-								yourself);
-			columnsAndAliasesSelected: tokens fifth;
-			fromClause: tokens sixth;
-			whereClause: tokens seventh;
-			groupByClause: tokens eighth;
-			havingClause: tokens ninth;
-			windowClause: (tokens at: 10);
-			unionIntersectExceptClause: (tokens at: 11);
-			orderByClause: (tokens at: 12);
-			limitClause: (tokens at: 13);
-			offsetClause: (tokens at: 14);
-			fetchClause: (tokens at: 15);
-			forClause: (tokens at: 16);
-			yourself ]
-]
-
-{ #category : #'select command' }
-PSQLASTBuilder >> selectIntoCommandClassic [
-	^ super selectIntoCommandClassic ==> [ :tokens |
-		PSQLASTSelectIntoQuery new
-			withClause: tokens first;
-			allOrDistinctClause: tokens third;
-			columnsAndAliasesSelected: tokens fourth;
-			intoClause: tokens fifth;
-			fromClause: tokens sixth;
-			whereClause: tokens seventh;
-			groupByClause: tokens eighth;
-			havingClause: tokens ninth;
-			windowClause: (tokens at: 10);
-			unionIntersectExceptClause: (tokens at: 11);
-			orderByClause: (tokens at: 12);
-			limitClause: (tokens at: 13);
-			offsetClause: (tokens at: 14);
-			fetchClause: (tokens at: 15);
-			forClause: (tokens at: 16);
-			yourself ]
-]
-
 { #category : #shared }
 PSQLASTBuilder >> setClause [
 	^ super setClause ==> [ :tokens |
@@ -616,19 +462,6 @@ PSQLASTBuilder >> simpleStringConstant [
 			yourself ]
 ]
 
-{ #category : #'select command' }
-PSQLASTBuilder >> unionIntersectExceptClause [
-	^ super unionIntersectExceptClause ==> [ :tokens |
-		({
-			'UNION' -> PSQLASTUnionClause.
-			'INTERSECT' -> PSQLASTIntersectClause.
-			'EXCEPT' -> PSQLASTExceptClause
-		} asDictionary at: tokens first asUppercase) new
-			isDistinct: (tokens second isNil or: [ tokens second asUppercase = 'DISTINCT' ]);
-			selectQuery: tokens third;
-			yourself ]
-]
-
 { #category : #shared }
 PSQLASTBuilder >> updateDeleteWhereClause [
 	^ super updateDeleteWhereClause ==> [ :tokens |
@@ -638,14 +471,6 @@ PSQLASTBuilder >> updateDeleteWhereClause [
 			ifTrue: [ node currentOfCursor: tokens second third ]
 			ifFalse: [ node condition: tokens second ].
 		node ]
-]
-
-{ #category : #'select command' }
-PSQLASTBuilder >> whereClause [
-	^ super whereClause ==> [ :tokens |
-		PSQLASTSelectWhereClause new
-			condition: tokens second;
-			yourself ]
 ]
 
 { #category : #shared }
