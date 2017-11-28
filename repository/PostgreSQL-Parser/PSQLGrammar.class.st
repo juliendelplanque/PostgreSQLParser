@@ -7,7 +7,6 @@ Class {
 	#name : #PSQLGrammar,
 	#superclass : #PSQLTokenizer,
 	#instVars : [
-		'aggregateName',
 		'alias',
 		'allOrDistinctClause',
 		'asOperator',
@@ -17,11 +16,9 @@ Class {
 		'booleanTestConstructOperator',
 		'columnAlias',
 		'columnDefinition',
-		'columnName',
 		'columnReference',
 		'columnsAndAliasesSelected',
 		'conditionalExpression',
-		'correlation',
 		'createViewCommand',
 		'deleteCommand',
 		'extractFunctionCall',
@@ -38,8 +35,6 @@ Class {
 		'fromItems6',
 		'fromItems7',
 		'functionCall',
-		'functionName',
-		'functionParameterName',
 		'groupByClause',
 		'havingClause',
 		'inOperator',
@@ -122,7 +117,7 @@ PSQLGrammar class >> valuesCommandParser [
 
 { #category : #expression }
 PSQLGrammar >> aggregateExpressionParserForm1With: expressionParser [
-	^ aggregateName , 
+	^ identifier , 
 		openParenthesis ,
 		(expressionParser plus separatedBy: comma trim) trim ,
 		orderByClause optional,
@@ -131,7 +126,7 @@ PSQLGrammar >> aggregateExpressionParserForm1With: expressionParser [
 
 { #category : #expression }
 PSQLGrammar >> aggregateExpressionParserForm2With: expressionParser [
-	^ aggregateName , 
+	^ identifier , 
 		openParenthesis ,
 		(kw all / kw distinct) trim ,
 		(expressionParser plus separatedBy: comma trim) trim ,
@@ -141,7 +136,7 @@ PSQLGrammar >> aggregateExpressionParserForm2With: expressionParser [
 
 { #category : #expression }
 PSQLGrammar >> aggregateExpressionParserForm3With: expressionParser [
-	^ aggregateName , 
+	^ identifier , 
 		openParenthesis ,
 		asterik trim , 
 		orderByClause optional,
@@ -160,11 +155,6 @@ PSQLGrammar >> aggregateExpressionParserWith: expressionParser [
 	(self aggregateExpressionParserForm2With: expressionParser) /
 	(self aggregateExpressionParserForm3With: expressionParser) /
 	(self aggregateExpressionParserForm4With: expressionParser)
-]
-
-{ #category : #accessing }
-PSQLGrammar >> aggregateName [
-	^ identifier
 ]
 
 { #category : #helpers }
@@ -226,13 +216,8 @@ PSQLGrammar >> columnDefinition [
 ]
 
 { #category : #accessing }
-PSQLGrammar >> columnName [
-	^ identifier
-]
-
-{ #category : #accessing }
 PSQLGrammar >> columnReference [
-	^ (correlation , period) optional , columnName
+	^ (identifier , period) optional , identifier
 ]
 
 { #category : #'select command' }
@@ -261,11 +246,6 @@ PSQLGrammar >> conditionalExpression [
 ]
 
 { #category : #accessing }
-PSQLGrammar >> correlation [
-	^ identifier
-]
-
-{ #category : #accessing }
 PSQLGrammar >> createViewCommand [
 	"CREATE [ OR REPLACE ] [ TEMP | TEMPORARY ] VIEW name [ ( column_name [, ...] ) ]
     [ WITH ( kw view_option_name [= kw view_option_value] [, ... ] ) ]
@@ -276,7 +256,7 @@ PSQLGrammar >> createViewCommand [
 		kw view trim ,
 		identifier trim , 
 		(openParenthesis trim ,
-			(columnName plus separatedBy: comma trim) ,
+			(identifier plus separatedBy: comma trim) ,
 		closeParenthesis trim) trim optional ,
 		(kw with trim , openParenthesis trim ,
 			((identifierOrKeyword trim , ($= asParser trim , identifierOrKeyword trim) optional ) plus separatedBy: comma trim) , 
@@ -472,7 +452,7 @@ PSQLGrammar >> fromItems7 [
 { #category : #expression }
 PSQLGrammar >> functionCall [
 	"Only for function call with argument list (does not support argument dict)."
-	^ functionName trim ,
+	^ identifier trim ,
 		openParenthesis trim,
 		(expression separatedBy: comma trim) optional, "Using 'expression' is OK to parse function arguments"
 		closeParenthesis trim
@@ -480,19 +460,9 @@ PSQLGrammar >> functionCall [
 
 { #category : #expression }
 PSQLGrammar >> functionCallParserWith: expressionParser [
-	^ functionName , (openParenthesis trim , 
-		(((functionParameterName , ':=' asParser trim , expressionParser) trim / expressionParser trim) star separatedBy: comma trim) , 
+	^ identifier , (openParenthesis trim , 
+		(((identifier , ':=' asParser trim , expressionParser) trim / expressionParser trim) star separatedBy: comma trim) , 
 		closeParenthesis trim)
-]
-
-{ #category : #accessing }
-PSQLGrammar >> functionName [
-	^ identifier
-]
-
-{ #category : #accessing }
-PSQLGrammar >> functionParameterName [
-	^ identifier
 ]
 
 { #category : #'select command' }
@@ -786,13 +756,13 @@ PSQLGrammar >> setClause [
 { #category : #'shared - set clause' }
 PSQLGrammar >> setItem1 [
 	"column_name = { expression | DEFAULT }"
-	^ columnName trim , $= asParser trim , (kw default / expression)
+	^ identifier trim , $= asParser trim , (kw default / expression)
 ]
 
 { #category : #'shared - set clause' }
 PSQLGrammar >> setItem2 [
 	"( column_name [, ...] ) = ( { expression | DEFAULT } [, ...] )"
-	^ openParenthesis trim , (columnName plus separatedBy: comma trim) trim , closeParenthesis trim ,
+	^ openParenthesis trim , (identifier plus separatedBy: comma trim) trim , closeParenthesis trim ,
 	$= asParser trim ,
 	openParenthesis trim , ((kw default / expression) plus separatedBy: comma trim) , closeParenthesis
 ]
@@ -800,7 +770,7 @@ PSQLGrammar >> setItem2 [
 { #category : #'shared - set clause' }
 PSQLGrammar >> setItem3 [
 	"( column_name [, ...] ) = ( sub-SELECT )"
-	^ openParenthesis trim , (columnName plus separatedBy: comma trim) , closeParenthesis trim ,
+	^ openParenthesis trim , (identifier plus separatedBy: comma trim) , closeParenthesis trim ,
 	$= asParser trim ,
 	openParenthesis trim , selectCommand trim , closeParenthesis trim
 ]
