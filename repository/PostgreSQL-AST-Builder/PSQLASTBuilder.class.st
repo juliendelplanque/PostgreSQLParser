@@ -8,6 +8,11 @@ Class {
 }
 
 { #category : #accessing }
+PSQLASTBuilder class >> deleteQueryParser [
+	^ PSQLDeleteQueryASTBuilder
+]
+
+{ #category : #accessing }
 PSQLASTBuilder class >> insertQueryParser [
 	^ PSQLInsertQueryASTBuilder
 ]
@@ -161,21 +166,6 @@ PSQLASTBuilder >> conditionalExpression [
 		PSQLASTConditionalExpression new
 			conditionsToExpressions: (tokens second collect: [ :item | item second -> item fourth ]);
 			elseExpression: tokens third second;
-			yourself ]
-]
-
-{ #category : #'delete command' }
-PSQLASTBuilder >> deleteCommand [
-	^ super deleteCommand ==> [ :tokens |
-		PSQLASTDeleteQuery new
-			withClause: tokens first;
-			isOnlySpecified: tokens fourth isNotNil;
-			tableName: tokens fifth;
-			areDescendantTablesIncluded: tokens sixth isNotNil;
-			alias: (tokens seventh ifNotNil: #second);
-			usingList: tokens eighth;
-			whereClause: tokens ninth;
-			returningClause: tokens last;
 			yourself ]
 ]
 
@@ -648,12 +638,6 @@ PSQLASTBuilder >> updateDeleteWhereClause [
 			ifTrue: [ node currentOfCursor: tokens second third ]
 			ifFalse: [ node condition: tokens second ].
 		node ]
-]
-
-{ #category : #'delete command' }
-PSQLASTBuilder >> usingClause [
-	^ super usingClause ==> [ :tokens |
-		tokens second ]
 ]
 
 { #category : #'select command' }
