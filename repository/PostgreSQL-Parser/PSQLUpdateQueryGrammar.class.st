@@ -30,17 +30,17 @@ PSQLUpdateQueryGrammar >> fromClause [
 	^ (self dependencyAt: self class sqlParser) fromClause
 ]
 
-{ #category : #helpers }
+{ #category : #dependencies }
 PSQLUpdateQueryGrammar >> identifier [
 	^ (self dependencyAt: self class sqlParser) identifier
 ]
 
-{ #category : #helpers }
+{ #category : #dependencies }
 PSQLUpdateQueryGrammar >> identifierOrKeyword [
 	^ (self dependencyAt: self class sqlParser) identifierOrKeyword
 ]
 
-{ #category : #helpers }
+{ #category : #dependencies }
 PSQLUpdateQueryGrammar >> identifierWithOptionalFieldAccess [
 	^ (self dependencyAt: self class sqlParser) identifierWithOptionalFieldAccess
 ]

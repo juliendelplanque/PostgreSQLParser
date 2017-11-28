@@ -7,7 +7,6 @@ Class {
 	#name : #PSQLGrammar,
 	#superclass : #PSQLTokenizer,
 	#instVars : [
-		'allOrDistinctClause',
 		'asOperator',
 		'betweenConstructOperator',
 		'betweenSymmetric',
@@ -15,13 +14,10 @@ Class {
 		'booleanTestConstructOperator',
 		'columnDefinition',
 		'columnReference',
-		'columnsAndAliasesSelected',
 		'conditionalExpression',
 		'deleteCommand',
 		'extractFunctionCall',
-		'fetchClause',
 		'fieldSelection',
-		'forClause',
 		'fromClause',
 		'fromItems',
 		'fromItems1',
@@ -32,11 +28,8 @@ Class {
 		'fromItems6',
 		'fromItems7',
 		'functionCall',
-		'groupByClause',
-		'havingClause',
 		'inOperator',
 		'insertCommand',
-		'intoClause',
 		'isDistinctFromOperator',
 		'isFalse',
 		'isNotDistinctFromOperator',
@@ -49,7 +42,6 @@ Class {
 		'isUnknown',
 		'joinType',
 		'keywordStop',
-		'limitClause',
 		'nonStandardIsNull',
 		'nonStandardNotNull',
 		'notBetween',
@@ -57,30 +49,24 @@ Class {
 		'notInOperator',
 		'nullExpression',
 		'nullTestConstructOperator',
-		'offsetClause',
-		'orderByClause',
 		'parenthesedFromItems',
 		'primary',
 		'selectIntoCommand',
-		'selectIntoCommandAlternative',
-		'selectIntoCommandClassic',
 		'setItem1',
 		'setItem2',
 		'setItem3',
 		'typeCast',
 		'typeCastConstruct',
-		'unionIntersectExceptClause',
 		'updateDeleteWhereClause',
 		'updateCommand',
-		'whereClause',
-		'windowClause',
 		'withQuery',
 		'returningClause',
 		'setClause',
 		'selectCommand',
 		'valuesCommand',
 		'expression',
-		'withClause'
+		'withClause',
+		'orderByClause'
 	],
 	#category : #PostgreSQL-Parser-Core
 }
@@ -92,12 +78,17 @@ PSQLGrammar class >> deleteQueryParser [
 
 { #category : #accessing }
 PSQLGrammar class >> dependencies [
-	^ { self valuesCommandParser . self insertQueryParser . self updateQueryParser . self deleteQueryParser }
+	^ { self valuesCommandParser . self insertQueryParser . self updateQueryParser . self deleteQueryParser . self selectQueryParser }
 ]
 
 { #category : #accessing }
 PSQLGrammar class >> insertQueryParser [
 	^ PSQLInsertQueryGrammar
+]
+
+{ #category : #accessing }
+PSQLGrammar class >> selectQueryParser [
+	^ PSQLSelectQueryGrammar
 ]
 
 { #category : #accessing }
@@ -152,19 +143,6 @@ PSQLGrammar >> aggregateExpressionParserWith: expressionParser [
 	(self aggregateExpressionParserForm4With: expressionParser)
 ]
 
-{ #category : #'select command' }
-PSQLGrammar >> allOrDistinctClause [
-	"ALL | DISTINCT [ ON ( expression [, ...] ) ]"
-	^ kw all trim /
-	(kw distinct trim , 
-		(kw on trim ,
-			openParenthesis trim ,
-			(expression plus separatedBy: comma trim) ,
-			closeParenthesis trim
-		) optional
-	)
-]
-
 { #category : #expression }
 PSQLGrammar >> asOperator [
 	^ kw asc not , kw as
@@ -203,13 +181,6 @@ PSQLGrammar >> columnDefinition [
 { #category : #helpers }
 PSQLGrammar >> columnReference [
 	^ (identifier , period) optional , identifier
-]
-
-{ #category : #'select command' }
-PSQLGrammar >> columnsAndAliasesSelected [
-	^ (
-			((identifier , $. asParser) optional , asterik trim) / expression
-		) plus separatedBy: comma trim
 ]
 
 { #category : #expression }
@@ -283,19 +254,9 @@ PSQLGrammar >> extractFunctionCall [
 	^ identifier trim , openParenthesis trim , expression trim , kw from trim , expression trim , closeParenthesis
 ]
 
-{ #category : #'select command' }
-PSQLGrammar >> fetchClause [
-	^ kw fetch trim , (kw first trim / kw next trim) , numericConstant trim optional , (kw rows trim / kw row trim) , kw only trim
-]
-
 { #category : #expression }
 PSQLGrammar >> fieldSelection [
 	^ period , (identifier / asterik)
-]
-
-{ #category : #'select command' }
-PSQLGrammar >> forClause [
-	^ kw for trim , (kw update trim / kw share trim) , (kw of trim , (expression plus separatedBy: comma trim)) optional , kw nowait trim optional
 ]
 
 { #category : #'shared - from clause' }
@@ -430,16 +391,6 @@ PSQLGrammar >> functionCallParserWith: expressionParser [
 		closeParenthesis trim)
 ]
 
-{ #category : #'select command' }
-PSQLGrammar >> groupByClause [
-	^ kw group trim , kw by trim , (expression plus separatedBy: comma trim)
-]
-
-{ #category : #'select command' }
-PSQLGrammar >> havingClause [
-	^ kw having trim , (expression plus separatedBy: comma trim)
-]
-
 { #category : #expression }
 PSQLGrammar >> inOperator [
 	^ kw into trim not , kw in trim , keywordStop
@@ -448,12 +399,6 @@ PSQLGrammar >> inOperator [
 { #category : #dependencies }
 PSQLGrammar >> insertCommand [
 	^ (self dependencyAt: self class insertQueryParser) insertCommand
-]
-
-{ #category : #'select command' }
-PSQLGrammar >> intoClause [
-	"INTO [ TEMPORARY | TEMP | UNLOGGED ] [ TABLE ] new_table"
-	^ kw into trim , (kw temporary trim / kw temp trim / kw unlogged trim) optional , kw table trim optional , expression trim
 ]
 
 { #category : #expression }
@@ -520,11 +465,6 @@ PSQLGrammar >> keywordStop [
 	^ (#space asParser / openBracket / closeBracket / openParenthesis / closeParenthesis / nil asParser) not not
 ]
 
-{ #category : #'select command' }
-PSQLGrammar >> limitClause [
-	^ kw limit trim , (numericConstant trim / kw all trim)
-]
-
 { #category : #expression }
 PSQLGrammar >> nonStandardIsNull [
 	^ kw isnull
@@ -560,12 +500,7 @@ PSQLGrammar >> nullTestConstructOperator [
 	^ (isNull / isNotNull / nonStandardIsNull / nonStandardNotNull) , keywordStop
 ]
 
-{ #category : #'select command' }
-PSQLGrammar >> offsetClause [
-	^ kw offset trim , numericConstant trim
-]
-
-{ #category : #'select command' }
+{ #category : #shared }
 PSQLGrammar >> orderByClause [
 	^ kw order trim , kw by trim ,
 		((expression ,
@@ -607,100 +542,14 @@ PSQLGrammar >> returningClause [
 		((asterik / (expression trim , (kw as trim optional , identifier) optional)) plus separatedBy: comma trim)
 ]
 
-{ #category : #'select command' }
+{ #category : #dependencies }
 PSQLGrammar >> selectCommand [
-	"[ WITH [ RECURSIVE ] with_query [, ...] ]
-	 SELECT [ ALL | DISTINCT [ ON ( expression [, ...] ) ] ]
-    	* | expression [ [ AS ] output_name ] [, ...]
-    	[ FROM from_item [, ...] ]
-    	[ WHERE condition ]
-    	[ GROUP BY expression [, ...] ]
-    	[ HAVING condition [, ...] ]
-    	[ WINDOW window_name AS ( window_definition ) [, ...] ]
-    	[ { UNION | INTERSECT | EXCEPT } [ ALL | DISTINCT ] kw select ]
-    	[ ORDER BY expression [ ASC | DESC | USING operator ] [ NULLS { FIRST | LAST } ] [, ...] ]
-    	[ LIMIT { count | ALL } ]
-    	[ OFFSET start [ ROW | ROWS ] ]
-    	[ FETCH { FIRST | NEXT } [ count ] { ROW | ROWS } ONLY ]
-    	[ FOR { UPDATE | SHARE } [ OF table_name [, ...] ] [ NOWAIT ] [...] ]"
-	^ withClause optional ,
-	   kw select trim ,
-	   allOrDistinctClause optional ,
-		columnsAndAliasesSelected trim,
-		fromClause optional ,
-		whereClause optional ,
-		groupByClause optional ,
-		havingClause optional ,
-		windowClause optional ,
-		unionIntersectExceptClause optional ,
-		orderByClause optional ,
-		limitClause optional ,
-		offsetClause optional ,
-		fetchClause optional ,
-		forClause optional	
+	^ (self dependencyAt: self class selectQueryParser) selectCommand
 ]
 
-{ #category : #'select command' }
+{ #category : #dependencies }
 PSQLGrammar >> selectIntoCommand [
-	^ selectIntoCommandAlternative / selectIntoCommandClassic
-]
-
-{ #category : #'select command' }
-PSQLGrammar >> selectIntoCommandAlternative [
-	"Alternative way to construct a SELECT INTO that was found in a DB schema.
-	It is similar to #selectIntoClassic but with the following construct allowed:
-	
-	SELECT INTO table * | columns ...
-	"
-	^ withClause optional ,
-	   kw select trim , kw into trim , identifierWithOptionalFieldAccess trim  ,
-		columnsAndAliasesSelected trim ,
-		fromClause optional ,
-		whereClause optional ,
-		groupByClause optional ,
-		havingClause optional ,
-		windowClause optional ,
-		unionIntersectExceptClause optional ,
-		orderByClause optional ,
-		limitClause optional ,
-		offsetClause optional ,
-		fetchClause optional ,
-		forClause optional	
-]
-
-{ #category : #'select command' }
-PSQLGrammar >> selectIntoCommandClassic [
-	"[ WITH [ RECURSIVE ] with_query [, ...] ]
-SELECT [ ALL | DISTINCT [ ON ( expression [, ...] ) ] ]
-    * | expression [ [ AS ] output_name ] [, ...]
-    INTO [ TEMPORARY | TEMP | UNLOGGED ] [ TABLE ] new_table
-    [ FROM from_item [, ...] ]
-    [ WHERE condition ]
-    [ GROUP BY expression [, ...] ]
-    [ HAVING condition [, ...] ]
-    [ WINDOW window_name AS ( window_definition ) [, ...] ]
-    [ { UNION | INTERSECT | EXCEPT } [ ALL | DISTINCT ] kw select ]
-    [ ORDER BY expression [ ASC | DESC | USING operator ] [ NULLS { FIRST | LAST } ] [, ...] ]
-    [ LIMIT { count | ALL } ]
-    [ OFFSET start [ ROW | ROWS ] ]
-    [ FETCH { FIRST | NEXT } [ count ] { ROW | ROWS } ONLY ]
-    [ FOR { UPDATE | SHARE } [ OF table_name [, ...] ] [ NOWAIT ] [...] ]"
-	^ withClause optional ,
-	   kw select trim ,
-	   allOrDistinctClause optional ,
-		columnsAndAliasesSelected trim,
-		intoClause ,
-		fromClause optional ,
-		whereClause optional ,
-		groupByClause optional ,
-		havingClause optional ,
-		windowClause optional ,
-		unionIntersectExceptClause optional ,
-		orderByClause optional ,
-		limitClause optional ,
-		offsetClause optional ,
-		fetchClause optional ,
-		forClause optional	
+	^ (self dependencyAt: self class selectQueryParser) selectIntoCommand
 ]
 
 { #category : #'shared - set clause' }
@@ -759,11 +608,6 @@ PSQLGrammar >> typeCastConstruct [
 			) plus separatedBy: #space asParser plus).
 ]
 
-{ #category : #'select command' }
-PSQLGrammar >> unionIntersectExceptClause [
-	^ (kw union trim / kw intersect trim / kw except trim) , (kw all trim / kw distinct trim) optional , selectCommand trim
-]
-
 { #category : #dependencies }
 PSQLGrammar >> updateCommand [
 	^ (self dependencyAt: self class updateQueryParser) updateCommand
@@ -778,17 +622,6 @@ PSQLGrammar >> updateDeleteWhereClause [
 { #category : #dependencies }
 PSQLGrammar >> valuesCommand [
 	^ (self dependencyAt: self class valuesCommandParser) valuesCommand
-]
-
-{ #category : #'select command' }
-PSQLGrammar >> whereClause [
-	^ kw whereKeyword trim , expression
-]
-
-{ #category : #'select command' }
-PSQLGrammar >> windowClause [
-	self flag: #todo.
-	^ nil asParser
 ]
 
 { #category : #shared }
