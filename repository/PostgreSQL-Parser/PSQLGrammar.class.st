@@ -7,14 +7,12 @@ Class {
 	#name : #PSQLGrammar,
 	#superclass : #PSQLTokenizer,
 	#instVars : [
-		'alias',
 		'allOrDistinctClause',
 		'asOperator',
 		'betweenConstructOperator',
 		'betweenSymmetric',
 		'binaryLogicalOperator',
 		'booleanTestConstructOperator',
-		'columnAlias',
 		'columnDefinition',
 		'columnReference',
 		'columnsAndAliasesSelected',
@@ -64,14 +62,12 @@ Class {
 		'orderByClause',
 		'parenthesedFromItems',
 		'primary',
-		'queryName',
 		'selectIntoCommand',
 		'selectIntoCommandAlternative',
 		'selectIntoCommandClassic',
 		'setItem1',
 		'setItem2',
 		'setItem3',
-		'tableName',
 		'typeCast',
 		'typeCastConstruct',
 		'unionIntersectExceptClause',
@@ -157,11 +153,6 @@ PSQLGrammar >> aggregateExpressionParserWith: expressionParser [
 	(self aggregateExpressionParserForm4With: expressionParser)
 ]
 
-{ #category : #helpers }
-PSQLGrammar >> alias [
-	^ identifier
-]
-
 { #category : #'select command' }
 PSQLGrammar >> allOrDistinctClause [
 	"ALL | DISTINCT [ ON ( expression [, ...] ) ]"
@@ -205,17 +196,12 @@ PSQLGrammar >> booleanTestConstructOperator [
 	^ (isTrue / isNotTrue / isFalse / isNotFalse / isUnknown / isNotUnknown) , keywordStop
 ]
 
-{ #category : #helpers }
-PSQLGrammar >> columnAlias [
-	^ identifier
-]
-
 { #category : #shared }
 PSQLGrammar >> columnDefinition [
 	^ columnReference trim , (identifier plus separatedBy: #space asParser plus)
 ]
 
-{ #category : #accessing }
+{ #category : #helpers }
 PSQLGrammar >> columnReference [
 	^ (identifier , period) optional , identifier
 ]
@@ -245,7 +231,7 @@ PSQLGrammar >> conditionalExpression [
 	kw endKeyword trim
 ]
 
-{ #category : #accessing }
+{ #category : #'create view command' }
 PSQLGrammar >> createViewCommand [
 	"CREATE [ OR REPLACE ] [ TEMP | TEMPORARY ] VIEW name [ ( column_name [, ...] ) ]
     [ WITH ( kw view_option_name [= kw view_option_value] [, ... ] ) ]
@@ -629,14 +615,9 @@ PSQLGrammar >> prefixOperatorBlock [
 	^ [ :op :exp | { op . exp } ]
 ]
 
-{ #category : #accessing }
+{ #category : #helpers }
 PSQLGrammar >> primary [
 	^ constant / columnReference / positionalParameter
-]
-
-{ #category : #helpers }
-PSQLGrammar >> queryName [
-	^ identifier
 ]
 
 { #category : #shared }
@@ -778,11 +759,6 @@ PSQLGrammar >> setItem3 [
 { #category : #expression }
 PSQLGrammar >> subscriptWith: expressionParser [
 	^ openBracket , expressionParser , (colon , expressionParser) optional , closeBracket
-]
-
-{ #category : #helpers }
-PSQLGrammar >> tableName [
-	^ identifier
 ]
 
 { #category : #expression }
