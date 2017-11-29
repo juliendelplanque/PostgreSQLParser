@@ -1,3 +1,6 @@
+"
+I build an AST for various subsets of the PSQL grammar that are shared between multiple ast builders.
+"
 Class {
 	#name : #PSQLSharedASTBuilder,
 	#superclass : #PSQLSharedGrammar,

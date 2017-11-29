@@ -1,3 +1,6 @@
+"
+I build an AST from FROM clause using PSQLASTNode subclasses from source code given as input.
+"
 Class {
 	#name : #PSQLFromClauseASTBuilder,
 	#superclass : #PSQLFromClauseGrammar,
