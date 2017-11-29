@@ -24,23 +24,13 @@ Class {
 }
 
 { #category : #accessing }
-PSQLSharedGrammar class >> deleteQueryParser [
-	^ PSQLDeleteQueryGrammar
+PSQLSharedGrammar class >> crudQueryParser [
+	^ PSQLCRUDQueryGrammar
 ]
 
 { #category : #accessing }
 PSQLSharedGrammar class >> dependencies [
-	^ { self insertQueryParser . self updateQueryParser . self deleteQueryParser . self selectQueryParser . self sqlParser }
-]
-
-{ #category : #accessing }
-PSQLSharedGrammar class >> insertQueryParser [
-	^ PSQLInsertQueryGrammar
-]
-
-{ #category : #accessing }
-PSQLSharedGrammar class >> selectQueryParser [
-	^ PSQLSelectQueryGrammar
+	^ { self crudQueryParser . self sqlParser }
 ]
 
 { #category : #accessing }
@@ -48,14 +38,9 @@ PSQLSharedGrammar class >> sqlParser [
 	^ PSQLGrammar
 ]
 
-{ #category : #accessing }
-PSQLSharedGrammar class >> updateQueryParser [
-	^ PSQLUpdateQueryGrammar
-]
-
 { #category : #dependencies }
 PSQLSharedGrammar >> deleteCommand [
-	^ (self dependencyAt: self class deleteQueryParser) deleteCommand
+	^ (self dependencyAt: self class crudQueryParser) deleteCommand
 ]
 
 { #category : #dependencies }
@@ -70,7 +55,7 @@ PSQLSharedGrammar >> identifier [
 
 { #category : #dependencies }
 PSQLSharedGrammar >> insertCommand [
-	^ (self dependencyAt: self class insertQueryParser) insertCommand
+	^ (self dependencyAt: self class crudQueryParser) insertCommand
 ]
 
 { #category : #shared }
@@ -91,7 +76,7 @@ PSQLSharedGrammar >> returningClause [
 
 { #category : #dependencies }
 PSQLSharedGrammar >> selectCommand [
-	^ (self dependencyAt: self class selectQueryParser) selectCommand
+	^ (self dependencyAt: self class crudQueryParser) selectCommand
 ]
 
 { #category : #'shared - set clause' }
@@ -128,7 +113,7 @@ PSQLSharedGrammar >> setItem3 [
 
 { #category : #dependencies }
 PSQLSharedGrammar >> updateCommand [
-	^ (self dependencyAt: self class updateQueryParser) updateCommand
+	^ (self dependencyAt: self class crudQueryParser) updateCommand
 ]
 
 { #category : #shared }

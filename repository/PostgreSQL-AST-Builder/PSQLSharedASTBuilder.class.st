@@ -5,28 +5,13 @@ Class {
 }
 
 { #category : #accessing }
-PSQLSharedASTBuilder class >> deleteQueryParser [
-	^ PSQLDeleteQueryASTBuilder
-]
-
-{ #category : #accessing }
-PSQLSharedASTBuilder class >> insertQueryParser [
-	^ PSQLInsertQueryASTBuilder
-]
-
-{ #category : #accessing }
-PSQLSharedASTBuilder class >> selectQueryParser [
-	^ PSQLSelectQueryASTBuilder
+PSQLSharedASTBuilder class >> crudQueryParser [
+	^ PSQLCRUDQueryASTBuilder
 ]
 
 { #category : #accessing }
 PSQLSharedASTBuilder class >> sqlParser [
 	^ PSQLASTBuilder
-]
-
-{ #category : #accessing }
-PSQLSharedASTBuilder class >> updateQueryParser [
-	^ PSQLUpdateQueryASTBuilder
 ]
 
 { #category : #shared }

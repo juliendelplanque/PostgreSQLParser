@@ -7,7 +7,7 @@ Class {
 { #category : #'plant uml' }
 PSQLPlantUMLGenerator class >> parserDependenciesPlantUMLScript [
 	| classes relations |
-	classes := PSQLTokenizer subclasses.
+	classes := PSQLTokenizer subclasses , {PSQLCRUDQueryGrammar}.
 relations := (classes collect: [ :c | c dependencies collect: [ :dep | c -> dep ] ]) flattened.
 
 	^ String streamContents: [ :s |
