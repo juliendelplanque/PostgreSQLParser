@@ -13,12 +13,12 @@ Class {
 
 { #category : #accessing }
 PSQLCreateViewGrammar class >> dependencies [
-	^ { self sqlParser }
+	^ { self selectQueryParser }
 ]
 
 { #category : #accessing }
-PSQLCreateViewGrammar class >> sqlParser [
-	^ PSQLGrammar
+PSQLCreateViewGrammar class >> selectQueryParser [
+	^ PSQLSelectQueryGrammar
 ]
 
 { #category : #'create view command' }
@@ -43,7 +43,7 @@ PSQLCreateViewGrammar >> createViewCommand [
 
 { #category : #dependencies }
 PSQLCreateViewGrammar >> selectCommand [
-	^ (self dependencyAt: self class sqlParser) selectCommand
+	^ (self dependencyAt: self class selectQueryParser) selectCommand
 ]
 
 { #category : #accessing }
