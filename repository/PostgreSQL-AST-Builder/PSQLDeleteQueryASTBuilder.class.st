@@ -8,6 +8,11 @@ Class {
 }
 
 { #category : #accessing }
+PSQLDeleteQueryASTBuilder class >> sharedParser [
+	^ PSQLSharedASTBuilder
+]
+
+{ #category : #accessing }
 PSQLDeleteQueryASTBuilder class >> sqlParser [
 	^ PSQLASTBuilder
 ]

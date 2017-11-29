@@ -8,6 +8,11 @@ Class {
 }
 
 { #category : #accessing }
+PSQLInsertQueryASTBuilder class >> sharedParser [
+	^ PSQLSharedASTBuilder
+]
+
+{ #category : #accessing }
 PSQLInsertQueryASTBuilder class >> sqlParser [
 	^ PSQLASTBuilder
 ]

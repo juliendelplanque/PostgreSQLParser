@@ -13,6 +13,11 @@ PSQLUpdateQueryASTBuilder class >> fromClauseParser [
 ]
 
 { #category : #accessing }
+PSQLUpdateQueryASTBuilder class >> sharedParser [
+	^ PSQLSharedASTBuilder
+]
+
+{ #category : #accessing }
 PSQLUpdateQueryASTBuilder class >> sqlParser [
 	^ PSQLASTBuilder
 ]
