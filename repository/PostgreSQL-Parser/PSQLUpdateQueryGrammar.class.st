@@ -17,7 +17,12 @@ Class {
 
 { #category : #accessing }
 PSQLUpdateQueryGrammar class >> dependencies [
-	^ { self sqlParser }
+	^ { self sqlParser . self fromClauseParser }
+]
+
+{ #category : #accessing }
+PSQLUpdateQueryGrammar class >> fromClauseParser [
+	^ PSQLFromClauseGrammar
 ]
 
 { #category : #accessing }
@@ -27,7 +32,7 @@ PSQLUpdateQueryGrammar class >> sqlParser [
 
 { #category : #dependencies }
 PSQLUpdateQueryGrammar >> fromClause [
-	^ (self dependencyAt: self class sqlParser) fromClause
+	^ (self dependencyAt: self class fromClauseParser) fromClause
 ]
 
 { #category : #dependencies }

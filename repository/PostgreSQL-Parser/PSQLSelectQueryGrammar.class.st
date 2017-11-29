@@ -31,7 +31,12 @@ Class {
 
 { #category : #accessing }
 PSQLSelectQueryGrammar class >> dependencies [
-	^ { self sqlParser }
+	^ { self sqlParser . self fromClauseParser }
+]
+
+{ #category : #accessing }
+PSQLSelectQueryGrammar class >> fromClauseParser [
+	^ PSQLFromClauseGrammar
 ]
 
 { #category : #accessing }
@@ -91,7 +96,7 @@ PSQLSelectQueryGrammar >> forClause [
 
 { #category : #dependencies }
 PSQLSelectQueryGrammar >> fromClause [
-	^ (self dependencyAt: self class sqlParser) fromClause
+	^ (self dependencyAt: self class fromClauseParser) fromClause
 ]
 
 { #category : #'select command' }
