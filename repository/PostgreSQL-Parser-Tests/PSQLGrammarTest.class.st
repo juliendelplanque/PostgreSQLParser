@@ -61,22 +61,30 @@ PSQLGrammarTest >> testExpression [
 		parse: '1+1' rule: #expression;
 		parse: '1++' rule: #expression;
 		parse: '(fct(fct1(variable[1:$2],2),fct2(42)))' rule: #expression;
-		parse: '"initiative"."issue_id" = "interest"."issue_id"' rule: #expression;
+		parse: '"initiative"."issue_id" = "interest"."issue_id"'
+			rule: #expression;
 		parse: '(id)' rule: #expression;
 		parse: '(rowfunction(a,b))' rule: #expression;
-		parse: 'affectation.cle_support = support.cle AND support.cle_personne = personne.cle AND personne.cle = clepersonne AND	affectation.cle_equipe = cleequipe AND affectation.fin <= finperiode' rule: #expression;
-		parse: 'membres(labo,dateobservation::DATE,dateobservation::DATE)' rule: #expression;
-		parse: 'personne.cle = support.cle_personne AND (support.debut <= dateobservation AND (support.fin >= dateobservation OR support.fin IS NULL)) AND datenaissance IS NOT NULL' rule: #expression;
-		parse: '(personne.cle IN (SELECT these.cle_coencadrant FROM these))' rule: #expression;
+		parse: 'affectation.cle_support = support.cle AND support.cle_personne = personne.cle AND personne.cle = clepersonne AND	affectation.cle_equipe = cleequipe AND affectation.fin <= finperiode'
+			rule: #expression;
+		parse: 'membres(labo,dateobservation::DATE,dateobservation::DATE)'
+			rule: #expression;
+		parse: 'personne.cle = support.cle_personne AND (support.debut <= dateobservation AND (support.fin >= dateobservation OR support.fin IS NULL)) AND datenaissance IS NOT NULL'
+			rule: #expression;
+		parse: '(personne.cle IN (SELECT these.cle_coencadrant FROM these))'
+			rule: #expression;
 		parse: '''IG''::character varying' rule: #expression;
 		parse: '1 = - 1' rule: #expression;
-		parse: 'ANY (ARRAY[(''IG''::character varying)::text, (''TECH''::character varying)::text])' rule: #expression;
-		parse: '((grade.cle_catgrade)::text = ANY (ARRAY[(''IG''::character varying)::text, (''TECH''::character varying)::text]))' rule: #expression;
+		parse: 'ANY (ARRAY[(''IG''::character varying)::text, (''TECH''::character varying)::text])'
+			rule: #expression;
+		parse: '((grade.cle_catgrade)::text = ANY (ARRAY[(''IG''::character varying)::text, (''TECH''::character varying)::text]))'
+			rule: #expression;
 		parse: '''a'' || ''b''' rule: #expression;
 		parse: 'parentid IS NULL OR parentid = ''''' rule: #expression;
 		parse: 'x BETWEEN 0 AND 10' rule: #expression;
 		parse: 'x NOT BETWEEN 0 AND 10' rule: #expression;
-		parse: '(x BETWEEN 0 AND 10) OR (x NOT BETWEEN 15 AND 20)' rule: #expression;
+		parse: '(x BETWEEN 0 AND 10) OR (x NOT BETWEEN 15 AND 20)'
+			rule: #expression;
 		parse: 'x IS DISTINCT FROM y' rule: #expression;
 		parse: 'x IS NOT DISTINCT FROM y' rule: #expression;
 		parse: 'x IS TRUE' rule: #expression;
@@ -87,17 +95,30 @@ PSQLGrammarTest >> testExpression [
 		parse: 'x IS NOT UNKNOWN' rule: #expression;
 		parse: 'x BETWEEN SYMMETRIC 0 AND 10' rule: #expression;
 		parse: 'x NOT BETWEEN SYMMETRIC 0 AND 10' rule: #expression;
-		parse: '"matrix_p"["i"]["j"] > "matrix_p"["j"]["i"]'  rule: #expression;
+		parse: '"matrix_p"["i"]["j"] > "matrix_p"["j"]["i"]'
+			rule: #expression;
 		parse: '((-1::INT8) << 63, 0)::"link_strength"' rule: #expression;
 		fail: 'a..nbrspechar' rule: #expression;
-		parse: '''{{" "," "," "},{" "," "," "},{" "," "," "}}''' rule: #expression;
+		parse: '''{{" "," "," "},{" "," "," "},{" "," "," "}}'''
+			rule: #expression;
 		parse: '"matrix_p"[1]["i"]."primary" >= 0' rule: #expression;
 		parse: '(SELECT * FROM table) AS subquery' rule: #expression;
 		parse: 'e''\\''' rule: #expression;
-		parse: 'ts_headline(''pg_catalog.simple'', replace(replace("body_p", e''\\'', e''\\\\''), ''*'', e''\\*''), "text_search_query"("query_text_p"), ''StartSel=* StopSel=* HighlightAll=TRUE'' )' rule: #expression;
+		parse: 'ts_headline(''pg_catalog.simple'', replace(replace("body_p", e''\\'', e''\\\\''), ''*'', e''\\*''), "text_search_query"("query_text_p"), ''StartSel=* StopSel=* HighlightAll=TRUE'' )'
+			rule: #expression;
 		parse: '"weight_ary"["i"]::INTEGER' rule: #expression;
 		parse: '"weight_ary"["i"]::NUMERIC(18,19)' rule: #expression;
-		parse: '"weight_ary"["i"]::NUMERIC(18,9)::NUMERIC(12,3)' rule: #expression
+		parse: '"weight_ary"["i"]::NUMERIC(18,9)::NUMERIC(12,3)'
+			rule: #expression;
+		parse: '(genere_url_carto(localisation.cle_batiment, localisation.bureau))::text'
+			rule: #expression;
+		parse: '(''<a href="''::text || (genere_url_carto(localisation.cle_batiment, localisation.bureau))::text)'
+			rule: #expression;
+		parse: '((((((((((((''<a href="''::text || (genere_url_carto(localisation.cle_batiment, localisation.bureau))::text) || ''" target="_blank">''::text) || (site.nom)::text) || ''<br>''::text) || (batiment.nom)::text) || ''<br>''::text) || (affiche_etage(localisation.etage))::text) || ''Bureau ''::text) || (localisation.bureau)::text) || ''</a><br>''::text) || (localisation.telephone)::text) || ''<br>''::text)'
+			rule: #expression;
+		parse: 'min(max(localisation.cle))' rule: #expression;
+		parse: '((min(max(localisation))))' rule: #expression;
+		parse: '((grade.cle = 27) OR (grade.cle = 17))' rule: #expression
 ]
 
 { #category : #tests-expression }
