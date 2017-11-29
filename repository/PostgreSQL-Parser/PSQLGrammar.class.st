@@ -40,20 +40,12 @@ Class {
 		'nullTestConstructOperator',
 		'primary',
 		'selectIntoCommand',
-		'setItem1',
-		'setItem2',
-		'setItem3',
 		'typeCast',
 		'typeCastConstruct',
-		'updateDeleteWhereClause',
 		'updateCommand',
-		'withQuery',
-		'returningClause',
-		'setClause',
 		'selectCommand',
 		'valuesCommand',
 		'expression',
-		'withClause',
 		'orderByClause'
 	],
 	#category : #PostgreSQL-Parser-Core
@@ -66,7 +58,7 @@ PSQLGrammar class >> deleteQueryParser [
 
 { #category : #accessing }
 PSQLGrammar class >> dependencies [
-	^ { self valuesCommandParser . self insertQueryParser . self updateQueryParser . self deleteQueryParser . self selectQueryParser }
+	^ { self valuesCommandParser . self insertQueryParser . self updateQueryParser . self deleteQueryParser . self selectQueryParser . self sharedParser }
 ]
 
 { #category : #accessing }
@@ -77,6 +69,11 @@ PSQLGrammar class >> insertQueryParser [
 { #category : #accessing }
 PSQLGrammar class >> selectQueryParser [
 	^ PSQLSelectQueryGrammar
+]
+
+{ #category : #accessing }
+PSQLGrammar class >> sharedParser [
+	^ PSQLSharedGrammar
 ]
 
 { #category : #accessing }
@@ -358,12 +355,9 @@ PSQLGrammar >> nullTestConstructOperator [
 	^ (isNull / isNotNull / nonStandardIsNull / nonStandardNotNull) , keywordStop
 ]
 
-{ #category : #shared }
+{ #category : #dependencies }
 PSQLGrammar >> orderByClause [
-	^ kw order trim , kw by trim ,
-		((expression ,
-		(kw asc / kw desc) trim optional,
-		(kw nulls , (kw first / kw last) trim) trim optional) plus separatedBy: comma trim)
+	^ (self dependencyAt: self class sharedParser) orderByClause
 ]
 
 { #category : #expression }
@@ -386,14 +380,6 @@ PSQLGrammar >> primary [
 	^ constant / columnReference / positionalParameter
 ]
 
-{ #category : #shared }
-PSQLGrammar >> returningClause [
-	"RETURNING * | output_expression [ [ AS ] output_name ] [, ...]"
-	
-	^ kw returning trim ,
-		((asterik / (expression trim , (kw as trim optional , identifier) optional)) plus separatedBy: comma trim)
-]
-
 { #category : #dependencies }
 PSQLGrammar >> selectCommand [
 	^ (self dependencyAt: self class selectQueryParser) selectCommand
@@ -402,38 +388,6 @@ PSQLGrammar >> selectCommand [
 { #category : #dependencies }
 PSQLGrammar >> selectIntoCommand [
 	^ (self dependencyAt: self class selectQueryParser) selectIntoCommand
-]
-
-{ #category : #'shared - set clause' }
-PSQLGrammar >> setClause [
-	"SET { column_name = { expression | DEFAULT } |
-                    ( column_name [, ...] ) = ( { expression | DEFAULT } [, ...] ) |
-                    ( column_name [, ...] ) = ( sub-SELECT )
-                  } [, ...]"
-	^ kw set trim ,
-	((setItem1 / setItem2 / setItem3) plus separatedBy: comma trim)
-]
-
-{ #category : #'shared - set clause' }
-PSQLGrammar >> setItem1 [
-	"column_name = { expression | DEFAULT }"
-	^ identifier trim , $= asParser trim , (kw default / expression)
-]
-
-{ #category : #'shared - set clause' }
-PSQLGrammar >> setItem2 [
-	"( column_name [, ...] ) = ( { expression | DEFAULT } [, ...] )"
-	^ openParenthesis trim , (identifier plus separatedBy: comma trim) trim , closeParenthesis trim ,
-	$= asParser trim ,
-	openParenthesis trim , ((kw default / expression) plus separatedBy: comma trim) , closeParenthesis
-]
-
-{ #category : #'shared - set clause' }
-PSQLGrammar >> setItem3 [
-	"( column_name [, ...] ) = ( sub-SELECT )"
-	^ openParenthesis trim , (identifier plus separatedBy: comma trim) , closeParenthesis trim ,
-	$= asParser trim ,
-	openParenthesis trim , selectCommand trim , closeParenthesis trim
 ]
 
 { #category : #expression }
@@ -465,30 +419,7 @@ PSQLGrammar >> updateCommand [
 	^ (self dependencyAt: self class updateQueryParser) updateCommand
 ]
 
-{ #category : #shared }
-PSQLGrammar >> updateDeleteWhereClause [
-	"WHERE condition | WHERE CURRENT OF cursor_name"
-	^ kw whereKeyword trim , ((kw current trim , kw of trim , identifier) / expression)
-]
-
 { #category : #dependencies }
 PSQLGrammar >> valuesCommand [
 	^ (self dependencyAt: self class valuesCommandParser) valuesCommand
-]
-
-{ #category : #shared }
-PSQLGrammar >> withClause [
-	^ kw with trim , kw recursive trim optional , (withQuery separatedBy: comma trim)
-]
-
-{ #category : #shared }
-PSQLGrammar >> withQuery [
-	^ identifier trim ,
-	  		(openParenthesis trim ,
-			(identifier separatedBy: comma trim ) ,
-			closeParenthesis trim) optional ,
-	  kw as trim ,
-	  openParenthesis trim ,
-	  (selectCommand / insertCommand / updateCommand / deleteCommand) ,
-	  closeParenthesis trim
 ]

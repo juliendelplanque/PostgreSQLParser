@@ -138,14 +138,6 @@ PSQLGrammarTest >> testFunctionCall [
 ]
 
 { #category : #tests-accessing }
-PSQLGrammarTest >> testOrderByClause [
-	self
-		parse: 'ORDER BY a + b, c' rule: #orderByClause;
-		parse: 'ORDER BY sum' rule: #orderByClause;
-		parse: 'ORDER BY 1 ASC NULLS LAST' rule: #orderByClause
-]
-
-{ #category : #tests-accessing }
 PSQLGrammarTest >> testParenthesedExpression [
 	self
 		parse: '(1+$1)' rule: #expression;
@@ -153,20 +145,6 @@ PSQLGrammarTest >> testParenthesedExpression [
 		parse: '(fct(table.column)[1])' rule: #expression;
 		parse: '(++fct(table,42))' rule: #expression;
 		parse: '(fct(fct2(table),42))' rule: #expression
-]
-
-{ #category : #tests-shared }
-PSQLGrammarTest >> testReturningClause [
-	self
-		parse: 'RETURNING *' rule: #returningClause;
-		parse: 'RETURNING id, name' rule: #returningClause;
-		parse: 'RETURNING *,id' rule: #returningClause
-]
-
-{ #category : #tests-shared }
-PSQLGrammarTest >> testSetClause [
-	self
-		parse: 'SET "reverse_beat_path" = CASE WHEN "policy_row"."defeat_strength" = ''simple''::"defeat_strength" THEN NULL ELSE "matrix_p"[1]["i"]."primary" >= 0 END' rule: #setClause
 ]
 
 { #category : #tests-accessing }
@@ -202,25 +180,4 @@ PSQLGrammarTest >> testUnaryPrefixOperator [
 		parse: '--id' rule: #expression;
 		parse: '++(--1)' rule: #expression;
 		parse: '++$1' rule: #expression
-]
-
-{ #category : #'tests-update command' }
-PSQLGrammarTest >> testUpdateDeleteWhereClause [
-	self
-		parse: 'WHERE id = 5' rule: #updateDeleteWhereClause;
-		parse: 'WHERE CURRENT OF curs1' rule: #updateDeleteWhereClause
-]
-
-{ #category : #tests-shared }
-PSQLGrammarTest >> testWithClause [
-	self
-		parse: 'WITH table AS (SELECT * FROM foo), table2(id,text) AS (SELECT * FROM bar)' rule: #withClause;
-		parse: 'WITH RECURSIVE table AS (SELECT * FROM foo), table2(id,text) AS (SELECT * FROM bar)' rule: #withClause
-]
-
-{ #category : #tests-shared }
-PSQLGrammarTest >> testWithQuery [
-	self
-		parse: 'table AS (SELECT * FROM foo)' rule: #withQuery;
-		parse: 'table(id,bar) AS (SELECT * FROM foo)' rule: #withQuery
 ]

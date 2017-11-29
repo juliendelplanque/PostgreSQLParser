@@ -31,12 +31,17 @@ Class {
 
 { #category : #accessing }
 PSQLSelectQueryGrammar class >> dependencies [
-	^ { self sqlParser . self fromClauseParser }
+	^ { self sqlParser . self fromClauseParser . self sharedParser }
 ]
 
 { #category : #accessing }
 PSQLSelectQueryGrammar class >> fromClauseParser [
 	^ PSQLFromClauseGrammar
+]
+
+{ #category : #accessing }
+PSQLSelectQueryGrammar class >> sharedParser [
+	^ PSQLSharedGrammar
 ]
 
 { #category : #accessing }
@@ -147,7 +152,7 @@ PSQLSelectQueryGrammar >> offsetClause [
 
 { #category : #dependencies }
 PSQLSelectQueryGrammar >> orderByClause [
-	^ (self dependencyAt: self class sqlParser) orderByClause
+	^ (self dependencyAt: self class sharedParser) orderByClause
 ]
 
 { #category : #'select command' }
@@ -274,5 +279,5 @@ PSQLSelectQueryGrammar >> windowClause [
 
 { #category : #dependencies }
 PSQLSelectQueryGrammar >> withClause [
-	^ (self dependencyAt: self class sqlParser) withClause
+	^ (self dependencyAt: self class sharedParser) withClause
 ]

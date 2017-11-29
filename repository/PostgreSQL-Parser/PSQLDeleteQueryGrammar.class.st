@@ -17,7 +17,12 @@ Class {
 
 { #category : #accessing }
 PSQLDeleteQueryGrammar class >> dependencies [
-	^ { self sqlParser }
+	^ { self sqlParser . self sharedParser }
+]
+
+{ #category : #accessing }
+PSQLDeleteQueryGrammar class >> sharedParser [
+	^ PSQLSharedGrammar
 ]
 
 { #category : #accessing }
@@ -40,14 +45,14 @@ PSQLDeleteQueryGrammar >> deleteCommand [
 		returningClause trim optional
 ]
 
-{ #category : #accessing }
+{ #category : #dependencies }
 PSQLDeleteQueryGrammar >> expression [
 	^ (self dependencyAt: self class sqlParser) expression
 ]
 
-{ #category : #accessing }
+{ #category : #dependencies }
 PSQLDeleteQueryGrammar >> returningClause [
-	^ (self dependencyAt: self class sqlParser) returningClause
+	^ (self dependencyAt: self class sharedParser) returningClause
 ]
 
 { #category : #accessing }
@@ -55,9 +60,9 @@ PSQLDeleteQueryGrammar >> start [
 	^ deleteCommand end
 ]
 
-{ #category : #accessing }
+{ #category : #dependencies }
 PSQLDeleteQueryGrammar >> updateDeleteWhereClause [
-	^ (self dependencyAt: self class sqlParser) updateDeleteWhereClause
+	^ (self dependencyAt: self class sharedParser) updateDeleteWhereClause
 ]
 
 { #category : #'delete command' }
@@ -66,7 +71,7 @@ PSQLDeleteQueryGrammar >> usingClause [
 	^ kw using trim , (expression separatedBy: comma trim)
 ]
 
-{ #category : #accessing }
+{ #category : #dependencies }
 PSQLDeleteQueryGrammar >> withClause [
-	^ (self dependencyAt: self class sqlParser) withClause
+	^ (self dependencyAt: self class sharedParser) withClause
 ]

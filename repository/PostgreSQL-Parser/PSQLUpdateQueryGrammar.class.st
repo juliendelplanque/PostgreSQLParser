@@ -17,12 +17,17 @@ Class {
 
 { #category : #accessing }
 PSQLUpdateQueryGrammar class >> dependencies [
-	^ { self sqlParser . self fromClauseParser }
+	^ { self sqlParser . self fromClauseParser . self sharedParser }
 ]
 
 { #category : #accessing }
 PSQLUpdateQueryGrammar class >> fromClauseParser [
 	^ PSQLFromClauseGrammar
+]
+
+{ #category : #accessing }
+PSQLUpdateQueryGrammar class >> sharedParser [
+	^ PSQLSharedGrammar
 ]
 
 { #category : #accessing }
@@ -52,12 +57,12 @@ PSQLUpdateQueryGrammar >> identifierWithOptionalFieldAccess [
 
 { #category : #dependencies }
 PSQLUpdateQueryGrammar >> returningClause [
-	^ (self dependencyAt: self class sqlParser) returningClause
+	^ (self dependencyAt: self class sharedParser) returningClause
 ]
 
 { #category : #dependencies }
 PSQLUpdateQueryGrammar >> setClause [
-	^ (self dependencyAt: self class sqlParser) setClause
+	^ (self dependencyAt: self class sharedParser) setClause
 ]
 
 { #category : #'update command' }
@@ -82,10 +87,10 @@ PSQLUpdateQueryGrammar >> updateCommand [
 
 { #category : #dependencies }
 PSQLUpdateQueryGrammar >> updateDeleteWhereClause [
-	^ (self dependencyAt: self class sqlParser) updateDeleteWhereClause
+	^ (self dependencyAt: self class sharedParser) updateDeleteWhereClause
 ]
 
 { #category : #dependencies }
 PSQLUpdateQueryGrammar >> withClause [
-	^ (self dependencyAt: self class sqlParser) withClause
+	^ (self dependencyAt: self class sharedParser) withClause
 ]

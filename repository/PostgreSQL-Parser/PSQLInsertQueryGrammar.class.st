@@ -25,7 +25,12 @@ Class {
 
 { #category : #accessing }
 PSQLInsertQueryGrammar class >> dependencies [
-	^ { self sqlParser . self valuesCommandParser }
+	^ { self sqlParser . self valuesCommandParser . self sharedParser }
+]
+
+{ #category : #accessing }
+PSQLInsertQueryGrammar class >> sharedParser [
+	^ PSQLSharedGrammar
 ]
 
 { #category : #accessing }
@@ -111,7 +116,7 @@ PSQLInsertQueryGrammar >> onConflictClause [
 
 { #category : #dependencies }
 PSQLInsertQueryGrammar >> returningClause [
-	^ (self dependencyAt: self class sqlParser) returningClause
+	^ (self dependencyAt: self class sharedParser) returningClause
 ]
 
 { #category : #dependencies }
@@ -121,7 +126,7 @@ PSQLInsertQueryGrammar >> selectCommand [
 
 { #category : #dependencies }
 PSQLInsertQueryGrammar >> setClause [
-	^ (self dependencyAt: self class sqlParser) setClause
+	^ (self dependencyAt: self class sharedParser) setClause
 ]
 
 { #category : #accessing }
@@ -144,5 +149,5 @@ PSQLInsertQueryGrammar >> valuesCommand [
 
 { #category : #dependencies }
 PSQLInsertQueryGrammar >> withClause [
-	^ (self dependencyAt: self class sqlParser) withClause
+	^ (self dependencyAt: self class sharedParser) withClause
 ]
