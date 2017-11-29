@@ -91,8 +91,13 @@ Class {
 }
 
 { #category : #accessing }
+PSQLPlpgSQLGrammar class >> deleteQueryParser [
+	^ PSQLDeleteQueryGrammar
+]
+
+{ #category : #accessing }
 PSQLPlpgSQLGrammar class >> dependencies [
-	^ { self sqlParser . self insertQueryParser }
+	^ { self sqlParser . self selectQueryParser . self insertQueryParser . self updateQueryParser . self deleteQueryParser }
 ]
 
 { #category : #accessing }
@@ -101,13 +106,23 @@ PSQLPlpgSQLGrammar class >> insertQueryParser [
 ]
 
 { #category : #accessing }
+PSQLPlpgSQLGrammar class >> selectQueryParser [
+	^ PSQLSelectQueryGrammar
+]
+
+{ #category : #accessing }
 PSQLPlpgSQLGrammar class >> sqlParser [
 	^ PSQLGrammar
 ]
 
+{ #category : #accessing }
+PSQLPlpgSQLGrammar class >> updateQueryParser [
+	^ PSQLUpdateQueryGrammar
+]
+
 { #category : #dependencies }
 PSQLPlpgSQLGrammar >> deleteCommand [
-	^ (self dependencyAt: self class sqlParser) deleteCommand
+	^ (self dependencyAt: self class deleteQueryParser) deleteCommand
 ]
 
 { #category : #dependencies }
@@ -767,12 +782,12 @@ PSQLPlpgSQLGrammar >> positionalParameter [
 
 { #category : #dependencies }
 PSQLPlpgSQLGrammar >> selectCommand [
-	^ (self dependencyAt: self class sqlParser) selectCommand
+	^ (self dependencyAt: self class selectQueryParser) selectCommand
 ]
 
 { #category : #dependencies }
 PSQLPlpgSQLGrammar >> selectIntoCommand [
-	^ (self dependencyAt: self class sqlParser) selectIntoCommand
+	^ (self dependencyAt: self class selectQueryParser) selectIntoCommand
 ]
 
 { #category : #dependencies }
@@ -792,5 +807,5 @@ PSQLPlpgSQLGrammar >> subscriptWith: expressionParser [
 
 { #category : #dependencies }
 PSQLPlpgSQLGrammar >> updateCommand [
-	^ (self dependencyAt: self class sqlParser) updateCommand
+	^ (self dependencyAt: self class updateQueryParser) updateCommand
 ]

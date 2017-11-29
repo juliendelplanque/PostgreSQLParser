@@ -6,5 +6,5 @@ Class {
 
 { #category : #accessing }
 PSQLASTBuilderDeleteSmokeTest >> parserClass [
-	^ PSQLASTBuilder
+	^ PSQLDeleteQueryASTBuilder
 ]

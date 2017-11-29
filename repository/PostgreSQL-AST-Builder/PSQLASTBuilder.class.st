@@ -8,16 +8,6 @@ Class {
 }
 
 { #category : #accessing }
-PSQLASTBuilder class >> deleteQueryParser [
-	^ PSQLDeleteQueryASTBuilder
-]
-
-{ #category : #accessing }
-PSQLASTBuilder class >> insertQueryParser [
-	^ PSQLInsertQueryASTBuilder
-]
-
-{ #category : #accessing }
 PSQLASTBuilder class >> selectQueryParser [
 	^ PSQLSelectQueryASTBuilder
 ]
@@ -25,16 +15,6 @@ PSQLASTBuilder class >> selectQueryParser [
 { #category : #accessing }
 PSQLASTBuilder class >> sharedParser [
 	^ PSQLSharedASTBuilder
-]
-
-{ #category : #accessing }
-PSQLASTBuilder class >> updateQueryParser [
-	^ PSQLUpdateQueryASTBuilder
-]
-
-{ #category : #accessing }
-PSQLASTBuilder class >> valuesCommandParser [
-	^ PSQLValuesASTBuilder
 ]
 
 { #category : #expression }

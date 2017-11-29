@@ -14,12 +14,10 @@ Class {
 		'booleanTestConstructOperator',
 		'columnReference',
 		'conditionalExpression',
-		'deleteCommand',
 		'extractFunctionCall',
 		'fieldSelection',
 		'functionCall',
 		'inOperator',
-		'insertCommand',
 		'isDistinctFromOperator',
 		'isFalse',
 		'isNotDistinctFromOperator',
@@ -39,12 +37,9 @@ Class {
 		'nullExpression',
 		'nullTestConstructOperator',
 		'primary',
-		'selectIntoCommand',
 		'typeCast',
 		'typeCastConstruct',
-		'updateCommand',
 		'selectCommand',
-		'valuesCommand',
 		'expression',
 		'orderByClause'
 	],
@@ -52,18 +47,8 @@ Class {
 }
 
 { #category : #accessing }
-PSQLGrammar class >> deleteQueryParser [
-	^ PSQLDeleteQueryGrammar
-]
-
-{ #category : #accessing }
 PSQLGrammar class >> dependencies [
-	^ { self valuesCommandParser . self insertQueryParser . self updateQueryParser . self deleteQueryParser . self selectQueryParser . self sharedParser }
-]
-
-{ #category : #accessing }
-PSQLGrammar class >> insertQueryParser [
-	^ PSQLInsertQueryGrammar
+	^ { self selectQueryParser . self sharedParser }
 ]
 
 { #category : #accessing }
@@ -74,16 +59,6 @@ PSQLGrammar class >> selectQueryParser [
 { #category : #accessing }
 PSQLGrammar class >> sharedParser [
 	^ PSQLSharedGrammar
-]
-
-{ #category : #accessing }
-PSQLGrammar class >> updateQueryParser [
-	^ PSQLUpdateQueryGrammar
-]
-
-{ #category : #accessing }
-PSQLGrammar class >> valuesCommandParser [
-	^ PSQLValuesGrammar
 ]
 
 { #category : #expression }
@@ -181,11 +156,6 @@ PSQLGrammar >> conditionalExpression [
 	kw endKeyword trim
 ]
 
-{ #category : #dependencies }
-PSQLGrammar >> deleteCommand [
-	^ (self dependencyAt: self class deleteQueryParser) deleteCommand
-]
-
 { #category : #expression }
 PSQLGrammar >> expression [
 	| expressionParser |
@@ -258,11 +228,6 @@ PSQLGrammar >> functionCallParserWith: expressionParser [
 { #category : #expression }
 PSQLGrammar >> inOperator [
 	^ kw into trim not , kw in trim , keywordStop
-]
-
-{ #category : #dependencies }
-PSQLGrammar >> insertCommand [
-	^ (self dependencyAt: self class insertQueryParser) insertCommand
 ]
 
 { #category : #expression }
@@ -385,11 +350,6 @@ PSQLGrammar >> selectCommand [
 	^ (self dependencyAt: self class selectQueryParser) selectCommand
 ]
 
-{ #category : #dependencies }
-PSQLGrammar >> selectIntoCommand [
-	^ (self dependencyAt: self class selectQueryParser) selectIntoCommand
-]
-
 { #category : #expression }
 PSQLGrammar >> subscriptWith: expressionParser [
 	^ openBracket , expressionParser , (colon , expressionParser) optional , closeBracket
@@ -412,14 +372,4 @@ PSQLGrammar >> typeCastConstruct [
 			kw then not,
 			identifierOrKeyword , (openParenthesis trim , (constant separatedBy: comma trim) , closeParenthesis trim) optional
 			) plus separatedBy: #space asParser plus).
-]
-
-{ #category : #dependencies }
-PSQLGrammar >> updateCommand [
-	^ (self dependencyAt: self class updateQueryParser) updateCommand
-]
-
-{ #category : #dependencies }
-PSQLGrammar >> valuesCommand [
-	^ (self dependencyAt: self class valuesCommandParser) valuesCommand
 ]
