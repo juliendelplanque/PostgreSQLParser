@@ -8,6 +8,11 @@ Class {
 }
 
 { #category : #accessing }
+PSQLUpdateQueryASTBuilder class >> fromClauseParser [
+	^ PSQLFromClauseASTBuilder
+]
+
+{ #category : #accessing }
 PSQLUpdateQueryASTBuilder class >> sqlParser [
 	^ PSQLASTBuilder
 ]

@@ -85,20 +85,6 @@ PSQLASTBuilder >> binaryOperatorBlock [
 				yourself ]
 ]
 
-{ #category : #shared }
-PSQLASTBuilder >> columnDefinition [
-	^ super columnDefinition ==> [ :tokens |
-		PSQLASTColumnDefinition new
-			columnName: tokens first;
-			type: (PSQLASTIdentifier new
-						identifier: ((tokens second flattened collect: [ :item | 
-							item isCharacter
-								ifTrue: [ ' ' ]
-								ifFalse: [ item identifier ] ]) joinUsing: '');
-						yourself);
-			yourself ]
-]
-
 { #category : #accessing }
 PSQLASTBuilder >> columnReference [
 	^ super columnReference ==> [ :tokens |
@@ -164,117 +150,6 @@ PSQLASTBuilder >> expressionParserTermFor: expressionParser [
 					right: (PSQLASTIdentifier new identifier: (tokens second second joinUsing: ' '); yourself) ] ]
 ]
 
-{ #category : #shared }
-PSQLASTBuilder >> fromClause [
-	^ super fromClause ==> [ :tokens |
-		PSQLASTFromClause new
-			items: (tokens second reject: [ :item | item = $, ] thenCollect: #first);
-			yourself ]
-]
-
-{ #category : #shared }
-PSQLASTBuilder >> fromItems [
-	^ super fromItems ==> [ :tokens |
-		tokens second
-			ifEmpty: [ tokens first ]
-			ifNotEmpty: [ 
-				tokens second
-					inject: tokens first
-					into: [ :fromItem :current |
-						current
-							leftFromItem: fromItem;
-							yourself ] ] ]
-]
-
-{ #category : #shared }
-PSQLASTBuilder >> fromItems1 [
-	^ super fromItems1 ==> [ :tokens |
-		PSQLASTFromClauseItemType1 new
-			hasOnly: tokens first isNotNil;
-			tableName: tokens second;
-			areDescendantTablesIncluded: tokens third isNotNil;
-			alias: (tokens fourth ifNotNil: #second);
-			columnAliases: (tokens fourth ifNotNil: [ :subTokens |
-				subTokens third ifNotNil: [ :subsubTokens | subsubTokens second reject: [ :item | item = $, ] ] ifNil: [ #() ] ])
-			yourself ]
-]
-
-{ #category : #shared }
-PSQLASTBuilder >> fromItems2 [
-	^ super fromItems2 ==> [ :tokens |
-		PSQLASTFromClauseItemType2 new
-			hasLateral: tokens first isNotNil;
-			valuesOrSelect: tokens third;
-			alias: tokens sixth;
-			columnAliases: (tokens seventh ifNotNil: [ :subTokens |
-				subTokens second reject: [ :item | item = $, ] ]);
-			yourself ]
-]
-
-{ #category : #shared }
-PSQLASTBuilder >> fromItems3 [
-	^ super fromItems3 ==> [ :tokens |
-		PSQLASTFromClauseItemType3 new
-			withQueryName: tokens first;
-			alias: (tokens second ifNotNil: #second);
-			columnAliases: (tokens second ifNotNil: [ :subTokens |
-				(subTokens third ifNotNil: #second) reject: [ :item | item = $, ] ]);
-			yourself ]
-]
-
-{ #category : #shared }
-PSQLASTBuilder >> fromItems4 [
-	^ super fromItems4 ==> [ :tokens |
-		PSQLASTFromClauseItemType4 new
-			hasLateral: tokens first isNotNil;
-			functionCall: tokens second;
-			alias: tokens fourth;
-			columnDefinitions: (tokens sixth ifNotNil: [ :subTokens |
-				subTokens reject: [ :item | item = $, ] thenCollect: #first ]);
-			yourself ]
-]
-
-{ #category : #shared }
-PSQLASTBuilder >> fromItems5 [
-	^ super fromItems5 ==> [ :tokens |
-		PSQLASTFromClauseItemType5 new
-			hasLateral: tokens first isNotNil;
-			functionCall: tokens second;
-			columnDefinitions: (tokens fifth ifNotNil: [ :subTokens |
-				subTokens reject: [ :item | item = $, ] thenCollect: #first ]);
-			yourself ]
-]
-
-{ #category : #shared }
-PSQLASTBuilder >> fromItems6 [
-	^ super fromItems6 ==> [ :tokens |
-		|node|
-		node := PSQLASTFromClauseItemType6 new
-			hasNatural: tokens first isNotNil;
-			joinType: tokens second;
-			rightFromItem: tokens third;
-			yourself.
-		tokens fourth ifNotNil: [ :subTokens |
-			subTokens first asLowercase = 'on'
-				ifTrue: [ node joinCondition: subTokens second ]
-				ifFalse: [ node usingList: (subTokens third reject: [ :item | item = $, ]) ] ].
-		node ]
-]
-
-{ #category : #shared }
-PSQLASTBuilder >> fromItems7 [
-	^ super fromItems7 ==> [ :tokens |
-		PSQLASTFromClauseItemType7 new
-			hasLateral: tokens first isNotNil;
-			functionCall: tokens second;
-			hasWithOrdinality: tokens third isNotNil;
-			alias: (tokens fourth ifNotNil: #second);
-			columnAliases: (tokens fourth ifNotNil: [ :subTokens |
-				(subTokens third ifNotNil: #second)
-					reject: [ :item | item = $, ] thenCollect: #first ]);
-			yourself ]
-]
-
 { #category : #expression }
 PSQLASTBuilder >> functionCall [
 	^ super functionCall ==> [ :tokens |
@@ -331,12 +206,6 @@ PSQLASTBuilder >> isNull [
 	^ super isNull ==> [ :tokens | tokens joinUsing: ' ' ]
 ]
 
-{ #category : #shared }
-PSQLASTBuilder >> joinType [
-	^ super joinType ==> [ :tokens |
-		(tokens flattened reject: #isNil) joinUsing: ' ' ]
-]
-
 { #category : #accessing }
 PSQLASTBuilder >> numericConstant [
 	^ super numericConstant ==> [ :tokens |
@@ -367,12 +236,6 @@ PSQLASTBuilder >> parenthesedExpressionParserWith: expressionParser [
 				PSQLASTParenthesedExpression new
 					expression: tokens second;
 					yourself ]
-]
-
-{ #category : #shared }
-PSQLASTBuilder >> parenthesedFromItems [
-	^ super parenthesedFromItems ==> [ :tokens |
-		tokens second "Just remove parentheses" ]
 ]
 
 { #category : #accessing }
