@@ -297,7 +297,7 @@ PSQLSelectQueryGrammar >> simpleStringConstant [
 
 { #category : #accessing }
 PSQLSelectQueryGrammar >> start [
-	^ (selectCommand / selectIntoCommand) end
+	^ (selectIntoCommand / selectCommand) end
 ]
 
 { #category : #'select command' }
