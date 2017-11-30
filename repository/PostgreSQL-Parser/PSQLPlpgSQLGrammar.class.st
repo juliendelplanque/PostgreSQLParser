@@ -101,7 +101,7 @@ Class {
 		'stringConstant',
 		'colon'
 	],
-	#category : #PostgreSQL-Parser-Core
+	#category : #PostgreSQL-Parser-Grammars-PLpgSQL
 }
 
 { #category : #accessing }

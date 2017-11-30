@@ -14,7 +14,7 @@ Class {
 		'closeParenthesis',
 		'identifierOrKeyword'
 	],
-	#category : #PostgreSQL-Parser-Core
+	#category : #PostgreSQL-Parser-Grammars-Create
 }
 
 { #category : #accessing }

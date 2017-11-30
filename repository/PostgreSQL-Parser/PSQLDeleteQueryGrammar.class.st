@@ -17,7 +17,7 @@ Class {
 		'identifier',
 		'comma'
 	],
-	#category : #PostgreSQL-Parser-Core
+	#category : #PostgreSQL-Parser-Grammars-CRUD
 }
 
 { #category : #accessing }

@@ -26,7 +26,7 @@ Class {
 		'openParenthesis',
 		'closeParenthesis'
 	],
-	#category : #PostgreSQL-Parser-Core
+	#category : #PostgreSQL-Parser-Grammars-Others
 }
 
 { #category : #accessing }
