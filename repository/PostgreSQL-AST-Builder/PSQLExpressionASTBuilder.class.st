@@ -1,5 +1,5 @@
 "
-I build an AST using PSQLASTNode subclasses from source code given as input.
+I build an AST from a PostgreSQL expression using PSQLASTNode subclasses from source code given as input.
 "
 Class {
 	#name : #PSQLExpressionASTBuilder,
