@@ -9,12 +9,17 @@ Class {
 
 { #category : #accessing }
 PSQLValuesASTBuilder class >> sqlParser [
-	^ PSQLASTBuilder
+	^ PSQLExpressionASTBuilder
+]
+
+{ #category : #accessing }
+PSQLValuesASTBuilder class >> tokenParser [
+	^ PSQLTokenASTBuilder
 ]
 
 { #category : #accessing }
 PSQLValuesASTBuilder >> expression [
-	^ (self dependencyAt: PSQLASTBuilder) expression
+	^ (self dependencyAt: PSQLExpressionASTBuilder) expression
 ]
 
 { #category : #'values command' }

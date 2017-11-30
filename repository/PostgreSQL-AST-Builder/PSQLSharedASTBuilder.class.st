@@ -14,7 +14,12 @@ PSQLSharedASTBuilder class >> crudQueryParser [
 
 { #category : #accessing }
 PSQLSharedASTBuilder class >> sqlParser [
-	^ PSQLASTBuilder
+	^ PSQLExpressionASTBuilder
+]
+
+{ #category : #accessing }
+PSQLSharedASTBuilder class >> tokenParser [
+	^ PSQLTokenASTBuilder
 ]
 
 { #category : #shared }

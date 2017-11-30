@@ -12,7 +12,7 @@ Class {
 
 { #category : #running }
 PSQLASTBuilderTest >> setUp [
-	builder := PSQLASTBuilder new
+	builder := PSQLExpressionASTBuilder new
 ]
 
 { #category : #tests-expression }

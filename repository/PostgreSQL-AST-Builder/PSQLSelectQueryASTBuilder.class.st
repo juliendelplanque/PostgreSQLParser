@@ -19,7 +19,12 @@ PSQLSelectQueryASTBuilder class >> sharedParser [
 
 { #category : #accessing }
 PSQLSelectQueryASTBuilder class >> sqlParser [
-	^ PSQLASTBuilder
+	^ PSQLExpressionASTBuilder
+]
+
+{ #category : #accessing }
+PSQLSelectQueryASTBuilder class >> tokenParser [
+	^ PSQLTokenASTBuilder
 ]
 
 { #category : #'select command' }

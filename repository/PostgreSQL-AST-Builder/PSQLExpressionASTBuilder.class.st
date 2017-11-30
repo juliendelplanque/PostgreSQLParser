@@ -2,23 +2,28 @@
 I build an AST using PSQLASTNode subclasses from source code given as input.
 "
 Class {
-	#name : #PSQLASTBuilder,
-	#superclass : #PSQLGrammar,
+	#name : #PSQLExpressionASTBuilder,
+	#superclass : #PSQLExpressionGrammar,
 	#category : #PostgreSQL-AST-Builder
 }
 
 { #category : #accessing }
-PSQLASTBuilder class >> selectQueryParser [
+PSQLExpressionASTBuilder class >> selectQueryParser [
 	^ PSQLSelectQueryASTBuilder
 ]
 
 { #category : #accessing }
-PSQLASTBuilder class >> sharedParser [
+PSQLExpressionASTBuilder class >> sharedParser [
 	^ PSQLSharedASTBuilder
 ]
 
+{ #category : #accessing }
+PSQLExpressionASTBuilder class >> tokenParser [
+	^ PSQLTokenASTBuilder
+]
+
 { #category : #expression }
-PSQLASTBuilder >> aggregateExpressionParserForm1With: expressionParser [
+PSQLExpressionASTBuilder >> aggregateExpressionParserForm1With: expressionParser [
 	^ (super aggregateExpressionParserForm1With: expressionParser) ==> [ :tokens |
 			PSQLASTAggregateFunctionCall new
 				functionIdentifier: tokens first;
@@ -28,7 +33,7 @@ PSQLASTBuilder >> aggregateExpressionParserForm1With: expressionParser [
 ]
 
 { #category : #expression }
-PSQLASTBuilder >> aggregateExpressionParserForm2With: expressionParser [
+PSQLExpressionASTBuilder >> aggregateExpressionParserForm2With: expressionParser [
 	^ (super aggregateExpressionParserForm2With: expressionParser) ==> [ :tokens |
 			PSQLASTAggregateFunctionCall new
 				functionIdentifier: tokens first;
@@ -40,7 +45,7 @@ PSQLASTBuilder >> aggregateExpressionParserForm2With: expressionParser [
 ]
 
 { #category : #expression }
-PSQLASTBuilder >> aggregateExpressionParserForm3With: expressionParser [
+PSQLExpressionASTBuilder >> aggregateExpressionParserForm3With: expressionParser [
 	^ (super aggregateExpressionParserForm3With: expressionParser) ==> [ :tokens |
 			PSQLASTAggregateFunctionCall new
 				functionIdentifier: tokens first;
@@ -50,18 +55,12 @@ PSQLASTBuilder >> aggregateExpressionParserForm3With: expressionParser [
 ]
 
 { #category : #expression }
-PSQLASTBuilder >> asOperator [
+PSQLExpressionASTBuilder >> asOperator [
 	^ super asOperator ==> [ :tokens | tokens second ]
 ]
 
-{ #category : #accessing }
-PSQLASTBuilder >> asterik [
-	^ super asterik ==> [ :tokens |
-		PSQLASTWildCard new ]
-]
-
 { #category : #'accessing - blocks' }
-PSQLASTBuilder >> binaryOperatorBlock [
+PSQLExpressionASTBuilder >> binaryOperatorBlock [
 	^ [ :exp1 :op :exp2 |
 			PSQLASTBinaryOperator new
 				operator: op;
@@ -70,8 +69,8 @@ PSQLASTBuilder >> binaryOperatorBlock [
 				yourself ]
 ]
 
-{ #category : #accessing }
-PSQLASTBuilder >> columnReference [
+{ #category : #helpers }
+PSQLExpressionASTBuilder >> columnReference [
 	^ super columnReference ==> [ :tokens |
 		tokens first ifNotNil: [ 
 			PSQLASTAttributeAccess new
@@ -83,7 +82,7 @@ PSQLASTBuilder >> columnReference [
 ]
 
 { #category : #expression }
-PSQLASTBuilder >> commaSubscriptWith: expressionParser [
+PSQLExpressionASTBuilder >> commaSubscriptWith: expressionParser [
 	^ (super commaSubscriptWith: expressionParser) ==> [ :tokens |
 		PSQLASTArrayConstructor new
 			items: ((tokens copyFrom: 2 to: tokens size - 1) first reject: [ :object | object = $, ] thenCollect: #first);
@@ -91,7 +90,7 @@ PSQLASTBuilder >> commaSubscriptWith: expressionParser [
 ]
 
 { #category : #expression }
-PSQLASTBuilder >> compositeValueWith: anExpressionParser [
+PSQLExpressionASTBuilder >> compositeValueWith: anExpressionParser [
 	^ (super compositeValueWith: anExpressionParser)
 		==> [ :tokens |
 			|node|
@@ -107,7 +106,7 @@ PSQLASTBuilder >> compositeValueWith: anExpressionParser [
 ]
 
 { #category : #expression }
-PSQLASTBuilder >> conditionalExpression [
+PSQLExpressionASTBuilder >> conditionalExpression [
 	^ super conditionalExpression ==> [ :tokens |
 		PSQLASTConditionalExpression new
 			conditionsToExpressions: (tokens second collect: [ :item | item second -> item fourth ]);
@@ -115,16 +114,8 @@ PSQLASTBuilder >> conditionalExpression [
 			yourself ]
 ]
 
-{ #category : #accessing }
-PSQLASTBuilder >> escapeStringConstant [
-	^ super escapeStringConstant ==> [ :tokens |
-		PSQLASTStringConstant new
-			content: (String newFrom: tokens flattened allButFirst allButLast);
-			yourself ]
-]
-
 { #category : #expression }
-PSQLASTBuilder >> expressionParserTermFor: expressionParser [
+PSQLExpressionASTBuilder >> expressionParserTermFor: expressionParser [
 	^ (super expressionParserTermFor: expressionParser) ==> [ :tokens |
 		tokens second isNil
 			ifTrue: [ tokens first ]
@@ -136,7 +127,7 @@ PSQLASTBuilder >> expressionParserTermFor: expressionParser [
 ]
 
 { #category : #expression }
-PSQLASTBuilder >> functionCall [
+PSQLExpressionASTBuilder >> functionCall [
 	^ super functionCall ==> [ :tokens |
 		PSQLASTFunctionCall new
 			functionIdentifier: tokens first;
@@ -146,7 +137,7 @@ PSQLASTBuilder >> functionCall [
 ]
 
 { #category : #expression }
-PSQLASTBuilder >> functionCallParserWith: expressionParser [
+PSQLExpressionASTBuilder >> functionCallParserWith: expressionParser [
 	^ (super functionCallParserWith: expressionParser)
 		==> [ :tokens |
 			PSQLASTFunctionCall new
@@ -156,51 +147,18 @@ PSQLASTBuilder >> functionCallParserWith: expressionParser [
 				yourself ]
 ]
 
-{ #category : #accessing }
-PSQLASTBuilder >> identifier [
-	^ super identifier ==> [ :tokens | 
-		PSQLASTIdentifier new
-			identifier: tokens second;
-			yourself ]
-]
-
-{ #category : #accessing }
-PSQLASTBuilder >> identifierOrKeyword [
-	^ super identifierOrKeyword ==> [ :tokens | String newFrom: tokens flattened ]
-]
-
-{ #category : #accessing }
-PSQLASTBuilder >> identifierWithOptionalFieldAccess [
-	^ super identifierWithOptionalFieldAccess ==> [ :tokens |
-		tokens second
-			ifNil: [ tokens first ]
-			ifNotNil: [ 
-				PSQLASTAttributeAccess new
-					accessed: tokens first;
-					attributeIdentifier: tokens second second;
-					yourself ] ]
-]
-
-{ #category : #accessing }
-PSQLASTBuilder >> isNotNull [
+{ #category : #expression }
+PSQLExpressionASTBuilder >> isNotNull [
 	^ super isNotNull ==> [ :tokens | tokens joinUsing: ' ' ]
 ]
 
-{ #category : #accessing }
-PSQLASTBuilder >> isNull [
+{ #category : #expression }
+PSQLExpressionASTBuilder >> isNull [
 	^ super isNull ==> [ :tokens | tokens joinUsing: ' ' ]
 ]
 
-{ #category : #accessing }
-PSQLASTBuilder >> numericConstant [
-	^ super numericConstant ==> [ :tokens |
-		PSQLASTNumericConstant new
-			content: (String newFrom: (tokens flattened reject: #isNil));
-			yourself ]
-]
-
 { #category : #expression }
-PSQLASTBuilder >> parenthesedExpressionParserWith: expressionParser [
+PSQLExpressionASTBuilder >> parenthesedExpressionParserWith: expressionParser [
 	^ (super parenthesedExpressionParserWith: expressionParser)
 			==> [ :tokens | 
 				PSQLASTParenthesedExpression new
@@ -208,16 +166,8 @@ PSQLASTBuilder >> parenthesedExpressionParserWith: expressionParser [
 					yourself ]
 ]
 
-{ #category : #accessing }
-PSQLASTBuilder >> positionalParameter [
-	^ super positionalParameter ==> [ :tokens | 
-		PSQLPlpgSQLASTPositionalParameter new
-			index: (String newFrom: tokens second) asNumber;
-			yourself ]
-]
-
 { #category : #'accessing - blocks' }
-PSQLASTBuilder >> postfixOperatorBlock [
+PSQLExpressionASTBuilder >> postfixOperatorBlock [
 	^ [ :exp :op |
 			(op isArray and: [ op size = 4 and: [ op first = $[ and: [ op last = $] ] ] ])
 				ifFalse: [ 
@@ -233,18 +183,10 @@ PSQLASTBuilder >> postfixOperatorBlock [
 ]
 
 { #category : #'accessing - blocks' }
-PSQLASTBuilder >> prefixOperatorBlock [
+PSQLExpressionASTBuilder >> prefixOperatorBlock [
 	^ [ :op :exp |
 			PSQLASTPrefixOperator new
 				operator: op;
 				expression: exp;
 				yourself ]
-]
-
-{ #category : #accessing }
-PSQLASTBuilder >> simpleStringConstant [
-	^ super simpleStringConstant ==> [ :tokens |
-		PSQLASTStringConstant new
-			content: (String newFrom: tokens flattened allButFirst allButLast);
-			yourself ]
 ]

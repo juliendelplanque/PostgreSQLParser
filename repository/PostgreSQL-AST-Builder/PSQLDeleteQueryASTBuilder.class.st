@@ -14,7 +14,12 @@ PSQLDeleteQueryASTBuilder class >> sharedParser [
 
 { #category : #accessing }
 PSQLDeleteQueryASTBuilder class >> sqlParser [
-	^ PSQLASTBuilder
+	^ PSQLExpressionASTBuilder
+]
+
+{ #category : #accessing }
+PSQLDeleteQueryASTBuilder class >> tokenParser [
+	^ PSQLTokenASTBuilder
 ]
 
 { #category : #'delete command' }
@@ -30,21 +35,6 @@ PSQLDeleteQueryASTBuilder >> deleteCommand [
 			whereClause: tokens ninth;
 			returningClause: tokens last;
 			yourself ]
-]
-
-{ #category : #accessing }
-PSQLDeleteQueryASTBuilder >> identifier [
-	^ (self dependencyAt: PSQLASTBuilder) identifier
-]
-
-{ #category : #accessing }
-PSQLDeleteQueryASTBuilder >> identifierOrKeyword [
-	^ (self dependencyAt: PSQLASTBuilder) identifierOrKeyword
-]
-
-{ #category : #accessing }
-PSQLDeleteQueryASTBuilder >> identifierWithOptionalFieldAccess [
-	^ (self dependencyAt: PSQLASTBuilder) identifierWithOptionalFieldAccess
 ]
 
 { #category : #'delete command' }

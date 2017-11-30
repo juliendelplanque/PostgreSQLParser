@@ -19,7 +19,12 @@ PSQLPlpgSQLASTBuilder class >> selectQueryParser [
 
 { #category : #accessing }
 PSQLPlpgSQLASTBuilder class >> sqlParser [
-	^ PSQLASTBuilder
+	^ PSQLExpressionASTBuilder
+]
+
+{ #category : #accessing }
+PSQLPlpgSQLASTBuilder class >> tokenParser [
+	^ PSQLTokenASTBuilder
 ]
 
 { #category : #plpgsql }

@@ -14,7 +14,12 @@ PSQLInsertQueryASTBuilder class >> sharedParser [
 
 { #category : #accessing }
 PSQLInsertQueryASTBuilder class >> sqlParser [
-	^ PSQLASTBuilder
+	^ PSQLExpressionASTBuilder
+]
+
+{ #category : #accessing }
+PSQLInsertQueryASTBuilder class >> tokenParser [
+	^ PSQLTokenASTBuilder
 ]
 
 { #category : #accessing }
@@ -38,21 +43,6 @@ PSQLInsertQueryASTBuilder >> conflictAction [
 PSQLInsertQueryASTBuilder >> defaultValues [
 	^ super defaultValues ==> [ :tokens |
 		PSQLASTDefaultValues new ]
-]
-
-{ #category : #helpers }
-PSQLInsertQueryASTBuilder >> identifier [
-	^ (self dependencyAt: PSQLASTBuilder) identifier
-]
-
-{ #category : #helpers }
-PSQLInsertQueryASTBuilder >> identifierOrKeyword [
-	^ (self dependencyAt: PSQLASTBuilder) identifierOrKeyword
-]
-
-{ #category : #helpers }
-PSQLInsertQueryASTBuilder >> identifierWithOptionalFieldAccess [
-	^ (self dependencyAt: PSQLASTBuilder) identifierWithOptionalFieldAccess
 ]
 
 { #category : #'insert command' }

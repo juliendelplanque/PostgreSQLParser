@@ -14,7 +14,12 @@ PSQLFromClauseASTBuilder class >> selectQueryParser [
 
 { #category : #accessing }
 PSQLFromClauseASTBuilder class >> sqlParser [
-	^ PSQLASTBuilder
+	^ PSQLExpressionASTBuilder
+]
+
+{ #category : #accessing }
+PSQLFromClauseASTBuilder class >> tokenParser [
+	^ PSQLTokenASTBuilder
 ]
 
 { #category : #accessing }

@@ -19,12 +19,12 @@ PSQLUpdateQueryASTBuilder class >> sharedParser [
 
 { #category : #accessing }
 PSQLUpdateQueryASTBuilder class >> sqlParser [
-	^ PSQLASTBuilder
+	^ PSQLExpressionASTBuilder
 ]
 
 { #category : #accessing }
-PSQLUpdateQueryASTBuilder >> start [
-	^ updateCommand end
+PSQLUpdateQueryASTBuilder class >> tokenParser [
+	^ PSQLTokenASTBuilder
 ]
 
 { #category : #'update command' }
