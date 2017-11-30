@@ -229,6 +229,12 @@ PSQLKeywordsParser >> collate [
 ]
 
 { #category : #keywords }
+PSQLKeywordsParser >> commit [
+	<psqlkeyword>
+	^ self buildKeyword: 'commit'
+]
+
+{ #category : #keywords }
 PSQLKeywordsParser >> conflict [
 	<psqlkeyword>
 	^ self buildKeyword: 'conflict'
@@ -360,6 +366,12 @@ PSQLKeywordsParser >> execute [
 ]
 
 { #category : #keywords }
+PSQLKeywordsParser >> exists [
+
+	^ self buildKeyword: 'exists'
+]
+
+{ #category : #keywords }
 PSQLKeywordsParser >> exit [
 	<psqlkeyword>
 	^ self buildKeyword: 'exit'
@@ -420,6 +432,12 @@ PSQLKeywordsParser >> get [
 ]
 
 { #category : #keywords }
+PSQLKeywordsParser >> global [
+	<psqlkeyword>
+	^ self buildKeyword: 'global'
+]
+
+{ #category : #keywords }
 PSQLKeywordsParser >> group [
 	<psqlkeyword>
 	^ self buildKeyword: 'group'
@@ -446,6 +464,12 @@ PSQLKeywordsParser >> in [
 { #category : #keywords }
 PSQLKeywordsParser >> info [
 	^ self buildKeyword: 'info'
+]
+
+{ #category : #keywords }
+PSQLKeywordsParser >> inherits [
+	<psqlkeyword>
+	^ self buildKeyword: 'inherits'
 ]
 
 { #category : #keywords }
@@ -519,6 +543,12 @@ PSQLKeywordsParser >> left [
 PSQLKeywordsParser >> limit [
 	<psqlkeyword>
 	^ self buildKeyword: 'limit'
+]
+
+{ #category : #keywords }
+PSQLKeywordsParser >> local [
+	<psqlkeyword>
+	^ self buildKeyword: 'local'
 ]
 
 { #category : #keywords }
@@ -787,6 +817,12 @@ PSQLKeywordsParser >> symmetric [
 { #category : #keywords }
 PSQLKeywordsParser >> table [
 	^ self buildKeyword: 'table'
+]
+
+{ #category : #keywords }
+PSQLKeywordsParser >> tablespace [
+	<psqlkeyword>
+	^ self buildKeyword: 'tablespace'
 ]
 
 { #category : #keywords }
