@@ -2,7 +2,7 @@
 A PSQLASTBuilderTest is a test class for testing the behavior of PSQLASTBuilder
 "
 Class {
-	#name : #PSQLASTBuilderTest,
+	#name : #PSQLExpressionASTBuilderTest,
 	#superclass : #TestCase,
 	#instVars : [
 		'builder'
@@ -11,12 +11,12 @@ Class {
 }
 
 { #category : #running }
-PSQLASTBuilderTest >> setUp [
+PSQLExpressionASTBuilderTest >> setUp [
 	builder := PSQLExpressionASTBuilder new
 ]
 
 { #category : #tests-expression }
-PSQLASTBuilderTest >> testAggregateExpressionParserForm3With [
+PSQLExpressionASTBuilderTest >> testAggregateExpressionParserForm3With [
 	| node |
 	node := builder expression parse: 'count(*)'.
 	self
@@ -28,7 +28,7 @@ PSQLASTBuilderTest >> testAggregateExpressionParserForm3With [
 ]
 
 { #category : #tests-expression }
-PSQLASTBuilderTest >> testCompositeValueWith [
+PSQLExpressionASTBuilderTest >> testCompositeValueWith [
 	| node |
 	node := builder expression parse: '(1, id*3, table.attribute)'.
 	self
@@ -48,7 +48,7 @@ PSQLASTBuilderTest >> testCompositeValueWith [
 ]
 
 { #category : #tests-expression }
-PSQLASTBuilderTest >> testConditionalExpression [
+PSQLExpressionASTBuilderTest >> testConditionalExpression [
 	| node |
 	node := builder expression parse: 'CASE WHEN (actualite.debut IS NULL) THEN actualite.debutpublication ELSE actualite.debut END'.
 	self
@@ -60,7 +60,7 @@ PSQLASTBuilderTest >> testConditionalExpression [
 ]
 
 { #category : #tests-expression }
-PSQLASTBuilderTest >> testExpressionParserTermFor [
+PSQLExpressionASTBuilderTest >> testExpressionParserTermFor [
 	| node |
 	node := builder expression parse: '''a String'''.
 	self
@@ -81,7 +81,7 @@ PSQLASTBuilderTest >> testExpressionParserTermFor [
 ]
 
 { #category : #tests-expression }
-PSQLASTBuilderTest >> testFunctionCallParserWith [
+PSQLExpressionASTBuilderTest >> testFunctionCallParserWith [
 	| node |
 	node := builder expression parse: 'fct(1, id, arg := ''argument'', 41 + 1)'.
 	self
@@ -97,66 +97,11 @@ PSQLASTBuilderTest >> testFunctionCallParserWith [
 		assert: node argumentsDictionary associations first tail class equals: PSQLASTStringConstant
 ]
 
-{ #category : #tests-accessing }
-PSQLASTBuilderTest >> testIdentifier [
-	| node |
-	node := builder identifier parse: 'id'.
-	
-	self
-		assert: node class equals: PSQLASTIdentifier;
-		assert: node identifier equals: 'id'
-]
-
-{ #category : #tests }
-PSQLASTBuilderTest >> testIdentifierWithOptionalFieldAccess [
-	| node |
-	node := builder identifierWithOptionalFieldAccess parse: 'id'.
-	self
-		assert: node class equals: PSQLASTIdentifier;
-		assert: node identifier equals: 'id'.
-		
-	node := builder identifierWithOptionalFieldAccess parse: 'id.attribute'.
-	self
-		assert: node class equals: PSQLASTAttributeAccess;
-		assert: node accessed identifier equals: 'id';
-		assert: node attributeIdentifier identifier equals: 'attribute'.
-]
-
-{ #category : #tests-accessing }
-PSQLASTBuilderTest >> testNumericConstant [
-	| node |
-	node := builder numericConstant parse: '1.21'.
-	
-	self
-		assert: node class equals: PSQLASTNumericConstant;
-		assert: node content equals: '1.21'
-]
-
 { #category : #tests-expression }
-PSQLASTBuilderTest >> testParenthesedExpressionParserWith [
+PSQLExpressionASTBuilderTest >> testParenthesedExpressionParserWith [
 	| node |
 	node := builder expression parse: '(id+1)'.
 	self
 		assert: node class equals: PSQLASTParenthesedExpression;
 		assert: node expression class equals: PSQLASTBinaryOperator
-]
-
-{ #category : #tests-accessing }
-PSQLASTBuilderTest >> testPositionalParameter [
-	| node |
-	node := builder positionalParameter parse: '$1'.
-	
-	self
-		assert: node class equals: PSQLPlpgSQLASTPositionalParameter;
-		assert: node index equals: 1
-]
-
-{ #category : #tests-accessing }
-PSQLASTBuilderTest >> testSimpleStringConstant [
-	| node |
-	node := builder simpleStringConstant parse: '''test'''.
-	
-	self
-		assert: node class equals: PSQLASTStringConstant;
-		assert: node content equals: 'test'
 ]
