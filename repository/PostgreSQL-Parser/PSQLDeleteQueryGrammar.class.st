@@ -25,6 +25,11 @@ PSQLDeleteQueryGrammar class >> dependencies [
 	^ { self sqlParser . self sharedParser . self tokenParser }
 ]
 
+{ #category : #example }
+PSQLDeleteQueryGrammar class >> example [
+	^ self parse: 'DELETE FROM tasks WHERE status = ''DONE'' RETURNING *'
+]
+
 { #category : #accessing }
 PSQLDeleteQueryGrammar class >> ignoredNames [ 
 	^ super ignoredNames , #(kw)

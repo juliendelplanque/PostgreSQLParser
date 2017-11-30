@@ -24,6 +24,11 @@ PSQLUpdateQueryGrammar class >> dependencies [
 	^ { self sqlParser . self fromClauseParser . self sharedParser . self tokenParser }
 ]
 
+{ #category : #example }
+PSQLUpdateQueryGrammar class >> example [
+	^ self parse: 'UPDATE films SET kind = ''Dramatic'' WHERE kind = ''Drama'''
+]
+
 { #category : #accessing }
 PSQLUpdateQueryGrammar class >> fromClauseParser [
 	^ PSQLFromClauseGrammar

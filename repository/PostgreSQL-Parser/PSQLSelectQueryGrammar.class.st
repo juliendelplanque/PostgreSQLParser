@@ -42,6 +42,21 @@ PSQLSelectQueryGrammar class >> dependencies [
 	^ { self sqlParser . self fromClauseParser . self sharedParser . self tokenParser }
 ]
 
+{ #category : #example }
+PSQLSelectQueryGrammar class >> example [
+	^ self parse: 'SELECT c1, c2, c3 FROM t ORDER BY c1 OFFSET 42'
+]
+
+{ #category : #example }
+PSQLSelectQueryGrammar class >> example2 [
+	^ self parse: 'SELECT c1, c2, c3 INTO newTable FROM t ORDER BY c1 OFFSET 42'
+]
+
+{ #category : #example }
+PSQLSelectQueryGrammar class >> example3 [
+	^ self parse: 'SELECT INTO newTable c1, c2, c3 FROM t ORDER BY c1 OFFSET 42'
+]
+
 { #category : #accessing }
 PSQLSelectQueryGrammar class >> fromClauseParser [
 	^ PSQLFromClauseGrammar

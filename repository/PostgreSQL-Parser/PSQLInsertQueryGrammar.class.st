@@ -34,6 +34,11 @@ PSQLInsertQueryGrammar class >> dependencies [
 	^ { self sqlParser . self valuesCommandParser . self sharedParser . self tokenParser }
 ]
 
+{ #category : #example }
+PSQLInsertQueryGrammar class >> example [
+	^ self parse: 'INSERT INTO table (id, name) VALUES (DEFAULT, ''john'')'
+]
+
 { #category : #accessing }
 PSQLInsertQueryGrammar class >> ignoredNames [ 
 	^ super ignoredNames , #(kw)

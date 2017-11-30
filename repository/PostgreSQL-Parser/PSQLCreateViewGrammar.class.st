@@ -22,6 +22,11 @@ PSQLCreateViewGrammar class >> dependencies [
 	^ { self selectQueryParser . self tokenParser }
 ]
 
+{ #category : #example }
+PSQLCreateViewGrammar class >> example [
+	^ self parse: 'CREATE VIEW v AS SELECT * FROM t'
+]
+
 { #category : #accessing }
 PSQLCreateViewGrammar class >> ignoredNames [ 
 	^ super ignoredNames , #(kw)

@@ -63,6 +63,11 @@ PSQLExpressionGrammar class >> dependencies [
 	^ { self selectQueryParser . self sharedParser . self tokenParser }
 ]
 
+{ #category : #example }
+PSQLExpressionGrammar class >> example [
+	^ self parse: 'fct(x) + id--'
+]
+
 { #category : #accessing }
 PSQLExpressionGrammar class >> ignoredNames [ 
 	^ super ignoredNames , #(kw)
