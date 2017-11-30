@@ -1,16 +1,16 @@
 Class {
-	#name : #PSQLGrammarTest,
+	#name : #PSQLExpressionGrammarTest,
 	#superclass : #PPCompositeParserTest,
 	#category : #PostgreSQL-Parser-Tests
 }
 
 { #category : #accessing }
-PSQLGrammarTest >> parserClass [
+PSQLExpressionGrammarTest >> parserClass [
 	^ PSQLExpressionGrammar
 ]
 
 { #category : #tests-accessing }
-PSQLGrammarTest >> testAggregateExpression [
+PSQLExpressionGrammarTest >> testAggregateExpression [
 	self
 		parse: 'array_agg(a ORDER BY b DESC)' rule: #expression;
 		parse: 'string_agg(a, '','' ORDER BY a)' rule: #expression;
@@ -18,14 +18,14 @@ PSQLGrammarTest >> testAggregateExpression [
 ]
 
 { #category : #tests-accessing }
-PSQLGrammarTest >> testBinaryLogicalOperator [
+PSQLExpressionGrammarTest >> testBinaryLogicalOperator [
 	self
 		parse: 'AND ' rule: #binaryLogicalOperator;
 		parse: 'OR ' rule: #binaryLogicalOperator
 ]
 
 { #category : #tests-accessing }
-PSQLGrammarTest >> testBinaryOperator [
+PSQLExpressionGrammarTest >> testBinaryOperator [
 	self
 		parse: '2*2' rule: #expression;
 		parse: '2*$3*4' rule: #expression;
@@ -34,19 +34,19 @@ PSQLGrammarTest >> testBinaryOperator [
 ]
 
 { #category : #tests-accessing }
-PSQLGrammarTest >> testColumnReference [
+PSQLExpressionGrammarTest >> testColumnReference [
 	self
 		parse: 'column' rule: #columnReference
 ]
 
 { #category : #tests-accessing }
-PSQLGrammarTest >> testCommaSubscript [
+PSQLExpressionGrammarTest >> testCommaSubscript [
 	self
 		parse: 'ARRAY[4,59,1]' rule: #expression
 ]
 
 { #category : #tests-expression }
-PSQLGrammarTest >> testConditionalExpression [
+PSQLExpressionGrammarTest >> testConditionalExpression [
 	self
 		parse: 'CASE WHEN (actualite.debut IS NULL) THEN actualite.debutpublication ELSE actualite.debut END' rule: #conditionalExpression;
 		parse: 'CASE WHEN 1 = 1 THEN ''Ok'' ELSE CASE WHEN 1 = 2 THEN ''Ooops''::text END END' rule: #conditionalExpression;
@@ -54,7 +54,7 @@ PSQLGrammarTest >> testConditionalExpression [
 ]
 
 { #category : #tests-expression }
-PSQLGrammarTest >> testExpression [
+PSQLExpressionGrammarTest >> testExpression [
 	self
 		parse: 'fct()' rule: #expression;
 		parse: '++1' rule: #expression;
@@ -122,7 +122,7 @@ PSQLGrammarTest >> testExpression [
 ]
 
 { #category : #tests-expression }
-PSQLGrammarTest >> testExtractFunctionCall [
+PSQLExpressionGrammarTest >> testExtractFunctionCall [
 	self
 		parse: 'EXTRACT(MONTH FROM dateobservation)' rule: #extractFunctionCall;
 		parse: 'EXTRACT(DAY FROM origine)' rule: #extractFunctionCall;
@@ -130,7 +130,7 @@ PSQLGrammarTest >> testExtractFunctionCall [
 ]
 
 { #category : #tests-accessing }
-PSQLGrammarTest >> testFieldSelection [
+PSQLExpressionGrammarTest >> testFieldSelection [
 	self
 		parse: 'mytable.mycolumn' rule: #expression;
 		parse: '$1.somecolumn' rule: #expression;
@@ -141,7 +141,7 @@ PSQLGrammarTest >> testFieldSelection [
 ]
 
 { #category : #tests }
-PSQLGrammarTest >> testFunctionCall [
+PSQLExpressionGrammarTest >> testFunctionCall [
 	self
 		parse: 'fct()' rule: #expression;
 		parse: 'sqrt(2)' rule: #expression;
@@ -159,7 +159,7 @@ PSQLGrammarTest >> testFunctionCall [
 ]
 
 { #category : #tests-accessing }
-PSQLGrammarTest >> testParenthesedExpression [
+PSQLExpressionGrammarTest >> testParenthesedExpression [
 	self
 		parse: '(1+$1)' rule: #expression;
 		parse: '(fct())' rule: #expression;
@@ -169,7 +169,7 @@ PSQLGrammarTest >> testParenthesedExpression [
 ]
 
 { #category : #tests-accessing }
-PSQLGrammarTest >> testSubscript [
+PSQLExpressionGrammarTest >> testSubscript [
 	self
 		parse: 'identifier[1]' rule: #expression;
 		parse: 'identifier[4:59]' rule: #expression;
@@ -180,13 +180,13 @@ PSQLGrammarTest >> testSubscript [
 ]
 
 { #category : #tests-expression }
-PSQLGrammarTest >> testTypeCastConstruct [
+PSQLExpressionGrammarTest >> testTypeCastConstruct [
 	self
 		parse: '::NUMERIC(18,9)' rule: #typeCastConstruct
 ]
 
 { #category : #tests-accessing }
-PSQLGrammarTest >> testUnaryPostfixOperator [
+PSQLExpressionGrammarTest >> testUnaryPostfixOperator [
 	self
 		parse: '42++' rule: #expression;
 		parse: 'id--' rule: #expression;
@@ -195,7 +195,7 @@ PSQLGrammarTest >> testUnaryPostfixOperator [
 ]
 
 { #category : #tests-accessing }
-PSQLGrammarTest >> testUnaryPrefixOperator [
+PSQLExpressionGrammarTest >> testUnaryPrefixOperator [
 	self
 		parse: '++42' rule: #expression;
 		parse: '--id' rule: #expression;
