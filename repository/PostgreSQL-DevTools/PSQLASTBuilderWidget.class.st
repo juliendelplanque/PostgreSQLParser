@@ -49,7 +49,7 @@ PSQLASTBuilderWidget >> initializeWidgets [
 
 { #category : #actions }
 PSQLASTBuilderWidget >> inspectAST [
-	(PSQLASTBuilder new plpgsqlBody parse: self sqlCodeText text asString onError: [ :ppFailure | UIManager default inform: 'Could not parse the input.'. ppFailure ]) inspect
+	(PSQLExpressionASTBuilder new plpgsqlBody parse: self sqlCodeText text asString onError: [ :ppFailure | UIManager default inform: 'Could not parse the input.'. ppFailure ]) inspect
 ]
 
 { #category : #accessing }
