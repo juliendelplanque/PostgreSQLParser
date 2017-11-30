@@ -1,7 +1,5 @@
 "
-I parse everything I can parse from SQL code from PostgreSQL.
-
-I should be splitted in different parsers in the future.
+I parse PostgreSQL expressions.
 "
 Class {
 	#name : #PSQLExpressionGrammar,
