@@ -1,7 +1,7 @@
 Class {
 	#name : #PSQLGrammarSelectCrashTest,
 	#superclass : #PPCompositeParserTest,
-	#category : #PostgreSQL-Parser-Tests
+	#category : #PostgreSQL-Parser-CrashTests
 }
 
 { #category : #accessing }
