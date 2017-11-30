@@ -4,8 +4,8 @@ I parse everything I can parse from SQL code from PostgreSQL.
 I should be splitted in different parsers in the future.
 "
 Class {
-	#name : #PSQLGrammar,
-	#superclass : #PSQLTokenizer,
+	#name : #PSQLExpressionGrammar,
+	#superclass : #PPCompositeParser,
 	#instVars : [
 		'asOperator',
 		'betweenConstructOperator',
@@ -41,28 +41,52 @@ Class {
 		'typeCastConstruct',
 		'selectCommand',
 		'expression',
-		'orderByClause'
+		'orderByClause',
+		'identifier',
+		'openParenthesis',
+		'comma',
+		'closeParenthesis',
+		'kw',
+		'asterik',
+		'openBracket',
+		'closeBracket',
+		'operator',
+		'period',
+		'colon',
+		'identifierOrKeyword',
+		'constant',
+		'positionalParameter'
 	],
 	#category : #PostgreSQL-Parser-Core
 }
 
 { #category : #accessing }
-PSQLGrammar class >> dependencies [
-	^ { self selectQueryParser . self sharedParser }
+PSQLExpressionGrammar class >> dependencies [
+	^ { self selectQueryParser . self sharedParser . self tokenParser }
 ]
 
 { #category : #accessing }
-PSQLGrammar class >> selectQueryParser [
+PSQLExpressionGrammar class >> ignoredNames [ 
+	^ super ignoredNames , #(kw)
+]
+
+{ #category : #accessing }
+PSQLExpressionGrammar class >> selectQueryParser [
 	^ PSQLSelectQueryGrammar
 ]
 
 { #category : #accessing }
-PSQLGrammar class >> sharedParser [
+PSQLExpressionGrammar class >> sharedParser [
 	^ PSQLSharedGrammar
 ]
 
+{ #category : #accessing }
+PSQLExpressionGrammar class >> tokenParser [
+	^ PSQLTokenizer
+]
+
 { #category : #expression }
-PSQLGrammar >> aggregateExpressionParserForm1With: expressionParser [
+PSQLExpressionGrammar >> aggregateExpressionParserForm1With: expressionParser [
 	^ identifier , 
 		openParenthesis ,
 		(expressionParser plus separatedBy: comma trim) trim ,
@@ -71,7 +95,7 @@ PSQLGrammar >> aggregateExpressionParserForm1With: expressionParser [
 ]
 
 { #category : #expression }
-PSQLGrammar >> aggregateExpressionParserForm2With: expressionParser [
+PSQLExpressionGrammar >> aggregateExpressionParserForm2With: expressionParser [
 	^ identifier , 
 		openParenthesis ,
 		(kw all / kw distinct) trim ,
@@ -81,7 +105,7 @@ PSQLGrammar >> aggregateExpressionParserForm2With: expressionParser [
 ]
 
 { #category : #expression }
-PSQLGrammar >> aggregateExpressionParserForm3With: expressionParser [
+PSQLExpressionGrammar >> aggregateExpressionParserForm3With: expressionParser [
 	^ identifier , 
 		openParenthesis ,
 		asterik trim , 
@@ -90,13 +114,13 @@ PSQLGrammar >> aggregateExpressionParserForm3With: expressionParser [
 ]
 
 { #category : #expression }
-PSQLGrammar >> aggregateExpressionParserForm4With: expressionParse [
+PSQLExpressionGrammar >> aggregateExpressionParserForm4With: expressionParse [
 	self flag: #todo.
 	^ PPFailingParser new
 ]
 
 { #category : #expression }
-PSQLGrammar >> aggregateExpressionParserWith: expressionParser [
+PSQLExpressionGrammar >> aggregateExpressionParserWith: expressionParser [
 	^ (self aggregateExpressionParserForm1With: expressionParser) /
 	(self aggregateExpressionParserForm2With: expressionParser) /
 	(self aggregateExpressionParserForm3With: expressionParser) /
@@ -104,60 +128,90 @@ PSQLGrammar >> aggregateExpressionParserWith: expressionParser [
 ]
 
 { #category : #expression }
-PSQLGrammar >> asOperator [
+PSQLExpressionGrammar >> asOperator [
 	^ kw asc not , kw as
 ]
 
+{ #category : #dependencies }
+PSQLExpressionGrammar >> asterik [
+	^ (self dependencyAt: self class tokenParser) asterik
+]
+
 { #category : #expression }
-PSQLGrammar >> betweenConstructOperator [
+PSQLExpressionGrammar >> betweenConstructOperator [
 	^ (betweenSymmetric / notBetweenSymmetric / kw between / notBetween) , keywordStop
 ]
 
 { #category : #expression }
-PSQLGrammar >> betweenSymmetric [
+PSQLExpressionGrammar >> betweenSymmetric [
 	^ kw between trim , kw symmetric
 ]
 
 { #category : #expression }
-PSQLGrammar >> binaryLogicalOperator [
+PSQLExpressionGrammar >> binaryLogicalOperator [
 	^ (kw andKeyword / kw or) , #space asParser
 ]
 
 { #category : #'accessing - blocks' }
-PSQLGrammar >> binaryOperatorBlock [
+PSQLExpressionGrammar >> binaryOperatorBlock [
 	^ [ :exp1 :op :exp2 | { exp1 . op . exp2 } ]
 ]
 
 { #category : #expression }
-PSQLGrammar >> booleanTestConstructOperator [
+PSQLExpressionGrammar >> booleanTestConstructOperator [
 	^ (isTrue / isNotTrue / isFalse / isNotFalse / isUnknown / isNotUnknown) , keywordStop
 ]
 
+{ #category : #dependencies }
+PSQLExpressionGrammar >> closeBracket [
+	^ (self dependencyAt: self class tokenParser) closeBracket
+]
+
+{ #category : #dependencies }
+PSQLExpressionGrammar >> closeParenthesis [
+	^ (self dependencyAt: self class tokenParser) closeParenthesis
+]
+
+{ #category : #dependencies }
+PSQLExpressionGrammar >> colon [
+	^ (self dependencyAt: self class tokenParser) colon
+]
+
 { #category : #helpers }
-PSQLGrammar >> columnReference [
+PSQLExpressionGrammar >> columnReference [
 	^ (identifier , period) optional , identifier
 ]
 
+{ #category : #dependencies }
+PSQLExpressionGrammar >> comma [
+	^ (self dependencyAt: self class tokenParser) comma
+]
+
 { #category : #expression }
-PSQLGrammar >> commaSubscriptWith: expressionParser [
+PSQLExpressionGrammar >> commaSubscriptWith: expressionParser [
 	^ openBracket , (expressionParser trim plus separatedBy: comma trim) , closeBracket
 ]
 
 { #category : #expression }
-PSQLGrammar >> compositeValueWith: anExpressionParser [
+PSQLExpressionGrammar >> compositeValueWith: anExpressionParser [
 	^ openParenthesis trim , (anExpressionParser plus separatedBy: comma trim) , closeParenthesis trim , typeCastConstruct trim optional
 ]
 
 { #category : #expression }
-PSQLGrammar >> conditionalExpression [
+PSQLExpressionGrammar >> conditionalExpression [
 	^ kw case trim ,
 		(kw when trim , expression trim , kw then trim , expression trim) plus,
 		(kw else trim , expression trim) optional ,
 	kw endKeyword trim
 ]
 
+{ #category : #dependencies }
+PSQLExpressionGrammar >> constant [
+	^ (self dependencyAt: self class tokenParser) constant
+]
+
 { #category : #expression }
-PSQLGrammar >> expression [
+PSQLExpressionGrammar >> expression [
 	| expressionParser |
 	expressionParser := PPExpressionParser new.
 	"Terms definitions"
@@ -189,7 +243,7 @@ PSQLGrammar >> expression [
 ]
 
 { #category : #expression }
-PSQLGrammar >> expressionParserTermFor: expressionParser [
+PSQLExpressionGrammar >> expressionParserTermFor: expressionParser [
 	| parenthesedExpression functionCall aggregateExpression compositeValue |
 	parenthesedExpression := self parenthesedExpressionParserWith: expressionParser.
 	functionCall := self functionCallParserWith: expressionParser.
@@ -199,18 +253,18 @@ PSQLGrammar >> expressionParserTermFor: expressionParser [
 ]
 
 { #category : #expression }
-PSQLGrammar >> extractFunctionCall [
+PSQLExpressionGrammar >> extractFunctionCall [
 	"Parses a call to the EXTRACT(x FROM y) function."
 	^ identifier trim , openParenthesis trim , expression trim , kw from trim , expression trim , closeParenthesis
 ]
 
 { #category : #expression }
-PSQLGrammar >> fieldSelection [
+PSQLExpressionGrammar >> fieldSelection [
 	^ period , (identifier / asterik)
 ]
 
 { #category : #expression }
-PSQLGrammar >> functionCall [
+PSQLExpressionGrammar >> functionCall [
 	"Only for function call with argument list (does not support argument dict)."
 	^ identifier trim ,
 		openParenthesis trim,
@@ -219,149 +273,211 @@ PSQLGrammar >> functionCall [
 ]
 
 { #category : #expression }
-PSQLGrammar >> functionCallParserWith: expressionParser [
+PSQLExpressionGrammar >> functionCallParserWith: expressionParser [
 	^ identifier , (openParenthesis trim , 
 		(((identifier , ':=' asParser trim , expressionParser) trim / expressionParser trim) star separatedBy: comma trim) , 
 		closeParenthesis trim)
 ]
 
-{ #category : #expression }
-PSQLGrammar >> inOperator [
-	^ kw into trim not , kw in trim , keywordStop
+{ #category : #dependencies }
+PSQLExpressionGrammar >> identifier [
+	^ (self dependencyAt: self class tokenParser) identifier
+]
+
+{ #category : #dependencies }
+PSQLExpressionGrammar >> identifierOrKeyword [
+	^ (self dependencyAt: self class tokenParser) identifierOrKeyword
+]
+
+{ #category : #dependencies }
+PSQLExpressionGrammar >> identifierWithOptionalFieldAccess [
+	^ (self dependencyAt: self class tokenParser) identifierWithOptionalFieldAccess
 ]
 
 { #category : #expression }
-PSQLGrammar >> isDistinctFromOperator [
+PSQLExpressionGrammar >> inOperator [
+	^ kw into trim not , kw in trim , keywordStop
+]
+
+{ #category : #initialization }
+PSQLExpressionGrammar >> initialize [
+	super initialize.
+	kw := PSQLKeywordsParser new
+
+]
+
+{ #category : #expression }
+PSQLExpressionGrammar >> isDistinctFromOperator [
 	^ kw is trim , kw distinct trim , kw from , keywordStop
 ]
 
 { #category : #expression }
-PSQLGrammar >> isFalse [
+PSQLExpressionGrammar >> isFalse [
 	^ kw is trim , kw falseKeyword
 ]
 
 { #category : #expression }
-PSQLGrammar >> isNotDistinctFromOperator [
+PSQLExpressionGrammar >> isNotDistinctFromOperator [
 	^ kw is trim , kw notKeyword trim , kw distinct trim , kw from , keywordStop
 ]
 
 { #category : #expression }
-PSQLGrammar >> isNotFalse [
+PSQLExpressionGrammar >> isNotFalse [
 	^ kw is trim , kw notKeyword trim , kw falseKeyword
 ]
 
 { #category : #expression }
-PSQLGrammar >> isNotNull [
+PSQLExpressionGrammar >> isNotNull [
 	^ kw is trim , kw notKeyword trim , kw null
 ]
 
 { #category : #expression }
-PSQLGrammar >> isNotTrue [
+PSQLExpressionGrammar >> isNotTrue [
 	^ kw is trim , kw notKeyword trim , kw trueKeyword
 ]
 
 { #category : #expression }
-PSQLGrammar >> isNotUnknown [
+PSQLExpressionGrammar >> isNotUnknown [
 	^ kw is trim , kw notKeyword trim , kw unknown
 ]
 
 { #category : #expression }
-PSQLGrammar >> isNull [
+PSQLExpressionGrammar >> isNull [
 	^ kw is trim , kw null
 ]
 
 { #category : #expression }
-PSQLGrammar >> isTrue [
+PSQLExpressionGrammar >> isTrue [
 	^ kw is trim , kw trueKeyword
 ]
 
 { #category : #expression }
-PSQLGrammar >> isUnknown [
+PSQLExpressionGrammar >> isUnknown [
 	^ kw is trim , kw unknown
 ]
 
 { #category : #helpers }
-PSQLGrammar >> keywordStop [
+PSQLExpressionGrammar >> keywordStop [
 	^ (#space asParser / openBracket / closeBracket / openParenthesis / closeParenthesis / nil asParser) not not
 ]
 
 { #category : #expression }
-PSQLGrammar >> nonStandardIsNull [
+PSQLExpressionGrammar >> nonStandardIsNull [
 	^ kw isnull
 ]
 
 { #category : #expression }
-PSQLGrammar >> nonStandardNotNull [
+PSQLExpressionGrammar >> nonStandardNotNull [
 	^ kw notnull
 ]
 
 { #category : #expression }
-PSQLGrammar >> notBetween [
+PSQLExpressionGrammar >> notBetween [
 	^ kw notKeyword trim, kw between
 ]
 
 { #category : #expression }
-PSQLGrammar >> notBetweenSymmetric [
+PSQLExpressionGrammar >> notBetweenSymmetric [
 	^ kw notKeyword trim, kw between trim , kw symmetric
 ]
 
 { #category : #expression }
-PSQLGrammar >> notInOperator [
+PSQLExpressionGrammar >> notInOperator [
 	^ kw notKeyword trim , kw in
 ]
 
 { #category : #expression }
-PSQLGrammar >> nullExpression [
+PSQLExpressionGrammar >> nullExpression [
 	^ kw null
 ]
 
 { #category : #expression }
-PSQLGrammar >> nullTestConstructOperator [
+PSQLExpressionGrammar >> nullTestConstructOperator [
 	^ (isNull / isNotNull / nonStandardIsNull / nonStandardNotNull) , keywordStop
 ]
 
 { #category : #dependencies }
-PSQLGrammar >> orderByClause [
+PSQLExpressionGrammar >> numericConstant [
+	^ (self dependencyAt: self class tokenParser) numericConstant
+]
+
+{ #category : #dependencies }
+PSQLExpressionGrammar >> openBracket [
+	^ (self dependencyAt: self class tokenParser) openBracket
+]
+
+{ #category : #dependencies }
+PSQLExpressionGrammar >> openParenthesis [
+	^ (self dependencyAt: self class tokenParser) openParenthesis
+]
+
+{ #category : #dependencies }
+PSQLExpressionGrammar >> operator [
+	^ (self dependencyAt: self class tokenParser) operator
+]
+
+{ #category : #dependencies }
+PSQLExpressionGrammar >> orderByClause [
 	^ (self dependencyAt: self class sharedParser) orderByClause
 ]
 
 { #category : #expression }
-PSQLGrammar >> parenthesedExpressionParserWith: expressionParser [
+PSQLExpressionGrammar >> parenthesedExpressionParserWith: expressionParser [
 	^ openParenthesis trim , expressionParser , closeParenthesis trim.
 ]
 
+{ #category : #dependencies }
+PSQLExpressionGrammar >> period [
+	^ (self dependencyAt: self class tokenParser) period
+]
+
+{ #category : #dependencies }
+PSQLExpressionGrammar >> positionalParameter [
+	^ (self dependencyAt: self class tokenParser) positionalParameter
+]
+
 { #category : #'accessing - blocks' }
-PSQLGrammar >> postfixOperatorBlock [
+PSQLExpressionGrammar >> postfixOperatorBlock [
 	^ [ :op :exp | { op . exp } ]
 ]
 
 { #category : #'accessing - blocks' }
-PSQLGrammar >> prefixOperatorBlock [
+PSQLExpressionGrammar >> prefixOperatorBlock [
 	^ [ :op :exp | { op . exp } ]
 ]
 
 { #category : #helpers }
-PSQLGrammar >> primary [
+PSQLExpressionGrammar >> primary [
 	^ constant / columnReference / positionalParameter
 ]
 
 { #category : #dependencies }
-PSQLGrammar >> selectCommand [
+PSQLExpressionGrammar >> selectCommand [
 	^ (self dependencyAt: self class selectQueryParser) selectCommand
 ]
 
+{ #category : #dependencies }
+PSQLExpressionGrammar >> simpleStringConstant [
+	^ (self dependencyAt: self class tokenParser) simpleStringConstant
+]
+
+{ #category : #accessing }
+PSQLExpressionGrammar >> start [
+	^ expression end
+]
+
 { #category : #expression }
-PSQLGrammar >> subscriptWith: expressionParser [
+PSQLExpressionGrammar >> subscriptWith: expressionParser [
 	^ openBracket , expressionParser , (colon , expressionParser) optional , closeBracket
 ]
 
 { #category : #expression }
-PSQLGrammar >> typeCast [
+PSQLExpressionGrammar >> typeCast [
 	^ '::' asParser
 ]
 
 { #category : #expression }
-PSQLGrammar >> typeCastConstruct [
+PSQLExpressionGrammar >> typeCastConstruct [
 	^ typeCast trim , 
 			((
 			kw else not , 

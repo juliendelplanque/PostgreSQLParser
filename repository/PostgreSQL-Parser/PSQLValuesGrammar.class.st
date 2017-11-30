@@ -3,27 +3,62 @@ I parse PostgreSQL VALUES command.
 "
 Class {
 	#name : #PSQLValuesGrammar,
-	#superclass : #PSQLTokenizer,
+	#superclass : #PPCompositeParser,
 	#instVars : [
 		'expression',
-		'valuesCommand'
+		'valuesCommand',
+		'kw',
+		'openParenthesis',
+		'comma',
+		'closeParenthesis'
 	],
 	#category : #PostgreSQL-Parser-Core
 }
 
 { #category : #accessing }
 PSQLValuesGrammar class >> dependencies [
-	^ { self sqlParser }
+	^ { self sqlParser . self tokenParser }
+]
+
+{ #category : #accessing }
+PSQLValuesGrammar class >> ignoredNames [ 
+	^ super ignoredNames , #(kw)
 ]
 
 { #category : #accessing }
 PSQLValuesGrammar class >> sqlParser [
-	^ PSQLGrammar
+	^ PSQLExpressionGrammar
+]
+
+{ #category : #accessing }
+PSQLValuesGrammar class >> tokenParser [
+	^ PSQLTokenizer
+]
+
+{ #category : #dependencies }
+PSQLValuesGrammar >> closeParenthesis [
+	^ (self dependencyAt: self class tokenParser) closeParenthesis
+]
+
+{ #category : #dependencies }
+PSQLValuesGrammar >> comma [
+	^ (self dependencyAt: self class tokenParser) comma
 ]
 
 { #category : #dependencies }
 PSQLValuesGrammar >> expression [
 	^ (self dependencyAt: self class sqlParser) expression
+]
+
+{ #category : #initialization }
+PSQLValuesGrammar >> initialize [
+	super initialize.
+	kw := PSQLKeywordsParser new
+]
+
+{ #category : #dependencies }
+PSQLValuesGrammar >> openParenthesis [
+	^ (self dependencyAt: self class tokenParser) openParenthesis
 ]
 
 { #category : #accessing }

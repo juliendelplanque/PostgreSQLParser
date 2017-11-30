@@ -3,26 +3,35 @@ I parse PostgreSQL UPDATE query.
 "
 Class {
 	#name : #PSQLUpdateQueryGrammar,
-	#superclass : #PSQLTokenizer,
+	#superclass : #PPCompositeParser,
 	#instVars : [
 		'updateCommand',
 		'fromClause',
 		'returningClause',
 		'withClause',
 		'updateDeleteWhereClause',
-		'setClause'
+		'setClause',
+		'kw',
+		'identifierWithOptionalFieldAccess',
+		'asterik',
+		'identifier'
 	],
 	#category : #PostgreSQL-Parser-Core
 }
 
 { #category : #accessing }
 PSQLUpdateQueryGrammar class >> dependencies [
-	^ { self sqlParser . self fromClauseParser . self sharedParser }
+	^ { self sqlParser . self fromClauseParser . self sharedParser . self tokenParser }
 ]
 
 { #category : #accessing }
 PSQLUpdateQueryGrammar class >> fromClauseParser [
 	^ PSQLFromClauseGrammar
+]
+
+{ #category : #accessing }
+PSQLUpdateQueryGrammar class >> ignoredNames [ 
+	^ super ignoredNames , #(kw)
 ]
 
 { #category : #accessing }
@@ -32,7 +41,17 @@ PSQLUpdateQueryGrammar class >> sharedParser [
 
 { #category : #accessing }
 PSQLUpdateQueryGrammar class >> sqlParser [
-	^ PSQLGrammar
+	^ PSQLExpressionGrammar
+]
+
+{ #category : #accessing }
+PSQLUpdateQueryGrammar class >> tokenParser [
+	^ PSQLTokenizer
+]
+
+{ #category : #dependencies }
+PSQLUpdateQueryGrammar >> asterik [
+	^ (self dependencyAt: self class tokenParser) asterik
 ]
 
 { #category : #dependencies }
@@ -42,7 +61,7 @@ PSQLUpdateQueryGrammar >> fromClause [
 
 { #category : #dependencies }
 PSQLUpdateQueryGrammar >> identifier [
-	^ (self dependencyAt: self class sqlParser) identifier
+	^ (self dependencyAt: self class tokenParser) identifier
 ]
 
 { #category : #dependencies }
@@ -52,7 +71,13 @@ PSQLUpdateQueryGrammar >> identifierOrKeyword [
 
 { #category : #dependencies }
 PSQLUpdateQueryGrammar >> identifierWithOptionalFieldAccess [
-	^ (self dependencyAt: self class sqlParser) identifierWithOptionalFieldAccess
+	^ (self dependencyAt: self class tokenParser) identifierWithOptionalFieldAccess
+]
+
+{ #category : #initialization }
+PSQLUpdateQueryGrammar >> initialize [
+	super initialize.
+	kw := PSQLKeywordsParser new
 ]
 
 { #category : #dependencies }
@@ -63,6 +88,11 @@ PSQLUpdateQueryGrammar >> returningClause [
 { #category : #dependencies }
 PSQLUpdateQueryGrammar >> setClause [
 	^ (self dependencyAt: self class sharedParser) setClause
+]
+
+{ #category : #accessing }
+PSQLUpdateQueryGrammar >> start [
+		^ updateCommand end
 ]
 
 { #category : #'update command' }
@@ -80,7 +110,7 @@ PSQLUpdateQueryGrammar >> updateCommand [
 	^ withClause trim optional ,
 		kw update trim , kw only trim optional , identifierWithOptionalFieldAccess trim , asterik trim optional , (kw as trim optional , identifier) optional ,
 		setClause trim ,
-		fromClause trim optional ,
+		fromClause trim optional , 
 		updateDeleteWhereClause trim optional ,
 		returningClause trim optional
 ]

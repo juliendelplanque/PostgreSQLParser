@@ -3,7 +3,7 @@ I parse PL/pgSQL source code.
 "
 Class {
 	#name : #PSQLPlpgSQLGrammar,
-	#superclass : #PSQLTokenizer,
+	#superclass : #PPCompositeParser,
 	#instVars : [
 		'deleteCommand',
 		'expression',
@@ -85,7 +85,21 @@ Class {
 		'plpgsqlIfThenElsif',
 		'plpgsqlSimpleCase',
 		'plpgsqlLoopLoop',
-		'plpgsqlDeclarationType'
+		'plpgsqlDeclarationType',
+		'kw',
+		'identifier',
+		'numericConstant',
+		'comma',
+		'semicolon',
+		'openParenthesis',
+		'identifierOrKeyword',
+		'closeParenthesis',
+		'quotedIdentifier',
+		'openBracket',
+		'closeBracket',
+		'simpleStringConstant',
+		'stringConstant',
+		'colon'
 	],
 	#category : #PostgreSQL-Parser-Core
 }
@@ -97,7 +111,12 @@ PSQLPlpgSQLGrammar class >> crudQueryParser [
 
 { #category : #accessing }
 PSQLPlpgSQLGrammar class >> dependencies [
-	^ { self sqlParser . self crudQueryParser . self selectQueryParser }
+	^ { self sqlParser . self crudQueryParser . self selectQueryParser . self tokenParser }
+]
+
+{ #category : #accessing }
+PSQLPlpgSQLGrammar class >> ignoredNames [ 
+	^ super ignoredNames , #(kw)
 ]
 
 { #category : #accessing }
@@ -107,7 +126,32 @@ PSQLPlpgSQLGrammar class >> selectQueryParser [
 
 { #category : #accessing }
 PSQLPlpgSQLGrammar class >> sqlParser [
-	^ PSQLGrammar
+	^ PSQLExpressionGrammar
+]
+
+{ #category : #accessing }
+PSQLPlpgSQLGrammar class >> tokenParser [
+	^ PSQLTokenizer
+]
+
+{ #category : #dependencies }
+PSQLPlpgSQLGrammar >> closeBracket [
+	^ (self dependencyAt: self class tokenParser) closeBracket
+]
+
+{ #category : #dependencies }
+PSQLPlpgSQLGrammar >> closeParenthesis [
+	^ (self dependencyAt: self class tokenParser) closeParenthesis
+]
+
+{ #category : #dependencies }
+PSQLPlpgSQLGrammar >> colon [
+	^ (self dependencyAt: self class tokenParser) colon
+]
+
+{ #category : #dependencies }
+PSQLPlpgSQLGrammar >> comma [
+	^ (self dependencyAt: self class tokenParser) comma
 ]
 
 { #category : #dependencies }
@@ -117,7 +161,7 @@ PSQLPlpgSQLGrammar >> deleteCommand [
 
 { #category : #dependencies }
 PSQLPlpgSQLGrammar >> escapeStringConstant [
-	^ (self dependencyAt: self class sqlParser) escapeStringConstant
+	^ (self dependencyAt: self class tokenParser) escapeStringConstant
 ]
 
 { #category : #dependencies }
@@ -125,19 +169,25 @@ PSQLPlpgSQLGrammar >> expression [
 	^ (self dependencyAt: self class sqlParser) expression
 ]
 
-{ #category : #helpers }
+{ #category : #dependencies }
 PSQLPlpgSQLGrammar >> identifier [
-	^ (self dependencyAt: self class sqlParser) identifier
+	^ (self dependencyAt: self class tokenParser) identifier
 ]
 
-{ #category : #helpers }
+{ #category : #dependencies }
 PSQLPlpgSQLGrammar >> identifierOrKeyword [
-	^ (self dependencyAt: self class sqlParser) identifierOrKeyword
+	^ (self dependencyAt: self class tokenParser) identifierOrKeyword
 ]
 
 { #category : #helpers }
 PSQLPlpgSQLGrammar >> identifierWithOptionalFieldAccess [
 	^ (self dependencyAt: self class sqlParser) identifierWithOptionalFieldAccess
+]
+
+{ #category : #initialization }
+PSQLPlpgSQLGrammar >> initialize [
+	super initialize.
+	kw := PSQLKeywordsParser new
 ]
 
 { #category : #dependencies }
@@ -147,7 +197,17 @@ PSQLPlpgSQLGrammar >> insertCommand [
 
 { #category : #dependencies }
 PSQLPlpgSQLGrammar >> numericConstant [
-	^ (self dependencyAt: self class sqlParser) numericConstant
+	^ (self dependencyAt: self class tokenParser) numericConstant
+]
+
+{ #category : #dependencies }
+PSQLPlpgSQLGrammar >> openBracket [
+	^ (self dependencyAt: self class tokenParser) openBracket
+]
+
+{ #category : #dependencies }
+PSQLPlpgSQLGrammar >> openParenthesis [
+	^ (self dependencyAt: self class tokenParser) openParenthesis
 ]
 
 { #category : #plpgsql }
@@ -771,6 +831,11 @@ PSQLPlpgSQLGrammar >> positionalParameter [
 ]
 
 { #category : #dependencies }
+PSQLPlpgSQLGrammar >> quotedIdentifier [
+	^ (self dependencyAt: self class tokenParser) quotedIdentifier
+]
+
+{ #category : #dependencies }
 PSQLPlpgSQLGrammar >> selectCommand [
 	^ (self dependencyAt: self class crudQueryParser) selectCommand
 ]
@@ -781,13 +846,23 @@ PSQLPlpgSQLGrammar >> selectIntoCommand [
 ]
 
 { #category : #dependencies }
+PSQLPlpgSQLGrammar >> semicolon [
+	^ (self dependencyAt: self class tokenParser) semicolon
+]
+
+{ #category : #dependencies }
 PSQLPlpgSQLGrammar >> simpleStringConstant [
-	^ (self dependencyAt: self class sqlParser) simpleStringConstant
+	^ (self dependencyAt: self class tokenParser) simpleStringConstant
 ]
 
 { #category : #accessing }
 PSQLPlpgSQLGrammar >> start [
 	^ plpgsqlBody trim end
+]
+
+{ #category : #dependencies }
+PSQLPlpgSQLGrammar >> stringConstant [
+	^ (self dependencyAt: self class tokenParser) stringConstant
 ]
 
 { #category : #duplicated }

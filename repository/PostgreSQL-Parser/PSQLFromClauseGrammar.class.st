@@ -3,7 +3,7 @@ I parse PostgreSQL FROM clause for queries using this clause.
 "
 Class {
 	#name : #PSQLFromClauseGrammar,
-	#superclass : #PSQLTokenizer,
+	#superclass : #PPCompositeParser,
 	#instVars : [
 		'columnReference',
 		'expression',
@@ -21,14 +21,26 @@ Class {
 		'fromItems6',
 		'fromItems7',
 		'joinType',
-		'parenthesedFromItems'
+		'parenthesedFromItems',
+		'kw',
+		'identifier',
+		'comma',
+		'identifierWithOptionalFieldAccess',
+		'asterik',
+		'openParenthesis',
+		'closeParenthesis'
 	],
 	#category : #PostgreSQL-Parser-Core
 }
 
 { #category : #accessing }
 PSQLFromClauseGrammar class >> dependencies [
-	^ { self sqlParser . self selectQueryParser . self valuesCommandParser }
+	^ { self sqlParser . self selectQueryParser . self valuesCommandParser . self tokenParser }
+]
+
+{ #category : #accessing }
+PSQLFromClauseGrammar class >> ignoredNames [ 
+	^ super ignoredNames , #(kw)
 ]
 
 { #category : #accessing }
@@ -38,12 +50,27 @@ PSQLFromClauseGrammar class >> selectQueryParser [
 
 { #category : #accessing }
 PSQLFromClauseGrammar class >> sqlParser [
-	^ PSQLGrammar
+	^ PSQLExpressionGrammar
+]
+
+{ #category : #accessing }
+PSQLFromClauseGrammar class >> tokenParser [
+	^ PSQLTokenizer
 ]
 
 { #category : #accessing }
 PSQLFromClauseGrammar class >> valuesCommandParser [
 	^ PSQLValuesGrammar
+]
+
+{ #category : #dependencies }
+PSQLFromClauseGrammar >> asterik [
+	^ (self dependencyAt: self class tokenParser) asterik
+]
+
+{ #category : #dependencies }
+PSQLFromClauseGrammar >> closeParenthesis [
+	^ (self dependencyAt: self class tokenParser) closeParenthesis
 ]
 
 { #category : #'shared - from clause' }
@@ -54,6 +81,11 @@ PSQLFromClauseGrammar >> columnDefinition [
 { #category : #dependencies }
 PSQLFromClauseGrammar >> columnReference [
 	^ (self dependencyAt: self class sqlParser) columnReference
+]
+
+{ #category : #dependencies }
+PSQLFromClauseGrammar >> comma [
+	^ (self dependencyAt: self class tokenParser) comma
 ]
 
 { #category : #dependencies }
@@ -184,12 +216,18 @@ PSQLFromClauseGrammar >> functionCall [
 
 { #category : #dependencies }
 PSQLFromClauseGrammar >> identifier [
-	^ (self dependencyAt: self class sqlParser) identifier
+	^ (self dependencyAt: self class tokenParser) identifier
 ]
 
 { #category : #dependencies }
 PSQLFromClauseGrammar >> identifierWithOptionalFieldAccess [
-	^ (self dependencyAt: self class sqlParser) identifierWithOptionalFieldAccess
+	^ (self dependencyAt: self class tokenParser) identifierWithOptionalFieldAccess
+]
+
+{ #category : #initialization }
+PSQLFromClauseGrammar >> initialize [
+	super initialize.
+	kw := PSQLKeywordsParser new
 ]
 
 { #category : #'shared - from clause' }
@@ -199,6 +237,11 @@ PSQLFromClauseGrammar >> joinType [
 	(kw right trim , kw outer trim optional , kw join trim) /
 	(kw full trim , kw outer trim optional , kw join trim) /
 	(kw cross trim , kw join trim)
+]
+
+{ #category : #dependencies }
+PSQLFromClauseGrammar >> openParenthesis [
+	^ (self dependencyAt: self class tokenParser) openParenthesis
 ]
 
 { #category : #'shared - from clause' }

@@ -3,7 +3,7 @@ I hold part of the PostgreSQL grammar that are shared accross multiple parsers.
 "
 Class {
 	#name : #PSQLSharedGrammar,
-	#superclass : #PSQLTokenizer,
+	#superclass : #PPCompositeParser,
 	#instVars : [
 		'expression',
 		'selectCommand',
@@ -18,7 +18,13 @@ Class {
 		'setClause',
 		'setItem1',
 		'setItem2',
-		'setItem3'
+		'setItem3',
+		'kw',
+		'comma',
+		'asterik',
+		'identifier',
+		'openParenthesis',
+		'closeParenthesis'
 	],
 	#category : #PostgreSQL-Parser-Core
 }
@@ -30,12 +36,37 @@ PSQLSharedGrammar class >> crudQueryParser [
 
 { #category : #accessing }
 PSQLSharedGrammar class >> dependencies [
-	^ { self crudQueryParser . self sqlParser }
+	^ { self crudQueryParser . self sqlParser . self tokenParser }
+]
+
+{ #category : #accessing }
+PSQLSharedGrammar class >> ignoredNames [ 
+	^ super ignoredNames , #(kw)
 ]
 
 { #category : #accessing }
 PSQLSharedGrammar class >> sqlParser [
-	^ PSQLGrammar
+	^ PSQLExpressionGrammar
+]
+
+{ #category : #accessing }
+PSQLSharedGrammar class >> tokenParser [
+	^ PSQLTokenizer
+]
+
+{ #category : #dependencies }
+PSQLSharedGrammar >> asterik [
+	^ (self dependencyAt: self class tokenParser) asterik
+]
+
+{ #category : #dependencies }
+PSQLSharedGrammar >> closeParenthesis [
+	^ (self dependencyAt: self class tokenParser) closeParenthesis
+]
+
+{ #category : #dependencies }
+PSQLSharedGrammar >> comma [
+	^ (self dependencyAt: self class tokenParser) comma
 ]
 
 { #category : #dependencies }
@@ -50,12 +81,23 @@ PSQLSharedGrammar >> expression [
 
 { #category : #dependencies }
 PSQLSharedGrammar >> identifier [
-	^ (self dependencyAt: self class sqlParser) identifier
+	^ (self dependencyAt: self class tokenParser) identifier
+]
+
+{ #category : #initialization }
+PSQLSharedGrammar >> initialize [
+	super initialize.
+	kw := PSQLKeywordsParser new
 ]
 
 { #category : #dependencies }
 PSQLSharedGrammar >> insertCommand [
 	^ (self dependencyAt: self class crudQueryParser) insertCommand
+]
+
+{ #category : #dependencies }
+PSQLSharedGrammar >> openParenthesis [
+	^ (self dependencyAt: self class tokenParser) openParenthesis
 ]
 
 { #category : #shared }
@@ -109,6 +151,12 @@ PSQLSharedGrammar >> setItem3 [
 	^ openParenthesis trim , (identifier plus separatedBy: comma trim) , closeParenthesis trim ,
 	$= asParser trim ,
 	openParenthesis trim , selectCommand trim , closeParenthesis trim
+]
+
+{ #category : #accessing }
+PSQLSharedGrammar >> start [
+	"Not relevant."
+	^ PPFailingParser new
 ]
 
 { #category : #dependencies }

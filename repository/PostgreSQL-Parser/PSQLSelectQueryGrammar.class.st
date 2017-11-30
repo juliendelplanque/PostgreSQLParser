@@ -3,7 +3,7 @@ I parse PostgreSQL SELECT and SELECT INTO queries.
 "
 Class {
 	#name : #PSQLSelectQueryGrammar,
-	#superclass : #PSQLTokenizer,
+	#superclass : #PPCompositeParser,
 	#instVars : [
 		'expression',
 		'withClause',
@@ -24,19 +24,32 @@ Class {
 		'selectIntoCommandClassic',
 		'intoClause',
 		'selectCommand',
-		'selectIntoCommand'
+		'selectIntoCommand',
+		'kw',
+		'openParenthesis',
+		'comma',
+		'closeParenthesis',
+		'asterik',
+		'identifier',
+		'numericConstant',
+		'identifierWithOptionalFieldAccess'
 	],
 	#category : #PostgreSQL-Parser-Core
 }
 
 { #category : #accessing }
 PSQLSelectQueryGrammar class >> dependencies [
-	^ { self sqlParser . self fromClauseParser . self sharedParser }
+	^ { self sqlParser . self fromClauseParser . self sharedParser . self tokenParser }
 ]
 
 { #category : #accessing }
 PSQLSelectQueryGrammar class >> fromClauseParser [
 	^ PSQLFromClauseGrammar
+]
+
+{ #category : #accessing }
+PSQLSelectQueryGrammar class >> ignoredNames [ 
+	^ super ignoredNames , #(kw)
 ]
 
 { #category : #accessing }
@@ -46,7 +59,12 @@ PSQLSelectQueryGrammar class >> sharedParser [
 
 { #category : #accessing }
 PSQLSelectQueryGrammar class >> sqlParser [
-	^ PSQLGrammar
+	^ PSQLExpressionGrammar
+]
+
+{ #category : #accessing }
+PSQLSelectQueryGrammar class >> tokenParser [
+	^ PSQLTokenizer
 ]
 
 { #category : #'select command' }
@@ -64,7 +82,12 @@ PSQLSelectQueryGrammar >> allOrDistinctClause [
 
 { #category : #dependencies }
 PSQLSelectQueryGrammar >> asterik [
-	^ (self dependencyAt: self class sqlParser) asterik
+	^ (self dependencyAt: self class tokenParser) asterik
+]
+
+{ #category : #dependencies }
+PSQLSelectQueryGrammar >> closeParenthesis [
+	^ (self dependencyAt: self class tokenParser) closeParenthesis
 ]
 
 { #category : #dependencies }
@@ -76,12 +99,17 @@ PSQLSelectQueryGrammar >> columnReference [
 PSQLSelectQueryGrammar >> columnsAndAliasesSelected [
 	^ (
 			((identifier , $. asParser) optional , asterik trim) / expression
-		) plus separatedBy: comma trim
+		) plus separatedBy: comma trim 
+]
+
+{ #category : #dependencies }
+PSQLSelectQueryGrammar >> comma [
+	^ (self dependencyAt: self class tokenParser) comma
 ]
 
 { #category : #dependencies }
 PSQLSelectQueryGrammar >> escapeStringConstant [
-	^ (self dependencyAt: self class sqlParser) escapeStringConstant
+	^ (self dependencyAt: self class tokenParser) escapeStringConstant
 ]
 
 { #category : #dependencies }
@@ -116,17 +144,23 @@ PSQLSelectQueryGrammar >> havingClause [
 
 { #category : #dependencies }
 PSQLSelectQueryGrammar >> identifier [
-	^ (self dependencyAt: self class sqlParser) identifier
+	^ (self dependencyAt: self class tokenParser) identifier
 ]
 
 { #category : #dependencies }
 PSQLSelectQueryGrammar >> identifierOrKeyword [
-	^ (self dependencyAt: self class sqlParser) identifierOrKeyword
+	^ (self dependencyAt: self class tokenParser) identifierOrKeyword
 ]
 
 { #category : #dependencies }
 PSQLSelectQueryGrammar >> identifierWithOptionalFieldAccess [
-	^ (self dependencyAt: self class sqlParser) identifierWithOptionalFieldAccess
+	^ (self dependencyAt: self class tokenParser) identifierWithOptionalFieldAccess
+]
+
+{ #category : #initialization }
+PSQLSelectQueryGrammar >> initialize [
+	super initialize.
+	kw := PSQLKeywordsParser new
 ]
 
 { #category : #'select command' }
@@ -142,12 +176,17 @@ PSQLSelectQueryGrammar >> limitClause [
 
 { #category : #dependencies }
 PSQLSelectQueryGrammar >> numericConstant [
-	^ (self dependencyAt: self class sqlParser) numericConstant
+	^ (self dependencyAt: self class tokenParser) numericConstant
 ]
 
 { #category : #'select command' }
 PSQLSelectQueryGrammar >> offsetClause [
 	^ kw offset trim , numericConstant trim
+]
+
+{ #category : #dependencies }
+PSQLSelectQueryGrammar >> openParenthesis [
+	^ (self dependencyAt: self class tokenParser) openParenthesis
 ]
 
 { #category : #dependencies }
@@ -253,7 +292,7 @@ SELECT [ ALL | DISTINCT [ ON ( expression [, ...] ) ] ]
 
 { #category : #dependencies }
 PSQLSelectQueryGrammar >> simpleStringConstant [
-	^ (self dependencyAt: self class sqlParser) simpleStringConstant
+	^ (self dependencyAt: self class tokenParser) simpleStringConstant
 ]
 
 { #category : #accessing }

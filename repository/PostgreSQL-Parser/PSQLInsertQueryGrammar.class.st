@@ -3,7 +3,7 @@ I parse PostgreSQL INSERT query.
 "
 Class {
 	#name : #PSQLInsertQueryGrammar,
-	#superclass : #PSQLTokenizer,
+	#superclass : #PPCompositeParser,
 	#instVars : [
 		'expression',
 		'returningClause',
@@ -18,14 +18,25 @@ Class {
 		'conflictAction',
 		'conflictTarget',
 		'valuesClause',
-		'onConflictClause'
+		'onConflictClause',
+		'kw',
+		'openParenthesis',
+		'closeParenthesis',
+		'identifier',
+		'identifierWithOptionalFieldAccess',
+		'comma'
 	],
 	#category : #PostgreSQL-Parser-Core
 }
 
 { #category : #accessing }
 PSQLInsertQueryGrammar class >> dependencies [
-	^ { self sqlParser . self valuesCommandParser . self sharedParser }
+	^ { self sqlParser . self valuesCommandParser . self sharedParser . self tokenParser }
+]
+
+{ #category : #accessing }
+PSQLInsertQueryGrammar class >> ignoredNames [ 
+	^ super ignoredNames , #(kw)
 ]
 
 { #category : #accessing }
@@ -35,12 +46,27 @@ PSQLInsertQueryGrammar class >> sharedParser [
 
 { #category : #accessing }
 PSQLInsertQueryGrammar class >> sqlParser [
-	^ PSQLGrammar
+	^ PSQLExpressionGrammar
+]
+
+{ #category : #accessing }
+PSQLInsertQueryGrammar class >> tokenParser [
+	^ PSQLTokenizer
 ]
 
 { #category : #accessing }
 PSQLInsertQueryGrammar class >> valuesCommandParser [
 	^ PSQLValuesGrammar
+]
+
+{ #category : #dependencies }
+PSQLInsertQueryGrammar >> closeParenthesis [
+	^ (self dependencyAt: self class tokenParser) closeParenthesis
+]
+
+{ #category : #dependencies }
+PSQLInsertQueryGrammar >> comma [
+	^ (self dependencyAt: self class tokenParser) comma
 ]
 
 { #category : #'insert command' }
@@ -90,6 +116,22 @@ PSQLInsertQueryGrammar >> expression [
 	^ (self dependencyAt: self class sqlParser) expression
 ]
 
+{ #category : #dependencies }
+PSQLInsertQueryGrammar >> identifier [
+	^ (self dependencyAt: self class tokenParser) identifier
+]
+
+{ #category : #dependencies }
+PSQLInsertQueryGrammar >> identifierWithOptionalFieldAccess [
+	^ (self dependencyAt: self class tokenParser) identifierWithOptionalFieldAccess
+]
+
+{ #category : #initialization }
+PSQLInsertQueryGrammar >> initialize [
+	super initialize.
+	kw := PSQLKeywordsParser new
+]
+
 { #category : #'insert command' }
 PSQLInsertQueryGrammar >> insertCommand [
 	"[ WITH [ RECURSIVE ] with_query [, ...] ]
@@ -112,6 +154,11 @@ INSERT INTO table_name [ AS alias ] [ ( column_name [, ...] ) ]
 PSQLInsertQueryGrammar >> onConflictClause [
 	"ON CONFLICT [ conflict_target ] conflict_action"
 	^ kw on trim , kw conflict trim , conflictTarget trim optional , conflictAction
+]
+
+{ #category : #dependencies }
+PSQLInsertQueryGrammar >> openParenthesis [
+	^ (self dependencyAt: self class tokenParser) openParenthesis
 ]
 
 { #category : #dependencies }

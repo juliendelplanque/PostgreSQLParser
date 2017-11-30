@@ -3,21 +3,31 @@ I parse PostgreSQL DELETE query.
 "
 Class {
 	#name : #PSQLDeleteQueryGrammar,
-	#superclass : #PSQLTokenizer,
+	#superclass : #PPCompositeParser,
 	#instVars : [
 		'usingClause',
 		'expression',
 		'withClause',
 		'updateDeleteWhereClause',
 		'returningClause',
-		'deleteCommand'
+		'deleteCommand',
+		'kw',
+		'identifierWithOptionalFieldAccess',
+		'asterik',
+		'identifier',
+		'comma'
 	],
 	#category : #PostgreSQL-Parser-Core
 }
 
 { #category : #accessing }
 PSQLDeleteQueryGrammar class >> dependencies [
-	^ { self sqlParser . self sharedParser }
+	^ { self sqlParser . self sharedParser . self tokenParser }
+]
+
+{ #category : #accessing }
+PSQLDeleteQueryGrammar class >> ignoredNames [ 
+	^ super ignoredNames , #(kw)
 ]
 
 { #category : #accessing }
@@ -27,10 +37,25 @@ PSQLDeleteQueryGrammar class >> sharedParser [
 
 { #category : #accessing }
 PSQLDeleteQueryGrammar class >> sqlParser [
-	^ PSQLGrammar
+	^ PSQLExpressionGrammar
 ]
 
-{ #category : #'delete command' }
+{ #category : #accessing }
+PSQLDeleteQueryGrammar class >> tokenParser [
+	^ PSQLTokenizer
+]
+
+{ #category : #dependencies }
+PSQLDeleteQueryGrammar >> asterik [
+	^ (self dependencyAt: self class tokenParser) asterik
+]
+
+{ #category : #dependencies }
+PSQLDeleteQueryGrammar >> comma [
+	^ (self dependencyAt: self class tokenParser) comma
+]
+
+{ #category : #accessing }
 PSQLDeleteQueryGrammar >> deleteCommand [
 	"https://www.postgresql.org/docs/9.6/static/sql-delete.html
 	[ WITH [ RECURSIVE ] with_query [, ...] ]
@@ -51,6 +76,22 @@ PSQLDeleteQueryGrammar >> expression [
 ]
 
 { #category : #dependencies }
+PSQLDeleteQueryGrammar >> identifier [
+	^ (self dependencyAt: self class tokenParser) identifier
+]
+
+{ #category : #dependencies }
+PSQLDeleteQueryGrammar >> identifierWithOptionalFieldAccess [
+	^ (self dependencyAt: self class tokenParser) identifierWithOptionalFieldAccess
+]
+
+{ #category : #initialization }
+PSQLDeleteQueryGrammar >> initialize [
+	super initialize.
+	kw := PSQLKeywordsParser new
+]
+
+{ #category : #dependencies }
 PSQLDeleteQueryGrammar >> returningClause [
 	^ (self dependencyAt: self class sharedParser) returningClause
 ]
@@ -65,7 +106,7 @@ PSQLDeleteQueryGrammar >> updateDeleteWhereClause [
 	^ (self dependencyAt: self class sharedParser) updateDeleteWhereClause
 ]
 
-{ #category : #'delete command' }
+{ #category : #accessing }
 PSQLDeleteQueryGrammar >> usingClause [
 	"USING using_list"
 	^ kw using trim , (expression separatedBy: comma trim)

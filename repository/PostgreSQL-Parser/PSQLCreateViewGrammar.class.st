@@ -3,22 +3,48 @@ I parse PostgreSQL CREATE VIEW command.
 "
 Class {
 	#name : #PSQLCreateViewGrammar,
-	#superclass : #PSQLTokenizer,
+	#superclass : #PPCompositeParser,
 	#instVars : [
 		'selectCommand',
-		'createViewCommand'
+		'createViewCommand',
+		'kw',
+		'identifier',
+		'openParenthesis',
+		'comma',
+		'closeParenthesis',
+		'identifierOrKeyword'
 	],
 	#category : #PostgreSQL-Parser-Core
 }
 
 { #category : #accessing }
 PSQLCreateViewGrammar class >> dependencies [
-	^ { self selectQueryParser }
+	^ { self selectQueryParser . self tokenParser }
+]
+
+{ #category : #accessing }
+PSQLCreateViewGrammar class >> ignoredNames [ 
+	^ super ignoredNames , #(kw)
 ]
 
 { #category : #accessing }
 PSQLCreateViewGrammar class >> selectQueryParser [
 	^ PSQLSelectQueryGrammar
+]
+
+{ #category : #accessing }
+PSQLCreateViewGrammar class >> tokenParser [
+	^ PSQLTokenizer
+]
+
+{ #category : #dependencies }
+PSQLCreateViewGrammar >> closeParenthesis [
+	^ (self dependencyAt: self class tokenParser) closeParenthesis
+]
+
+{ #category : #dependencies }
+PSQLCreateViewGrammar >> comma [
+	^ (self dependencyAt: self class tokenParser) comma
 ]
 
 { #category : #'create view command' }
@@ -39,6 +65,27 @@ PSQLCreateViewGrammar >> createViewCommand [
 		closeParenthesis trim) trim optional ,
 		kw as trim ,
 		selectCommand trim
+]
+
+{ #category : #dependencies }
+PSQLCreateViewGrammar >> identifier [
+	^ (self dependencyAt: self class tokenParser) identifier
+]
+
+{ #category : #dependencies }
+PSQLCreateViewGrammar >> identifierOrKeyword [
+	^ (self dependencyAt: self class tokenParser) identifierOrKeyword
+]
+
+{ #category : #initialization }
+PSQLCreateViewGrammar >> initialize [
+	super initialize.
+	kw := PSQLKeywordsParser new
+]
+
+{ #category : #dependencies }
+PSQLCreateViewGrammar >> openParenthesis [
+	^ (self dependencyAt: self class tokenParser) openParenthesis
 ]
 
 { #category : #dependencies }
