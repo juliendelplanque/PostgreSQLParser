@@ -37,7 +37,8 @@ Class {
 		'numericConstant',
 		'openBracket',
 		'closeBracket',
-		'declarationType'
+		'declarationType',
+		'createTableCommand'
 	],
 	#category : #PostgreSQL-Parser-Grammars-Create
 }
@@ -177,6 +178,11 @@ PSQLCreateTableGrammar >> comma [
 ]
 
 { #category : #rules }
+PSQLCreateTableGrammar >> createTableCommand [
+	^ createTableCommandForm1 / createTableCommandForm2
+]
+
+{ #category : #rules }
 PSQLCreateTableGrammar >> createTableCommandForm1 [
 	"CREATE [ [ GLOBAL | LOCAL ] { TEMPORARY | TEMP } | UNLOGGED ] TABLE [ IF NOT EXISTS ] table_name ( [
   { column_name data_type [ COLLATE collation ] [ column_constraint [ ... ] ]
@@ -304,7 +310,7 @@ PSQLCreateTableGrammar >> openParenthesis [
 
 { #category : #accessing }
 PSQLCreateTableGrammar >> start [
-	^ createTableCommandForm1 / createTableCommandForm2
+	^ createTableCommand
 ]
 
 { #category : #rules }
