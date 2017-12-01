@@ -51,7 +51,8 @@ BaselineOfPostgreSQL >> defineGroups: spec [
 		group: 'ast-builder-tests' with: #('ast-builder' 'PostgreSQL-AST-Builder-Tests' 'PostgreSQL-AST-Builder-SmokeTests');
 		group: 'core' with: #('parser' 'ast' 'ast-builder');
 		group: 'core-tests' with: #('core' 'parser-tests' 'ast-builder-tests');
-		group: 'dev' with: #('core-tests' 'PostgreSQL-DevTools')
+		group: 'future' with: #('core-tests' 'PostgreSQL-Future');
+		group: 'dev' with: #('core-tests' 'PostgreSQL-DevTools' 'future')
 ]
 
 { #category : #baselines }
@@ -65,5 +66,6 @@ BaselineOfPostgreSQL >> definePackages: spec [
 		package: #'PostgreSQL-AST-Builder-Tests' with: [ spec requires: #('PostgreSQL-AST-Builder') ];
 		package: #'PostgreSQL-AST-Builder-SmokeTests' with: [ spec requires: #('PostgreSQL-AST-Builder' 'PostgreSQL-Parser-Tests') ];
 		package: #'PostgreSQL-LibpgQuery' with: [ spec requires: #('LibpgqueryBridge') ];
+		package: #'PostgreSQL-Future' with: [ spec requires: #('PostgreSQL-Parser') ];
 		package: #'PostgreSQL-DevTools' with: [ spec requires: #('PetitParser-Gui') ]
 ]
