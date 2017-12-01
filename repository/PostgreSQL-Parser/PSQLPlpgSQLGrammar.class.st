@@ -210,12 +210,12 @@ PSQLPlpgSQLGrammar >> openParenthesis [
 	^ (self dependencyAt: self class tokenParser) openParenthesis
 ]
 
-{ #category : #plpgsql }
+{ #category : #declaration }
 PSQLPlpgSQLGrammar >> plpgsqlAliasDeclaration [
 	^ identifier trim , identifier trim , kw for trim , (plpgsqlIndexParameter trim / identifier trim)
 ]
 
-{ #category : #plpgsql }
+{ #category : #loop }
 PSQLPlpgSQLGrammar >> plpgsqlArrayLoop [
 	"[ <<label>> ]
 	FOREACH target [ SLICE number ] IN ARRAY expression LOOP
@@ -228,23 +228,23 @@ PSQLPlpgSQLGrammar >> plpgsqlArrayLoop [
 	plpgsqlLabel trim optional
 ]
 
-{ #category : #plpgsql }
+{ #category : #statement }
 PSQLPlpgSQLGrammar >> plpgsqlAssertStatement [
 	"ASSERT condition [ , message ]"
 	^ kw assert trim , expression trim , (comma trim , expression) optional
 ]
 
-{ #category : #plpgsql }
+{ #category : #statement }
 PSQLPlpgSQLGrammar >> plpgsqlAssignmentLeftPart [
 	^ (identifier , ($. asParser , identifier) star) , (self subscriptWith: expression) star
 ]
 
-{ #category : #plpgsql }
+{ #category : #statement }
 PSQLPlpgSQLGrammar >> plpgsqlAssignmentStatement [
 	^ plpgsqlAssignmentLeftPart trim , (':=' asParser / $= asParser) trim , expression
 ]
 
-{ #category : #plpgsql }
+{ #category : #label }
 PSQLPlpgSQLGrammar >> plpgsqlBeginLabel [
 	^ '<<' asParser trim , plpgsqlLabel , '>>' asParser trim
 ]
@@ -264,7 +264,7 @@ PSQLPlpgSQLGrammar >> plpgsqlBody [
 	^ plpgsqlBlock
 ]
 
-{ #category : #plpgsql }
+{ #category : #declaration }
 PSQLPlpgSQLGrammar >> plpgsqlClassicDeclaration [
 	^ identifier trim ,
 	kw constantKeyword trim optional ,
@@ -274,40 +274,40 @@ PSQLPlpgSQLGrammar >> plpgsqlClassicDeclaration [
 	((kw default trim / ':=' asParser trim / $= asParser trim) , expression) optional
 ]
 
-{ #category : #plpgsql }
+{ #category : #conditional }
 PSQLPlpgSQLGrammar >> plpgsqlConditional [
 	^ plpgsqlIfThen / plpgsqlIfThenElse / plpgsqlIfThenElsif / plpgsqlSimpleCase / plpgsqlSearchedCase
 ]
 
-{ #category : #plpgsql }
+{ #category : #statement }
 PSQLPlpgSQLGrammar >> plpgsqlContinueStatement [
 	"CONTINUE [ label ] [ WHEN boolean-expression ]"
 	^ kw continue trim , plpgsqlLabel trim optional , (kw when trim , expression) trim optional
 ]
 
-{ #category : #plpgsql }
+{ #category : #'control structure' }
 PSQLPlpgSQLGrammar >> plpgsqlControlStructure [
 	^ plpgsqlReturn / plpgsqlConditional / plpgsqlLoop / plpgsqlExceptionHandler
 ]
 
-{ #category : #plpgsql }
+{ #category : #declaration }
 PSQLPlpgSQLGrammar >> plpgsqlCopyTypeDeclaration [
 	^ identifier trim , identifier , $. asParser , identifier , '%TYPE' asParser caseInsensitive
 ]
 
-{ #category : #plpgsql }
+{ #category : #statement }
 PSQLPlpgSQLGrammar >> plpgsqlCurrentResultValueStatement [
 	"GET [ CURRENT ] DIAGNOSTICS variable { = | := } item [ , ... ]"
 	^ kw get trim , kw current trim optional , kw diagnostics trim , identifier , ($= asParser / ':=' asParser) trim , ('ROW_COUNT' asParser caseInsensitive / 'RESULT_OID' asParser caseInsensitive / 'PG_CONTEXT' asParser caseInsensitive)
 ]
 
-{ #category : #plpgsql }
+{ #category : #cursor }
 PSQLPlpgSQLGrammar >> plpgsqlCursorClose [
 	"CLOSE cursor"
 	^ kw close trim , identifier
 ]
 
-{ #category : #plpgsql }
+{ #category : #cursor }
 PSQLPlpgSQLGrammar >> plpgsqlCursorDeclaration [
 	"name [ [ NO ] SCROLL ] CURSOR [ ( arguments ) ] FOR query"
 	^ identifier trim , (kw no trim optional , kw scroll) trim optional , kw cursor trim ,
@@ -317,13 +317,13 @@ PSQLPlpgSQLGrammar >> plpgsqlCursorDeclaration [
 	kw for trim , selectCommand
 ]
 
-{ #category : #plpgsql }
+{ #category : #cursor }
 PSQLPlpgSQLGrammar >> plpgsqlCursorDelete [
 	"DELETE FROM table WHERE CURRENT OF cursor"
 	^ kw delete trim , kw from trim , identifier trim , kw whereKeyword trim , kw current trim , kw of trim , identifier
 ]
 
-{ #category : #plpgsql }
+{ #category : #cursor }
 PSQLPlpgSQLGrammar >> plpgsqlCursorFetch [
 	"FETCH [ direction { FROM | IN } ] cursor INTO target"
 	^ kw fetch trim , 
@@ -331,7 +331,7 @@ PSQLPlpgSQLGrammar >> plpgsqlCursorFetch [
 	identifier trim , kw into trim , (expression plus separatedBy: comma trim)
 ]
 
-{ #category : #plpgsql }
+{ #category : #cursor }
 PSQLPlpgSQLGrammar >> plpgsqlCursorForLoop [
 	"[ <<label>> ]
 	FOR recordvar IN bound_cursorvar [ ( [ argument_name := ] argument_value [, ...] ) ] LOOP
@@ -348,7 +348,7 @@ PSQLPlpgSQLGrammar >> plpgsqlCursorForLoop [
 	kw endKeyword trim , kw loop trim , plpgsqlEndLabel trim optional
 ]
 
-{ #category : #plpgsql }
+{ #category : #cursor }
 PSQLPlpgSQLGrammar >> plpgsqlCursorMove [
 	"MOVE [ direction { FROM | IN } ] cursor"
 	^ kw move trim ,
@@ -356,7 +356,7 @@ PSQLPlpgSQLGrammar >> plpgsqlCursorMove [
 	identifier
 ]
 
-{ #category : #plpgsql }
+{ #category : #cursor }
 PSQLPlpgSQLGrammar >> plpgsqlCursorStatement [
 	^ plpgsqlOpenCursorForQuery /
 	plpgsqlOpenCursorForExecute /
@@ -369,7 +369,7 @@ PSQLPlpgSQLGrammar >> plpgsqlCursorStatement [
 	plpgsqlCursorForLoop
 ]
 
-{ #category : #plpgsql }
+{ #category : #cursor }
 PSQLPlpgSQLGrammar >> plpgsqlCursorUpdate [
 	"UPDATE table SET ... WHERE CURRENT OF cursor"
 	^ kw update trim , identifier trim , kw set trim , 
@@ -377,29 +377,29 @@ PSQLPlpgSQLGrammar >> plpgsqlCursorUpdate [
 	kw whereKeyword trim , kw current trim , kw of trim , identifier
 ]
 
-{ #category : #plpgsql }
+{ #category : #declaration }
 PSQLPlpgSQLGrammar >> plpgsqlDeclarationCollate [
 	^ kw collate trim , quotedIdentifier trim
 ]
 
-{ #category : #plpgsql }
+{ #category : #declaration }
 PSQLPlpgSQLGrammar >> plpgsqlDeclarationItem [
 	^ plpgsqlCursorDeclaration / plpgsqlRowTypeDeclaration / plpgsqlCopyTypeDeclaration / plpgsqlAliasDeclaration / plpgsqlClassicDeclaration / plpgsqlRecordDeclaration
 ]
 
-{ #category : #plpgsql }
+{ #category : #declaration }
 PSQLPlpgSQLGrammar >> plpgsqlDeclarationType [
 	^ kw collate not , kw notKeyword not , kw default not , ':=' asParser not , '=' asParser not , identifierOrKeyword trim plus , 
 	(openParenthesis trim , numericConstant trim , closeParenthesis trim) optional ,
 	(openBracket trim , closeBracket trim) plus optional
 ]
 
-{ #category : #plpgsql }
+{ #category : #declaration }
 PSQLPlpgSQLGrammar >> plpgsqlDeclarations [
 	^ (plpgsqlDeclarationItem trim separatedBy: semicolon trim) , semicolon trim
 ]
 
-{ #category : #plpgsql }
+{ #category : #declaration }
 PSQLPlpgSQLGrammar >> plpgsqlDeclareBlock [
 	^ plpgsqlBeginLabel trim optional ,
 	(kw declare trim , plpgsqlDeclarations trim) optional ,
@@ -409,7 +409,7 @@ PSQLPlpgSQLGrammar >> plpgsqlDeclareBlock [
 	plpgsqlEndLabel trim optional , semicolon trim
 ]
 
-{ #category : #plpgsql }
+{ #category : #declaration }
 PSQLPlpgSQLGrammar >> plpgsqlDeclareExceptionHandler [
 	"[ <<label>> ]
 	[ DECLARE
@@ -432,7 +432,7 @@ PSQLPlpgSQLGrammar >> plpgsqlDeclareExceptionHandler [
 	kw endKeyword trim
 ]
 
-{ #category : #plpgsql }
+{ #category : #declaration }
 PSQLPlpgSQLGrammar >> plpgsqlDefaultClassicDeclaration [
 	^ identifier trim ,
 	kw constantKeyword trim optional ,
@@ -442,19 +442,19 @@ PSQLPlpgSQLGrammar >> plpgsqlDefaultClassicDeclaration [
 	((kw default trim / ':=' asParser trim / $= asParser trim) , expression) optional
 ]
 
-{ #category : #plpgsql }
+{ #category : #declaration }
 PSQLPlpgSQLGrammar >> plpgsqlDefaultDeclarationType [
 	^ kw collate not , kw notKeyword not , kw default not , ':=' asParser not , '=' asParser not , identifierOrKeyword trim plus , (
 	(openParenthesis trim , numericConstant trim , closeParenthesis trim) /
 	(openBracket trim , closeBracket trim) plus) optional
 ]
 
-{ #category : #plpgsql }
+{ #category : #label }
 PSQLPlpgSQLGrammar >> plpgsqlEndLabel [
 	^ plpgsqlLabel
 ]
 
-{ #category : #plpgsql }
+{ #category : #'control structure' }
 PSQLPlpgSQLGrammar >> plpgsqlExceptionHandler [
 	"[ <<label>> ]
 	[ DECLARE
@@ -477,7 +477,7 @@ PSQLPlpgSQLGrammar >> plpgsqlExceptionHandler [
 	kw endKeyword trim
 ]
 
-{ #category : #plpgsql }
+{ #category : #statement }
 PSQLPlpgSQLGrammar >> plpgsqlExecuteStatement [
 	"EXECUTE command-string [ INTO [STRICT] target ] [ USING expression [, ... ] ]"
 	^ kw execute trim , expression trim ,
@@ -485,13 +485,13 @@ PSQLPlpgSQLGrammar >> plpgsqlExecuteStatement [
 	(kw using trim, (expression plus separatedBy: comma trim))
 ]
 
-{ #category : #plpgsql }
+{ #category : #statement }
 PSQLPlpgSQLGrammar >> plpgsqlExitStatement [
 	"EXIT [ label ] [ WHEN boolean-expression ]"
 	^ kw exit trim , plpgsqlLabel trim optional , (kw when trim , expression) trim optional
 ]
 
-{ #category : #plpgsql }
+{ #category : #cursor }
 PSQLPlpgSQLGrammar >> plpgsqlFetchCursorDirection [
 	"NEXT | PRIOR | FIRST | LAST | ABSOLUTE count | RELATIVE count | FORWARD | BACKWARD"
 	^ kw next / 
@@ -504,7 +504,7 @@ PSQLPlpgSQLGrammar >> plpgsqlFetchCursorDirection [
 	kw backward
 ]
 
-{ #category : #plpgsql }
+{ #category : #loop }
 PSQLPlpgSQLGrammar >> plpgsqlForLoop [
 	^ plpgsqlBeginLabel trim optional ,
 	kw for trim , identifier trim , kw in trim , kw reverse trim optional , expression , '..' asParser trim , expression , (kw by trim , expression) trim optional , kw loop trim ,
@@ -512,7 +512,7 @@ PSQLPlpgSQLGrammar >> plpgsqlForLoop [
 	kw endKeyword trim , kw loop trim , plpgsqlEndLabel trim optional
 ]
 
-{ #category : #plpgsql }
+{ #category : #conditional }
 PSQLPlpgSQLGrammar >> plpgsqlIfThen [
 	"IF boolean-expression THEN
     	statements
@@ -522,7 +522,7 @@ PSQLPlpgSQLGrammar >> plpgsqlIfThen [
 	kw endKeyword trim , kw if trim
 ]
 
-{ #category : #plpgsql }
+{ #category : #conditional }
 PSQLPlpgSQLGrammar >> plpgsqlIfThenElse [
 	"IF boolean-expression THEN
     	statements
@@ -536,7 +536,7 @@ PSQLPlpgSQLGrammar >> plpgsqlIfThenElse [
 	kw endKeyword trim , kw if trim
 ]
 
-{ #category : #plpgsql }
+{ #category : #conditional }
 PSQLPlpgSQLGrammar >> plpgsqlIfThenElsif [
 	"IF boolean-expression THEN
     	statements
@@ -562,22 +562,22 @@ PSQLPlpgSQLGrammar >> plpgsqlIndexParameter [
 	^ $$ asParser , #digit asParser plus
 ]
 
-{ #category : #plpgsql }
+{ #category : #statement }
 PSQLPlpgSQLGrammar >> plpgsqlIntoQueryStatement [
 	^ selectIntoCommand
 ]
 
-{ #category : #plpgsql }
+{ #category : #label }
 PSQLPlpgSQLGrammar >> plpgsqlLabel [
 	^ identifier
 ]
 
-{ #category : #plpgsql }
+{ #category : #loop }
 PSQLPlpgSQLGrammar >> plpgsqlLoop [
 	^ plpgsqlLoopLoop / plpgsqlWhileLoop / plpgsqlForLoop / plpgsqlQueryResultsLoop / plpgsqlArrayLoop
 ]
 
-{ #category : #plpgsql }
+{ #category : #loop }
 PSQLPlpgSQLGrammar >> plpgsqlLoopLoop [
 	"[ <<label>> ]
 	LOOP
@@ -589,7 +589,7 @@ PSQLPlpgSQLGrammar >> plpgsqlLoopLoop [
 	plpgsqlEndLabel trim optional
 ]
 
-{ #category : #plpgsql }
+{ #category : #statement }
 PSQLPlpgSQLGrammar >> plpgsqlMoveCursorDirection [
 	"NEXT | PRIOR | FIRST | LAST | ABSOLUTE count | RELATIVE count | ALL | FORWARD [ count | ALL ] | BACKWARD [ count | ALL ]"
 	^ kw next / 
@@ -603,12 +603,12 @@ PSQLPlpgSQLGrammar >> plpgsqlMoveCursorDirection [
 	(kw backward trim , (kw all / ($- asParser optional , numericConstant)))
 ]
 
-{ #category : #plpgsql }
+{ #category : #statement }
 PSQLPlpgSQLGrammar >> plpgsqlNullStatement [
 	^ kw null trim / kw endKeyword not not trim
 ]
 
-{ #category : #plpgsql }
+{ #category : #cursor }
 PSQLPlpgSQLGrammar >> plpgsqlOpenCursorBounded [
 	"OPEN bound_cursorvar [ ( [ argument_name := ] argument_value [, ...] ) ]"
 	^ kw open trim , identifier trim , 
@@ -617,7 +617,7 @@ PSQLPlpgSQLGrammar >> plpgsqlOpenCursorBounded [
 	closeParenthesis trim ) optional
 ]
 
-{ #category : #plpgsql }
+{ #category : #cursor }
 PSQLPlpgSQLGrammar >> plpgsqlOpenCursorForExecute [
 	"OPEN unbound_cursorvar [ [ NO ] SCROLL ] FOR EXECUTE query_string [ USING expression [, ... ] ]"
 	^ kw open trim , identifier trim ,
@@ -626,7 +626,7 @@ PSQLPlpgSQLGrammar >> plpgsqlOpenCursorForExecute [
 		(kw using trim , (expression plus separatedBy: comma trim)) optional
 ]
 
-{ #category : #plpgsql }
+{ #category : #cursor }
 PSQLPlpgSQLGrammar >> plpgsqlOpenCursorForQuery [
 	"OPEN unbound_cursorvar [ [ NO ] SCROLL ] FOR query"
 	^ kw open trim , identifier trim , 
@@ -635,17 +635,17 @@ PSQLPlpgSQLGrammar >> plpgsqlOpenCursorForQuery [
 		selectCommand trim
 ]
 
-{ #category : #plpgsql }
+{ #category : #statement }
 PSQLPlpgSQLGrammar >> plpgsqlPerformStatement [
 	^ kw perform trim , (semicolon not , #any asParser) plus
 ]
 
-{ #category : #plpgsql }
+{ #category : #statement }
 PSQLPlpgSQLGrammar >> plpgsqlQuery [
 	^ selectCommand / insertCommand / updateCommand / deleteCommand
 ]
 
-{ #category : #plpgsql }
+{ #category : #loop }
 PSQLPlpgSQLGrammar >> plpgsqlQueryResultsLoop [
 	"[ <<label>> ]
 	FOR target IN query LOOP
@@ -658,12 +658,12 @@ PSQLPlpgSQLGrammar >> plpgsqlQueryResultsLoop [
 	plpgsqlEndLabel trim optional
 ]
 
-{ #category : #plpgsql }
+{ #category : #raise }
 PSQLPlpgSQLGrammar >> plpgsqlRaiseLevel [
 	^ kw debug / kw log / kw info / kw notice / kw warning / kw exception
 ]
 
-{ #category : #plpgsql }
+{ #category : #raise }
 PSQLPlpgSQLGrammar >> plpgsqlRaiseStatement [
 	"RAISE [ level ] 'format' [, expression [, ... ]] [ USING option = expression [, ... ] ]
 	RAISE [ level ] condition_name [ USING option = expression [, ... ] ]
@@ -673,55 +673,55 @@ PSQLPlpgSQLGrammar >> plpgsqlRaiseStatement [
 	^ plpgsqlRaiseStatement1 / plpgsqlRaiseStatement2 /plpgsqlRaiseStatement3 / plpgsqlRaiseStatement4 / plpgsqlRaiseStatement5
 ]
 
-{ #category : #plpgsql }
+{ #category : #raise }
 PSQLPlpgSQLGrammar >> plpgsqlRaiseStatement1 [
 	"RAISE [ level ] 'format' [, expression [, ... ]] [ USING option = expression [, ... ] ]"
 	^ kw raise trim , plpgsqlRaiseLevel trim optional , simpleStringConstant trim , (expression star separatedBy: comma trim) , plpgsqlRaiseUsingOptions optional
 ]
 
-{ #category : #plpgsql }
+{ #category : #raise }
 PSQLPlpgSQLGrammar >> plpgsqlRaiseStatement2 [
 	"RAISE [ level ] condition_name [ USING option = expression [, ... ] ]"
 	^ kw raise trim , plpgsqlRaiseLevel trim optional , identifier trim , plpgsqlRaiseUsingOptions optional
 ]
 
-{ #category : #plpgsql }
+{ #category : #raise }
 PSQLPlpgSQLGrammar >> plpgsqlRaiseStatement3 [
 	"RAISE [ level ] SQLSTATE 'sqlstate' [ USING option = expression [, ... ] ]"
 	^ kw raise trim , plpgsqlRaiseLevel trim optional , 'SQLSTATE' asParser trim , simpleStringConstant trim ,
 	plpgsqlRaiseUsingOptions optional
 ]
 
-{ #category : #plpgsql }
+{ #category : #raise }
 PSQLPlpgSQLGrammar >> plpgsqlRaiseStatement4 [
 	"RAISE [ level ] USING option = expression [, ... ]"
 	^ kw raise trim , plpgsqlRaiseLevel trim optional ,
 		plpgsqlRaiseUsingOptions
 ]
 
-{ #category : #plpgsql }
+{ #category : #raise }
 PSQLPlpgSQLGrammar >> plpgsqlRaiseStatement5 [
 	"RAISE"
 	^ kw raise trim
 ]
 
-{ #category : #plpgsql }
+{ #category : #raise }
 PSQLPlpgSQLGrammar >> plpgsqlRaiseUsingOptions [
 	^  kw using trim , ((identifier trim , $= asParser trim , expression) plus separatedBy: comma trim)
 ]
 
-{ #category : #plpgsql }
+{ #category : #declaration }
 PSQLPlpgSQLGrammar >> plpgsqlRecordDeclaration [
 	^ identifier trim , kw record
 ]
 
-{ #category : #plpgsql }
+{ #category : #statement }
 PSQLPlpgSQLGrammar >> plpgsqlResultValueStatement [
 	"GET [ CURRENT ] DIAGNOSTICS variable { = | := } item [ , ... ]"
 	^ kw get trim , kw current trim optional , kw diagnostics trim , identifier , ($= asParser / ':=' asParser) trim , ('ROW_COUNT' asParser caseInsensitive / 'RESULT_OID' asParser caseInsensitive / 'PG_CONTEXT' asParser caseInsensitive)
 ]
 
-{ #category : #plpgsql }
+{ #category : #return }
 PSQLPlpgSQLGrammar >> plpgsqlReturn [
 	"RETURN expression | 
 	 RETURN NEXT expression |
@@ -735,37 +735,37 @@ PSQLPlpgSQLGrammar >> plpgsqlReturn [
 	plpgsqlReturnForm5
 ]
 
-{ #category : #plpgsql }
+{ #category : #return }
 PSQLPlpgSQLGrammar >> plpgsqlReturnForm1 [
 	^ kw return trim  , expression
 ]
 
-{ #category : #plpgsql }
+{ #category : #return }
 PSQLPlpgSQLGrammar >> plpgsqlReturnForm2 [
 	^ kw return trim , kw next trim , expression
 ]
 
-{ #category : #plpgsql }
+{ #category : #return }
 PSQLPlpgSQLGrammar >> plpgsqlReturnForm3 [
 	^ kw return trim , kw query trim , plpgsqlQuery
 ]
 
-{ #category : #plpgsql }
+{ #category : #return }
 PSQLPlpgSQLGrammar >> plpgsqlReturnForm4 [
 	^ kw return trim , kw query trim , kw execute trim , stringConstant trim , (kw using trim , (expression plus separatedBy: comma trim)) optional
 ]
 
-{ #category : #plpgsql }
+{ #category : #return }
 PSQLPlpgSQLGrammar >> plpgsqlReturnForm5 [
 	^ kw return
 ]
 
-{ #category : #plpgsql }
+{ #category : #declaration }
 PSQLPlpgSQLGrammar >> plpgsqlRowTypeDeclaration [
 	^ identifier trim , identifier , '%ROWTYPE' asParser caseInsensitive
 ]
 
-{ #category : #plpgsql }
+{ #category : #conditional }
 PSQLPlpgSQLGrammar >> plpgsqlSearchedCase [
 	"CASE search-expression
     	WHEN expression [, expression [ ... ]] THEN
@@ -784,7 +784,7 @@ PSQLPlpgSQLGrammar >> plpgsqlSearchedCase [
 		kw endKeyword trim , kw case trim
 ]
 
-{ #category : #plpgsql }
+{ #category : #conditional }
 PSQLPlpgSQLGrammar >> plpgsqlSimpleCase [
 	"CASE
     	WHEN boolean-expression THEN
@@ -802,22 +802,22 @@ PSQLPlpgSQLGrammar >> plpgsqlSimpleCase [
 		kw endKeyword trim , kw case trim
 ]
 
-{ #category : #plpgsql }
+{ #category : #statement }
 PSQLPlpgSQLGrammar >> plpgsqlStatement [
 	^ plpgsqlPerformStatement / plpgsqlExecuteStatement / plpgsqlExitStatement / plpgsqlContinueStatement / plpgsqlRaiseStatement / plpgsqlAssertStatement / plpgsqlCursorStatement / plpgsqlControlStructure / plpgsqlAssignmentStatement / plpgsqlIntoQueryStatement / plpgsqlResultValueStatement / plpgsqlNullStatement / plpgsqlQuery / expression
 ]
 
-{ #category : #plpgsql }
+{ #category : #statement }
 PSQLPlpgSQLGrammar >> plpgsqlStatements [
 	^ plpgsqlStatement trim , (semicolon trim , kw endKeyword not , plpgsqlStatement) trim star , semicolon trim optional
 ]
 
-{ #category : #plpgsql }
+{ #category : #statement }
 PSQLPlpgSQLGrammar >> plpgsqlUnhandledStatement [
 	^ PPFailingParser new
 ]
 
-{ #category : #plpgsql }
+{ #category : #loop }
 PSQLPlpgSQLGrammar >> plpgsqlWhileLoop [
 	^ plpgsqlBeginLabel trim optional ,
 	kw while trim , expression , kw loop trim ,
