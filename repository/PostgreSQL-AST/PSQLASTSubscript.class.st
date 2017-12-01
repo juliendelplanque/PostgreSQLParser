@@ -8,7 +8,7 @@ Class {
 		'target',
 		'subscriptExpression'
 	],
-	#category : #PostgreSQL-AST
+	#category : #PostgreSQL-AST-SQL
 }
 
 { #category : #accessing }

@@ -11,7 +11,7 @@ Class {
 		'queryExecute',
 		'usingExpressions'
 	],
-	#category : #PostgreSQL-AST
+	#category : #PostgreSQL-AST-PlpgSQL
 }
 
 { #category : #accessing }

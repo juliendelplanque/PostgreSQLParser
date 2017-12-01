@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'right'
 	],
-	#category : #PostgreSQL-AST
+	#category : #PostgreSQL-AST-SQL
 }
 
 { #category : #accessing }

@@ -8,7 +8,7 @@ Class {
 		'isDistinct',
 		'selectQuery'
 	],
-	#category : #PostgreSQL-AST
+	#category : #PostgreSQL-AST-SQL
 }
 
 { #category : #initialization }

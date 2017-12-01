@@ -9,7 +9,7 @@ Class {
 		'isAsc',
 		'isNullsFirst'
 	],
-	#category : #PostgreSQL-AST
+	#category : #PostgreSQL-AST-SQL
 }
 
 { #category : #accessing }

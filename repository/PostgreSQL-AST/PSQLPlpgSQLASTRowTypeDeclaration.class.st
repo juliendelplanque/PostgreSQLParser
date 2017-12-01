@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'tableIdentifier'
 	],
-	#category : #PostgreSQL-AST
+	#category : #PostgreSQL-AST-PlpgSQL
 }
 
 { #category : #accessing }

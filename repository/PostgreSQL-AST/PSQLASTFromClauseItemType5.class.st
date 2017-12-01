@@ -9,7 +9,7 @@ Class {
 		'functionCall',
 		'columnDefinitions'
 	],
-	#category : #PostgreSQL-AST
+	#category : #PostgreSQL-AST-SQL
 }
 
 { #category : #accessing }

@@ -12,7 +12,7 @@ Class {
 		'conditionName',
 		'sqlState'
 	],
-	#category : #PostgreSQL-AST
+	#category : #PostgreSQL-AST-PlpgSQL
 }
 
 { #category : #accessing }

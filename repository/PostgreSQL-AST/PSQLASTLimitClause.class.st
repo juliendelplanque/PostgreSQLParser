@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'limit'
 	],
-	#category : #PostgreSQL-AST
+	#category : #PostgreSQL-AST-SQL
 }
 
 { #category : #accessing }

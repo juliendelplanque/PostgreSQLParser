@@ -4,5 +4,5 @@ I represent the alternative way to write a SELECT INTO query (e.g. ""SELECT INTO
 Class {
 	#name : #PSQLASTAlternativeSelectIntoQuery,
 	#superclass : #PSQLASTSelectIntoQuery,
-	#category : #PostgreSQL-AST
+	#category : #PostgreSQL-AST-SQL
 }

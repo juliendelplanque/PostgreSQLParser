@@ -8,7 +8,7 @@ Class {
 		'accessed',
 		'attributeIdentifier'
 	],
-	#category : #PostgreSQL-AST
+	#category : #PostgreSQL-AST-SQL
 }
 
 { #category : #accessing }

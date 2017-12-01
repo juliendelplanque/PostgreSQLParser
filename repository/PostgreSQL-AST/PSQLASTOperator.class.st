@@ -8,7 +8,7 @@ Class {
 		'operator',
 		'expression'
 	],
-	#category : #PostgreSQL-AST
+	#category : #PostgreSQL-AST-SQL
 }
 
 { #category : #accessing }

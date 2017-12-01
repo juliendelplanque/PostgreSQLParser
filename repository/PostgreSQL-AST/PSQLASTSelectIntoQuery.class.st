@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'intoClause'
 	],
-	#category : #PostgreSQL-AST
+	#category : #PostgreSQL-AST-SQL
 }
 
 { #category : #accessing }

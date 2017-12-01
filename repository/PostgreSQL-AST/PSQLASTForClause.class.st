@@ -9,7 +9,7 @@ Class {
 		'ofTables',
 		'isNoWait'
 	],
-	#category : #PostgreSQL-AST
+	#category : #PostgreSQL-AST-SQL
 }
 
 { #category : #testing }

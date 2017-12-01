@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'labelContent'
 	],
-	#category : #PostgreSQL-AST
+	#category : #PostgreSQL-AST-PlpgSQL
 }
 
 { #category : #'instance creation' }
