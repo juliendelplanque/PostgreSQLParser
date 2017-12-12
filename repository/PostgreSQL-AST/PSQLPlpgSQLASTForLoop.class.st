@@ -10,7 +10,7 @@ Class {
 		'fromExpression',
 		'toExpression'
 	],
-	#category : #PostgreSQL-AST-PlpgSQL
+	#category : #'PostgreSQL-AST-PlpgSQL'
 }
 
 { #category : #accessing }

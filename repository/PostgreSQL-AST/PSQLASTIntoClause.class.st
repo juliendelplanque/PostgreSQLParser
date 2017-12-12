@@ -9,7 +9,7 @@ Class {
 		'hasTable',
 		'newTable'
 	],
-	#category : #PostgreSQL-AST-SQL
+	#category : #'PostgreSQL-AST-SQL'
 }
 
 { #category : #accessing }

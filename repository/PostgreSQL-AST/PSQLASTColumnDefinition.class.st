@@ -8,7 +8,7 @@ Class {
 		'columnName',
 		'type'
 	],
-	#category : #PostgreSQL-AST-SQL
+	#category : #'PostgreSQL-AST-SQL'
 }
 
 { #category : #accessing }

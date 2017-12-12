@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'currentOfCursor'
 	],
-	#category : #PostgreSQL-AST-SQL
+	#category : #'PostgreSQL-AST-SQL'
 }
 
 { #category : #accessing }

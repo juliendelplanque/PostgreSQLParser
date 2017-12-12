@@ -19,7 +19,7 @@ Class {
 		'fetchClause',
 		'forClause'
 	],
-	#category : #PostgreSQL-AST-SQL
+	#category : #'PostgreSQL-AST-SQL'
 }
 
 { #category : #accessing }

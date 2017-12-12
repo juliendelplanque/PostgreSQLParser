@@ -133,6 +133,58 @@ PSQLPlpgSQLASTBuilder >> plpgsqlCursorClose [
 			yourself ]
 ]
 
+{ #category : #cursor }
+PSQLPlpgSQLASTBuilder >> plpgsqlCursorDeclaration [
+	^ super plpgsqlCursorDeclaration ==> [ :tokens |
+		PSQLPlpgSQLASTCursorDeclaration new
+			identifier: tokens first;
+			scroll: (tokens second
+						ifNil: [ true ]
+						ifNotNil: [ :subTokens | subTokens first isNil ]);
+			arguments: (tokens fourth
+							ifNil: [ #() ]
+							ifNotNil: [ :subTokens | 
+								(subTokens second reject: [ :item | item = $, ])
+									collect: [ :item | 
+										PSQLASTColumnDefinition new
+											columnName: item first first;
+											type: (PSQLASTIdentifier identifier: (item first second joinUsing: ' '));
+											yourself
+										 ] ]);
+			selectQuery: tokens sixth;
+			yourself ]
+]
+
+{ #category : #cursor }
+PSQLPlpgSQLASTBuilder >> plpgsqlCursorDelete [
+	self flag: 'TODO'.
+	^ super plpgsqlCursorDelete
+]
+
+{ #category : #cursor }
+PSQLPlpgSQLASTBuilder >> plpgsqlCursorFetch [
+	self flag: 'TODO'.
+	^ super plpgsqlCursorFetch
+]
+
+{ #category : #cursor }
+PSQLPlpgSQLASTBuilder >> plpgsqlCursorForLoop [
+	self flag: 'TODO'.
+	^ super plpgsqlCursorForLoop
+]
+
+{ #category : #cursor }
+PSQLPlpgSQLASTBuilder >> plpgsqlCursorMove [
+	self flag: 'TODO'.
+	^ super plpgsqlCursorMove
+]
+
+{ #category : #cursor }
+PSQLPlpgSQLASTBuilder >> plpgsqlCursorUpdate [
+	self flag: 'TODO'.
+	^ super plpgsqlCursorUpdate
+]
+
 { #category : #declaration }
 PSQLPlpgSQLASTBuilder >> plpgsqlDeclarationType [
 	^ super plpgsqlDeclarationType ==> [ :tokens |
@@ -149,6 +201,12 @@ PSQLPlpgSQLASTBuilder >> plpgsqlDeclarationType [
 PSQLPlpgSQLASTBuilder >> plpgsqlDeclarations [
 	^ super plpgsqlDeclarations ==> [ :tokens |
 		tokens first reject: [ :item | item = $; ] ]
+]
+
+{ #category : #cursor }
+PSQLPlpgSQLASTBuilder >> plpgsqlFetchCursorDirection [
+	self flag: 'TODO'.
+	^ super plpgsqlFetchCursorDirection
 ]
 
 { #category : #loop }
@@ -212,6 +270,24 @@ PSQLPlpgSQLASTBuilder >> plpgsqlLoopLoop [
 			endLabel: tokens last;
 			statements: tokens third;
 			yourself ]
+]
+
+{ #category : #cursor }
+PSQLPlpgSQLASTBuilder >> plpgsqlOpenCursorBounded [
+	self flag: 'TODO'.
+	^ super plpgsqlOpenCursorBounded
+]
+
+{ #category : #cursor }
+PSQLPlpgSQLASTBuilder >> plpgsqlOpenCursorForExecute [
+	self flag: 'TODO'.
+	^ super plpgsqlOpenCursorForExecute
+]
+
+{ #category : #cursor }
+PSQLPlpgSQLASTBuilder >> plpgsqlOpenCursorForQuery [
+	self flag: 'TODO'.
+	^ super plpgsqlOpenCursorForQuery
 ]
 
 { #category : #loop }

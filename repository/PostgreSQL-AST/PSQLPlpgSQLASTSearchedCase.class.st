@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'searchedExpression'
 	],
-	#category : #PostgreSQL-AST-PlpgSQL
+	#category : #'PostgreSQL-AST-PlpgSQL'
 }
 
 { #category : #accessing }

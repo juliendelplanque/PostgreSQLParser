@@ -9,7 +9,7 @@ Class {
 		'sliceNumber',
 		'arrayExpression'
 	],
-	#category : #PostgreSQL-AST-PlpgSQL
+	#category : #'PostgreSQL-AST-PlpgSQL'
 }
 
 { #category : #accessing }

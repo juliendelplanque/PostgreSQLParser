@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'builder'
 	],
-	#category : #PostgreSQL-AST-Builder-Tests
+	#category : #'PostgreSQL-AST-Builder-Tests'
 }
 
 { #category : #running }
@@ -12,7 +12,7 @@ PSQLPlpgSQLASTBuilderTest >> setUp [
 	builder := PSQLPlpgSQLASTBuilder new
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLASTBuilderTest >> testPlpgsqlAliasDeclaration [
 	| node |
 	node := builder plpgsqlAliasDeclaration parse: 'id ALIAS FOR $1'.
@@ -28,7 +28,7 @@ PSQLPlpgSQLASTBuilderTest >> testPlpgsqlAliasDeclaration [
 		assert: node aliased identifier equals: 'identifier'
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLASTBuilderTest >> testPlpgsqlArrayLoop [
 	| node |
 	node := builder plpgsqlArrayLoop parse: 'FOREACH x IN ARRAY $1
@@ -46,7 +46,7 @@ PSQLPlpgSQLASTBuilderTest >> testPlpgsqlArrayLoop [
 		assert: node sliceNumber isNil
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLASTBuilderTest >> testPlpgsqlAssignmentLeftPart [
 	| node |
 	node := builder plpgsqlAssignmentLeftPart parse: 'truc.machin[id][3]'.
@@ -57,7 +57,7 @@ PSQLPlpgSQLASTBuilderTest >> testPlpgsqlAssignmentLeftPart [
 		assert: node target target accessed class equals: PSQLASTIdentifier
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLASTBuilderTest >> testPlpgsqlAssignmentStatement [
 	| node |
 	node := builder plpgsqlAssignmentStatement parse: 'truc.machin[id][3] := 42'.
@@ -68,7 +68,7 @@ PSQLPlpgSQLASTBuilderTest >> testPlpgsqlAssignmentStatement [
 		assert: node toAssign class equals: PSQLASTNumericConstant
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLASTBuilderTest >> testPlpgsqlBeginLabel [
 	| node |
 	node := builder plpgsqlBeginLabel parse: '<<label>>'.
@@ -78,7 +78,7 @@ PSQLPlpgSQLASTBuilderTest >> testPlpgsqlBeginLabel [
 		assert: node labelContent equals: 'label'
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLASTBuilderTest >> testPlpgsqlBlock [
 	| node |
 	node := builder plpgsqlBlock parse: '<<label>>
@@ -98,7 +98,7 @@ label;'.
 		
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLASTBuilderTest >> testPlpgsqlClassicDeclaration [
 	| node |
 	node := builder plpgsqlClassicDeclaration parse: 'id integer'.
@@ -108,7 +108,7 @@ PSQLPlpgSQLASTBuilderTest >> testPlpgsqlClassicDeclaration [
 		assert: node type identifier identifier equals: 'integer'
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLASTBuilderTest >> testPlpgsqlContinueStatement [
 	| node |
 	node := builder plpgsqlContinueStatement parse: 'CONTINUE WHEN count < 50'.
@@ -118,7 +118,7 @@ PSQLPlpgSQLASTBuilderTest >> testPlpgsqlContinueStatement [
 		assert: node whenExpression class equals: PSQLASTBinaryOperator
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLASTBuilderTest >> testPlpgsqlCopyTypeDeclaration [
 	| node |
 	node := builder plpgsqlCopyTypeDeclaration parse: 'user_id users.user_id%TYPE'.
@@ -128,7 +128,7 @@ PSQLPlpgSQLASTBuilderTest >> testPlpgsqlCopyTypeDeclaration [
 		assert: node accessToCopyType accessed identifier equals: 'user_id'
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLASTBuilderTest >> testPlpgsqlCursorClose [
 	| node |
 	node := builder plpgsqlCursorClose parse: 'CLOSE cursor'.
@@ -138,7 +138,42 @@ PSQLPlpgSQLASTBuilderTest >> testPlpgsqlCursorClose [
 		assert: node cursorIdentifier identifier equals: 'cursor'
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-cursor' }
+PSQLPlpgSQLASTBuilderTest >> testPlpgsqlCursorDeclaration [
+	| node |
+	node := builder plpgsqlCursorDeclaration parse: 'curs CURSOR FOR SELECT * FROM t'.
+	self
+		assert: node class equals: PSQLPlpgSQLASTCursorDeclaration;
+		assert: node identifier class equals: PSQLASTIdentifier;
+		assert: node identifier identifier equals: 'curs';
+		assert: node scroll;
+		assert: node arguments class equals: Array;
+		assert: node arguments size equals: 0;
+		assert: node selectQuery class equals: PSQLASTSelectQuery.
+		
+	node := builder plpgsqlCursorDeclaration parse: 'curs SCROLL CURSOR FOR SELECT * FROM t'.
+	self
+		assert: node class equals: PSQLPlpgSQLASTCursorDeclaration;
+		assert: node identifier class equals: PSQLASTIdentifier;
+		assert: node identifier identifier equals: 'curs';
+		assert: node scroll;
+		assert: node arguments class equals: Array;
+		assert: node arguments size equals: 0;
+		assert: node selectQuery class equals: PSQLASTSelectQuery.
+		
+	node := builder plpgsqlCursorDeclaration parse: 'curs NO SCROLL CURSOR (key integer, key2 varchar) FOR SELECT * FROM t'.
+	self
+		assert: node class equals: PSQLPlpgSQLASTCursorDeclaration;
+		assert: node identifier class equals: PSQLASTIdentifier;
+		assert: node identifier identifier equals: 'curs';
+		deny: node scroll;
+		assert: node arguments class equals: Array;
+		assert: node arguments size equals: 2;
+		assert: (node arguments allSatisfy: [ :any | any class = PSQLASTColumnDefinition ]);
+		assert: node selectQuery class equals: PSQLASTSelectQuery
+]
+
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLASTBuilderTest >> testPlpgsqlDeclarationType [
 	| node |
 	node := builder plpgsqlDeclarationType parse: 'varying char(16)[][]'.
@@ -149,7 +184,7 @@ PSQLPlpgSQLASTBuilderTest >> testPlpgsqlDeclarationType [
 		assert: node dimensions equals: 2
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLASTBuilderTest >> testPlpgsqlForLoop [
 	| node |
 	node := builder plpgsqlForLoop parse: '<<forlabel>>
@@ -166,7 +201,7 @@ END LOOP forlabel'.
 		assert: node toExpression class equals: PSQLASTNumericConstant
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLASTBuilderTest >> testPlpgsqlIfThen [
 	| node |
 	node := builder plpgsqlIfThen parse: 'IF x = 1 THEN
@@ -180,7 +215,7 @@ END IF'.
 		assert: node conditionToStatements first tail size equals: 2
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLASTBuilderTest >> testPlpgsqlIfThenElse [
 	| node |
 	node := builder plpgsqlIfThenElse parse: 'IF x = 1 THEN
@@ -196,7 +231,7 @@ END IF'.
 		assert: node elseStatements size equals: 1
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLASTBuilderTest >> testPlpgsqlIfThenElsif [
 	| node |
 	node := builder plpgsqlIfThenElsif parse: 'IF x = 1 THEN
@@ -214,7 +249,7 @@ END IF'.
 		assert: node elseStatements size equals: 1
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLASTBuilderTest >> testPlpgsqlIndexParameter [
 	| node |
 	node := builder plpgsqlIndexParameter parse: '$1'.
@@ -224,7 +259,7 @@ PSQLPlpgSQLASTBuilderTest >> testPlpgsqlIndexParameter [
 		assert: node identifier equals: '$1'
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLASTBuilderTest >> testPlpgsqlLabel [
 	| node |
 	node := builder plpgsqlLabel parse: 'label'.
@@ -234,7 +269,7 @@ PSQLPlpgSQLASTBuilderTest >> testPlpgsqlLabel [
 		assert: node labelContent equals: 'label'
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLASTBuilderTest >> testPlpgsqlLoopLoop [
 	| node |
 	node := builder plpgsqlLoopLoop parse: 'LOOP
@@ -247,7 +282,7 @@ END LOOP'.
 		assert: node statements size equals: 1
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLASTBuilderTest >> testPlpgsqlQueryResultsLoop [
 	| node |
 	node := builder plpgsqlQueryResultsLoop parse: 'FOR mviews IN SELECT * FROM cs_materialized_views ORDER BY sort_key LOOP
@@ -262,7 +297,7 @@ END LOOP'.
 		flag: #'TODO test the query'
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLASTBuilderTest >> testPlpgsqlRaiseStatement1 [
 	| node |
 	node := builder plpgsqlRaiseStatement1 parse: 'RAISE EXCEPTION ''Nonexistent ID --> %'', user_id
@@ -277,23 +312,23 @@ PSQLPlpgSQLASTBuilderTest >> testPlpgsqlRaiseStatement1 [
 		assert: node usingAssocs size equals: 1
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLASTBuilderTest >> testPlpgsqlRaiseStatement2 [
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLASTBuilderTest >> testPlpgsqlRaiseStatement3 [
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLASTBuilderTest >> testPlpgsqlRaiseStatement4 [
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLASTBuilderTest >> testPlpgsqlRaiseStatement5 [
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLASTBuilderTest >> testPlpgsqlRaiseUsingOptions [
 	| assocs |
 	assocs := builder plpgsqlRaiseUsingOptions parse: 'USING opt = 1 + 1, opt2 = ''test'''.
@@ -306,7 +341,7 @@ PSQLPlpgSQLASTBuilderTest >> testPlpgsqlRaiseUsingOptions [
 		assert: assocs second tail class equals: PSQLASTStringConstant
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLASTBuilderTest >> testPlpgsqlRecordDeclaration [
 	| node |
 	node := builder plpgsqlRecordDeclaration parse: 'identifier RECORD'.
@@ -316,7 +351,7 @@ PSQLPlpgSQLASTBuilderTest >> testPlpgsqlRecordDeclaration [
 		assert: node identifier identifier equals: 'identifier'
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLASTBuilderTest >> testPlpgsqlReturnForm1 [
 	| node |
 	node := builder plpgsqlReturnForm1 parse: 'RETURN 1+1'.
@@ -332,7 +367,7 @@ PSQLPlpgSQLASTBuilderTest >> testPlpgsqlReturnForm1 [
 		assert: node expression class equals: PSQLASTBinaryOperator
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLASTBuilderTest >> testPlpgsqlReturnForm2 [
 	| node |
 	node := builder plpgsqlReturnForm2 parse: 'RETURN NEXT 1+1'.
@@ -348,7 +383,7 @@ PSQLPlpgSQLASTBuilderTest >> testPlpgsqlReturnForm2 [
 		assert: node expression class equals: PSQLASTBinaryOperator
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLASTBuilderTest >> testPlpgsqlReturnForm3 [
 	| node |
 	node := builder plpgsqlReturnForm3 parse: 'RETURN QUERY SELECT * FROM table'.
@@ -364,7 +399,7 @@ PSQLPlpgSQLASTBuilderTest >> testPlpgsqlReturnForm3 [
 		assert: node query class equals: "
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLASTBuilderTest >> testPlpgsqlReturnForm4 [
 	| node |
 	node := builder plpgsqlReturnForm4 parse: 'RETURN QUERY EXECUTE ''SELECT flightid
@@ -387,7 +422,7 @@ PSQLPlpgSQLASTBuilderTest >> testPlpgsqlReturnForm4 [
 		deny: node isReturnExpression
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLASTBuilderTest >> testPlpgsqlReturnForm4Bis [
 	| node |
 	node := builder plpgsqlReturnForm4 parse: 'RETURN QUERY EXECUTE ''SELECT flightid
@@ -409,7 +444,7 @@ PSQLPlpgSQLASTBuilderTest >> testPlpgsqlReturnForm4Bis [
 		deny: node isReturnExpression
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLASTBuilderTest >> testPlpgsqlReturnForm5 [
 	| node |
 	node := builder plpgsqlReturnForm5 parse: 'RETURN'.
@@ -424,7 +459,7 @@ PSQLPlpgSQLASTBuilderTest >> testPlpgsqlReturnForm5 [
 		deny: node isReturnNext
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLASTBuilderTest >> testPlpgsqlRowTypeDeclaration [
 	| node |
 	node := builder plpgsqlRowTypeDeclaration parse: 'id table%ROWTYPE'.
@@ -435,7 +470,7 @@ PSQLPlpgSQLASTBuilderTest >> testPlpgsqlRowTypeDeclaration [
 		assert: node tableIdentifier identifier equals: 'table'
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLASTBuilderTest >> testPlpgsqlSearchedCase [
 	| node |
 	node := builder plpgsqlSearchedCase parse: 'CASE x
@@ -455,7 +490,7 @@ END CASE'.
 		assert: node elseStatements isNil
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLASTBuilderTest >> testPlpgsqlSimpleCase [
 	| node |
 	node := builder plpgsqlSimpleCase parse: 'CASE
@@ -470,7 +505,7 @@ END CASE'.
 		assert: node elseStatements size equals: 1
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLASTBuilderTest >> testPlpgsqlWhileLoop [
 	| node |
 	node := builder plpgsqlWhileLoop parse: 'WHILE amount_owed < 42 LOOP
