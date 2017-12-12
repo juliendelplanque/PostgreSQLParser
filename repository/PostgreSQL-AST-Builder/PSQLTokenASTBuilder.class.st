@@ -4,7 +4,7 @@ I build AST nodes from some of the PostgreSQL tokens.
 Class {
 	#name : #PSQLTokenASTBuilder,
 	#superclass : #PSQLTokenizer,
-	#category : #PostgreSQL-AST-Builder
+	#category : #'PostgreSQL-AST-Builder'
 }
 
 { #category : #accessing }
@@ -21,7 +21,7 @@ PSQLTokenASTBuilder >> escapeStringConstant [
 			yourself ]
 ]
 
-{ #category : #accessing }
+{ #category : #helpers }
 PSQLTokenASTBuilder >> identifier [
 	^ super identifier ==> [ :tokens | 
 		PSQLASTIdentifier new
@@ -34,7 +34,7 @@ PSQLTokenASTBuilder >> identifierOrKeyword [
 	^ super identifierOrKeyword ==> [ :tokens | String newFrom: tokens flattened ]
 ]
 
-{ #category : #accessing }
+{ #category : #helpers }
 PSQLTokenASTBuilder >> identifierWithOptionalFieldAccess [
 	^ super identifierWithOptionalFieldAccess ==> [ :tokens |
 		tokens second

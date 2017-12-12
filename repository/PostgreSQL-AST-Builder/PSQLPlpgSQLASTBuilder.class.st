@@ -4,7 +4,7 @@ I process PL/pgSQL source code as input and build an AST using PSQLASTNode subcl
 Class {
 	#name : #PSQLPlpgSQLASTBuilder,
 	#superclass : #PSQLPlpgSQLGrammar,
-	#category : #PostgreSQL-AST-Builder
+	#category : #'PostgreSQL-AST-Builder'
 }
 
 { #category : #accessing }
@@ -27,7 +27,7 @@ PSQLPlpgSQLASTBuilder class >> tokenParser [
 	^ PSQLTokenASTBuilder
 ]
 
-{ #category : #plpgsql }
+{ #category : #declaration }
 PSQLPlpgSQLASTBuilder >> plpgsqlAliasDeclaration [
 	^ super plpgsqlAliasDeclaration ==> [ :tokens |
 		PSQLPlpgSQLASTAliasDeclaration new
@@ -36,7 +36,7 @@ PSQLPlpgSQLASTBuilder >> plpgsqlAliasDeclaration [
 			yourself ]
 ]
 
-{ #category : #plpgsql }
+{ #category : #loop }
 PSQLPlpgSQLASTBuilder >> plpgsqlArrayLoop [
 	^ super plpgsqlArrayLoop ==> [ :tokens |
 		PSQLPlpgSQLASTArrayLoop new
@@ -49,7 +49,7 @@ PSQLPlpgSQLASTBuilder >> plpgsqlArrayLoop [
 			yourself ]
 ]
 
-{ #category : #plpgsql }
+{ #category : #statement }
 PSQLPlpgSQLASTBuilder >> plpgsqlAssignmentLeftPart [
 	^ super plpgsqlAssignmentLeftPart ==> [ :tokens |
 			|target|
@@ -67,7 +67,7 @@ PSQLPlpgSQLASTBuilder >> plpgsqlAssignmentLeftPart [
 			target ]
 ]
 
-{ #category : #plpgsql }
+{ #category : #statement }
 PSQLPlpgSQLASTBuilder >> plpgsqlAssignmentStatement [
 	^ super plpgsqlAssignmentStatement ==> [ :tokens |
 		PSQLPlpgSQLASTAssignment new
@@ -77,7 +77,7 @@ PSQLPlpgSQLASTBuilder >> plpgsqlAssignmentStatement [
 			yourself ]
 ]
 
-{ #category : #plpgsql }
+{ #category : #label }
 PSQLPlpgSQLASTBuilder >> plpgsqlBeginLabel [
 	^ super plpgsqlBeginLabel ==> [ :tokens | tokens second ]
 ]
@@ -92,7 +92,7 @@ PSQLPlpgSQLASTBuilder >> plpgsqlBlock [
 			yourself ]
 ]
 
-{ #category : #plpgsql }
+{ #category : #declaration }
 PSQLPlpgSQLASTBuilder >> plpgsqlClassicDeclaration [
 	^ super plpgsqlClassicDeclaration ==> [ :tokens |
 		PSQLPlpgSQLASTClassicDeclaration new
@@ -104,7 +104,7 @@ PSQLPlpgSQLASTBuilder >> plpgsqlClassicDeclaration [
 			yourself ]
 ]
 
-{ #category : #plpgsql }
+{ #category : #statement }
 PSQLPlpgSQLASTBuilder >> plpgsqlContinueStatement [
 	^ super plpgsqlContinueStatement ==> [ :tokens |
 		PSQLPlpgSQLASTContinue new
@@ -113,7 +113,7 @@ PSQLPlpgSQLASTBuilder >> plpgsqlContinueStatement [
 			yourself ]
 ]
 
-{ #category : #plpgsql }
+{ #category : #declaration }
 PSQLPlpgSQLASTBuilder >> plpgsqlCopyTypeDeclaration [
 	^ super plpgsqlCopyTypeDeclaration ==> [ :tokens |
 		PSQLPlpgSQLASTCopyTypeDeclaration new
@@ -125,7 +125,7 @@ PSQLPlpgSQLASTBuilder >> plpgsqlCopyTypeDeclaration [
 			yourself ]
 ]
 
-{ #category : #plpgsql }
+{ #category : #cursor }
 PSQLPlpgSQLASTBuilder >> plpgsqlCursorClose [
 	^ super plpgsqlCursorClose ==> [ :tokens |
 		PSQLPlpgSQLCloseCursor new
@@ -133,7 +133,7 @@ PSQLPlpgSQLASTBuilder >> plpgsqlCursorClose [
 			yourself ]
 ]
 
-{ #category : #plpgsql }
+{ #category : #declaration }
 PSQLPlpgSQLASTBuilder >> plpgsqlDeclarationType [
 	^ super plpgsqlDeclarationType ==> [ :tokens |
 		PSQLPlpgSQLASTType new
@@ -145,13 +145,13 @@ PSQLPlpgSQLASTBuilder >> plpgsqlDeclarationType [
 					yourself ]
 ]
 
-{ #category : #plpgsql }
+{ #category : #declaration }
 PSQLPlpgSQLASTBuilder >> plpgsqlDeclarations [
 	^ super plpgsqlDeclarations ==> [ :tokens |
 		tokens first reject: [ :item | item = $; ] ]
 ]
 
-{ #category : #plpgsql }
+{ #category : #loop }
 PSQLPlpgSQLASTBuilder >> plpgsqlForLoop [
 	^ super plpgsqlForLoop ==> [ :tokens |
 		PSQLPlpgSQLASTForLoop new
@@ -164,7 +164,7 @@ PSQLPlpgSQLASTBuilder >> plpgsqlForLoop [
 			yourself ]
 ]
 
-{ #category : #plpgsql }
+{ #category : #conditional }
 PSQLPlpgSQLASTBuilder >> plpgsqlIfThen [
 	^ super plpgsqlIfThen ==> [ :tokens |
 		PSQLPlpgSQLASTIf new
@@ -172,7 +172,7 @@ PSQLPlpgSQLASTBuilder >> plpgsqlIfThen [
 			yourself ]
 ]
 
-{ #category : #plpgsql }
+{ #category : #conditional }
 PSQLPlpgSQLASTBuilder >> plpgsqlIfThenElse [
 	^ super plpgsqlIfThenElse ==> [ :tokens |
 		PSQLPlpgSQLASTIf new
@@ -181,7 +181,7 @@ PSQLPlpgSQLASTBuilder >> plpgsqlIfThenElse [
 			yourself ]
 ]
 
-{ #category : #plpgsql }
+{ #category : #conditional }
 PSQLPlpgSQLASTBuilder >> plpgsqlIfThenElsif [
 	^ super plpgsqlIfThenElsif ==> [ :tokens |
 		PSQLPlpgSQLASTIf new
@@ -198,13 +198,13 @@ PSQLPlpgSQLASTBuilder >> plpgsqlIndexParameter [
 			yourself ]
 ]
 
-{ #category : #plpgsql }
+{ #category : #label }
 PSQLPlpgSQLASTBuilder >> plpgsqlLabel [
 	^ super plpgsqlLabel ==> [ :tokens |
 		PSQLPlpgSQLASTBlockLabel labelContent: tokens identifier ]
 ]
 
-{ #category : #plpgsql }
+{ #category : #loop }
 PSQLPlpgSQLASTBuilder >> plpgsqlLoopLoop [
 	^ super plpgsqlLoopLoop ==> [ :tokens |
 		PSQLPlpgSQLASTLoop new
@@ -214,7 +214,7 @@ PSQLPlpgSQLASTBuilder >> plpgsqlLoopLoop [
 			yourself ]
 ]
 
-{ #category : #plpgsql }
+{ #category : #loop }
 PSQLPlpgSQLASTBuilder >> plpgsqlQueryResultsLoop [
 	^ super plpgsqlQueryResultsLoop ==> [ :tokens |
 		PSQLPlpgSQLASTQueryResultsLoop new
@@ -226,7 +226,7 @@ PSQLPlpgSQLASTBuilder >> plpgsqlQueryResultsLoop [
 			yourself ]
 ]
 
-{ #category : #plpgsql }
+{ #category : #raise }
 PSQLPlpgSQLASTBuilder >> plpgsqlRaiseStatement1 [
 	^ super plpgsqlRaiseStatement1 ==> [ :tokens |
 		PSQLPlpgSQLASTRaiseStatement new
@@ -237,38 +237,38 @@ PSQLPlpgSQLASTBuilder >> plpgsqlRaiseStatement1 [
 			yourself ]
 ]
 
-{ #category : #plpgsql }
+{ #category : #raise }
 PSQLPlpgSQLASTBuilder >> plpgsqlRaiseStatement2 [
 	^ super plpgsqlRaiseStatement2 ==> [ :tokens |
 		 ]
 ]
 
-{ #category : #plpgsql }
+{ #category : #raise }
 PSQLPlpgSQLASTBuilder >> plpgsqlRaiseStatement3 [
 	^ super plpgsqlRaiseStatement3 ==> [ :tokens |
 		 ]
 ]
 
-{ #category : #plpgsql }
+{ #category : #raise }
 PSQLPlpgSQLASTBuilder >> plpgsqlRaiseStatement4 [
 	^ super plpgsqlRaiseStatement4 ==> [ :tokens |
 		 ]
 ]
 
-{ #category : #plpgsql }
+{ #category : #raise }
 PSQLPlpgSQLASTBuilder >> plpgsqlRaiseStatement5 [
 	^ super plpgsqlRaiseStatement5 ==> [ :tokens |
 		PSQLPlpgSQLASTRaiseStatement new ]
 ]
 
-{ #category : #plpgsql }
+{ #category : #raise }
 PSQLPlpgSQLASTBuilder >> plpgsqlRaiseUsingOptions [
 	^ super plpgsqlRaiseUsingOptions ==> [ :tokens |
 		tokens second reject: [ :item  | item = $, ] thenCollect: [ :arr |
 			arr first first -> arr first third ] ]
 ]
 
-{ #category : #plpgsql }
+{ #category : #declaration }
 PSQLPlpgSQLASTBuilder >> plpgsqlRecordDeclaration [
 	^ super plpgsqlRecordDeclaration ==> [ :tokens |
 		PSQLPlpgSQLASTRecordDeclaration new
@@ -276,7 +276,7 @@ PSQLPlpgSQLASTBuilder >> plpgsqlRecordDeclaration [
 			yourself ]
 ]
 
-{ #category : #plpgsql }
+{ #category : #return }
 PSQLPlpgSQLASTBuilder >> plpgsqlReturnForm1 [
 	^ super plpgsqlReturnForm1 ==> [ :tokens |
 		PSQLPlpgSQLASTReturnStatement new
@@ -284,7 +284,7 @@ PSQLPlpgSQLASTBuilder >> plpgsqlReturnForm1 [
 			yourself ]
 ]
 
-{ #category : #plpgsql }
+{ #category : #return }
 PSQLPlpgSQLASTBuilder >> plpgsqlReturnForm2 [
 	^ super plpgsqlReturnForm2 ==> [ :tokens |
 		PSQLPlpgSQLASTReturnStatement new
@@ -293,7 +293,7 @@ PSQLPlpgSQLASTBuilder >> plpgsqlReturnForm2 [
 			yourself ]
 ]
 
-{ #category : #plpgsql }
+{ #category : #return }
 PSQLPlpgSQLASTBuilder >> plpgsqlReturnForm3 [
 	^ super plpgsqlReturnForm3 ==> [ :tokens |
 		PSQLPlpgSQLASTReturnStatement new
@@ -301,7 +301,7 @@ PSQLPlpgSQLASTBuilder >> plpgsqlReturnForm3 [
 			yourself ]
 ]
 
-{ #category : #plpgsql }
+{ #category : #return }
 PSQLPlpgSQLASTBuilder >> plpgsqlReturnForm4 [
 	^ super plpgsqlReturnForm4 ==> [ :tokens |
 		|stmt|
@@ -313,13 +313,13 @@ PSQLPlpgSQLASTBuilder >> plpgsqlReturnForm4 [
 		stmt ]
 ]
 
-{ #category : #plpgsql }
+{ #category : #return }
 PSQLPlpgSQLASTBuilder >> plpgsqlReturnForm5 [
 	^ super plpgsqlReturnForm5 ==> [ :tokens |
 		PSQLPlpgSQLASTReturnStatement new ]
 ]
 
-{ #category : #plpgsql }
+{ #category : #declaration }
 PSQLPlpgSQLASTBuilder >> plpgsqlRowTypeDeclaration [
 	^ super plpgsqlRowTypeDeclaration ==> [ :tokens |
 		PSQLPlpgSQLASTRowTypeDeclaration new
@@ -328,7 +328,7 @@ PSQLPlpgSQLASTBuilder >> plpgsqlRowTypeDeclaration [
 			yourself ]
 ]
 
-{ #category : #plpgsql }
+{ #category : #conditional }
 PSQLPlpgSQLASTBuilder >> plpgsqlSearchedCase [
 	^ super plpgsqlSearchedCase ==> [ :tokens |
 		PSQLPlpgSQLASTSearchedCase new
@@ -339,7 +339,7 @@ PSQLPlpgSQLASTBuilder >> plpgsqlSearchedCase [
 			yourself ]
 ]
 
-{ #category : #plpgsql }
+{ #category : #conditional }
 PSQLPlpgSQLASTBuilder >> plpgsqlSimpleCase [
 	^ super plpgsqlSimpleCase ==> [ :tokens |
 		PSQLPlpgSQLASTSimpleCase new
@@ -348,7 +348,7 @@ PSQLPlpgSQLASTBuilder >> plpgsqlSimpleCase [
 			yourself ]
 ]
 
-{ #category : #plpgsql }
+{ #category : #statement }
 PSQLPlpgSQLASTBuilder >> plpgsqlStatements [
 	^ super plpgsqlStatements ==> [ :tokens |
 		OrderedCollection new
@@ -357,7 +357,7 @@ PSQLPlpgSQLASTBuilder >> plpgsqlStatements [
 			yourself ]
 ]
 
-{ #category : #plpgsql }
+{ #category : #loop }
 PSQLPlpgSQLASTBuilder >> plpgsqlWhileLoop [
 	^ super plpgsqlWhileLoop ==> [ :tokens |
 		PSQLPlpgSQLASTWhileLoop new

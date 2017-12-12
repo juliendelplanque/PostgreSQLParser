@@ -4,7 +4,7 @@ I process DELETE query source code as input and build an AST using PSQLASTNode s
 Class {
 	#name : #PSQLDeleteQueryASTBuilder,
 	#superclass : #PSQLDeleteQueryGrammar,
-	#category : #PostgreSQL-AST-Builder
+	#category : #'PostgreSQL-AST-Builder'
 }
 
 { #category : #accessing }
@@ -22,7 +22,7 @@ PSQLDeleteQueryASTBuilder class >> tokenParser [
 	^ PSQLTokenASTBuilder
 ]
 
-{ #category : #'delete command' }
+{ #category : #accessing }
 PSQLDeleteQueryASTBuilder >> deleteCommand [
 	^ super deleteCommand ==> [ :tokens |
 		PSQLASTDeleteQuery new
@@ -37,7 +37,7 @@ PSQLDeleteQueryASTBuilder >> deleteCommand [
 			yourself ]
 ]
 
-{ #category : #'delete command' }
+{ #category : #accessing }
 PSQLDeleteQueryASTBuilder >> usingClause [
 	^ super usingClause ==> [ :tokens |
 		tokens second ]

@@ -4,7 +4,7 @@ I build an AST for various subsets of the PSQL grammar that are shared between m
 Class {
 	#name : #PSQLSharedASTBuilder,
 	#superclass : #PSQLSharedGrammar,
-	#category : #PostgreSQL-AST-Builder
+	#category : #'PostgreSQL-AST-Builder'
 }
 
 { #category : #accessing }
@@ -45,7 +45,7 @@ PSQLSharedASTBuilder >> returningClause [
 			yourself ]
 ]
 
-{ #category : #shared }
+{ #category : #'shared - set clause' }
 PSQLSharedASTBuilder >> setClause [
 	^ super setClause ==> [ :tokens |
 		PSQLASTSetClause new
@@ -53,7 +53,7 @@ PSQLSharedASTBuilder >> setClause [
 			yourself ]
 ]
 
-{ #category : #shared }
+{ #category : #'shared - set clause' }
 PSQLSharedASTBuilder >> setItem1 [
 	^ super setItem1 ==> [ :tokens |
 		PSQLASTSetClauseItemType1 new
@@ -63,7 +63,7 @@ PSQLSharedASTBuilder >> setItem1 [
 						ifTrue: [ PSQLASTDefaultValue new ]) ]
 ]
 
-{ #category : #shared }
+{ #category : #'shared - set clause' }
 PSQLSharedASTBuilder >> setItem2 [
 	^ super setItem2 ==> [ :tokens |
 		PSQLASTSetClauseItemType2 new
@@ -74,7 +74,7 @@ PSQLSharedASTBuilder >> setItem2 [
 			yourself ]
 ]
 
-{ #category : #shared }
+{ #category : #'shared - set clause' }
 PSQLSharedASTBuilder >> setItem3 [
 	^ super setItem3 ==> [ :tokens |
 		PSQLASTSetClauseItemType3 new

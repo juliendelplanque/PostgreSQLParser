@@ -4,7 +4,7 @@ I process INSERT/SELECT/UPDATE/DELETE query source code as input and build an AS
 Class {
 	#name : #PSQLCRUDQueryASTBuilder,
 	#superclass : #PSQLCRUDQueryGrammar,
-	#category : #PostgreSQL-AST-Builder
+	#category : #'PostgreSQL-AST-Builder'
 }
 
 { #category : #accessing }

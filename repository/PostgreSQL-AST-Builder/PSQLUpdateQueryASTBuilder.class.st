@@ -4,7 +4,7 @@ I process UPDATE query source code as input and build an AST using PSQLASTNode s
 Class {
 	#name : #PSQLUpdateQueryASTBuilder,
 	#superclass : #PSQLUpdateQueryGrammar,
-	#category : #PostgreSQL-AST-Builder
+	#category : #'PostgreSQL-AST-Builder'
 }
 
 { #category : #accessing }
