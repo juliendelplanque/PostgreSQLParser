@@ -173,6 +173,18 @@ PSQLPlpgSQLASTBuilderTest >> testPlpgsqlCursorDeclaration [
 		assert: node selectQuery class equals: PSQLASTSelectQuery
 ]
 
+{ #category : #'tests-cursor' }
+PSQLPlpgSQLASTBuilderTest >> testPlpgsqlCursorDelete [
+	| node |
+	node := builder plpgsqlCursorDelete parse: 'DELETE FROM table WHERE CURRENT OF curs'.
+	self
+		assert: node class equals: PSQLPlpgSQLASTCursorDelete;
+		assert: node tableIdentifier class equals: PSQLASTIdentifier;
+		assert: node tableIdentifier identifier equals: 'table';
+		assert: node cursorIdentifier class equals: PSQLASTIdentifier;
+		assert: node cursorIdentifier identifier equals: 'curs'
+]
+
 { #category : #'tests-plpgsql' }
 PSQLPlpgSQLASTBuilderTest >> testPlpgsqlDeclarationType [
 	| node |

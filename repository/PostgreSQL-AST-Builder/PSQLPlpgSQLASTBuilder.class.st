@@ -157,8 +157,11 @@ PSQLPlpgSQLASTBuilder >> plpgsqlCursorDeclaration [
 
 { #category : #cursor }
 PSQLPlpgSQLASTBuilder >> plpgsqlCursorDelete [
-	self flag: 'TODO'.
-	^ super plpgsqlCursorDelete
+	^ super plpgsqlCursorDelete ==> [ :tokens |
+		PSQLPlpgSQLASTCursorDelete new
+			tableIdentifier: tokens third;
+			cursorIdentifier: tokens seventh;
+			yourself ]
 ]
 
 { #category : #cursor }
