@@ -129,6 +129,16 @@ PSQLPlpgSQLASTBuilderTest >> testPlpgsqlCopyTypeDeclaration [
 ]
 
 { #category : #tests-plpgsql }
+PSQLPlpgSQLASTBuilderTest >> testPlpgsqlCursorClose [
+	| node |
+	node := builder plpgsqlCursorClose parse: 'CLOSE cursor'.
+	self
+		assert: node class equals: PSQLPlpgSQLCloseCursor;
+		assert: node cursorIdentifier class equals: PSQLASTIdentifier;
+		assert: node cursorIdentifier identifier equals: 'cursor'
+]
+
+{ #category : #tests-plpgsql }
 PSQLPlpgSQLASTBuilderTest >> testPlpgsqlDeclarationType [
 	| node |
 	node := builder plpgsqlDeclarationType parse: 'varying char(16)[][]'.
