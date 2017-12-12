@@ -128,7 +128,7 @@ PSQLPlpgSQLASTBuilder >> plpgsqlCopyTypeDeclaration [
 { #category : #cursor }
 PSQLPlpgSQLASTBuilder >> plpgsqlCursorClose [
 	^ super plpgsqlCursorClose ==> [ :tokens |
-		PSQLPlpgSQLCloseCursor new
+		PSQLPlpgSQLASTCloseCursor new
 			cursorIdentifier: tokens second;
 			yourself ]
 ]

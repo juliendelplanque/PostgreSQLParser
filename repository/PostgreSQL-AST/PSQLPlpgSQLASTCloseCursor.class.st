@@ -2,7 +2,7 @@
 I represent a CLOSE cursor statement.
 "
 Class {
-	#name : #PSQLPlpgSQLCloseCursor,
+	#name : #PSQLPlpgSQLASTCloseCursor,
 	#superclass : #PSQLPlpgSQLASTNode,
 	#instVars : [
 		'cursorIdentifier'
@@ -11,11 +11,11 @@ Class {
 }
 
 { #category : #accessing }
-PSQLPlpgSQLCloseCursor >> cursorIdentifier [
+PSQLPlpgSQLASTCloseCursor >> cursorIdentifier [
 	^ cursorIdentifier
 ]
 
 { #category : #accessing }
-PSQLPlpgSQLCloseCursor >> cursorIdentifier: anObject [
+PSQLPlpgSQLASTCloseCursor >> cursorIdentifier: anObject [
 	cursorIdentifier := anObject
 ]

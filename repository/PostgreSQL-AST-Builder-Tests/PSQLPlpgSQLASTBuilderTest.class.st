@@ -133,7 +133,7 @@ PSQLPlpgSQLASTBuilderTest >> testPlpgsqlCursorClose [
 	| node |
 	node := builder plpgsqlCursorClose parse: 'CLOSE cursor'.
 	self
-		assert: node class equals: PSQLPlpgSQLCloseCursor;
+		assert: node class equals: PSQLPlpgSQLASTCloseCursor;
 		assert: node cursorIdentifier class equals: PSQLASTIdentifier;
 		assert: node cursorIdentifier identifier equals: 'cursor'
 ]
