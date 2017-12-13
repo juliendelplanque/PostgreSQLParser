@@ -166,8 +166,13 @@ PSQLPlpgSQLASTBuilder >> plpgsqlCursorDelete [
 
 { #category : #cursor }
 PSQLPlpgSQLASTBuilder >> plpgsqlCursorFetch [
-	self flag: 'TODO'.
-	^ super plpgsqlCursorFetch
+	^ super plpgsqlCursorFetch ==> [ :tokens |
+		PSQLPlpgSQLASTCursorFetch new
+			direction: (tokens second ifNotNil: #first);
+			isFrom: (tokens second ifNotNil: [ :array | array second asUppercase = 'FROM' ]);
+			cursorIdentifier: tokens third;
+			targets: (tokens fifth reject: [ :item | item = $, ]);
+			yourself ]
 ]
 
 { #category : #cursor }
@@ -208,8 +213,19 @@ PSQLPlpgSQLASTBuilder >> plpgsqlDeclarations [
 
 { #category : #cursor }
 PSQLPlpgSQLASTBuilder >> plpgsqlFetchCursorDirection [
-	self flag: 'TODO'.
-	^ super plpgsqlFetchCursorDirection
+	^ super plpgsqlFetchCursorDirection ==> [ :tokens |
+		tokens isArray
+			ifFalse: [
+				PSQLPlpgSQLASTCursorFetchDirection new
+					name: tokens;
+					yourself ]
+			ifTrue: [ 
+				PSQLPlpgSQLASTCursorFetchDirection new
+					name: tokens first;
+					count: (tokens second first
+								ifNil: [ tokens second second content asNumber ]
+								ifNotNil: [ tokens second second content asNumber negated ]);
+					yourself ] ]
 ]
 
 { #category : #loop }

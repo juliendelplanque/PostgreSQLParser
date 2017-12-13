@@ -185,6 +185,33 @@ PSQLPlpgSQLASTBuilderTest >> testPlpgsqlCursorDelete [
 		assert: node cursorIdentifier identifier equals: 'curs'
 ]
 
+{ #category : #'tests-cursor' }
+PSQLPlpgSQLASTBuilderTest >> testPlpgsqlCursorFetch [
+	| node |
+	node := builder plpgsqlCursorFetch parse: 'FETCH curs INTO x,y,z'.
+	self
+		assert: node class equals: PSQLPlpgSQLASTCursorFetch;
+		assert: node direction isNil;
+		assert: node isFrom isNil;
+		deny: node hasDirection;
+		assert: node cursorIdentifier class equals: PSQLASTIdentifier;
+		assert: node cursorIdentifier identifier equals: 'curs';
+		assert: node targets class equals: Array;
+		assert: node targets size equals: 3.
+		
+	node := builder plpgsqlCursorFetch parse: 'FETCH NEXT IN curs INTO x'.
+	self
+		assert: node class equals: PSQLPlpgSQLASTCursorFetch;
+		assert: node direction class equals: PSQLPlpgSQLASTCursorFetchDirection;
+		deny: node isFrom;
+		assert: node isIn;
+		assert: node hasDirection;
+		assert: node cursorIdentifier class equals: PSQLASTIdentifier;
+		assert: node cursorIdentifier identifier equals: 'curs';
+		assert: node targets class equals: Array;
+		assert: node targets size equals: 1.
+]
+
 { #category : #'tests-plpgsql' }
 PSQLPlpgSQLASTBuilderTest >> testPlpgsqlDeclarationType [
 	| node |
@@ -194,6 +221,31 @@ PSQLPlpgSQLASTBuilderTest >> testPlpgsqlDeclarationType [
 		assert: node identifier identifier equals: 'varying char';
 		assert: node size equals: 16;
 		assert: node dimensions equals: 2
+]
+
+{ #category : #'tests-cursor' }
+PSQLPlpgSQLASTBuilderTest >> testPlpgsqlFetchCursorDirection [
+	| node |
+	node := builder plpgsqlFetchCursorDirection parse: 'NEXT'.
+	self
+		assert: node class equals: PSQLPlpgSQLASTCursorFetchDirection;
+		assert: node name equals: 'NEXT';
+		assert: node count isNil;
+		deny: node hasCount.
+		
+	node := builder plpgsqlFetchCursorDirection parse: 'ABSOLUTE 42'.
+	self
+		assert: node class equals: PSQLPlpgSQLASTCursorFetchDirection;
+		assert: node name equals: 'ABSOLUTE';
+		assert: node hasCount;
+		assert: node count equals: 42.
+		
+	node := builder plpgsqlFetchCursorDirection parse: 'RELATIVE -42'.
+	self
+		assert: node class equals: PSQLPlpgSQLASTCursorFetchDirection;
+		assert: node name equals: 'RELATIVE';
+		assert: node hasCount;
+		assert: node count equals: -42
 ]
 
 { #category : #'tests-plpgsql' }
