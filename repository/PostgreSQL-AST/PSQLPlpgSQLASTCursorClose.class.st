@@ -2,7 +2,7 @@
 I represent a CLOSE cursor statement.
 "
 Class {
-	#name : #PSQLPlpgSQLASTCloseCursor,
+	#name : #PSQLPlpgSQLASTCursorClose,
 	#superclass : #PSQLPlpgSQLASTCursorStatement,
 	#category : #'PostgreSQL-AST-PlpgSQL'
 }
