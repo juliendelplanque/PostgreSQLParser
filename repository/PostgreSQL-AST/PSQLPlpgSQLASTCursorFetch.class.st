@@ -3,25 +3,14 @@ I represent a FETCH cursor statement.
 "
 Class {
 	#name : #PSQLPlpgSQLASTCursorFetch,
-	#superclass : #PSQLPlpgSQLASTNode,
+	#superclass : #PSQLPlpgSQLASTCursorStatement,
 	#instVars : [
 		'direction',
 		'isFrom',
-		'cursorIdentifier',
 		'targets'
 	],
 	#category : #'PostgreSQL-AST-PlpgSQL'
 }
-
-{ #category : #accessing }
-PSQLPlpgSQLASTCursorFetch >> cursorIdentifier [
-	^ cursorIdentifier
-]
-
-{ #category : #accessing }
-PSQLPlpgSQLASTCursorFetch >> cursorIdentifier: anObject [
-	cursorIdentifier := anObject
-]
 
 { #category : #accessing }
 PSQLPlpgSQLASTCursorFetch >> direction [
