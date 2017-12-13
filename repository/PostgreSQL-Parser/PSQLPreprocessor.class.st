@@ -8,10 +8,10 @@ e.g. '$function$ body $inner$in$ inner$$ function$'
 Class {
 	#name : #PSQLPreprocessor,
 	#superclass : #Object,
-	#category : #PostgreSQL-Parser-Others
+	#category : #'PostgreSQL-Parser-Others'
 }
 
-{ #category : #pre-processing }
+{ #category : #'pre-processing' }
 PSQLPreprocessor >> parseDollarTag: aReadStream [
 	| shift |
 	aReadStream next = $$ ifFalse: [ self error: 'Bad formatted PostgreSQL dump.' ].
@@ -30,7 +30,7 @@ PSQLPreprocessor >> parseDollarTag: aReadStream [
 		aReadStream next = $$ ifFalse: [ self error: 'Bad formatted PostgreSQL dump.' ] ]
 ]
 
-{ #category : #pre-processing }
+{ #category : #'pre-processing' }
 PSQLPreprocessor >> preprocess: aString [
 	"Add a tag at the beginning of dollar quoted string's close tags."
 	| readStream writeStream dollarTagStack |

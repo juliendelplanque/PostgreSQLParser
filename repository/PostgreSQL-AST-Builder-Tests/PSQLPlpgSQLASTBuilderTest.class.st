@@ -212,6 +212,29 @@ PSQLPlpgSQLASTBuilderTest >> testPlpgsqlCursorFetch [
 		assert: node targets size equals: 1.
 ]
 
+{ #category : #'tests-cursor' }
+PSQLPlpgSQLASTBuilderTest >> testPlpgsqlCursorMove [
+	| node |
+	node := builder plpgsqlCursorMove parse: 'MOVE curs'.
+	self
+		assert: node class equals: PSQLPlpgSQLASTCursorMove;
+		deny: node hasDirection;
+		assert: node direction isNil;
+		assert: node isFrom isNil;
+		assert: node cursorIdentifier class equals: PSQLASTIdentifier;
+		assert: node cursorIdentifier identifier equals: 'curs'.
+		
+	node := builder plpgsqlCursorMove parse: 'MOVE FORWARD ALL IN curs'.
+	self
+		assert: node class equals: PSQLPlpgSQLASTCursorMove;
+		assert: node hasDirection;
+		assert: node direction class equals: PSQLPlpgSQLASTCursorMoveDirection;
+		deny: node isFrom;
+		assert: node isIn;
+		assert: node cursorIdentifier class equals: PSQLASTIdentifier;
+		assert: node cursorIdentifier identifier equals: 'curs'.
+]
+
 { #category : #'tests-plpgsql' }
 PSQLPlpgSQLASTBuilderTest >> testPlpgsqlDeclarationType [
 	| node |
@@ -344,6 +367,47 @@ END LOOP'.
 		assert: node beginLabel isNil;
 		assert: node endLabel isNil;
 		assert: node statements size equals: 1
+]
+
+{ #category : #'tests-cursor' }
+PSQLPlpgSQLASTBuilderTest >> testPlpgsqlMoveCursorDirection [
+	| node |
+	node := builder plpgsqlMoveCursorDirection parse: 'NEXT'.
+	self
+		assert: node class equals: PSQLPlpgSQLASTCursorMoveDirection;
+		assert: node name equals: 'NEXT';
+		assert: node count isNil;
+		deny: node hasCount.
+		
+	node := builder plpgsqlMoveCursorDirection parse: 'ABSOLUTE 42'.
+	self
+		assert: node class equals: PSQLPlpgSQLASTCursorMoveDirection;
+		assert: node name equals: 'ABSOLUTE';
+		assert: node hasCount;
+		assert: node count equals: 42.
+		
+	node := builder plpgsqlMoveCursorDirection parse: 'RELATIVE -42'.
+	self
+		assert: node class equals: PSQLPlpgSQLASTCursorMoveDirection;
+		assert: node name equals: 'RELATIVE';
+		assert: node hasCount;
+		assert: node count equals: -42.
+		
+	node := builder plpgsqlMoveCursorDirection parse: 'FORWARD -42'.
+	self
+		assert: node class equals: PSQLPlpgSQLASTCursorMoveDirection;
+		assert: node name equals: 'FORWARD';
+		assert: node hasCount;
+		assert: node count equals: -42;
+		deny: node isCountAll.
+		
+	node := builder plpgsqlMoveCursorDirection parse: 'FORWARD ALL'.
+	self
+		assert: node class equals: PSQLPlpgSQLASTCursorMoveDirection;
+		assert: node name equals: 'FORWARD';
+		assert: node hasCount;
+		assert: node count equals: 'ALL';
+		assert: node isCountAll
 ]
 
 { #category : #'tests-plpgsql' }

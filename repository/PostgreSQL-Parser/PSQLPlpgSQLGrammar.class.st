@@ -101,7 +101,7 @@ Class {
 		'stringConstant',
 		'colon'
 	],
-	#category : #PostgreSQL-Parser-Grammars-PLpgSQL
+	#category : #'PostgreSQL-Parser-Grammars-PLpgSQL'
 }
 
 { #category : #accessing }
@@ -589,7 +589,7 @@ PSQLPlpgSQLGrammar >> plpgsqlLoopLoop [
 	plpgsqlEndLabel trim optional
 ]
 
-{ #category : #statement }
+{ #category : #cursor }
 PSQLPlpgSQLGrammar >> plpgsqlMoveCursorDirection [
 	"NEXT | PRIOR | FIRST | LAST | ABSOLUTE count | RELATIVE count | ALL | FORWARD [ count | ALL ] | BACKWARD [ count | ALL ]"
 	^ kw next / 

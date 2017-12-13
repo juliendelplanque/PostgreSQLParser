@@ -1,1 +1,1 @@
-Package { #name : #PostgreSQL-Parser }
+Package { #name : #'PostgreSQL-Parser' }

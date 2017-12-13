@@ -130,7 +130,7 @@ Class {
 		'raise',
 		'return'
 	],
-	#category : #PostgreSQL-Parser-Core
+	#category : #'PostgreSQL-Parser-Core'
 }
 
 { #category : #keywords }

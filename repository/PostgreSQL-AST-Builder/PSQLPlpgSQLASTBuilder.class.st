@@ -183,8 +183,12 @@ PSQLPlpgSQLASTBuilder >> plpgsqlCursorForLoop [
 
 { #category : #cursor }
 PSQLPlpgSQLASTBuilder >> plpgsqlCursorMove [
-	self flag: 'TODO'.
-	^ super plpgsqlCursorMove
+	^ super plpgsqlCursorMove ==> [ :tokens |
+		PSQLPlpgSQLASTCursorMove new
+			direction: (tokens second ifNotNil: #first);
+			isFrom: (tokens second ifNotNil: [ :array | array second asUppercase = 'FROM' ]);
+			cursorIdentifier: tokens third;
+			yourself ]
 ]
 
 { #category : #cursor }
@@ -289,6 +293,26 @@ PSQLPlpgSQLASTBuilder >> plpgsqlLoopLoop [
 			endLabel: tokens last;
 			statements: tokens third;
 			yourself ]
+]
+
+{ #category : #cursor }
+PSQLPlpgSQLASTBuilder >> plpgsqlMoveCursorDirection [
+	^ super plpgsqlMoveCursorDirection ==> [ :tokens |
+		tokens isArray
+			ifFalse: [
+				PSQLPlpgSQLASTCursorMoveDirection new
+					name: tokens;
+					yourself ]
+			ifTrue: [ 
+				PSQLPlpgSQLASTCursorMoveDirection new
+					name: tokens first;
+					count: (tokens second isArray
+								ifTrue: [ 
+									tokens second first
+										ifNil: [ tokens second second content asNumber ]
+										ifNotNil: [ tokens second second content asNumber negated ] ]
+								ifFalse: [ 'ALL' ]);
+					yourself ] ]
 ]
 
 { #category : #cursor }
