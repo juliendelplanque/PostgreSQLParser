@@ -410,6 +410,34 @@ PSQLPlpgSQLASTBuilderTest >> testPlpgsqlMoveCursorDirection [
 		assert: node isCountAll
 ]
 
+{ #category : #'tests-cursor' }
+PSQLPlpgSQLASTBuilderTest >> testPlpgsqlOpenCursorForQuery [
+	| node |
+	node := builder plpgsqlOpenCursorForQuery parse: 'OPEN curs FOR SELECT * FROM t'.
+	self
+		assert: node class equals: PSQLPlpgSQLASTCursorOpenForQuery;
+		assert: node cursorIdentifier class equals: PSQLASTIdentifier;
+		assert: node cursorIdentifier identifier equals: 'curs';
+		assert: node scroll;
+		assert: node selectQuery class equals: PSQLASTSelectQuery.
+		
+	node := builder plpgsqlOpenCursorForQuery parse: 'OPEN curs NO SCROLL FOR SELECT * FROM t'.
+	self
+		assert: node class equals: PSQLPlpgSQLASTCursorOpenForQuery;
+		assert: node cursorIdentifier class equals: PSQLASTIdentifier;
+		assert: node cursorIdentifier identifier equals: 'curs';
+		deny: node scroll;
+		assert: node selectQuery class equals: PSQLASTSelectQuery.
+		
+	node := builder plpgsqlOpenCursorForQuery parse: 'OPEN curs SCROLL FOR SELECT * FROM t'.
+	self
+		assert: node class equals: PSQLPlpgSQLASTCursorOpenForQuery;
+		assert: node cursorIdentifier class equals: PSQLASTIdentifier;
+		assert: node cursorIdentifier identifier equals: 'curs';
+		assert: node scroll;
+		assert: node selectQuery class equals: PSQLASTSelectQuery.
+]
+
 { #category : #'tests-plpgsql' }
 PSQLPlpgSQLASTBuilderTest >> testPlpgsqlQueryResultsLoop [
 	| node |

@@ -329,8 +329,14 @@ PSQLPlpgSQLASTBuilder >> plpgsqlOpenCursorForExecute [
 
 { #category : #cursor }
 PSQLPlpgSQLASTBuilder >> plpgsqlOpenCursorForQuery [
-	self flag: 'TODO'.
-	^ super plpgsqlOpenCursorForQuery
+	^ super plpgsqlOpenCursorForQuery ==> [ :tokens |
+		PSQLPlpgSQLASTCursorOpenForQuery new
+			cursorIdentifier: tokens second;
+			scroll: (tokens third
+						ifNil: [ true ]
+						ifNotNil: [ :subTokens | subTokens first isNil ]);
+			selectQuery: tokens fifth;
+			yourself ]
 ]
 
 { #category : #loop }
