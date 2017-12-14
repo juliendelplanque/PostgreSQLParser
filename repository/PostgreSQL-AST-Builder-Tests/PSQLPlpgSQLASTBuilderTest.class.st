@@ -450,7 +450,7 @@ END LOOP'.
 		assert: node endLabel isNil;
 		assert: node target class equals: PSQLASTIdentifier;
 		assert: node statements size equals: 1;
-		flag: #'TODO test the query'
+		assert: node query class equals: PSQLASTSelectQuery
 ]
 
 { #category : #'tests-plpgsql' }
