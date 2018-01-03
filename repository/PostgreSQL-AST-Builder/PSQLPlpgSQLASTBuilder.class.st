@@ -364,20 +364,20 @@ PSQLPlpgSQLASTBuilder >> plpgsqlRaiseStatement1 [
 
 { #category : #raise }
 PSQLPlpgSQLASTBuilder >> plpgsqlRaiseStatement2 [
-	^ super plpgsqlRaiseStatement2 ==> [ :tokens |
-		 ]
+	self flag: 'TODO'.
+	^ super plpgsqlRaiseStatement2
 ]
 
 { #category : #raise }
 PSQLPlpgSQLASTBuilder >> plpgsqlRaiseStatement3 [
-	^ super plpgsqlRaiseStatement3 ==> [ :tokens |
-		 ]
+	self flag: 'TODO'.
+	^ super plpgsqlRaiseStatement3
 ]
 
 { #category : #raise }
 PSQLPlpgSQLASTBuilder >> plpgsqlRaiseStatement4 [
-	^ super plpgsqlRaiseStatement4 ==> [ :tokens |
-		 ]
+	self flag: 'TODO'.
+	^ super plpgsqlRaiseStatement4
 ]
 
 { #category : #raise }
