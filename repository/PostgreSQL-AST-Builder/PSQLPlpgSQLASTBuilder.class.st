@@ -374,8 +374,12 @@ PSQLPlpgSQLASTBuilder >> plpgsqlRaiseStatement2 [
 
 { #category : #raise }
 PSQLPlpgSQLASTBuilder >> plpgsqlRaiseStatement3 [
-	self flag: 'TODO'.
-	^ super plpgsqlRaiseStatement3
+	^ super plpgsqlRaiseStatement3 ==> [ :tokens |
+		PSQLPlpgSQLASTRaiseStatement new
+			level: tokens second;
+			sqlState: tokens fourth;
+			usingAssocs: tokens fifth;
+			yourself ]
 ]
 
 { #category : #raise }
