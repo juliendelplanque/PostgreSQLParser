@@ -485,7 +485,17 @@ PSQLPlpgSQLASTBuilderTest >> testPlpgsqlRaiseStatement4 [
 
 { #category : #tests-plpgsql }
 PSQLPlpgSQLASTBuilderTest >> testPlpgsqlRaiseStatement5 [
-	self fail
+	| node |
+	node := builder plpgsqlRaiseStatement5 parse: 'RAISE'.
+	
+	self
+		assert: node class equals: PSQLPlpgSQLASTRaiseStatement;
+		assert: node conditionName isNil;
+		assert: node formatExpressions isNil;
+		assert: node formatString isNil;
+		assert: node level isNil;
+		assert: node sqlState isNil;
+		assert: node usingAssocs isNil
 ]
 
 { #category : #tests-plpgsql }

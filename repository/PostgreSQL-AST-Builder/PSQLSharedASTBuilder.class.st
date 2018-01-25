@@ -4,7 +4,7 @@ I build an AST for various subsets of the PSQL grammar that are shared between m
 Class {
 	#name : #PSQLSharedASTBuilder,
 	#superclass : #PSQLSharedGrammar,
-	#category : #'PostgreSQL-AST-Builder'
+	#category : #PostgreSQL-AST-Builder
 }
 
 { #category : #accessing }

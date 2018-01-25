@@ -4,7 +4,7 @@ I process VALUES command source code as input and build an AST using PSQLASTNode
 Class {
 	#name : #PSQLValuesASTBuilder,
 	#superclass : #PSQLValuesGrammar,
-	#category : #'PostgreSQL-AST-Builder'
+	#category : #PostgreSQL-AST-Builder
 }
 
 { #category : #accessing }

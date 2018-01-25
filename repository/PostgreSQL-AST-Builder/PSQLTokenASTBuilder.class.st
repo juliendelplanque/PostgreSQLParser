@@ -4,7 +4,7 @@ I build AST nodes from some of the PostgreSQL tokens.
 Class {
 	#name : #PSQLTokenASTBuilder,
 	#superclass : #PSQLTokenizer,
-	#category : #'PostgreSQL-AST-Builder'
+	#category : #PostgreSQL-AST-Builder
 }
 
 { #category : #accessing }
