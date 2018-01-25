@@ -55,7 +55,7 @@ Class {
 		'constant',
 		'positionalParameter'
 	],
-	#category : #'PostgreSQL-Parser-Core'
+	#category : #PostgreSQL-Parser-Core
 }
 
 { #category : #accessing }

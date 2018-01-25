@@ -12,7 +12,7 @@ Class {
 		'comma',
 		'closeParenthesis'
 	],
-	#category : #'PostgreSQL-Parser-Grammars-Others'
+	#category : #PostgreSQL-Parser-Grammars-Others
 }
 
 { #category : #accessing }

@@ -34,7 +34,7 @@ Class {
 		'numericConstant',
 		'identifierWithOptionalFieldAccess'
 	],
-	#category : #'PostgreSQL-Parser-Grammars-CRUD'
+	#category : #PostgreSQL-Parser-Grammars-CRUD
 }
 
 { #category : #accessing }

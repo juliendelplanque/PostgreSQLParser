@@ -45,7 +45,7 @@ Class {
 		'identifier',
 		'identifierWithOptionalFieldAccess'
 	],
-	#category : #'PostgreSQL-Parser-Core'
+	#category : #PostgreSQL-Parser-Core
 }
 
 { #category : #accessing }

@@ -10,7 +10,7 @@ Class {
 		'updateCommand',
 		'deleteCommand'
 	],
-	#category : #'PostgreSQL-Parser-Grammars-CRUD'
+	#category : #PostgreSQL-Parser-Grammars-CRUD
 }
 
 { #category : #accessing }

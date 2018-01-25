@@ -4,7 +4,7 @@ I remove the comments tokens from the input string provided.
 Class {
 	#name : #PSQLCommentsRemover,
 	#superclass : #PSQLTokenizer,
-	#category : #'PostgreSQL-Parser-Core'
+	#category : #PostgreSQL-Parser-Core
 }
 
 { #category : #example }

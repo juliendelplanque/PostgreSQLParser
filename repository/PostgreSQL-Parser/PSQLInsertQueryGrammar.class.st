@@ -26,7 +26,7 @@ Class {
 		'identifierWithOptionalFieldAccess',
 		'comma'
 	],
-	#category : #'PostgreSQL-Parser-Grammars-CRUD'
+	#category : #PostgreSQL-Parser-Grammars-CRUD
 }
 
 { #category : #accessing }

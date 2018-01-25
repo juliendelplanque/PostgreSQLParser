@@ -16,7 +16,7 @@ Class {
 		'asterik',
 		'identifier'
 	],
-	#category : #'PostgreSQL-Parser-Grammars-CRUD'
+	#category : #PostgreSQL-Parser-Grammars-CRUD
 }
 
 { #category : #accessing }
