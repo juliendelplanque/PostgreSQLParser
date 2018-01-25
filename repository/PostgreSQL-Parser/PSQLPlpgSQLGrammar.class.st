@@ -99,7 +99,8 @@ Class {
 		'closeBracket',
 		'simpleStringConstant',
 		'stringConstant',
-		'colon'
+		'colon',
+		'constant'
 	],
 	#category : #PostgreSQL-Parser-Grammars-PLpgSQL
 }
@@ -152,6 +153,11 @@ PSQLPlpgSQLGrammar >> colon [
 { #category : #dependencies }
 PSQLPlpgSQLGrammar >> comma [
 	^ (self dependencyAt: self class tokenParser) comma
+]
+
+{ #category : #dependencies }
+PSQLPlpgSQLGrammar >> constant [
+	^ (self dependencyAt: self class tokenParser) constant
 ]
 
 { #category : #dependencies }
@@ -507,7 +513,10 @@ PSQLPlpgSQLGrammar >> plpgsqlFetchCursorDirection [
 { #category : #loop }
 PSQLPlpgSQLGrammar >> plpgsqlForLoop [
 	^ plpgsqlBeginLabel trim optional ,
-	kw for trim , identifier trim , kw in trim , kw reverse trim optional , expression , '..' asParser trim , expression , (kw by trim , expression) trim optional , kw loop trim ,
+	kw for trim , identifier trim , kw in trim , kw reverse trim optional , 
+	(identifier / constant / expression) , "This is a bit hacky. It should be an expression but the expression parser does not handle well to parse an expression followed by '..'."
+	'..' asParser trim , expression , 
+	(kw by trim , expression) trim optional , kw loop trim ,
 		plpgsqlStatements ,
 	kw endKeyword trim , kw loop trim , plpgsqlEndLabel trim optional
 ]

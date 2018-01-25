@@ -247,12 +247,12 @@ PSQLExpressionGrammar >> expression [
 
 { #category : #expression }
 PSQLExpressionGrammar >> expressionParserTermFor: expressionParser [
-	| parenthesedExpression functionCall aggregateExpression compositeValue |
+	| parenthesedExpression functionCallTemp aggregateExpression compositeValue |
 	parenthesedExpression := self parenthesedExpressionParserWith: expressionParser.
-	functionCall := self functionCallParserWith: expressionParser.
+	functionCallTemp := self functionCallParserWith: expressionParser.
 	aggregateExpression := self aggregateExpressionParserWith: expressionParser.
 	compositeValue := self compositeValueWith: expressionParser.
-	^ (parenthesedExpression / nullExpression / compositeValue / conditionalExpression / aggregateExpression / extractFunctionCall / functionCall / primary / selectCommand) , typeCastConstruct optional.
+	^ (parenthesedExpression / nullExpression / compositeValue / conditionalExpression / aggregateExpression / extractFunctionCall / functionCallTemp / primary / selectCommand) , typeCastConstruct optional.
 ]
 
 { #category : #expression }
