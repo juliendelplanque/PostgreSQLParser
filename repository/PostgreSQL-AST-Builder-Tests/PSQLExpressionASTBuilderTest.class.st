@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'builder'
 	],
-	#category : #'PostgreSQL-AST-Builder-Tests'
+	#category : #PostgreSQL-AST-Builder-Tests
 }
 
 { #category : #running }
@@ -15,7 +15,7 @@ PSQLExpressionASTBuilderTest >> setUp [
 	builder := PSQLExpressionASTBuilder new
 ]
 
-{ #category : #'tests-expression' }
+{ #category : #tests-expression }
 PSQLExpressionASTBuilderTest >> testAggregateExpressionParserForm3With [
 	| node |
 	node := builder expression parse: 'count(*)'.
@@ -27,7 +27,7 @@ PSQLExpressionASTBuilderTest >> testAggregateExpressionParserForm3With [
 		assert: node expressions first class equals: PSQLASTWildCard
 ]
 
-{ #category : #'tests-expression' }
+{ #category : #tests-expression }
 PSQLExpressionASTBuilderTest >> testCompositeValueWith [
 	| node |
 	node := builder expression parse: '(1, id*3, table.attribute)'.
@@ -47,7 +47,7 @@ PSQLExpressionASTBuilderTest >> testCompositeValueWith [
 		assert: node right class equals: PSQLASTIdentifier.
 ]
 
-{ #category : #'tests-expression' }
+{ #category : #tests-expression }
 PSQLExpressionASTBuilderTest >> testConditionalExpression [
 	| node |
 	node := builder expression parse: 'CASE WHEN (actualite.debut IS NULL) THEN actualite.debutpublication ELSE actualite.debut END'.
@@ -59,7 +59,7 @@ PSQLExpressionASTBuilderTest >> testConditionalExpression [
 		assert: node elseExpression class equals: PSQLASTAttributeAccess
 ]
 
-{ #category : #'tests-expression' }
+{ #category : #tests-expression }
 PSQLExpressionASTBuilderTest >> testExpressionParserTermFor [
 	| node |
 	node := builder expression parse: '''a String'''.
@@ -80,7 +80,7 @@ PSQLExpressionASTBuilderTest >> testExpressionParserTermFor [
 		assert: node argumentsDictionary isEmpty
 ]
 
-{ #category : #'tests-expression' }
+{ #category : #tests-expression }
 PSQLExpressionASTBuilderTest >> testFunctionCallParserWith [
 	| node |
 	node := builder expression parse: 'fct(1, id, arg := ''argument'', 41 + 1)'.
@@ -97,7 +97,7 @@ PSQLExpressionASTBuilderTest >> testFunctionCallParserWith [
 		assert: node argumentsDictionary associations first tail class equals: PSQLASTStringConstant
 ]
 
-{ #category : #'tests-expression' }
+{ #category : #tests-expression }
 PSQLExpressionASTBuilderTest >> testParenthesedExpressionParserWith [
 	| node |
 	node := builder expression parse: '(id+1)'.

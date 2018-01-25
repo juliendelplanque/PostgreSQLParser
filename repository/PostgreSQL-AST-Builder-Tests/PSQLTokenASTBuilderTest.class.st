@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'builder'
 	],
-	#category : #'PostgreSQL-AST-Builder-Tests'
+	#category : #PostgreSQL-AST-Builder-Tests
 }
 
 { #category : #initialization }
@@ -12,7 +12,7 @@ PSQLTokenASTBuilderTest >> setUp [
 	builder := PSQLTokenASTBuilder new
 ]
 
-{ #category : #'tests-accessing' }
+{ #category : #tests-accessing }
 PSQLTokenASTBuilderTest >> testIdentifier [
 	| node |
 	node := builder identifier parse: 'id'.
@@ -22,7 +22,7 @@ PSQLTokenASTBuilderTest >> testIdentifier [
 		assert: node identifier equals: 'id'
 ]
 
-{ #category : #'tests-accessing' }
+{ #category : #tests-accessing }
 PSQLTokenASTBuilderTest >> testIdentifierWithOptionalFieldAccess [
 	| node |
 	node := builder identifierWithOptionalFieldAccess parse: 'id'.
@@ -37,7 +37,7 @@ PSQLTokenASTBuilderTest >> testIdentifierWithOptionalFieldAccess [
 		assert: node attributeIdentifier identifier equals: 'attribute'.
 ]
 
-{ #category : #'tests-accessing' }
+{ #category : #tests-accessing }
 PSQLTokenASTBuilderTest >> testNumericConstant [
 	| node |
 	node := builder numericConstant parse: '1.21'.
@@ -47,7 +47,7 @@ PSQLTokenASTBuilderTest >> testNumericConstant [
 		assert: node content equals: '1.21'
 ]
 
-{ #category : #'tests-accessing' }
+{ #category : #tests-accessing }
 PSQLTokenASTBuilderTest >> testPositionalParameter [
 	| node |
 	node := builder positionalParameter parse: '$1'.
@@ -57,7 +57,7 @@ PSQLTokenASTBuilderTest >> testPositionalParameter [
 		assert: node index equals: 1
 ]
 
-{ #category : #'tests-accessing' }
+{ #category : #tests-accessing }
 PSQLTokenASTBuilderTest >> testSimpleStringConstant [
 	| node |
 	node := builder simpleStringConstant parse: '''test'''.

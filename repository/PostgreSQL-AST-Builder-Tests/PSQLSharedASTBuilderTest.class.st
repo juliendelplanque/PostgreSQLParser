@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'builder'
 	],
-	#category : #'PostgreSQL-AST-Builder-Tests'
+	#category : #PostgreSQL-AST-Builder-Tests
 }
 
 { #category : #initialization }
@@ -15,7 +15,7 @@ PSQLSharedASTBuilderTest >> setUp [
 	builder := PSQLSharedASTBuilder new
 ]
 
-{ #category : #'tests-shared' }
+{ #category : #tests-shared }
 PSQLSharedASTBuilderTest >> testOrderByClause [
 	| node |
 	node := builder orderByClause parse: 'ORDER BY c1, c2 ASC , c3 NULLS FIRST , c4 DESC NULLS LAST'.
@@ -53,7 +53,7 @@ PSQLSharedASTBuilderTest >> testOrderByClause [
 		assert: node items fourth isNullsLast
 ]
 
-{ #category : #'tests-shared' }
+{ #category : #tests-shared }
 PSQLSharedASTBuilderTest >> testReturningClause [
 	| node |
 	node := builder returningClause parse: 'RETURNING *,id'.
@@ -62,7 +62,7 @@ PSQLSharedASTBuilderTest >> testReturningClause [
 		assert: node returnedList size equals: 2
 ]
 
-{ #category : #'tests-shared' }
+{ #category : #tests-shared }
 PSQLSharedASTBuilderTest >> testSetClause [
 	| node |
 	node := builder setClause parse: 'SET column = 1+1, (column1, column2, column3) = (SELECT c1,c2,c3 FROM foo), (column1, column2, column3) = (SELECT c1,c2,c3 FROM foo)'.
@@ -72,7 +72,7 @@ PSQLSharedASTBuilderTest >> testSetClause [
 		assert: node items size equals: 3
 ]
 
-{ #category : #'tests-shared' }
+{ #category : #tests-shared }
 PSQLSharedASTBuilderTest >> testSetItem1 [
 	| node |
 	node := builder setItem1 parse: 'column = 1+1'.
@@ -82,7 +82,7 @@ PSQLSharedASTBuilderTest >> testSetItem1 [
 		assert: node right class equals: PSQLASTBinaryOperator
 ]
 
-{ #category : #'tests-shared' }
+{ #category : #tests-shared }
 PSQLSharedASTBuilderTest >> testSetItem2 [
 	| node |
 	node := builder setItem2 parse: '(column1, column2, column3) = (1+1, DEFAULT, 42)'.
@@ -100,7 +100,7 @@ PSQLSharedASTBuilderTest >> testSetItem2 [
 		self assert: leftItem class equals: PSQLASTIdentifier ].
 ]
 
-{ #category : #'tests-shared' }
+{ #category : #tests-shared }
 PSQLSharedASTBuilderTest >> testSetItem3 [
 	| node |
 	node := builder setItem3 parse: '(column1, column2, column3) = (SELECT c1,c2,c3 FROM foo)'.
@@ -114,7 +114,7 @@ PSQLSharedASTBuilderTest >> testSetItem3 [
 		self assert: leftItem class equals: PSQLASTIdentifier ].
 ]
 
-{ #category : #'tests-shared' }
+{ #category : #tests-shared }
 PSQLSharedASTBuilderTest >> testUpdateDeleteWhereClause [
 	| node |
 	node := builder updateDeleteWhereClause parse: 'WHERE id = 1'.
@@ -132,7 +132,7 @@ PSQLSharedASTBuilderTest >> testUpdateDeleteWhereClause [
 		assert: node currentOfCursor class equals: PSQLASTIdentifier
 ]
 
-{ #category : #'tests-shared' }
+{ #category : #tests-shared }
 PSQLSharedASTBuilderTest >> testWithClause [
 	| node |
 	node := builder withClause parse: 'WITH table AS (SELECT * FROM foo), table2(id,text) AS (SELECT * FROM bar)'.
@@ -148,7 +148,7 @@ PSQLSharedASTBuilderTest >> testWithClause [
 		assert: node queries size equals: 2.
 ]
 
-{ #category : #'tests-shared' }
+{ #category : #tests-shared }
 PSQLSharedASTBuilderTest >> testWithQuery [
 	| node |
 	node := builder withQuery parse: 'table AS (SELECT * FROM foo)'.
