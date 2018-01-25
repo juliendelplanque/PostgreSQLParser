@@ -470,7 +470,22 @@ PSQLPlpgSQLASTBuilderTest >> testPlpgsqlRaiseStatement1 [
 
 { #category : #tests-plpgsql }
 PSQLPlpgSQLASTBuilderTest >> testPlpgsqlRaiseStatement2 [
-	self fail
+	| node |
+	node := builder plpgsqlRaiseStatement2 parse: 'RAISE EXCEPTION my_condition_name USING one = 1, string = ''str'''.
+	
+	self
+		assert: node class equals: PSQLPlpgSQLASTRaiseStatement;
+		assert: node level equals: 'EXCEPTION';
+		assert: node conditionName class equals: PSQLASTIdentifier;
+		assert: node conditionName identifier equals: 'my_condition_name';
+		assert: node usingAssocs isArray;
+		assert: node usingAssocs size equals: 2;
+		assert: node usingAssocs first class equals: Association;
+		assert: node usingAssocs first head identifier equals: 'one';
+		assert: node usingAssocs first tail content equals: '1';
+		assert: node usingAssocs second class equals: Association;
+		assert: node usingAssocs second head identifier equals: 'string';
+		assert: node usingAssocs second tail content equals: 'str'
 ]
 
 { #category : #tests-plpgsql }
