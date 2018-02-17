@@ -11,7 +11,7 @@ Class {
 		'columnAliases',
 		'areDescendantTablesIncluded'
 	],
-	#category : #'PostgreSQL-AST-SQL'
+	#category : #PostgreSQL-AST-SQL
 }
 
 { #category : #accessing }

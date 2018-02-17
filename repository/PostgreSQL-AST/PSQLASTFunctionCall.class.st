@@ -9,7 +9,7 @@ Class {
 		'argumentsList',
 		'argumentsDictionary'
 	],
-	#category : #'PostgreSQL-AST-SQL'
+	#category : #PostgreSQL-AST-SQL
 }
 
 { #category : #accessing }

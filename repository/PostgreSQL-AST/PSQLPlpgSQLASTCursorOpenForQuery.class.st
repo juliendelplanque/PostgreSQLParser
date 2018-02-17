@@ -8,7 +8,7 @@ Class {
 		'selectQuery',
 		'scroll'
 	],
-	#category : #'PostgreSQL-AST-PlpgSQL'
+	#category : #PostgreSQL-AST-PlpgSQL
 }
 
 { #category : #accessing }

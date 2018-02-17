@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'returnedList'
 	],
-	#category : #'PostgreSQL-AST-SQL'
+	#category : #PostgreSQL-AST-SQL
 }
 
 { #category : #accessing }

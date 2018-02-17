@@ -8,7 +8,7 @@ Class {
 		'left',
 		'right'
 	],
-	#category : #'PostgreSQL-AST-SQL'
+	#category : #PostgreSQL-AST-SQL
 }
 
 { #category : #accessing }

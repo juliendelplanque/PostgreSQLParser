@@ -8,7 +8,7 @@ Class {
 		'direction',
 		'isFrom'
 	],
-	#category : #'PostgreSQL-AST-PlpgSQL'
+	#category : #PostgreSQL-AST-PlpgSQL
 }
 
 { #category : #accessing }

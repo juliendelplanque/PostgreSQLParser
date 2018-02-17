@@ -9,7 +9,7 @@ Class {
 		'isFrom',
 		'targets'
 	],
-	#category : #'PostgreSQL-AST-PlpgSQL'
+	#category : #PostgreSQL-AST-PlpgSQL
 }
 
 { #category : #accessing }

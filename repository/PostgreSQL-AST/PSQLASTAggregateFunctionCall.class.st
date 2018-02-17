@@ -11,7 +11,7 @@ Class {
 		'expressions',
 		'orderByClause'
 	],
-	#category : #'PostgreSQL-AST-SQL'
+	#category : #PostgreSQL-AST-SQL
 }
 
 { #category : #accessing }

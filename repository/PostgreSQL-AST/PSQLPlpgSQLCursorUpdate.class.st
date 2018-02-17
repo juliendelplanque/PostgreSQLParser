@@ -1,8 +1,5 @@
-"
-I represent a CLOSE cursor statement.
-"
 Class {
-	#name : #PSQLPlpgSQLASTCursorClose,
+	#name : #PSQLPlpgSQLCursorUpdate,
 	#superclass : #PSQLPlpgSQLASTCursorStatement,
 	#category : #PostgreSQL-AST-PlpgSQL
 }

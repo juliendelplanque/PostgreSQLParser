@@ -4,7 +4,7 @@ I am an abstract node of the AST. I define the common behaviour and state of all
 Class {
 	#name : #PSQLASTNode,
 	#superclass : #Object,
-	#category : #'PostgreSQL-AST-SQL'
+	#category : #PostgreSQL-AST-SQL
 }
 
 { #category : #accessing }

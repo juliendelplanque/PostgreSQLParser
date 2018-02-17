@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'expressions'
 	],
-	#category : #'PostgreSQL-AST-SQL'
+	#category : #PostgreSQL-AST-SQL
 }
 
 { #category : #accessing }

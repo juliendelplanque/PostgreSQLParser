@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'offset'
 	],
-	#category : #'PostgreSQL-AST-SQL'
+	#category : #PostgreSQL-AST-SQL
 }
 
 { #category : #accessing }

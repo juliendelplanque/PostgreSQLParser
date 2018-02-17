@@ -12,7 +12,7 @@ Class {
 		'joinCondition',
 		'usingList'
 	],
-	#category : #'PostgreSQL-AST-SQL'
+	#category : #PostgreSQL-AST-SQL
 }
 
 { #category : #testing }

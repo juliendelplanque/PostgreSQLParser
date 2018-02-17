@@ -8,7 +8,7 @@ Class {
 		'label',
 		'whenExpression'
 	],
-	#category : #'PostgreSQL-AST-PlpgSQL'
+	#category : #PostgreSQL-AST-PlpgSQL
 }
 
 { #category : #accessing }

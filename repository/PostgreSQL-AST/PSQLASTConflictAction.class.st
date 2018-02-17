@@ -8,7 +8,7 @@ Class {
 		'setClause',
 		'condition'
 	],
-	#category : #'PostgreSQL-AST-SQL'
+	#category : #PostgreSQL-AST-SQL
 }
 
 { #category : #accessing }

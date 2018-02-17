@@ -8,7 +8,7 @@ Class {
 	#instVars : [
 		'aliased'
 	],
-	#category : #'PostgreSQL-AST-PlpgSQL'
+	#category : #PostgreSQL-AST-PlpgSQL
 }
 
 { #category : #accessing }

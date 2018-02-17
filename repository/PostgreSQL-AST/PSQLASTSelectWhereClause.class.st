@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'condition'
 	],
-	#category : #'PostgreSQL-AST-SQL'
+	#category : #PostgreSQL-AST-SQL
 }
 
 { #category : #accessing }
