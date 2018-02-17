@@ -29,7 +29,7 @@ PSQLSelectQueryASTBuilder class >> tokenParser [
 
 { #category : #'select command' }
 PSQLSelectQueryASTBuilder >> allOrDistinctClause [
-	^ super allOrDistinctClause ==> [ :tokens |
+	^ super allOrDistinctClause psqlASTBuild: [ :tokens |
 		tokens isString
 			ifTrue: [ PSQLASTAllClause new ]
 			ifFalse: [ |node|
@@ -42,7 +42,7 @@ PSQLSelectQueryASTBuilder >> allOrDistinctClause [
 
 { #category : #'select command' }
 PSQLSelectQueryASTBuilder >> columnsAndAliasesSelected [
-	^ super columnsAndAliasesSelected ==> [ :tokens |
+	^ super columnsAndAliasesSelected psqlASTBuild: [ :tokens |
 		tokens reject: [ :item | item = $, ] thenCollect: [ :item |
 			item first isArray
 				ifTrue: [
@@ -59,7 +59,7 @@ PSQLSelectQueryASTBuilder >> columnsAndAliasesSelected [
 
 { #category : #'select command' }
 PSQLSelectQueryASTBuilder >> fetchClause [
-	^ super fetchClause ==> [ :tokens |
+	^ super fetchClause psqlASTBuild: [ :tokens |
 		PSQLASTFetchClause new
 			isFirst: tokens second asUppercase = 'FIRST';
 			count: tokens third;
@@ -68,7 +68,7 @@ PSQLSelectQueryASTBuilder >> fetchClause [
 
 { #category : #'select command' }
 PSQLSelectQueryASTBuilder >> forClause [
-	^ super forClause ==> [ :tokens |
+	^ super forClause psqlASTBuild: [ :tokens |
 		PSQLASTForClause new
 			isUpdate: tokens second asUppercase = 'UPDATE';
 			ofTables: (tokens third ifNotNil: [ :array |
@@ -79,7 +79,7 @@ PSQLSelectQueryASTBuilder >> forClause [
 
 { #category : #'select command' }
 PSQLSelectQueryASTBuilder >> groupByClause [
-	^ super groupByClause ==> [ :tokens |
+	^ super groupByClause psqlASTBuild: [ :tokens |
 		PSQLASTGroupByClause new
 			expressions: (tokens third reject: [ :item | item = $, ] thenCollect: #first);
 			yourself ]
@@ -87,7 +87,7 @@ PSQLSelectQueryASTBuilder >> groupByClause [
 
 { #category : #'select command' }
 PSQLSelectQueryASTBuilder >> havingClause [
-	^ super havingClause ==> [ :tokens |
+	^ super havingClause psqlASTBuild: [ :tokens |
 		PSQLASTHavingClause new
 			expressions: (tokens second reject: [ :item | item = $, ] thenCollect: #first);
 			yourself ]
@@ -95,7 +95,7 @@ PSQLSelectQueryASTBuilder >> havingClause [
 
 { #category : #'select command' }
 PSQLSelectQueryASTBuilder >> intoClause [
-	^ super intoClause ==> [ :tokens |
+	^ super intoClause psqlASTBuild: [ :tokens |
 		PSQLASTIntoClause new
 			type: (tokens second ifNotNil: #asUppercase);
 			hasTable: tokens third isNotNil;
@@ -105,7 +105,7 @@ PSQLSelectQueryASTBuilder >> intoClause [
 
 { #category : #'select command' }
 PSQLSelectQueryASTBuilder >> limitClause [
-	^ super limitClause ==> [ :tokens |
+	^ super limitClause psqlASTBuild: [ :tokens |
 		PSQLASTLimitClause new
 			limit: (tokens second isString ifTrue: [ PSQLASTAllClause new ] ifFalse: [ tokens second ]);
 			yourself ]
@@ -113,7 +113,7 @@ PSQLSelectQueryASTBuilder >> limitClause [
 
 { #category : #'select command' }
 PSQLSelectQueryASTBuilder >> offsetClause [
-	^ super offsetClause ==> [ :tokens |
+	^ super offsetClause psqlASTBuild: [ :tokens |
 		PSQLASTOffsetClause new
 			offset: tokens second;
 			yourself ]
@@ -121,7 +121,7 @@ PSQLSelectQueryASTBuilder >> offsetClause [
 
 { #category : #'select command' }
 PSQLSelectQueryASTBuilder >> selectCommand [
-	^ super selectCommand ==> [ :tokens |
+	^ super selectCommand psqlASTBuild: [ :tokens |
 		PSQLASTSelectQuery new
 			withClause: tokens first;
 			allOrDistinctClause: tokens third;
@@ -142,7 +142,7 @@ PSQLSelectQueryASTBuilder >> selectCommand [
 
 { #category : #'select command' }
 PSQLSelectQueryASTBuilder >> selectIntoCommandAlternative [
-	^ super selectIntoCommandAlternative ==> [ :tokens |
+	^ super selectIntoCommandAlternative psqlASTBuild: [ :tokens |
 		PSQLASTAlternativeSelectIntoQuery new
 			withClause: tokens first;
 			intoClause: (PSQLASTIntoClause new
@@ -166,7 +166,7 @@ PSQLSelectQueryASTBuilder >> selectIntoCommandAlternative [
 
 { #category : #'select command' }
 PSQLSelectQueryASTBuilder >> selectIntoCommandClassic [
-	^ super selectIntoCommandClassic ==> [ :tokens |
+	^ super selectIntoCommandClassic psqlASTBuild: [ :tokens |
 		PSQLASTSelectIntoQuery new
 			withClause: tokens first;
 			allOrDistinctClause: tokens third;
@@ -188,7 +188,7 @@ PSQLSelectQueryASTBuilder >> selectIntoCommandClassic [
 
 { #category : #'select command' }
 PSQLSelectQueryASTBuilder >> unionIntersectExceptClause [
-	^ super unionIntersectExceptClause ==> [ :tokens |
+	^ super unionIntersectExceptClause psqlASTBuild: [ :tokens |
 		({
 			'UNION' -> PSQLASTUnionClause.
 			'INTERSECT' -> PSQLASTIntersectClause.
@@ -201,7 +201,7 @@ PSQLSelectQueryASTBuilder >> unionIntersectExceptClause [
 
 { #category : #'select command' }
 PSQLSelectQueryASTBuilder >> whereClause [
-	^ super whereClause ==> [ :tokens |
+	^ super whereClause psqlASTBuild: [ :tokens |
 		PSQLASTSelectWhereClause new
 			condition: tokens second;
 			yourself ]

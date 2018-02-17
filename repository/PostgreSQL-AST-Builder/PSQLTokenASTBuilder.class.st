@@ -9,13 +9,13 @@ Class {
 
 { #category : #accessing }
 PSQLTokenASTBuilder >> asterik [
-	^ super asterik ==> [ :tokens |
+	^ super asterik psqlASTBuild: [ :tokens |
 		PSQLASTWildCard new ]
 ]
 
 { #category : #accessing }
 PSQLTokenASTBuilder >> escapeStringConstant [
-	^ super escapeStringConstant ==> [ :tokens |
+	^ super escapeStringConstant psqlASTBuild: [ :tokens |
 		PSQLASTStringConstant new
 			content: (String newFrom: tokens flattened allButFirst allButLast);
 			yourself ]
@@ -23,7 +23,7 @@ PSQLTokenASTBuilder >> escapeStringConstant [
 
 { #category : #helpers }
 PSQLTokenASTBuilder >> identifier [
-	^ super identifier ==> [ :tokens | 
+	^ super identifier psqlASTBuild: [ :tokens | 
 		PSQLASTIdentifier new
 			identifier: tokens second;
 			yourself ]
@@ -31,12 +31,12 @@ PSQLTokenASTBuilder >> identifier [
 
 { #category : #accessing }
 PSQLTokenASTBuilder >> identifierOrKeyword [
-	^ super identifierOrKeyword ==> [ :tokens | String newFrom: tokens flattened ]
+	^ super identifierOrKeyword psqlASTBuild: [ :tokens | String newFrom: tokens flattened ]
 ]
 
 { #category : #helpers }
 PSQLTokenASTBuilder >> identifierWithOptionalFieldAccess [
-	^ super identifierWithOptionalFieldAccess ==> [ :tokens |
+	^ super identifierWithOptionalFieldAccess psqlASTBuild: [ :tokens |
 		tokens second
 			ifNil: [ tokens first ]
 			ifNotNil: [ 
@@ -48,7 +48,7 @@ PSQLTokenASTBuilder >> identifierWithOptionalFieldAccess [
 
 { #category : #accessing }
 PSQLTokenASTBuilder >> numericConstant [
-	^ super numericConstant ==> [ :tokens |
+	^ super numericConstant psqlASTBuild: [ :tokens |
 		PSQLASTNumericConstant new
 			content: (String newFrom: (tokens flattened reject: #isNil));
 			yourself ]
@@ -56,7 +56,7 @@ PSQLTokenASTBuilder >> numericConstant [
 
 { #category : #accessing }
 PSQLTokenASTBuilder >> positionalParameter [
-	^ super positionalParameter ==> [ :tokens | 
+	^ super positionalParameter psqlASTBuild: [ :tokens | 
 		PSQLPlpgSQLASTPositionalParameter new
 			index: (String newFrom: tokens second) asNumber;
 			yourself ]
@@ -64,7 +64,7 @@ PSQLTokenASTBuilder >> positionalParameter [
 
 { #category : #accessing }
 PSQLTokenASTBuilder >> simpleStringConstant [
-	^ super simpleStringConstant ==> [ :tokens |
+	^ super simpleStringConstant psqlASTBuild: [ :tokens |
 		PSQLASTStringConstant new
 			content: (String newFrom: tokens flattened allButFirst allButLast);
 			yourself ]

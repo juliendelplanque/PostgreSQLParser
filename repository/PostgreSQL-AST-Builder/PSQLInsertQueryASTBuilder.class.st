@@ -29,7 +29,7 @@ PSQLInsertQueryASTBuilder class >> valuesCommandParser [
 
 { #category : #'insert command' }
 PSQLInsertQueryASTBuilder >> conflictAction [
-	^ super conflictAction ==> [ :tokens |
+	^ super conflictAction psqlASTBuild: [ :tokens |
 		tokens size = 2
 			ifTrue: [ PSQLASTConflictAction new "DO NOTHING" ]
 			ifFalse: [ 
@@ -41,13 +41,13 @@ PSQLInsertQueryASTBuilder >> conflictAction [
 
 { #category : #'insert command' }
 PSQLInsertQueryASTBuilder >> defaultValues [
-	^ super defaultValues ==> [ :tokens |
+	^ super defaultValues psqlASTBuild: [ :tokens |
 		PSQLASTDefaultValues new ]
 ]
 
 { #category : #'insert command' }
 PSQLInsertQueryASTBuilder >> insertCommand [
-	^ super insertCommand ==> [ :tokens |
+	^ super insertCommand psqlASTBuild: [ :tokens |
 		PSQLASTInsertQuery new
 			withClause: tokens first;
 			tableName: tokens fourth;
@@ -61,7 +61,7 @@ PSQLInsertQueryASTBuilder >> insertCommand [
 
 { #category : #'insert command' }
 PSQLInsertQueryASTBuilder >> onConflictClause [
-	^ super onConflictClause ==> [ :tokens |
+	^ super onConflictClause psqlASTBuild: [ :tokens |
 		PSQLASTOnConflictClause new
 			target: tokens third;
 			action: tokens fourth;

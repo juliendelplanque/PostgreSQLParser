@@ -24,7 +24,7 @@ PSQLDeleteQueryASTBuilder class >> tokenParser [
 
 { #category : #accessing }
 PSQLDeleteQueryASTBuilder >> deleteCommand [
-	^ super deleteCommand ==> [ :tokens |
+	^ super deleteCommand psqlASTBuild: [ :tokens |
 		PSQLASTDeleteQuery new
 			withClause: tokens first;
 			isOnlySpecified: tokens fourth isNotNil;
@@ -39,6 +39,6 @@ PSQLDeleteQueryASTBuilder >> deleteCommand [
 
 { #category : #accessing }
 PSQLDeleteQueryASTBuilder >> usingClause [
-	^ super usingClause ==> [ :tokens |
+	^ super usingClause psqlASTBuild: [ :tokens |
 		tokens second ]
 ]

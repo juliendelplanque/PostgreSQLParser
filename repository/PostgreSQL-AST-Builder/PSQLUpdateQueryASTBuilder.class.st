@@ -29,7 +29,7 @@ PSQLUpdateQueryASTBuilder class >> tokenParser [
 
 { #category : #'update command' }
 PSQLUpdateQueryASTBuilder >> updateCommand [
-	^ super updateCommand ==> [ :tokens |
+	^ super updateCommand psqlASTBuild: [ :tokens |
 		PSQLASTUpdateQuery new
 			withClause: tokens first;
 			hasOnly: tokens third isNotNil;

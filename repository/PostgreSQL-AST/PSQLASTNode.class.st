@@ -4,6 +4,10 @@ I am an abstract node of the AST. I define the common behaviour and state of all
 Class {
 	#name : #PSQLASTNode,
 	#superclass : #Object,
+	#instVars : [
+		'startPosition',
+		'endPosition'
+	],
 	#category : #PostgreSQL-AST-SQL
 }
 
@@ -22,9 +26,24 @@ PSQLASTNode class >> withAllConcreteSubclasses [
 	^ self withAllSubclasses reject: #isAbstract
 ]
 
+{ #category : #accessing }
+PSQLASTNode >> endPosition [
+	^ endPosition
+]
+
+{ #category : #accessing }
+PSQLASTNode >> endPosition: anObject [
+	endPosition := anObject
+]
+
 { #category : #printing }
 PSQLASTNode >> innerPrintOn: aStream [
 	"To override if needed."
+]
+
+{ #category : #testing }
+PSQLASTNode >> isPSQLASTNode [
+	^ true
 ]
 
 { #category : #printing }
@@ -35,4 +54,14 @@ PSQLASTNode >> printOn: aStream [
 	self innerPrintOn: aStream.
 	aStream
 		<< $)
+]
+
+{ #category : #accessing }
+PSQLASTNode >> startPosition [
+	^ startPosition
+]
+
+{ #category : #accessing }
+PSQLASTNode >> startPosition: anObject [
+	startPosition := anObject
 ]

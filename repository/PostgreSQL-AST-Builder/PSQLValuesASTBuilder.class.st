@@ -24,7 +24,7 @@ PSQLValuesASTBuilder >> expression [
 
 { #category : #'values command' }
 PSQLValuesASTBuilder >> valuesCommand [
-	^ super valuesCommand ==> [ :tokens |
+	^ super valuesCommand psqlASTBuild: [ :tokens |
 		tokens second
 			reject: [ :item | item = $, ]
 			thenCollect: [ :item | 

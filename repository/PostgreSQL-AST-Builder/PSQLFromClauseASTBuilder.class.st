@@ -29,7 +29,7 @@ PSQLFromClauseASTBuilder class >> valuesCommandParser [
 
 { #category : #'shared - from clause' }
 PSQLFromClauseASTBuilder >> columnDefinition [
-	^ super columnDefinition ==> [ :tokens |
+	^ super columnDefinition psqlASTBuild: [ :tokens |
 		PSQLASTColumnDefinition new
 			columnName: tokens first;
 			type: (PSQLASTIdentifier new
@@ -43,7 +43,7 @@ PSQLFromClauseASTBuilder >> columnDefinition [
 
 { #category : #'shared - from clause' }
 PSQLFromClauseASTBuilder >> fromClause [
-	^ super fromClause ==> [ :tokens |
+	^ super fromClause psqlASTBuild: [ :tokens |
 		PSQLASTFromClause new
 			items: (tokens second reject: [ :item | item = $, ] thenCollect: #first);
 			yourself ]
@@ -51,7 +51,7 @@ PSQLFromClauseASTBuilder >> fromClause [
 
 { #category : #'shared - from clause' }
 PSQLFromClauseASTBuilder >> fromItems [
-	^ super fromItems ==> [ :tokens |
+	^ super fromItems psqlASTBuild: [ :tokens |
 		tokens second
 			ifEmpty: [ tokens first ]
 			ifNotEmpty: [ 
@@ -65,7 +65,7 @@ PSQLFromClauseASTBuilder >> fromItems [
 
 { #category : #'shared - from clause' }
 PSQLFromClauseASTBuilder >> fromItems1 [
-	^ super fromItems1 ==> [ :tokens |
+	^ super fromItems1 psqlASTBuild: [ :tokens |
 		PSQLASTFromClauseItemType1 new
 			hasOnly: tokens first isNotNil;
 			tableName: tokens second;
@@ -78,7 +78,7 @@ PSQLFromClauseASTBuilder >> fromItems1 [
 
 { #category : #'shared - from clause' }
 PSQLFromClauseASTBuilder >> fromItems2 [
-	^ super fromItems2 ==> [ :tokens |
+	^ super fromItems2 psqlASTBuild: [ :tokens |
 		PSQLASTFromClauseItemType2 new
 			hasLateral: tokens first isNotNil;
 			valuesOrSelect: tokens third;
@@ -90,7 +90,7 @@ PSQLFromClauseASTBuilder >> fromItems2 [
 
 { #category : #'shared - from clause' }
 PSQLFromClauseASTBuilder >> fromItems3 [
-	^ super fromItems3 ==> [ :tokens |
+	^ super fromItems3 psqlASTBuild: [ :tokens |
 		PSQLASTFromClauseItemType3 new
 			withQueryName: tokens first;
 			alias: (tokens second ifNotNil: #second);
@@ -101,7 +101,7 @@ PSQLFromClauseASTBuilder >> fromItems3 [
 
 { #category : #'shared - from clause' }
 PSQLFromClauseASTBuilder >> fromItems4 [
-	^ super fromItems4 ==> [ :tokens |
+	^ super fromItems4 psqlASTBuild: [ :tokens |
 		PSQLASTFromClauseItemType4 new
 			hasLateral: tokens first isNotNil;
 			functionCall: tokens second;
@@ -113,7 +113,7 @@ PSQLFromClauseASTBuilder >> fromItems4 [
 
 { #category : #'shared - from clause' }
 PSQLFromClauseASTBuilder >> fromItems5 [
-	^ super fromItems5 ==> [ :tokens |
+	^ super fromItems5 psqlASTBuild: [ :tokens |
 		PSQLASTFromClauseItemType5 new
 			hasLateral: tokens first isNotNil;
 			functionCall: tokens second;
@@ -124,7 +124,7 @@ PSQLFromClauseASTBuilder >> fromItems5 [
 
 { #category : #'shared - from clause' }
 PSQLFromClauseASTBuilder >> fromItems6 [
-	^ super fromItems6 ==> [ :tokens |
+	^ super fromItems6 psqlASTBuild: [ :tokens |
 		|node|
 		node := PSQLASTFromClauseItemType6 new
 			hasNatural: tokens first isNotNil;
@@ -140,7 +140,7 @@ PSQLFromClauseASTBuilder >> fromItems6 [
 
 { #category : #'shared - from clause' }
 PSQLFromClauseASTBuilder >> fromItems7 [
-	^ super fromItems7 ==> [ :tokens |
+	^ super fromItems7 psqlASTBuild: [ :tokens |
 		PSQLASTFromClauseItemType7 new
 			hasLateral: tokens first isNotNil;
 			functionCall: tokens second;
@@ -154,12 +154,12 @@ PSQLFromClauseASTBuilder >> fromItems7 [
 
 { #category : #'shared - from clause' }
 PSQLFromClauseASTBuilder >> joinType [
-	^ super joinType ==> [ :tokens |
+	^ super joinType psqlASTBuild: [ :tokens |
 		(tokens flattened reject: #isNil) joinUsing: ' ' ]
 ]
 
 { #category : #'shared - from clause' }
 PSQLFromClauseASTBuilder >> parenthesedFromItems [
-	^ super parenthesedFromItems ==> [ :tokens |
+	^ super parenthesedFromItems psqlASTBuild: [ :tokens |
 		tokens second "Just remove parentheses" ]
 ]

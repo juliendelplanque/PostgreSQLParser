@@ -24,7 +24,7 @@ PSQLSharedASTBuilder class >> tokenParser [
 
 { #category : #shared }
 PSQLSharedASTBuilder >> orderByClause [
-	^ super orderByClause ==> [ :tokens |
+	^ super orderByClause psqlASTBuild: [ :tokens |
 		PSQLASTOrderByClause new
 			items: (tokens third reject: [ :item | item = $, ] thenCollect: [ :array |
 				|item|
@@ -39,7 +39,7 @@ PSQLSharedASTBuilder >> orderByClause [
 
 { #category : #shared }
 PSQLSharedASTBuilder >> returningClause [
-	^ super returningClause ==> [ :tokens |
+	^ super returningClause psqlASTBuild: [ :tokens |
 		PSQLASTReturningClause new
 			returnedList: (tokens second reject: [ :token | token = $, ]);
 			yourself ]
@@ -47,7 +47,7 @@ PSQLSharedASTBuilder >> returningClause [
 
 { #category : #'shared - set clause' }
 PSQLSharedASTBuilder >> setClause [
-	^ super setClause ==> [ :tokens |
+	^ super setClause psqlASTBuild: [ :tokens |
 		PSQLASTSetClause new
 			items: (tokens second reject: [ :item | item = $, ]);
 			yourself ]
@@ -55,7 +55,7 @@ PSQLSharedASTBuilder >> setClause [
 
 { #category : #'shared - set clause' }
 PSQLSharedASTBuilder >> setItem1 [
-	^ super setItem1 ==> [ :tokens |
+	^ super setItem1 psqlASTBuild: [ :tokens |
 		PSQLASTSetClauseItemType1 new
 			left: tokens first;
 			right: (tokens third isString
@@ -65,7 +65,7 @@ PSQLSharedASTBuilder >> setItem1 [
 
 { #category : #'shared - set clause' }
 PSQLSharedASTBuilder >> setItem2 [
-	^ super setItem2 ==> [ :tokens |
+	^ super setItem2 psqlASTBuild: [ :tokens |
 		PSQLASTSetClauseItemType2 new
 			left: (tokens second reject: [ :item | item = $, ] thenCollect: #first);
 			right: (tokens sixth 
@@ -76,7 +76,7 @@ PSQLSharedASTBuilder >> setItem2 [
 
 { #category : #'shared - set clause' }
 PSQLSharedASTBuilder >> setItem3 [
-	^ super setItem3 ==> [ :tokens |
+	^ super setItem3 psqlASTBuild: [ :tokens |
 		PSQLASTSetClauseItemType3 new
 			left: (tokens second reject: [ :item | item = $, ] thenCollect: #first);
 			right: tokens sixth;
@@ -85,7 +85,7 @@ PSQLSharedASTBuilder >> setItem3 [
 
 { #category : #shared }
 PSQLSharedASTBuilder >> updateDeleteWhereClause [
-	^ super updateDeleteWhereClause ==> [ :tokens |
+	^ super updateDeleteWhereClause psqlASTBuild: [ :tokens |
 		|node|
 		node := PSQLASTUpdateDeleteWhereClause new.
 		tokens second isArray
@@ -96,7 +96,7 @@ PSQLSharedASTBuilder >> updateDeleteWhereClause [
 
 { #category : #shared }
 PSQLSharedASTBuilder >> withClause [
-	^ super withClause ==> [ :tokens |
+	^ super withClause psqlASTBuild: [ :tokens |
 		PSQLASTWithClause new
 			isRecursive: tokens second isNotNil;
 			queries: (tokens third reject: [ :item | item = $, ]);
@@ -105,7 +105,7 @@ PSQLSharedASTBuilder >> withClause [
 
 { #category : #shared }
 PSQLSharedASTBuilder >> withQuery [
-	^ super withQuery ==> [ :tokens |
+	^ super withQuery psqlASTBuild: [ :tokens |
 		(PSQLASTTableAlias new
 			identifier: tokens first;
 			columnAliases: (tokens second ifNotNil: [ :array | array second reject: [ :token | token = $, ] ]  ifNil: [ #() ]);
