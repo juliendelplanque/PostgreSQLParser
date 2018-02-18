@@ -12,6 +12,11 @@ Class {
 	#category : #PostgreSQL-AST-SQL
 }
 
+{ #category : #visiting }
+PSQLASTFromClauseItemType5 >> acceptVisitor: aPSQLASTVisitor [
+	^ self visitPSQLASTFromClauseItemType5: self
+]
+
 { #category : #accessing }
 PSQLASTFromClauseItemType5 >> columnDefinitions [
 	^ columnDefinitions

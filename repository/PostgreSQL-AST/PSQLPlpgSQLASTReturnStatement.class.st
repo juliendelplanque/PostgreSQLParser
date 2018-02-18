@@ -14,6 +14,11 @@ Class {
 	#category : #PostgreSQL-AST-PlpgSQL
 }
 
+{ #category : #visiting }
+PSQLPlpgSQLASTReturnStatement >> acceptVisitor: aPSQLASTVisitor [
+	^ self visitPSQLPlpgSQLASTReturnStatement: self
+]
+
 { #category : #accessing }
 PSQLPlpgSQLASTReturnStatement >> expression [
 	^ expression

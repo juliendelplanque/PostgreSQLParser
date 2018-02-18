@@ -11,6 +11,11 @@ Class {
 	#category : #PostgreSQL-AST-SQL
 }
 
+{ #category : #visiting }
+PSQLASTConflictAction >> acceptVisitor: aPSQLASTVisitor [
+	^ self visitPSQLASTConflictAction: self
+]
+
 { #category : #accessing }
 PSQLASTConflictAction >> condition [
 	^ condition

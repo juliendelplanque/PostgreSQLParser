@@ -11,6 +11,11 @@ Class {
 	#category : #PostgreSQL-AST-SQL
 }
 
+{ #category : #visiting }
+PSQLASTConditionalExpression >> acceptVisitor: aPSQLASTVisitor [
+	^ self visitPSQLASTConditionalExpression: self
+]
+
 { #category : #accessing }
 PSQLASTConditionalExpression >> conditionsToExpressions [
 	^ conditionsToExpressions

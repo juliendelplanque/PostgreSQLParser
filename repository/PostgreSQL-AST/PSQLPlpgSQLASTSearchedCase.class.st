@@ -10,6 +10,11 @@ Class {
 	#category : #PostgreSQL-AST-PlpgSQL
 }
 
+{ #category : #visiting }
+PSQLPlpgSQLASTSearchedCase >> acceptVisitor: aPSQLASTVisitor [
+	^ self visitPSQLPlpgSQLASTSearchedCase: self
+]
+
 { #category : #accessing }
 PSQLPlpgSQLASTSearchedCase >> conditionToStatements [
 	self shouldNotImplement

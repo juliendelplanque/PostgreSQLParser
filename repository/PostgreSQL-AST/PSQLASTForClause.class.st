@@ -12,6 +12,11 @@ Class {
 	#category : #PostgreSQL-AST-SQL
 }
 
+{ #category : #visiting }
+PSQLASTForClause >> acceptVisitor: aPSQLASTVisitor [
+	^ self visitPSQLASTForClause: self
+]
+
 { #category : #testing }
 PSQLASTForClause >> hasOfTables [
 	^ self ofTables isNotNil

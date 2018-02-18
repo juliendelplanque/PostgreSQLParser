@@ -10,6 +10,11 @@ Class {
 	#category : #PostgreSQL-AST-SQL
 }
 
+{ #category : #visiting }
+PSQLASTDistinctClause >> acceptVisitor: aPSQLASTVisitor [
+	^ self visitPSQLASTDistinctClause: self
+]
+
 { #category : #accessing }
 PSQLASTDistinctClause >> expressions [
 	^ expressions

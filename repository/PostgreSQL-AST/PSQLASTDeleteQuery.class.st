@@ -16,6 +16,11 @@ Class {
 	#category : #PostgreSQL-AST-SQL
 }
 
+{ #category : #visiting }
+PSQLASTDeleteQuery >> acceptVisitor: aPSQLASTVisitor [
+	^ self visitPSQLASTDeleteQuery: self
+]
+
 { #category : #accessing }
 PSQLASTDeleteQuery >> alias [
 	^ alias

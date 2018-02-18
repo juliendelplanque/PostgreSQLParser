@@ -11,6 +11,11 @@ Class {
 	#category : #PostgreSQL-AST-PlpgSQL
 }
 
+{ #category : #visiting }
+PSQLPlpgSQLASTAliasDeclaration >> acceptVisitor: aPSQLASTVisitor [
+	^ self visitPSQLPlpgSQLASTAliasDeclaration: self
+]
+
 { #category : #accessing }
 PSQLPlpgSQLASTAliasDeclaration >> aliased [
 	^ aliased

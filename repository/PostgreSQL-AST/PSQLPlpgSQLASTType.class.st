@@ -12,6 +12,11 @@ Class {
 	#category : #PostgreSQL-AST-PlpgSQL
 }
 
+{ #category : #visiting }
+PSQLPlpgSQLASTType >> acceptVisitor: aPSQLASTVisitor [
+	^ self visitPSQLPlpgSQLASTType: self
+]
+
 { #category : #accessing }
 PSQLPlpgSQLASTType >> dimensions [
 	^ dimensions

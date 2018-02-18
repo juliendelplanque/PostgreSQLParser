@@ -11,6 +11,11 @@ Class {
 	#category : #PostgreSQL-AST-PlpgSQL
 }
 
+{ #category : #visiting }
+PSQLPlpgSQLASTContinue >> acceptVisitor: aPSQLASTVisitor [
+	^ self visitPSQLPlpgSQLASTContinue: self
+]
+
 { #category : #accessing }
 PSQLPlpgSQLASTContinue >> label [
 	^ label

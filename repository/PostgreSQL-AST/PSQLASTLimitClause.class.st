@@ -10,6 +10,11 @@ Class {
 	#category : #PostgreSQL-AST-SQL
 }
 
+{ #category : #visiting }
+PSQLASTLimitClause >> acceptVisitor: aPSQLASTVisitor [
+	^ self visitPSQLASTLimitClause: self
+]
+
 { #category : #accessing }
 PSQLASTLimitClause >> limit [
 	^ limit

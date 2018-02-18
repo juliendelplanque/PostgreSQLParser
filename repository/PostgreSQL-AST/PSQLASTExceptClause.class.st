@@ -6,3 +6,8 @@ Class {
 	#superclass : #PSQLASTSetOperatorClause,
 	#category : #PostgreSQL-AST-SQL
 }
+
+{ #category : #visiting }
+PSQLASTExceptClause >> acceptVisitor: aPSQLASTVisitor [
+	^ self visitPSQLASTExceptClause: self
+]

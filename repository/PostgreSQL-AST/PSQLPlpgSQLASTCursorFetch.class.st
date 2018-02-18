@@ -12,6 +12,11 @@ Class {
 	#category : #PostgreSQL-AST-PlpgSQL
 }
 
+{ #category : #visiting }
+PSQLPlpgSQLASTCursorFetch >> acceptVisitor: aPSQLASTVisitor [
+	^ self visitPSQLPlpgSQLASTCursorFetch: self
+]
+
 { #category : #accessing }
 PSQLPlpgSQLASTCursorFetch >> direction [
 	^ direction

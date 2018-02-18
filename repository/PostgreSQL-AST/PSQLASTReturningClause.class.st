@@ -10,6 +10,11 @@ Class {
 	#category : #PostgreSQL-AST-SQL
 }
 
+{ #category : #visiting }
+PSQLASTReturningClause >> acceptVisitor: aPSQLASTVisitor [
+	^ self visitPSQLASTReturningClause: self
+]
+
 { #category : #accessing }
 PSQLASTReturningClause >> returnedList [
 	^ returnedList

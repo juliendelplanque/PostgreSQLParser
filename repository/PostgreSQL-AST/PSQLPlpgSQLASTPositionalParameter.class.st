@@ -10,6 +10,11 @@ Class {
 	#category : #PostgreSQL-AST-PlpgSQL
 }
 
+{ #category : #visiting }
+PSQLPlpgSQLASTPositionalParameter >> acceptVisitor: aPSQLASTVisitor [
+	^ self visitPSQLPlpgSQLASTPositionalParameter: self
+]
+
 { #category : #accessing }
 PSQLPlpgSQLASTPositionalParameter >> index [
 	^ index

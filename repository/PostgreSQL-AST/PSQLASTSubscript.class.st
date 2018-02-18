@@ -11,6 +11,11 @@ Class {
 	#category : #PostgreSQL-AST-SQL
 }
 
+{ #category : #visiting }
+PSQLASTSubscript >> acceptVisitor: aPSQLASTVisitor [
+	^ self visitPSQLASTSubscript: self
+]
+
 { #category : #accessing }
 PSQLASTSubscript >> subscriptExpression [
 	^ subscriptExpression

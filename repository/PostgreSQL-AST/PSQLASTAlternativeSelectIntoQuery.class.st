@@ -6,3 +6,8 @@ Class {
 	#superclass : #PSQLASTSelectIntoQuery,
 	#category : #PostgreSQL-AST-SQL
 }
+
+{ #category : #visiting }
+PSQLASTAlternativeSelectIntoQuery >> acceptVisitor: aPSQLASTVisitor [
+	^ self visitPSQLASTAlternativeSelectIntoQuery: self
+]

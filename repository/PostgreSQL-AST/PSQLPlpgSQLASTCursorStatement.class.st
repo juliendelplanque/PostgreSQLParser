@@ -12,6 +12,11 @@ Class {
 	#category : #PostgreSQL-AST-PlpgSQL
 }
 
+{ #category : #visiting }
+PSQLPlpgSQLASTCursorStatement >> acceptVisitor: aPSQLASTVisitor [
+	^ self visitPSQLPlpgSQLASTCursorStatement: self
+]
+
 { #category : #accessing }
 PSQLPlpgSQLASTCursorStatement >> cursorIdentifier [
 	^ cursorIdentifier

@@ -10,6 +10,11 @@ Class {
 	#category : #PostgreSQL-AST-SQL
 }
 
+{ #category : #visiting }
+PSQLASTUpdateDeleteWhereClause >> acceptVisitor: aPSQLASTVisitor [
+	^ self visitPSQLASTUpdateDeleteWhereClause: self
+]
+
 { #category : #accessing }
 PSQLASTUpdateDeleteWhereClause >> currentOfCursor [
 	^ currentOfCursor

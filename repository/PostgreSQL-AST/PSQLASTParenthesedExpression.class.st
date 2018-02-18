@@ -10,6 +10,11 @@ Class {
 	#category : #PostgreSQL-AST-SQL
 }
 
+{ #category : #visiting }
+PSQLASTParenthesedExpression >> acceptVisitor: aPSQLASTVisitor [
+	^ self visitPSQLASTParenthesedExpression: self
+]
+
 { #category : #accessing }
 PSQLASTParenthesedExpression >> expression [
 	^ expression

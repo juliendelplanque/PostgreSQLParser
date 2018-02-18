@@ -10,6 +10,11 @@ Class {
 	#category : #PostgreSQL-AST-SQL
 }
 
+{ #category : #visiting }
+PSQLASTSelectWhereClause >> acceptVisitor: aPSQLASTVisitor [
+	^ self visitPSQLASTSelectWhereClause: self
+]
+
 { #category : #accessing }
 PSQLASTSelectWhereClause >> condition [
 	^ condition

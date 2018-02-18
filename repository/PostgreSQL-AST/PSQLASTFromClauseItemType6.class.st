@@ -15,6 +15,11 @@ Class {
 	#category : #PostgreSQL-AST-SQL
 }
 
+{ #category : #visiting }
+PSQLASTFromClauseItemType6 >> acceptVisitor: aPSQLASTVisitor [
+	^ self visitPSQLASTFromClauseItemType6: self
+]
+
 { #category : #testing }
 PSQLASTFromClauseItemType6 >> hasJoinCondition [
 	^ self joinCondition isNotNil

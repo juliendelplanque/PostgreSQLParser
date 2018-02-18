@@ -11,6 +11,11 @@ Class {
 	#category : #PostgreSQL-AST-SQL
 }
 
+{ #category : #visiting }
+PSQLASTFetchClause >> acceptVisitor: aPSQLASTVisitor [
+	^ self visitPSQLASTFetchClause: self
+]
+
 { #category : #accessing }
 PSQLASTFetchClause >> count [
 	^ count

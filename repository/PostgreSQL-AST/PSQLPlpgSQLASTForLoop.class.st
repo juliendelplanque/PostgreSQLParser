@@ -13,6 +13,11 @@ Class {
 	#category : #PostgreSQL-AST-PlpgSQL
 }
 
+{ #category : #visiting }
+PSQLPlpgSQLASTForLoop >> acceptVisitor: aPSQLASTVisitor [
+	^ self visitPSQLPlpgSQLASTForLoop: self
+]
+
 { #category : #accessing }
 PSQLPlpgSQLASTForLoop >> fromExpression [
 	^ fromExpression

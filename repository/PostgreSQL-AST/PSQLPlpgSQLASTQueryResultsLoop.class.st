@@ -11,6 +11,11 @@ Class {
 	#category : #PostgreSQL-AST-PlpgSQL
 }
 
+{ #category : #visiting }
+PSQLPlpgSQLASTQueryResultsLoop >> acceptVisitor: aPSQLASTVisitor [
+	^ self visitPSQLPlpgSQLASTQueryResultsLoop: self
+]
+
 { #category : #accessing }
 PSQLPlpgSQLASTQueryResultsLoop >> query [
 	^ query

@@ -13,6 +13,11 @@ Class {
 	#category : #PostgreSQL-AST-SQL
 }
 
+{ #category : #visiting }
+PSQLASTTableAlias >> acceptVisitor: aPSQLASTVisitor [
+	^ self visitPSQLASTTableAlias: self
+]
+
 { #category : #accessing }
 PSQLASTTableAlias >> columnAliases [
 	^ columnAliases

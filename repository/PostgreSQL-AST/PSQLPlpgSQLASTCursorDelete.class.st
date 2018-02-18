@@ -10,6 +10,11 @@ Class {
 	#category : #PostgreSQL-AST-PlpgSQL
 }
 
+{ #category : #visiting }
+PSQLPlpgSQLASTCursorDelete >> acceptVisitor: aPSQLASTVisitor [
+	^ self visitPSQLPlpgSQLASTCursorDelete: self
+]
+
 { #category : #accessing }
 PSQLPlpgSQLASTCursorDelete >> tableIdentifier [
 	^ tableIdentifier

@@ -11,6 +11,11 @@ Class {
 	#category : #PostgreSQL-AST-SQL
 }
 
+{ #category : #visiting }
+PSQLASTWithClause >> acceptVisitor: aPSQLASTVisitor [
+	^ self visitPSQLASTWithClause: self
+]
+
 { #category : #accessing }
 PSQLASTWithClause >> isRecursive [
 	^ isRecursive

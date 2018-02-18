@@ -10,6 +10,11 @@ Class {
 	#category : #PostgreSQL-AST-SQL
 }
 
+{ #category : #visiting }
+PSQLASTArrayConstructor >> acceptVisitor: aPSQLASTVisitor [
+	^ self visitPSQLASTArrayConstructor: self
+]
+
 { #category : #accessing }
 PSQLASTArrayConstructor >> items [
 	^ items

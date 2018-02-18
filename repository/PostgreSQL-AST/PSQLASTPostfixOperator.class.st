@@ -6,3 +6,8 @@ Class {
 	#superclass : #PSQLASTOperator,
 	#category : #PostgreSQL-AST-SQL
 }
+
+{ #category : #visiting }
+PSQLASTPostfixOperator >> acceptVisitor: aPSQLASTVisitor [
+	^ self visitPSQLASTPostfixOperator: self
+]

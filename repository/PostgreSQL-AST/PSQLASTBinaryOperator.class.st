@@ -10,6 +10,11 @@ Class {
 	#category : #PostgreSQL-AST-SQL
 }
 
+{ #category : #visiting }
+PSQLASTBinaryOperator >> acceptVisitor: aPSQLASTVisitor [
+	^ self visitPSQLASTBinaryOperator: self
+]
+
 { #category : #accessing }
 PSQLASTBinaryOperator >> left [
 	^ self expression

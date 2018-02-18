@@ -14,6 +14,11 @@ Class {
 	#category : #PostgreSQL-AST-SQL
 }
 
+{ #category : #visiting }
+PSQLASTAggregateFunctionCall >> acceptVisitor: aPSQLASTVisitor [
+	^ self visitPSQLASTAggregateFunctionCall: self
+]
+
 { #category : #accessing }
 PSQLASTAggregateFunctionCall >> expressions [
 	^ expressions

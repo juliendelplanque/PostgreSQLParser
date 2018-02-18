@@ -12,6 +12,11 @@ Class {
 	#category : #PostgreSQL-AST-PlpgSQL
 }
 
+{ #category : #visiting }
+PSQLPlpgSQLASTAssignment >> acceptVisitor: aPSQLASTVisitor [
+	^ self visitPSQLPlpgSQLASTAssignment: self
+]
+
 { #category : #accessing }
 PSQLPlpgSQLASTAssignment >> operator [
 	^ operator

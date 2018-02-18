@@ -6,3 +6,8 @@ Class {
 	#superclass : #PSQLASTConstant,
 	#category : #PostgreSQL-AST-SQL
 }
+
+{ #category : #visiting }
+PSQLASTStringConstant >> acceptVisitor: aPSQLASTVisitor [
+	^ self visitPSQLASTStringConstant: self
+]

@@ -6,3 +6,8 @@ Class {
 	#superclass : #PSQLASTSetClauseItem,
 	#category : #PostgreSQL-AST-SQL
 }
+
+{ #category : #visiting }
+PSQLASTSetClauseItemType2 >> acceptVisitor: aPSQLASTVisitor [
+	^ self visitPSQLASTSetClauseItemType2: self
+]

@@ -14,6 +14,11 @@ Class {
 	#category : #PostgreSQL-AST-PlpgSQL
 }
 
+{ #category : #visiting }
+PSQLPlpgSQLASTClassicDeclaration >> acceptVisitor: aPSQLASTVisitor [
+	^ self visitPSQLPlpgSQLASTClassicDeclaration: self
+]
+
 { #category : #accessing }
 PSQLPlpgSQLASTClassicDeclaration >> collate [
 	^ collate

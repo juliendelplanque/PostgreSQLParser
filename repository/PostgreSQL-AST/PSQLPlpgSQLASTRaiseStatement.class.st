@@ -15,6 +15,11 @@ Class {
 	#category : #PostgreSQL-AST-PlpgSQL
 }
 
+{ #category : #visiting }
+PSQLPlpgSQLASTRaiseStatement >> acceptVisitor: aPSQLASTVisitor [
+	^ self visitPSQLPlpgSQLASTRaiseStatement: self
+]
+
 { #category : #accessing }
 PSQLPlpgSQLASTRaiseStatement >> conditionName [
 	^ conditionName

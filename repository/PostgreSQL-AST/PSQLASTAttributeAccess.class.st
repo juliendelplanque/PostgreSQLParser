@@ -11,6 +11,11 @@ Class {
 	#category : #PostgreSQL-AST-SQL
 }
 
+{ #category : #visiting }
+PSQLASTAttributeAccess >> acceptVisitor: aPSQLASTVisitor [
+	^ self visitPSQLASTAttributeAccess: self
+]
+
 { #category : #accessing }
 PSQLASTAttributeAccess >> accessed [
 	^ accessed

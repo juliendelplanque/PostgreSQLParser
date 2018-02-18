@@ -11,6 +11,11 @@ Class {
 	#category : #PostgreSQL-AST-PlpgSQL
 }
 
+{ #category : #visiting }
+PSQLPlpgSQLASTWhileLoop >> acceptVisitor: aPSQLASTVisitor [
+	^ self visitPSQLPlpgSQLASTWhileLoop: self
+]
+
 { #category : #accessing }
 PSQLPlpgSQLASTWhileLoop >> condition [
 	^ condition

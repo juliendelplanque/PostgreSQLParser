@@ -17,6 +17,11 @@ PSQLPlpgSQLASTBlockLabel class >> labelContent: aString [
 		yourself
 ]
 
+{ #category : #visiting }
+PSQLPlpgSQLASTBlockLabel >> acceptVisitor: aPSQLASTVisitor [
+	^ self visitPSQLPlpgSQLASTBlockLabel: self
+]
+
 { #category : #printing }
 PSQLPlpgSQLASTBlockLabel >> innerPrintOn: aStream [
 	aStream << self labelContent

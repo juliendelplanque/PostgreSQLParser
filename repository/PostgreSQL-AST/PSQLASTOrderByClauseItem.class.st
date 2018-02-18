@@ -12,6 +12,11 @@ Class {
 	#category : #PostgreSQL-AST-SQL
 }
 
+{ #category : #visiting }
+PSQLASTOrderByClauseItem >> acceptVisitor: aPSQLASTVisitor [
+	^ self visitPSQLASTOrderByClauseItem: self
+]
+
 { #category : #accessing }
 PSQLASTOrderByClauseItem >> expression [
 	^ expression

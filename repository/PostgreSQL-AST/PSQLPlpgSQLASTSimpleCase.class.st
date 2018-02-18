@@ -6,3 +6,8 @@ Class {
 	#superclass : #PSQLPlpgSQLASTConditional,
 	#category : #PostgreSQL-AST-PlpgSQL
 }
+
+{ #category : #visiting }
+PSQLPlpgSQLASTSimpleCase >> acceptVisitor: aPSQLASTVisitor [
+	^ self visitPSQLPlpgSQLASTSimpleCase: self
+]

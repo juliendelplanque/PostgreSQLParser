@@ -11,6 +11,11 @@ Class {
 	#category : #PostgreSQL-AST-PlpgSQL
 }
 
+{ #category : #visiting }
+PSQLPlpgSQLASTCursorOpenForQuery >> acceptVisitor: aPSQLASTVisitor [
+	^ self visitPSQLPlpgSQLASTCursorOpenForQuery: self
+]
+
 { #category : #accessing }
 PSQLPlpgSQLASTCursorOpenForQuery >> scroll [
 	^ scroll

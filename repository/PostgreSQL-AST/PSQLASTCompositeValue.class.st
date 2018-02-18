@@ -10,6 +10,11 @@ Class {
 	#category : #PostgreSQL-AST-SQL
 }
 
+{ #category : #visiting }
+PSQLASTCompositeValue >> acceptVisitor: aPSQLASTVisitor [
+	^ self visitPSQLASTCompositeValue: self
+]
+
 { #category : #accessing }
 PSQLASTCompositeValue >> items [
 	^ items

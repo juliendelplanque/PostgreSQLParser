@@ -22,6 +22,11 @@ Class {
 	#category : #PostgreSQL-AST-SQL
 }
 
+{ #category : #visiting }
+PSQLASTSelectQuery >> acceptVisitor: aPSQLASTVisitor [
+	^ self visitPSQLASTSelectQuery: self
+]
+
 { #category : #accessing }
 PSQLASTSelectQuery >> allOrDistinctClause [
 	^ allOrDistinctClause

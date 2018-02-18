@@ -10,6 +10,11 @@ Class {
 	#category : #PostgreSQL-AST-PlpgSQL
 }
 
+{ #category : #visiting }
+PSQLPlpgSQLASTRowTypeDeclaration >> acceptVisitor: aPSQLASTVisitor [
+	^ self visitPSQLPlpgSQLASTRowTypeDeclaration: self
+]
+
 { #category : #accessing }
 PSQLPlpgSQLASTRowTypeDeclaration >> tableIdentifier [
 	^ tableIdentifier

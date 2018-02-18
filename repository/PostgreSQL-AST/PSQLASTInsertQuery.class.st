@@ -15,6 +15,11 @@ Class {
 	#category : #PostgreSQL-AST-SQL
 }
 
+{ #category : #visiting }
+PSQLASTInsertQuery >> acceptVisitor: aPSQLASTVisitor [
+	^ self visitPSQLASTInsertQuery: self
+]
+
 { #category : #accessing }
 PSQLASTInsertQuery >> alias [
 	^ alias

@@ -12,6 +12,11 @@ Class {
 	#category : #PostgreSQL-AST-PlpgSQL
 }
 
+{ #category : #visiting }
+PSQLPlpgSQLASTArrayLoop >> acceptVisitor: aPSQLASTVisitor [
+	^ self visitPSQLPlpgSQLASTArrayLoop: self
+]
+
 { #category : #accessing }
 PSQLPlpgSQLASTArrayLoop >> arrayExpression [
 	^ arrayExpression

@@ -17,6 +17,11 @@ PSQLASTIdentifier class >> identifier: aString [
 		yourself
 ]
 
+{ #category : #visiting }
+PSQLASTIdentifier >> acceptVisitor: aPSQLASTVisitor [
+	^ self visitPSQLASTIdentifier: self
+]
+
 { #category : #accessing }
 PSQLASTIdentifier >> identifier [
 	^ identifier

@@ -10,6 +10,11 @@ Class {
 	#category : #PostgreSQL-AST-PlpgSQL
 }
 
+{ #category : #visiting }
+PSQLPlpgSQLASTCopyTypeDeclaration >> acceptVisitor: aPSQLASTVisitor [
+	^ self visitPSQLPlpgSQLASTCopyTypeDeclaration: self
+]
+
 { #category : #accessing }
 PSQLPlpgSQLASTCopyTypeDeclaration >> accessToCopyType [
 	^ accessToCopyType

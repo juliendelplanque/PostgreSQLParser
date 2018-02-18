@@ -10,6 +10,11 @@ Class {
 	#category : #PostgreSQL-AST-SQL
 }
 
+{ #category : #visiting }
+PSQLASTOrderByClause >> acceptVisitor: aPSQLASTVisitor [
+	^ self visitPSQLASTOrderByClause: self
+]
+
 { #category : #accessing }
 PSQLASTOrderByClause >> items [
 	^ items
