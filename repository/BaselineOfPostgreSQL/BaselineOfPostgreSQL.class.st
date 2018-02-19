@@ -49,7 +49,8 @@ BaselineOfPostgreSQL >> defineGroups: spec [
 		group: 'ast' with: #('PostgreSQL-AST');
 		group: 'ast-builder' with: #('ast' 'PostgreSQL-AST-Builder');
 		group: 'ast-builder-tests' with: #('ast-builder' 'PostgreSQL-AST-Builder-Tests' 'PostgreSQL-AST-Builder-SmokeTests');
-		group: 'core' with: #('parser' 'ast' 'ast-builder');
+		group: 'visitors' with: #('PostgreSQL-AST-Visitors');
+		group: 'core' with: #('parser' 'ast' 'ast-builder' 'visitors');
 		group: 'core-tests' with: #('core' 'parser-tests' 'ast-builder-tests');
 		group: 'future' with: #('core-tests' 'PostgreSQL-Future');
 		group: 'dev' with: #('core-tests' 'PostgreSQL-DevTools' 'future')
