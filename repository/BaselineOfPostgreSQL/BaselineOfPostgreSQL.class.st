@@ -65,6 +65,7 @@ BaselineOfPostgreSQL >> definePackages: spec [
 		package: #'PostgreSQL-AST-Builder' with: [ spec requires: #('PostgreSQL-AST' 'PostgreSQL-Parser') ];
 		package: #'PostgreSQL-AST-Builder-Tests' with: [ spec requires: #('PostgreSQL-Parser-Tests' 'PostgreSQL-AST-Builder') ];
 		package: #'PostgreSQL-AST-Builder-SmokeTests' with: [ spec requires: #('PostgreSQL-Parser-CrashTests') ];
+		package: #'PostgreSQL-AST-Visitors' with: [ spec requires: #('PostgreSQL-AST') ];
 		package: #'PostgreSQL-LibpgQuery' with: [ spec requires: #('LibpgqueryBridge') ];
 		package: #'PostgreSQL-Future' with: [ spec requires: #('PostgreSQL-Parser' 'PostgreSQL-Parser-Tests') ];
 		package: #'PostgreSQL-DevTools' with: [ spec requires: #('PetitParser-Gui') ]
