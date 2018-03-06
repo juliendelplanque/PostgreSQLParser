@@ -1,4 +1,4 @@
-# PostgreSQLParser ![Build status](https://travis-ci.org/juliendelplanque/PostgreSQLParser.svg?branch=master)
+# PostgreSQLParser
 A parser for PostgreSQL written in Pharo using PetitParser.
 
 For now, the focus is made on PL/pgSQL source code.
@@ -30,4 +30,15 @@ Metacello new
 	baseline: 'PostgreSQL';
 	repository: 'github://juliendelplanque/PostgreSQLParser/repository';
 	load: 'ast'
+```
+
+### Use it as a dependency
+To use this project as a dependency, add the following code in your baseline:
+
+```
+[...]
+spec baseline: 'PostgreSQL' with: [ 
+	spec
+		repository: 'github://juliendelplanque/PostgreSQLParser/repository' ]
+[...]
 ```
