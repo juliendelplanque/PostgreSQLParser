@@ -5,6 +5,12 @@ SmalltalkCISpec {
             #directory : 'repository',
             #platforms : [ #pharo ]
         }
-    ]
+    ],
+    #testing : {
+        #categories : [ 'PostgreSQL-.+Tests' ],
+        #coverage : {
+            #categories : [ 'PostgreSQL-.+Tests' ]
+    }
+  }
 }
 
