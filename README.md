@@ -1,4 +1,4 @@
-# PostgreSQLParser
+# PostgreSQLParser [![Build Status](https://travis-ci.org/juliendelplanque/PostgreSQLParser.svg?branch=master)](https://travis-ci.org/juliendelplanque/PostgreSQLParser)
 A parser for PostgreSQL written in Pharo using PetitParser.
 
 For now, the focus is made on PL/pgSQL source code.
