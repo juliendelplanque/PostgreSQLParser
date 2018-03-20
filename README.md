@@ -21,8 +21,8 @@ You can use the groups defined in the baseline to install only what you need. Th
 - `ast-builder-tests` : `ast-builder` + its unit tests.
 - `core` : `parser` + `ast` + `ast-builder`.
 - `core-tests` : `core` + all unit tests associated.
-- `dev` : Everything you need to help in this project development.
-
+- `future` : Experimental code of this project, do not use this in production.
+- `dev` : Everything you need to help in this project development loads `future` group as well.
 
 Let's say you only need the `ast` group, the following code will load this specific group:
 ```
