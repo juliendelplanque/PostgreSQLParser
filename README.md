@@ -6,7 +6,7 @@ For now, the focus is made on PL/pgSQL source code.
 ## Install
 ```
 Metacello new
-	baseline: 'PostgreSQL';
+	baseline: 'PostgreSQLParser';
 	repository: 'github://juliendelplanque/PostgreSQLParser/src';
 	load
 ```
@@ -28,7 +28,7 @@ You can use the groups defined in the baseline to install only what you need. Th
 Let's say you only need the `ast` group, the following code will load this specific group:
 ```
 Metacello new
-	baseline: 'PostgreSQL';
+	baseline: 'PostgreSQLParser';
 	repository: 'github://juliendelplanque/PostgreSQLParser/src';
 	load: 'ast'
 ```
@@ -38,7 +38,7 @@ To use this project as a dependency, add the following code in your baseline:
 
 ```
 [...]
-spec baseline: 'PostgreSQL' with: [ 
+spec baseline: 'PostgreSQLParser' with: [ 
 	spec
 		repository: 'github://juliendelplanque/PostgreSQLParser/src' ]
 [...]
