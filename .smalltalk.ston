@@ -7,9 +7,9 @@ SmalltalkCISpec {
         }
     ],
     #testing : {
-        #categories : [ 'PostgreSQL-.+Tests' ],
+        #categories : [ 'PostgreSQL-*Tests' ],
         #coverage : {
-            #categories : [ 'PostgreSQL-.+Tests' ]
+            #categories : [ 'PostgreSQL-*Tests' ]
     }
   }
 }
