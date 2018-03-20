@@ -2,7 +2,7 @@ SmalltalkCISpec {
     #loading : [
         SCIMetacelloLoadSpec {
             #baseline : 'PostgreSQL',
-            #directory : 'repository',
+            #directory : 'src',
             #platforms : [ #pharo ]
         }
     ],
