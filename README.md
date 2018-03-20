@@ -19,6 +19,7 @@ You can use the groups defined in the baseline to install only what you need. Th
 - `ast` : Only the Abstract Syntactic Tree model.
 - `ast-builder` : `ast` + the object that builds the AST from the source code (also requires `parser`).
 - `ast-builder-tests` : `ast-builder` + its unit tests.
+- `visitors` : `ast` + default visitors of the AST.
 - `core` : `parser` + `ast` + `ast-builder`.
 - `core-tests` : `core` + all unit tests associated.
 - `future` : Experimental code of this project, do not use this in production.
