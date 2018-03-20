@@ -7,9 +7,9 @@ SmalltalkCISpec {
         }
     ],
     #testing : {
-        #categories : [ 'PostgreSQL-*Tests' ],
+        #categories : [ 'PostgreSQL-AST-Builder-SmokeTests', 'PostgreSQL-AST-Builder-Tests', 'PostgreSQL-Parser-CrashTests', 'PostgreSQL-Parser-Tests' ],
         #coverage : {
-            #categories : [ 'PostgreSQL-*Tests' ]
+            #categories : [ 'PostgreSQL-AST-Builder-SmokeTests', 'PostgreSQL-AST-Builder-Tests', 'PostgreSQL-Parser-CrashTests', 'PostgreSQL-Parser-Tests' ]
     }
   }
 }
