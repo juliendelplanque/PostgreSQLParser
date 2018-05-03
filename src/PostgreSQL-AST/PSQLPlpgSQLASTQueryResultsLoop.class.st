@@ -8,12 +8,12 @@ Class {
 		'target',
 		'query'
 	],
-	#category : #PostgreSQL-AST-PlpgSQL
+	#category : #'PostgreSQL-AST-PlpgSQL'
 }
 
 { #category : #visiting }
-PSQLPlpgSQLASTQueryResultsLoop >> acceptVisitor: aPSQLASTVisitor [
-	^ self visitPSQLPlpgSQLASTQueryResultsLoop: self
+PSQLPlpgSQLASTQueryResultsLoop >> acceptVisitor: aVisitor [
+	^ aVisitor visitPSQLPlpgSQLASTQueryResultsLoop: self
 ]
 
 { #category : #accessing }

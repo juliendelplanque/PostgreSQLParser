@@ -9,12 +9,12 @@ Class {
 		'hasTable',
 		'newTable'
 	],
-	#category : #PostgreSQL-AST-SQL
+	#category : #'PostgreSQL-AST-SQL'
 }
 
 { #category : #visiting }
-PSQLASTIntoClause >> acceptVisitor: aPSQLASTVisitor [
-	^ self visitPSQLASTIntoClause: self
+PSQLASTIntoClause >> acceptVisitor: aVisitor [
+	^ aVisitor visitPSQLASTIntoClause: self
 ]
 
 { #category : #accessing }

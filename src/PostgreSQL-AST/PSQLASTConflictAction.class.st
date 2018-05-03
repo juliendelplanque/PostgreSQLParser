@@ -8,12 +8,12 @@ Class {
 		'setClause',
 		'condition'
 	],
-	#category : #PostgreSQL-AST-SQL
+	#category : #'PostgreSQL-AST-SQL'
 }
 
 { #category : #visiting }
-PSQLASTConflictAction >> acceptVisitor: aPSQLASTVisitor [
-	^ self visitPSQLASTConflictAction: self
+PSQLASTConflictAction >> acceptVisitor: aVisitor [
+	^ aVisitor visitPSQLASTConflictAction: self
 ]
 
 { #category : #accessing }

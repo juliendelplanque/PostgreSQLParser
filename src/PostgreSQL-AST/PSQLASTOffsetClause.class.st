@@ -7,12 +7,12 @@ Class {
 	#instVars : [
 		'offset'
 	],
-	#category : #PostgreSQL-AST-SQL
+	#category : #'PostgreSQL-AST-SQL'
 }
 
 { #category : #visiting }
-PSQLASTOffsetClause >> acceptVisitor: aPSQLASTVisitor [
-	^ self visitPSQLASTOffsetClause: self
+PSQLASTOffsetClause >> acceptVisitor: aVisitor [
+	^ aVisitor visitPSQLASTOffsetClause: self
 ]
 
 { #category : #accessing }

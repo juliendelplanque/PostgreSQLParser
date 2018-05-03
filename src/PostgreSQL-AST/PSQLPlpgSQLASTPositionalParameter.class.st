@@ -7,12 +7,12 @@ Class {
 	#instVars : [
 		'index'
 	],
-	#category : #PostgreSQL-AST-PlpgSQL
+	#category : #'PostgreSQL-AST-PlpgSQL'
 }
 
 { #category : #visiting }
-PSQLPlpgSQLASTPositionalParameter >> acceptVisitor: aPSQLASTVisitor [
-	^ self visitPSQLPlpgSQLASTPositionalParameter: self
+PSQLPlpgSQLASTPositionalParameter >> acceptVisitor: aVisitor [
+	^ aVisitor visitPSQLPlpgSQLASTPositionalParameter: self
 ]
 
 { #category : #accessing }

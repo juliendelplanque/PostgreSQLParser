@@ -7,12 +7,12 @@ Class {
 	#instVars : [
 		'searchedExpression'
 	],
-	#category : #PostgreSQL-AST-PlpgSQL
+	#category : #'PostgreSQL-AST-PlpgSQL'
 }
 
 { #category : #visiting }
-PSQLPlpgSQLASTSearchedCase >> acceptVisitor: aPSQLASTVisitor [
-	^ self visitPSQLPlpgSQLASTSearchedCase: self
+PSQLPlpgSQLASTSearchedCase >> acceptVisitor: aVisitor [
+	^ aVisitor visitPSQLPlpgSQLASTSearchedCase: self
 ]
 
 { #category : #accessing }

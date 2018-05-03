@@ -8,12 +8,12 @@ Class {
 		'conditionsToExpressions',
 		'elseExpression'
 	],
-	#category : #PostgreSQL-AST-SQL
+	#category : #'PostgreSQL-AST-SQL'
 }
 
 { #category : #visiting }
-PSQLASTConditionalExpression >> acceptVisitor: aPSQLASTVisitor [
-	^ self visitPSQLASTConditionalExpression: self
+PSQLASTConditionalExpression >> acceptVisitor: aVisitor [
+	^ aVisitor visitPSQLASTConditionalExpression: self
 ]
 
 { #category : #accessing }

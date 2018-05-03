@@ -8,12 +8,12 @@ Class {
 		'name',
 		'count'
 	],
-	#category : #PostgreSQL-AST-PlpgSQL
+	#category : #'PostgreSQL-AST-PlpgSQL'
 }
 
 { #category : #visiting }
-PSQLPlpgSQLASTCursorMoveDirection >> acceptVisitor: aPSQLASTVisitor [
-	^ self visitPSQLPlpgSQLASTCursorMoveDirection: self
+PSQLPlpgSQLASTCursorMoveDirection >> acceptVisitor: aVisitor [
+	^ aVisitor visitPSQLPlpgSQLASTCursorMoveDirection: self
 ]
 
 { #category : #accessing }

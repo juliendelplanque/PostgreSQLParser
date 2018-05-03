@@ -7,12 +7,12 @@ Class {
 	#instVars : [
 		'intoClause'
 	],
-	#category : #PostgreSQL-AST-SQL
+	#category : #'PostgreSQL-AST-SQL'
 }
 
 { #category : #visiting }
-PSQLASTSelectIntoQuery >> acceptVisitor: aPSQLASTVisitor [
-	^ self visitPSQLASTSelectIntoQuery: self
+PSQLASTSelectIntoQuery >> acceptVisitor: aVisitor [
+	^ aVisitor visitPSQLASTSelectIntoQuery: self
 ]
 
 { #category : #accessing }

@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'labelContent'
 	],
-	#category : #PostgreSQL-AST-PlpgSQL
+	#category : #'PostgreSQL-AST-PlpgSQL'
 }
 
 { #category : #'instance creation' }
@@ -18,8 +18,8 @@ PSQLPlpgSQLASTBlockLabel class >> labelContent: aString [
 ]
 
 { #category : #visiting }
-PSQLPlpgSQLASTBlockLabel >> acceptVisitor: aPSQLASTVisitor [
-	^ self visitPSQLPlpgSQLASTBlockLabel: self
+PSQLPlpgSQLASTBlockLabel >> acceptVisitor: aVisitor [
+	^ aVisitor visitPSQLPlpgSQLASTBlockLabel: self
 ]
 
 { #category : #printing }

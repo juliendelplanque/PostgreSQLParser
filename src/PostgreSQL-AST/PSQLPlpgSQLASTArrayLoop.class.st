@@ -9,12 +9,12 @@ Class {
 		'sliceNumber',
 		'arrayExpression'
 	],
-	#category : #PostgreSQL-AST-PlpgSQL
+	#category : #'PostgreSQL-AST-PlpgSQL'
 }
 
 { #category : #visiting }
-PSQLPlpgSQLASTArrayLoop >> acceptVisitor: aPSQLASTVisitor [
-	^ self visitPSQLPlpgSQLASTArrayLoop: self
+PSQLPlpgSQLASTArrayLoop >> acceptVisitor: aVisitor [
+	^ aVisitor visitPSQLPlpgSQLASTArrayLoop: self
 ]
 
 { #category : #accessing }

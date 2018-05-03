@@ -11,12 +11,12 @@ Class {
 		'arguments',
 		'selectQuery'
 	],
-	#category : #PostgreSQL-AST-PlpgSQL
+	#category : #'PostgreSQL-AST-PlpgSQL'
 }
 
 { #category : #visiting }
-PSQLPlpgSQLASTCursorDeclaration >> acceptVisitor: aPSQLASTVisitor [
-	^ self visitPSQLPlpgSQLASTCursorDeclaration: self
+PSQLPlpgSQLASTCursorDeclaration >> acceptVisitor: aVisitor [
+	^ aVisitor visitPSQLPlpgSQLASTCursorDeclaration: self
 ]
 
 { #category : #accessing }

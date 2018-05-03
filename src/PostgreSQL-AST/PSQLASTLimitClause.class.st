@@ -7,12 +7,12 @@ Class {
 	#instVars : [
 		'limit'
 	],
-	#category : #PostgreSQL-AST-SQL
+	#category : #'PostgreSQL-AST-SQL'
 }
 
 { #category : #visiting }
-PSQLASTLimitClause >> acceptVisitor: aPSQLASTVisitor [
-	^ self visitPSQLASTLimitClause: self
+PSQLASTLimitClause >> acceptVisitor: aVisitor [
+	^ aVisitor visitPSQLASTLimitClause: self
 ]
 
 { #category : #accessing }

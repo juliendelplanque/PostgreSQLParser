@@ -11,12 +11,12 @@ Class {
 		'expressions',
 		'orderByClause'
 	],
-	#category : #PostgreSQL-AST-SQL
+	#category : #'PostgreSQL-AST-SQL'
 }
 
 { #category : #visiting }
-PSQLASTAggregateFunctionCall >> acceptVisitor: aPSQLASTVisitor [
-	^ self visitPSQLASTAggregateFunctionCall: self
+PSQLASTAggregateFunctionCall >> acceptVisitor: aVisitor [
+	^ aVisitor visitPSQLASTAggregateFunctionCall: self
 ]
 
 { #category : #accessing }

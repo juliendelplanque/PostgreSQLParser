@@ -8,12 +8,12 @@ Class {
 		'direction',
 		'isFrom'
 	],
-	#category : #PostgreSQL-AST-PlpgSQL
+	#category : #'PostgreSQL-AST-PlpgSQL'
 }
 
 { #category : #visiting }
-PSQLPlpgSQLASTCursorMove >> acceptVisitor: aPSQLASTVisitor [
-	^ self visitPSQLPlpgSQLASTCursorMove: self
+PSQLPlpgSQLASTCursorMove >> acceptVisitor: aVisitor [
+	^ aVisitor visitPSQLPlpgSQLASTCursorMove: self
 ]
 
 { #category : #accessing }

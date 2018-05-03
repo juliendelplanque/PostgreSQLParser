@@ -7,12 +7,12 @@ Class {
 	#instVars : [
 		'tableIdentifier'
 	],
-	#category : #PostgreSQL-AST-PlpgSQL
+	#category : #'PostgreSQL-AST-PlpgSQL'
 }
 
 { #category : #visiting }
-PSQLPlpgSQLASTRowTypeDeclaration >> acceptVisitor: aPSQLASTVisitor [
-	^ self visitPSQLPlpgSQLASTRowTypeDeclaration: self
+PSQLPlpgSQLASTRowTypeDeclaration >> acceptVisitor: aVisitor [
+	^ aVisitor visitPSQLPlpgSQLASTRowTypeDeclaration: self
 ]
 
 { #category : #accessing }

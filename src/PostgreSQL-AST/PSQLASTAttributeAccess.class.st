@@ -8,12 +8,12 @@ Class {
 		'accessed',
 		'attributeIdentifier'
 	],
-	#category : #PostgreSQL-AST-SQL
+	#category : #'PostgreSQL-AST-SQL'
 }
 
 { #category : #visiting }
-PSQLASTAttributeAccess >> acceptVisitor: aPSQLASTVisitor [
-	^ self visitPSQLASTAttributeAccess: self
+PSQLASTAttributeAccess >> acceptVisitor: aVisitor [
+	^ aVisitor visitPSQLASTAttributeAccess: self
 ]
 
 { #category : #accessing }

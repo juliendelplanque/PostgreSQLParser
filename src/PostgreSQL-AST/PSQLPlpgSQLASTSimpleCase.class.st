@@ -4,10 +4,10 @@ I am the node representing a simple case condition.
 Class {
 	#name : #PSQLPlpgSQLASTSimpleCase,
 	#superclass : #PSQLPlpgSQLASTConditional,
-	#category : #PostgreSQL-AST-PlpgSQL
+	#category : #'PostgreSQL-AST-PlpgSQL'
 }
 
 { #category : #visiting }
-PSQLPlpgSQLASTSimpleCase >> acceptVisitor: aPSQLASTVisitor [
-	^ self visitPSQLPlpgSQLASTSimpleCase: self
+PSQLPlpgSQLASTSimpleCase >> acceptVisitor: aVisitor [
+	^ aVisitor visitPSQLPlpgSQLASTSimpleCase: self
 ]

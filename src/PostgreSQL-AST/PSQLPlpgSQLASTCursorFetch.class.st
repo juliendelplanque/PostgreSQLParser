@@ -9,12 +9,12 @@ Class {
 		'isFrom',
 		'targets'
 	],
-	#category : #PostgreSQL-AST-PlpgSQL
+	#category : #'PostgreSQL-AST-PlpgSQL'
 }
 
 { #category : #visiting }
-PSQLPlpgSQLASTCursorFetch >> acceptVisitor: aPSQLASTVisitor [
-	^ self visitPSQLPlpgSQLASTCursorFetch: self
+PSQLPlpgSQLASTCursorFetch >> acceptVisitor: aVisitor [
+	^ aVisitor visitPSQLPlpgSQLASTCursorFetch: self
 ]
 
 { #category : #accessing }

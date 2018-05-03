@@ -8,12 +8,12 @@ Class {
 		'isFirst',
 		'count'
 	],
-	#category : #PostgreSQL-AST-SQL
+	#category : #'PostgreSQL-AST-SQL'
 }
 
 { #category : #visiting }
-PSQLASTFetchClause >> acceptVisitor: aPSQLASTVisitor [
-	^ self visitPSQLASTFetchClause: self
+PSQLASTFetchClause >> acceptVisitor: aVisitor [
+	^ aVisitor visitPSQLASTFetchClause: self
 ]
 
 { #category : #accessing }

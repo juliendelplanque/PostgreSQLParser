@@ -19,12 +19,12 @@ Class {
 		'fetchClause',
 		'forClause'
 	],
-	#category : #PostgreSQL-AST-SQL
+	#category : #'PostgreSQL-AST-SQL'
 }
 
 { #category : #visiting }
-PSQLASTSelectQuery >> acceptVisitor: aPSQLASTVisitor [
-	^ self visitPSQLASTSelectQuery: self
+PSQLASTSelectQuery >> acceptVisitor: aVisitor [
+	^ aVisitor visitPSQLASTSelectQuery: self
 ]
 
 { #category : #accessing }

@@ -9,12 +9,12 @@ Class {
 	#instVars : [
 		'cursorIdentifier'
 	],
-	#category : #PostgreSQL-AST-PlpgSQL
+	#category : #'PostgreSQL-AST-PlpgSQL'
 }
 
 { #category : #visiting }
-PSQLPlpgSQLASTCursorStatement >> acceptVisitor: aPSQLASTVisitor [
-	^ self visitPSQLPlpgSQLASTCursorStatement: self
+PSQLPlpgSQLASTCursorStatement >> acceptVisitor: aVisitor [
+	^ aVisitor visitPSQLPlpgSQLASTCursorStatement: self
 ]
 
 { #category : #accessing }

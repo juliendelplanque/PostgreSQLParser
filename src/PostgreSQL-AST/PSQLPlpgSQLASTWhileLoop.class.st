@@ -8,12 +8,12 @@ Class {
 	#instVars : [
 		'condition'
 	],
-	#category : #PostgreSQL-AST-PlpgSQL
+	#category : #'PostgreSQL-AST-PlpgSQL'
 }
 
 { #category : #visiting }
-PSQLPlpgSQLASTWhileLoop >> acceptVisitor: aPSQLASTVisitor [
-	^ self visitPSQLPlpgSQLASTWhileLoop: self
+PSQLPlpgSQLASTWhileLoop >> acceptVisitor: aVisitor [
+	^ aVisitor visitPSQLPlpgSQLASTWhileLoop: self
 ]
 
 { #category : #accessing }

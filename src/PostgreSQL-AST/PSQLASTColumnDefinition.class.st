@@ -8,12 +8,12 @@ Class {
 		'columnName',
 		'type'
 	],
-	#category : #PostgreSQL-AST-SQL
+	#category : #'PostgreSQL-AST-SQL'
 }
 
 { #category : #visiting }
-PSQLASTColumnDefinition >> acceptVisitor: aPSQLASTVisitor [
-	^ self visitPSQLASTColumnDefinition: self
+PSQLASTColumnDefinition >> acceptVisitor: aVisitor [
+	^ aVisitor visitPSQLASTColumnDefinition: self
 ]
 
 { #category : #accessing }

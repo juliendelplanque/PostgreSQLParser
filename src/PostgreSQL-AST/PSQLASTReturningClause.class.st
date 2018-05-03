@@ -7,12 +7,12 @@ Class {
 	#instVars : [
 		'returnedList'
 	],
-	#category : #PostgreSQL-AST-SQL
+	#category : #'PostgreSQL-AST-SQL'
 }
 
 { #category : #visiting }
-PSQLASTReturningClause >> acceptVisitor: aPSQLASTVisitor [
-	^ self visitPSQLASTReturningClause: self
+PSQLASTReturningClause >> acceptVisitor: aVisitor [
+	^ aVisitor visitPSQLASTReturningClause: self
 ]
 
 { #category : #accessing }

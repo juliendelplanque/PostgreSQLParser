@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'identifier'
 	],
-	#category : #PostgreSQL-AST-SQL
+	#category : #'PostgreSQL-AST-SQL'
 }
 
 { #category : #'instance creation' }
@@ -18,8 +18,8 @@ PSQLASTIdentifier class >> identifier: aString [
 ]
 
 { #category : #visiting }
-PSQLASTIdentifier >> acceptVisitor: aPSQLASTVisitor [
-	^ self visitPSQLASTIdentifier: self
+PSQLASTIdentifier >> acceptVisitor: aVisitor [
+	^ aVisitor visitPSQLASTIdentifier: self
 ]
 
 { #category : #accessing }

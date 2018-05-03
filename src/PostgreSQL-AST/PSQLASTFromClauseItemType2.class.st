@@ -10,12 +10,12 @@ Class {
 		'alias',
 		'columnAliases'
 	],
-	#category : #PostgreSQL-AST-SQL
+	#category : #'PostgreSQL-AST-SQL'
 }
 
 { #category : #visiting }
-PSQLASTFromClauseItemType2 >> acceptVisitor: aPSQLASTVisitor [
-	^ self visitPSQLASTFromClauseItemType2: self
+PSQLASTFromClauseItemType2 >> acceptVisitor: aVisitor [
+	^ aVisitor visitPSQLASTFromClauseItemType2: self
 ]
 
 { #category : #accessing }

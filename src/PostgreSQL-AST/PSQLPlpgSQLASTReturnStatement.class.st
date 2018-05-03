@@ -11,12 +11,12 @@ Class {
 		'queryExecute',
 		'usingExpressions'
 	],
-	#category : #PostgreSQL-AST-PlpgSQL
+	#category : #'PostgreSQL-AST-PlpgSQL'
 }
 
 { #category : #visiting }
-PSQLPlpgSQLASTReturnStatement >> acceptVisitor: aPSQLASTVisitor [
-	^ self visitPSQLPlpgSQLASTReturnStatement: self
+PSQLPlpgSQLASTReturnStatement >> acceptVisitor: aVisitor [
+	^ aVisitor visitPSQLPlpgSQLASTReturnStatement: self
 ]
 
 { #category : #accessing }

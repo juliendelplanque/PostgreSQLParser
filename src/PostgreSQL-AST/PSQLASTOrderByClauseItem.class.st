@@ -9,12 +9,12 @@ Class {
 		'isAsc',
 		'isNullsFirst'
 	],
-	#category : #PostgreSQL-AST-SQL
+	#category : #'PostgreSQL-AST-SQL'
 }
 
 { #category : #visiting }
-PSQLASTOrderByClauseItem >> acceptVisitor: aPSQLASTVisitor [
-	^ self visitPSQLASTOrderByClauseItem: self
+PSQLASTOrderByClauseItem >> acceptVisitor: aVisitor [
+	^ aVisitor visitPSQLASTOrderByClauseItem: self
 ]
 
 { #category : #accessing }

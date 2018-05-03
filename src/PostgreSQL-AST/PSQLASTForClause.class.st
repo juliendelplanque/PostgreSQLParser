@@ -9,12 +9,12 @@ Class {
 		'ofTables',
 		'isNoWait'
 	],
-	#category : #PostgreSQL-AST-SQL
+	#category : #'PostgreSQL-AST-SQL'
 }
 
 { #category : #visiting }
-PSQLASTForClause >> acceptVisitor: aPSQLASTVisitor [
-	^ self visitPSQLASTForClause: self
+PSQLASTForClause >> acceptVisitor: aVisitor [
+	^ aVisitor visitPSQLASTForClause: self
 ]
 
 { #category : #testing }

@@ -8,7 +8,7 @@ Class {
 		'startPosition',
 		'endPosition'
 	],
-	#category : #PostgreSQL-AST-SQL
+	#category : #'PostgreSQL-AST-SQL'
 }
 
 { #category : #accessing }

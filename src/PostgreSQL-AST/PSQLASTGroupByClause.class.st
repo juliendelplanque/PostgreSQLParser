@@ -7,12 +7,12 @@ Class {
 	#instVars : [
 		'expressions'
 	],
-	#category : #PostgreSQL-AST-SQL
+	#category : #'PostgreSQL-AST-SQL'
 }
 
 { #category : #visiting }
-PSQLASTGroupByClause >> acceptVisitor: aPSQLASTVisitor [
-	^ self visitPSQLASTGroupByClause: self
+PSQLASTGroupByClause >> acceptVisitor: aVisitor [
+	^ aVisitor visitPSQLASTGroupByClause: self
 ]
 
 { #category : #accessing }

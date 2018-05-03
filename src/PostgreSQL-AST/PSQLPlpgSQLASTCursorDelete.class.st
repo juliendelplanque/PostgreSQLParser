@@ -7,12 +7,12 @@ Class {
 	#instVars : [
 		'tableIdentifier'
 	],
-	#category : #PostgreSQL-AST-PlpgSQL
+	#category : #'PostgreSQL-AST-PlpgSQL'
 }
 
 { #category : #visiting }
-PSQLPlpgSQLASTCursorDelete >> acceptVisitor: aPSQLASTVisitor [
-	^ self visitPSQLPlpgSQLASTCursorDelete: self
+PSQLPlpgSQLASTCursorDelete >> acceptVisitor: aVisitor [
+	^ aVisitor visitPSQLPlpgSQLASTCursorDelete: self
 ]
 
 { #category : #accessing }

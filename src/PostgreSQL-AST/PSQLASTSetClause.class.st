@@ -7,12 +7,12 @@ Class {
 	#instVars : [
 		'items'
 	],
-	#category : #PostgreSQL-AST-SQL
+	#category : #'PostgreSQL-AST-SQL'
 }
 
 { #category : #visiting }
-PSQLASTSetClause >> acceptVisitor: aPSQLASTVisitor [
-	^ self visitPSQLASTSetClause: self
+PSQLASTSetClause >> acceptVisitor: aVisitor [
+	^ aVisitor visitPSQLASTSetClause: self
 ]
 
 { #category : #accessing }

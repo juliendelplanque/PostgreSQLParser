@@ -7,12 +7,12 @@ Class {
 	#instVars : [
 		'condition'
 	],
-	#category : #PostgreSQL-AST-SQL
+	#category : #'PostgreSQL-AST-SQL'
 }
 
 { #category : #visiting }
-PSQLASTSelectWhereClause >> acceptVisitor: aPSQLASTVisitor [
-	^ self visitPSQLASTSelectWhereClause: self
+PSQLASTSelectWhereClause >> acceptVisitor: aVisitor [
+	^ aVisitor visitPSQLASTSelectWhereClause: self
 ]
 
 { #category : #accessing }

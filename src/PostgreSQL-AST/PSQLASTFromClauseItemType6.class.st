@@ -12,12 +12,12 @@ Class {
 		'joinCondition',
 		'usingList'
 	],
-	#category : #PostgreSQL-AST-SQL
+	#category : #'PostgreSQL-AST-SQL'
 }
 
 { #category : #visiting }
-PSQLASTFromClauseItemType6 >> acceptVisitor: aPSQLASTVisitor [
-	^ self visitPSQLASTFromClauseItemType6: self
+PSQLASTFromClauseItemType6 >> acceptVisitor: aVisitor [
+	^ aVisitor visitPSQLASTFromClauseItemType6: self
 ]
 
 { #category : #testing }

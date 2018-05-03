@@ -4,10 +4,10 @@ I represent the alternative way to write a SELECT INTO query (e.g. ""SELECT INTO
 Class {
 	#name : #PSQLASTAlternativeSelectIntoQuery,
 	#superclass : #PSQLASTSelectIntoQuery,
-	#category : #PostgreSQL-AST-SQL
+	#category : #'PostgreSQL-AST-SQL'
 }
 
 { #category : #visiting }
-PSQLASTAlternativeSelectIntoQuery >> acceptVisitor: aPSQLASTVisitor [
-	^ self visitPSQLASTAlternativeSelectIntoQuery: self
+PSQLASTAlternativeSelectIntoQuery >> acceptVisitor: aVisitor [
+	^ aVisitor visitPSQLASTAlternativeSelectIntoQuery: self
 ]

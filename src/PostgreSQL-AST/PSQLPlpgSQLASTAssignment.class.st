@@ -9,12 +9,12 @@ Class {
 		'toAssign',
 		'operator'
 	],
-	#category : #PostgreSQL-AST-PlpgSQL
+	#category : #'PostgreSQL-AST-PlpgSQL'
 }
 
 { #category : #visiting }
-PSQLPlpgSQLASTAssignment >> acceptVisitor: aPSQLASTVisitor [
-	^ self visitPSQLPlpgSQLASTAssignment: self
+PSQLPlpgSQLASTAssignment >> acceptVisitor: aVisitor [
+	^ aVisitor visitPSQLPlpgSQLASTAssignment: self
 ]
 
 { #category : #accessing }

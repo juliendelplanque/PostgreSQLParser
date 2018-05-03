@@ -13,12 +13,12 @@ Class {
 		'tableName',
 		'alias'
 	],
-	#category : #PostgreSQL-AST-SQL
+	#category : #'PostgreSQL-AST-SQL'
 }
 
 { #category : #visiting }
-PSQLASTDeleteQuery >> acceptVisitor: aPSQLASTVisitor [
-	^ self visitPSQLASTDeleteQuery: self
+PSQLASTDeleteQuery >> acceptVisitor: aVisitor [
+	^ aVisitor visitPSQLASTDeleteQuery: self
 ]
 
 { #category : #accessing }

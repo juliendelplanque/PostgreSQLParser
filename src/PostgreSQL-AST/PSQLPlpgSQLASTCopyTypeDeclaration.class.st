@@ -7,12 +7,12 @@ Class {
 	#instVars : [
 		'accessToCopyType'
 	],
-	#category : #PostgreSQL-AST-PlpgSQL
+	#category : #'PostgreSQL-AST-PlpgSQL'
 }
 
 { #category : #visiting }
-PSQLPlpgSQLASTCopyTypeDeclaration >> acceptVisitor: aPSQLASTVisitor [
-	^ self visitPSQLPlpgSQLASTCopyTypeDeclaration: self
+PSQLPlpgSQLASTCopyTypeDeclaration >> acceptVisitor: aVisitor [
+	^ aVisitor visitPSQLPlpgSQLASTCopyTypeDeclaration: self
 ]
 
 { #category : #accessing }

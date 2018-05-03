@@ -14,12 +14,12 @@ Class {
 		'areDescendantTablesIncluded',
 		'hasOnly'
 	],
-	#category : #PostgreSQL-AST-SQL
+	#category : #'PostgreSQL-AST-SQL'
 }
 
 { #category : #visiting }
-PSQLASTUpdateQuery >> acceptVisitor: aPSQLASTVisitor [
-	^ self visitPSQLASTUpdateQuery: self
+PSQLASTUpdateQuery >> acceptVisitor: aVisitor [
+	^ aVisitor visitPSQLASTUpdateQuery: self
 ]
 
 { #category : #accessing }

@@ -12,12 +12,12 @@ Class {
 		'alias',
 		'columns'
 	],
-	#category : #PostgreSQL-AST-SQL
+	#category : #'PostgreSQL-AST-SQL'
 }
 
 { #category : #visiting }
-PSQLASTInsertQuery >> acceptVisitor: aPSQLASTVisitor [
-	^ self visitPSQLASTInsertQuery: self
+PSQLASTInsertQuery >> acceptVisitor: aVisitor [
+	^ aVisitor visitPSQLASTInsertQuery: self
 ]
 
 { #category : #accessing }

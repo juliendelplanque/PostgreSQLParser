@@ -8,12 +8,12 @@ Class {
 		'selectQuery',
 		'scroll'
 	],
-	#category : #PostgreSQL-AST-PlpgSQL
+	#category : #'PostgreSQL-AST-PlpgSQL'
 }
 
 { #category : #visiting }
-PSQLPlpgSQLASTCursorOpenForQuery >> acceptVisitor: aPSQLASTVisitor [
-	^ self visitPSQLPlpgSQLASTCursorOpenForQuery: self
+PSQLPlpgSQLASTCursorOpenForQuery >> acceptVisitor: aVisitor [
+	^ aVisitor visitPSQLPlpgSQLASTCursorOpenForQuery: self
 ]
 
 { #category : #accessing }

@@ -7,12 +7,12 @@ Class {
 	#instVars : [
 		'right'
 	],
-	#category : #PostgreSQL-AST-SQL
+	#category : #'PostgreSQL-AST-SQL'
 }
 
 { #category : #visiting }
-PSQLASTBinaryOperator >> acceptVisitor: aPSQLASTVisitor [
-	^ self visitPSQLASTBinaryOperator: self
+PSQLASTBinaryOperator >> acceptVisitor: aVisitor [
+	^ aVisitor visitPSQLASTBinaryOperator: self
 ]
 
 { #category : #accessing }

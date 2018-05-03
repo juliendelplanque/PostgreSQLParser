@@ -8,12 +8,12 @@ Class {
 	#instVars : [
 		'aliased'
 	],
-	#category : #PostgreSQL-AST-PlpgSQL
+	#category : #'PostgreSQL-AST-PlpgSQL'
 }
 
 { #category : #visiting }
-PSQLPlpgSQLASTAliasDeclaration >> acceptVisitor: aPSQLASTVisitor [
-	^ self visitPSQLPlpgSQLASTAliasDeclaration: self
+PSQLPlpgSQLASTAliasDeclaration >> acceptVisitor: aVisitor [
+	^ aVisitor visitPSQLPlpgSQLASTAliasDeclaration: self
 ]
 
 { #category : #accessing }

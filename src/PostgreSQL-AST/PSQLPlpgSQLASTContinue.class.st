@@ -8,12 +8,12 @@ Class {
 		'label',
 		'whenExpression'
 	],
-	#category : #PostgreSQL-AST-PlpgSQL
+	#category : #'PostgreSQL-AST-PlpgSQL'
 }
 
 { #category : #visiting }
-PSQLPlpgSQLASTContinue >> acceptVisitor: aPSQLASTVisitor [
-	^ self visitPSQLPlpgSQLASTContinue: self
+PSQLPlpgSQLASTContinue >> acceptVisitor: aVisitor [
+	^ aVisitor visitPSQLPlpgSQLASTContinue: self
 ]
 
 { #category : #accessing }

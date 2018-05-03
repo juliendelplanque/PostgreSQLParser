@@ -9,12 +9,12 @@ Class {
 		'argumentsList',
 		'argumentsDictionary'
 	],
-	#category : #PostgreSQL-AST-SQL
+	#category : #'PostgreSQL-AST-SQL'
 }
 
 { #category : #visiting }
-PSQLASTFunctionCall >> acceptVisitor: aPSQLASTVisitor [
-	^ self visitPSQLASTFunctionCall: self
+PSQLASTFunctionCall >> acceptVisitor: aVisitor [
+	^ aVisitor visitPSQLASTFunctionCall: self
 ]
 
 { #category : #accessing }

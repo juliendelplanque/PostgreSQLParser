@@ -11,12 +11,12 @@ Class {
 		'isNotNull',
 		'defaultExpression'
 	],
-	#category : #PostgreSQL-AST-PlpgSQL
+	#category : #'PostgreSQL-AST-PlpgSQL'
 }
 
 { #category : #visiting }
-PSQLPlpgSQLASTClassicDeclaration >> acceptVisitor: aPSQLASTVisitor [
-	^ self visitPSQLPlpgSQLASTClassicDeclaration: self
+PSQLPlpgSQLASTClassicDeclaration >> acceptVisitor: aVisitor [
+	^ aVisitor visitPSQLPlpgSQLASTClassicDeclaration: self
 ]
 
 { #category : #accessing }

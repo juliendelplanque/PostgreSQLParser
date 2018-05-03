@@ -9,12 +9,12 @@ Class {
 		'declarations',
 		'statements'
 	],
-	#category : #PostgreSQL-AST-PlpgSQL
+	#category : #'PostgreSQL-AST-PlpgSQL'
 }
 
 { #category : #visiting }
-PSQLPlpgSQLASTBlock >> acceptVisitor: aPSQLASTVisitor [
-	^ self visitPSQLPlpgSQLASTBlock: self
+PSQLPlpgSQLASTBlock >> acceptVisitor: aVisitor [
+	^ aVisitor visitPSQLPlpgSQLASTBlock: self
 ]
 
 { #category : #accessing }
