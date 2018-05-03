@@ -45,7 +45,7 @@ Class {
 		'identifier',
 		'identifierWithOptionalFieldAccess'
 	],
-	#category : #PostgreSQL-Parser-Core
+	#category : #'PostgreSQL-Parser-Core'
 }
 
 { #category : #accessing }
@@ -255,7 +255,7 @@ PSQLTokenizer >> special [
 
 { #category : #accessing }
 PSQLTokenizer >> start [
-	^ (psqlToken separatedBy: whiteSpace star) end
+	^ (psqlToken separatedBy: whiteSpace star) trim end
 ]
 
 { #category : #accessing }

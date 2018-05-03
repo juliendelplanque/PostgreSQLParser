@@ -102,7 +102,7 @@ Class {
 		'colon',
 		'constant'
 	],
-	#category : #PostgreSQL-Parser-Grammars-PLpgSQL
+	#category : #'PostgreSQL-Parser-Grammars-PLpgSQL'
 }
 
 { #category : #accessing }
