@@ -4,7 +4,7 @@ I am an abstract visitor, superclass of all visitors of PSQL ast.
 Class {
 	#name : #PSQLASTVisitor,
 	#superclass : #Object,
-	#category : #PostgreSQL-AST-Visitors
+	#category : #'PostgreSQL-AST-Visitors'
 }
 
 { #category : #visiting }
