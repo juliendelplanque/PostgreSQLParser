@@ -2,15 +2,17 @@ Class {
 	#name : #PSQLASTReflectiveVisitor,
 	#superclass : #PSQLASTVisitor,
 	#instVars : [
-		'model'
+		'model',
+		'function'
 	],
 	#category : #'PostgreSQL-AST-Visitors'
 }
 
 { #category : #'instance creation' }
-PSQLASTReflectiveVisitor class >> model: aMooseModel [
+PSQLASTReflectiveVisitor class >> model: aMooseModel function: aFunction [
 	^ self new
 		model: aMooseModel;
+		function: aFunction;
 		yourself
 ]
 
@@ -21,8 +23,20 @@ PSQLASTReflectiveVisitor >> childrenFor: aNode [
 			(aNode perform: instanceVar)
 				in: [ :varContent | 
 					varContent isPSQLASTNode
-						ifFalse: [ {} ]
-						ifTrue: [ :res | res asCollection ] ] ]
+						ifFalse: [ (varContent isString not and: [ varContent isCollection ])
+								ifTrue: [ varContent ]
+								ifFalse: [ {} ] ]
+						ifTrue: [ varContent asCollection ] ] ]
+]
+
+{ #category : #accessing }
+PSQLASTReflectiveVisitor >> function [
+	^ function
+]
+
+{ #category : #accessing }
+PSQLASTReflectiveVisitor >> function: anObject [
+	function := anObject
 ]
 
 { #category : #accessing }
@@ -177,7 +191,8 @@ PSQLASTReflectiveVisitor >> visitPSQLASTHavingClause: aPSQLASTHavingClause [
 
 { #category : #visiting }
 PSQLASTReflectiveVisitor >> visitPSQLASTIdentifier: aPSQLASTIdentifier [
-	self flag: #TODO
+	function
+		addCallTargeting: ((self model allWithType: FmxSQLStoredProcedure) detect: [ :procedure | procedure name = aPSQLASTIdentifier identifier ])
 ]
 
 { #category : #visiting }
