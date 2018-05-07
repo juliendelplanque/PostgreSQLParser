@@ -4,7 +4,7 @@ I process PL/pgSQL source code as input and build an AST using PSQLASTNode subcl
 Class {
 	#name : #PSQLPlpgSQLASTBuilder,
 	#superclass : #PSQLPlpgSQLGrammar,
-	#category : #PostgreSQL-AST-Builder
+	#category : #'PostgreSQL-AST-Builder'
 }
 
 { #category : #accessing }
@@ -337,6 +337,15 @@ PSQLPlpgSQLASTBuilder >> plpgsqlOpenCursorForQuery [
 						ifNotNil: [ :subTokens | subTokens first isNil ]);
 			selectQuery: tokens fifth;
 			yourself ]
+]
+
+{ #category : #cursor }
+PSQLPlpgSQLASTBuilder >> plpgsqlPerformStatement [
+	^ super plpgsqlPerformStatement
+		psqlASTBuild: [ :tokens | 
+			PSQLPlpgSQLASTPerform new
+				code: tokens second;
+				yourself ]
 ]
 
 { #category : #loop }

@@ -4,7 +4,7 @@ I build an AST from FROM clause using PSQLASTNode subclasses from source code gi
 Class {
 	#name : #PSQLFromClauseASTBuilder,
 	#superclass : #PSQLFromClauseGrammar,
-	#category : #PostgreSQL-AST-Builder
+	#category : #'PostgreSQL-AST-Builder'
 }
 
 { #category : #accessing }

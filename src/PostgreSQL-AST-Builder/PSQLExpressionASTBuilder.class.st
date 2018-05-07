@@ -4,7 +4,7 @@ I build an AST from a PostgreSQL expression using PSQLASTNode subclasses from so
 Class {
 	#name : #PSQLExpressionASTBuilder,
 	#superclass : #PSQLExpressionGrammar,
-	#category : #PostgreSQL-AST-Builder
+	#category : #'PostgreSQL-AST-Builder'
 }
 
 { #category : #accessing }

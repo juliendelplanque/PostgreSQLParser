@@ -29,6 +29,28 @@ PSQLASTReflectiveVisitor >> childrenFor: aNode [
 						ifTrue: [ varContent asCollection ] ] ]
 ]
 
+{ #category : #finding }
+PSQLASTReflectiveVisitor >> findColumnNamed: aString inTableOrView: aFmxSQLView [ 
+	self shouldBeImplemented.
+]
+
+{ #category : #finding }
+PSQLASTReflectiveVisitor >> findTableNamed: anIdentifier [ 
+	^ (self model allWithType: FmxSQLTable) detect: [ :table | table name = anIdentifier ]  .
+]
+
+{ #category : #finding }
+PSQLASTReflectiveVisitor >> findTableOrViewNamed: aString [
+	^ [ self findTableNamed: aString ]
+		on: NotFound
+		do: [ self findViewNamed: aString ]
+]
+
+{ #category : #finding }
+PSQLASTReflectiveVisitor >> findViewNamed: anIdentifier [
+	^ (self model allWithType: FmxSQLView) detect: [ :table | table name = anIdentifier ]
+]
+
 { #category : #accessing }
 PSQLASTReflectiveVisitor >> function [
 	^ function
@@ -191,8 +213,11 @@ PSQLASTReflectiveVisitor >> visitPSQLASTHavingClause: aPSQLASTHavingClause [
 
 { #category : #visiting }
 PSQLASTReflectiveVisitor >> visitPSQLASTIdentifier: aPSQLASTIdentifier [
-	function
-		addCallTargeting: ((self model allWithType: FmxSQLStoredProcedure) detect: [ :procedure | procedure name = aPSQLASTIdentifier identifier ])
+	| identifier |
+	identifier := aPSQLASTIdentifier identifier.
+	^ (identifier first = $" and: identifier last = $")
+		ifTrue: [ identifier withoutQuoting ]
+		ifFalse: [ identifier asLowercase ]
 ]
 
 { #category : #visiting }
@@ -431,6 +456,12 @@ PSQLASTReflectiveVisitor >> visitPSQLPlpgSQLASTIf: aPSQLPlpgSQLASTIf [
 ]
 
 { #category : #visiting }
+PSQLASTReflectiveVisitor >> visitPSQLPlpgSQLASTPerform: aPSQLPlpgSQLASTPerform [ 
+	self flag: #TODO.
+	"Ignored for now"
+]
+
+{ #category : #visiting }
 PSQLASTReflectiveVisitor >> visitPSQLPlpgSQLASTPositionalParameter: aPSQLPlpgSQLASTPositionalParameter [
 	(self childrenFor: aPSQLPlpgSQLASTPositionalParameter) do: [:aChild | aChild acceptVisitor: self]
 ]
@@ -457,7 +488,13 @@ PSQLASTReflectiveVisitor >> visitPSQLPlpgSQLASTReturnStatement: aPSQLPlpgSQLASTR
 
 { #category : #visiting }
 PSQLASTReflectiveVisitor >> visitPSQLPlpgSQLASTRowTypeDeclaration: aPSQLPlpgSQLASTRowTypeDeclaration [
-	(self childrenFor: aPSQLPlpgSQLASTRowTypeDeclaration) do: [:aChild | aChild acceptVisitor: self]
+	| table column |
+	table := self findTableOrViewNamed: (aPSQLPlpgSQLASTRowTypeDeclaration tableIdentifier acceptVisitor: self).
+	self flag: #TODO.
+	"For now View are not resolved (it requires to parse their definition in the SELECT request that create them)"
+	table class = FmxSQLView
+		ifFalse: [ column := self findColumnNamed: (aPSQLPlpgSQLASTRowTypeDeclaration identifier acceptVisitor: self) inTableOrView: table.
+			function addReferenceToColumn: column ofTable: table ]
 ]
 
 { #category : #visiting }

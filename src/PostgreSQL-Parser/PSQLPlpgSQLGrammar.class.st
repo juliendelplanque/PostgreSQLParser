@@ -646,7 +646,7 @@ PSQLPlpgSQLGrammar >> plpgsqlOpenCursorForQuery [
 
 { #category : #statement }
 PSQLPlpgSQLGrammar >> plpgsqlPerformStatement [
-	^ kw perform trim , (semicolon not , #any asParser) plus
+	^ kw perform trim , (semicolon not , #any asParser) plus flatten
 ]
 
 { #category : #statement }

@@ -4,7 +4,7 @@ I process INSERT query source code as input and build an AST using PSQLASTNode s
 Class {
 	#name : #PSQLInsertQueryASTBuilder,
 	#superclass : #PSQLInsertQueryGrammar,
-	#category : #PostgreSQL-AST-Builder
+	#category : #'PostgreSQL-AST-Builder'
 }
 
 { #category : #accessing }

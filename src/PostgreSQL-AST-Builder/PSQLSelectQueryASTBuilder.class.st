@@ -4,7 +4,7 @@ I process SELECT and SELECT INTO query source code as input and build an AST usi
 Class {
 	#name : #PSQLSelectQueryASTBuilder,
 	#superclass : #PSQLSelectQueryGrammar,
-	#category : #PostgreSQL-AST-Builder
+	#category : #'PostgreSQL-AST-Builder'
 }
 
 { #category : #accessing }
