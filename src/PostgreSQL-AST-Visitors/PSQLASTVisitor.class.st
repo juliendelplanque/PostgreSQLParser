@@ -388,6 +388,11 @@ PSQLASTVisitor >> visitPSQLPlpgSQLASTIf: aPSQLPlpgSQLASTIf [
 ]
 
 { #category : #visiting }
+PSQLASTVisitor >> visitPSQLPlpgSQLASTLoop: aPSQLPlpgSQLASTLoop [ 
+	self subclassResponsibility.
+]
+
+{ #category : #visiting }
 PSQLASTVisitor >> visitPSQLPlpgSQLASTPerform: aPSQLPlpgSQLASTPerform [ 
 	^ self subclassResponsibility
 ]

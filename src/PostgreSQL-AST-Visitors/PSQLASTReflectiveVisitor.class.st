@@ -30,8 +30,8 @@ PSQLASTReflectiveVisitor >> childrenFor: aNode [
 ]
 
 { #category : #finding }
-PSQLASTReflectiveVisitor >> findColumnNamed: aString inTableOrView: aFmxSQLView [ 
-	self shouldBeImplemented.
+PSQLASTReflectiveVisitor >> findColumnNamed: aColumnName inTableOrView: aFmxSQLView [ 
+	^ aFmxSQLView columns detect: [ :column | column name = aColumnName ]
 ]
 
 { #category : #finding }
@@ -456,6 +456,11 @@ PSQLASTReflectiveVisitor >> visitPSQLPlpgSQLASTIf: aPSQLPlpgSQLASTIf [
 ]
 
 { #category : #visiting }
+PSQLASTReflectiveVisitor >> visitPSQLPlpgSQLASTLoop: aPSQLPlpgSQLASTLoop [ 
+	(self childrenFor: aPSQLPlpgSQLASTLoop) do: [:aChild | aChild acceptVisitor: self]
+]
+
+{ #category : #visiting }
 PSQLASTReflectiveVisitor >> visitPSQLPlpgSQLASTPerform: aPSQLPlpgSQLASTPerform [ 
 	self flag: #TODO.
 	"Ignored for now"
@@ -488,13 +493,12 @@ PSQLASTReflectiveVisitor >> visitPSQLPlpgSQLASTReturnStatement: aPSQLPlpgSQLASTR
 
 { #category : #visiting }
 PSQLASTReflectiveVisitor >> visitPSQLPlpgSQLASTRowTypeDeclaration: aPSQLPlpgSQLASTRowTypeDeclaration [
-	| table column |
-	table := self findTableOrViewNamed: (aPSQLPlpgSQLASTRowTypeDeclaration tableIdentifier acceptVisitor: self).
-	self flag: #TODO.
-	"For now View are not resolved (it requires to parse their definition in the SELECT request that create them)"
-	table class = FmxSQLView
-		ifFalse: [ column := self findColumnNamed: (aPSQLPlpgSQLASTRowTypeDeclaration identifier acceptVisitor: self) inTableOrView: table.
-			function addReferenceToColumn: column ofTable: table ]
+	^ FmxSQLLocalVariable new
+		name: (aPSQLPlpgSQLASTRowTypeDeclaration identifier acceptVisitor: self);
+		type: (self findTableOrViewNamed: (aPSQLPlpgSQLASTRowTypeDeclaration tableIdentifier acceptVisitor: self));
+		storedProcedure: function;
+		mooseModel: model;
+		yourself
 ]
 
 { #category : #visiting }

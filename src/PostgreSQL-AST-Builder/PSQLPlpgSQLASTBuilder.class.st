@@ -215,6 +215,17 @@ PSQLPlpgSQLASTBuilder >> plpgsqlDeclarations [
 		tokens first reject: [ :item | item = $; ] ]
 ]
 
+{ #category : #plpgsql }
+PSQLPlpgSQLASTBuilder >> plpgsqlExitStatement [
+	^ super plpgsqlExitStatement
+		psqlASTBuild: [ :tokens | 
+			Halt now.
+			PSQLPlpgSQLASTExit new
+				label: tokens first;
+				booleanExpression: tokens fourth;
+				yourself ]
+]
+
 { #category : #cursor }
 PSQLPlpgSQLASTBuilder >> plpgsqlFetchCursorDirection [
 	^ super plpgsqlFetchCursorDirection psqlASTBuild: [ :tokens |
