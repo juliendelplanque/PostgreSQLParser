@@ -10,7 +10,7 @@ Class {
 		'protocolTextInput',
 		'generateButton'
 	],
-	#category : #PostgreSQL-DevTools
+	#category : #'PostgreSQL-DevTools'
 }
 
 { #category : #specs }

@@ -4,7 +4,7 @@ Deals with 'TypeName' key of the dictionary. Replace it by an array containing t
 Class {
 	#name : #PSQLTypeNameExtractor,
 	#superclass : #PSQLJSONVisitor,
-	#category : #PostgreSQL-LibpgQuery-Visitors
+	#category : #'PostgreSQL-LibpgQuery-Visitors'
 }
 
 { #category : #visiting }

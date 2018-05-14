@@ -1,1 +1,1 @@
-Package { #name : #PostgreSQL-DevTools }
+Package { #name : #'PostgreSQL-DevTools' }

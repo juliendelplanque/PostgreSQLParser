@@ -1,5 +1,5 @@
 Class {
 	#name : #PSQLASTLQCommitTransaction,
 	#superclass : #PSQLASTNode,
-	#category : #PostgreSQL-LibpgQuery-AST-Extension
+	#category : #'PostgreSQL-LibpgQuery-AST-Extension'
 }

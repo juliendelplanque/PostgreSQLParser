@@ -6,7 +6,7 @@ Used as it, this visitor simply does a shallow copy of the objects.
 Class {
 	#name : #PSQLJSONVisitor,
 	#superclass : #Object,
-	#category : #PostgreSQL-LibpgQuery-Visitors
+	#category : #'PostgreSQL-LibpgQuery-Visitors'
 }
 
 { #category : #helpers }
@@ -49,7 +49,7 @@ PSQLJSONVisitor >> visitDictionary: aDictionary [
 	| newDict |
 	newDict := Dictionary new.
 	aDictionary associations do: [ :association |
-		newDict at: association head put: (association tail psqlJSONAccept: self) ].
+		newDict at: association key put: (association value psqlJSONAccept: self) ].
 	^ newDict
 ]
 

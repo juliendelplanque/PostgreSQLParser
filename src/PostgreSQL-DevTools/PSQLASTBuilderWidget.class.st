@@ -5,7 +5,7 @@ Class {
 		'sqlCodeText',
 		'inspectButton'
 	],
-	#category : #PostgreSQL-DevTools
+	#category : #'PostgreSQL-DevTools'
 }
 
 { #category : #specs }

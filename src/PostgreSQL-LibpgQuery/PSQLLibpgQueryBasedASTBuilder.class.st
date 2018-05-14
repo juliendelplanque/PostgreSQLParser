@@ -4,7 +4,7 @@ I am a AST builder based on libpgquery. I take an SQL string as input and return
 Class {
 	#name : #PSQLLibpgQueryBasedASTBuilder,
 	#superclass : #Object,
-	#category : #PostgreSQL-LibpgQuery-Core
+	#category : #'PostgreSQL-LibpgQuery-Core'
 }
 
 { #category : #private }

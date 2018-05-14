@@ -219,10 +219,9 @@ PSQLPlpgSQLASTBuilder >> plpgsqlDeclarations [
 PSQLPlpgSQLASTBuilder >> plpgsqlExitStatement [
 	^ super plpgsqlExitStatement
 		psqlASTBuild: [ :tokens | 
-			Halt now.
 			PSQLPlpgSQLASTExit new
 				label: tokens first;
-				booleanExpression: tokens fourth;
+				booleanExpression: tokens third;
 				yourself ]
 ]
 

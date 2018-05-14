@@ -1,1 +1,1 @@
-Package { #name : #PostgreSQL-LibpgQuery }
+Package { #name : #'PostgreSQL-LibpgQuery' }

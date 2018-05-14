@@ -8,7 +8,7 @@ Class {
 		'comment',
 		'target'
 	],
-	#category : #PostgreSQL-LibpgQuery-AST-Extension
+	#category : #'PostgreSQL-LibpgQuery-AST-Extension'
 }
 
 { #category : #accessing }

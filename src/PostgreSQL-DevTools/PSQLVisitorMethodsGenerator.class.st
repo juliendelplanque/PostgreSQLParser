@@ -9,7 +9,7 @@ Class {
 		'visitorSuperClass',
 		'packageTextInput'
 	],
-	#category : #PostgreSQL-DevTools
+	#category : #'PostgreSQL-DevTools'
 }
 
 { #category : #specs }

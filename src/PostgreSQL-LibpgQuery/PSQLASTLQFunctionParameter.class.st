@@ -8,7 +8,7 @@ Class {
 		'identifier',
 		'typeIdentifier'
 	],
-	#category : #PostgreSQL-LibpgQuery-AST-Extension
+	#category : #'PostgreSQL-LibpgQuery-AST-Extension'
 }
 
 { #category : #accessing }

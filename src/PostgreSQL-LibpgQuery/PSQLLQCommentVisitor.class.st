@@ -4,7 +4,7 @@ I visit the JSON model to build PSQLASTLQComments.
 Class {
 	#name : #PSQLLQCommentVisitor,
 	#superclass : #PSQLJSONVisitor,
-	#category : #PostgreSQL-LibpgQuery-Visitors
+	#category : #'PostgreSQL-LibpgQuery-Visitors'
 }
 
 { #category : #visiting }

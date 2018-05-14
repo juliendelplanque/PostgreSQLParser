@@ -1,7 +1,7 @@
 Class {
 	#name : #PSQLPlantUMLGenerator,
 	#superclass : #Object,
-	#category : #PostgreSQL-DevTools
+	#category : #'PostgreSQL-DevTools'
 }
 
 { #category : #'plant uml' }
@@ -32,9 +32,9 @@ hide circle';
 	
 	relations do: [ :assoc |
 		s
-			<< assoc head name;
+			<< assoc key name;
 			<< ' --|> ';
-			<< assoc tail name;
+			<< assoc value name;
 			lf ].
 	s << '@enduml' ]
 ]
