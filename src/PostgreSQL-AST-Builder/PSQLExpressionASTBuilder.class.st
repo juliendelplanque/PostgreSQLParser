@@ -163,6 +163,11 @@ PSQLExpressionASTBuilder >> isNull [
 ]
 
 { #category : #expression }
+PSQLExpressionASTBuilder >> nullExpression [
+	^ super nullExpression psqlASTBuild: [ :tokens | PSQLASTNull new ]
+]
+
+{ #category : #expression }
 PSQLExpressionASTBuilder >> parenthesedExpressionParserWith: expressionParser [
 	^ (super parenthesedExpressionParserWith: expressionParser)
 			psqlASTBuild: [ :tokens | 

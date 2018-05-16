@@ -29,6 +29,18 @@ PSQLASTReflectiveVisitor >> childrenFor: aNode [
 						ifTrue: [ varContent asCollection ] ] ]
 ]
 
+{ #category : #'entity creation' }
+PSQLASTReflectiveVisitor >> createEntity: anEntityClass [ 
+	^ anEntityClass new
+		mooseModel: self model;
+		yourself
+]
+
+{ #category : #'entity creation' }
+PSQLASTReflectiveVisitor >> createEntity: anEntityClass from: aPSQLASTNode [ 
+	^ self createEntity: anEntityClass 
+]
+
 { #category : #finding }
 PSQLASTReflectiveVisitor >> findColumnNamed: aColumnName inTableOrView: aFmxSQLView [ 
 	^ aFmxSQLView columns detect: [ :column | column name = aColumnName ]
@@ -71,6 +83,21 @@ PSQLASTReflectiveVisitor >> model: anObject [
 	model := anObject
 ]
 
+{ #category : #'visit convenient' }
+PSQLASTReflectiveVisitor >> visit: nilOrNode thenDo: aBlockClosure [
+	nilOrNode ifNotNil: [ aBlockClosure value: (nilOrNode acceptVisitor: self) ]
+]
+
+{ #category : #'visiting convenience' }
+PSQLASTReflectiveVisitor >> visitAll: aCollection thenDoForEach: aBlockClosure [
+	aCollection do: [ :aNode | self visit: aNode thenDo: aBlockClosure ]
+]
+
+{ #category : #'visiting convenient' }
+PSQLASTReflectiveVisitor >> visitCollectionOfCollection: aCollectionOfCollectionOfNodes thenDoForEach: aBlockClosure [
+	aCollectionOfCollectionOfNodes do: [ :aCollectionOfNodes | self visitAll: aCollectionOfNodes thenDoForEach: aBlockClosure ]
+]
+
 { #category : #visiting }
 PSQLASTReflectiveVisitor >> visitPSQLASTAggregateFunctionCall: aPSQLASTAggregateFunctionCall [
 	(self childrenFor: aPSQLASTAggregateFunctionCall) do: [:aChild | aChild acceptVisitor: self]
@@ -93,7 +120,21 @@ PSQLASTReflectiveVisitor >> visitPSQLASTArrayConstructor: aPSQLASTArrayConstruct
 
 { #category : #visiting }
 PSQLASTReflectiveVisitor >> visitPSQLASTAttributeAccess: aPSQLASTAttributeAccess [
-	(self childrenFor: aPSQLASTAttributeAccess) do: [:aChild | aChild acceptVisitor: self]
+	| attributeName |
+	attributeName := aPSQLASTAttributeAccess accessed acceptVisitor: self.
+	^ (self createEntity: FmxSQLLocalVariableAccess from: aPSQLASTAttributeAccess)
+		localVariable:
+			(self function localVariables
+				detect: [ :var | var name = attributeName ]
+				ifNone: [ "we look if there is an access to NEW or OLD"
+					(attributeName = 'new' or: attributeName = 'old')
+						ifTrue: [ (self createEntity: FmxSQLLocalVariable)
+								name: attributeName;
+								storedProcedure: self function;
+								yourself ]
+						ifFalse: [ NotFound signal ] ]);
+		storedProcedure: self function;
+		yourself
 ]
 
 { #category : #visiting }
@@ -222,7 +263,18 @@ PSQLASTReflectiveVisitor >> visitPSQLASTIdentifier: aPSQLASTIdentifier [
 
 { #category : #visiting }
 PSQLASTReflectiveVisitor >> visitPSQLASTInsertQuery: aPSQLASTInsertQuery [
-	(self childrenFor: aPSQLASTInsertQuery) do: [:aChild | aChild acceptVisitor: self]
+	| insertQuery |
+	insertQuery := self createEntity: FmxSQLInsertQuery from: aPSQLASTInsertQuery.
+	self visit: aPSQLASTInsertQuery withClause thenDo: [ :visitResult | Halt now ].
+	self visit: aPSQLASTInsertQuery returningClause thenDo: [ :visitResult | Halt now ].
+	self visit: aPSQLASTInsertQuery onConflictClause thenDo: [ :visitResult | Halt now ].
+	self
+		visitCollectionOfCollection: aPSQLASTInsertQuery valuesClause
+		thenDoForEach: [ :visitResult | visitResult resolveAsPartOfTheQuery: insertQuery ].
+	self visit: aPSQLASTInsertQuery tableName thenDo: [ :visitResult | Halt now ].
+	self visit: aPSQLASTInsertQuery alias thenDo: [ :visitResult | Halt now ].
+	self visitAll: aPSQLASTInsertQuery columns thenDoForEach: [ :visitResult | Halt now ].
+	^ insertQuery
 ]
 
 { #category : #visiting }
@@ -292,7 +344,26 @@ PSQLASTReflectiveVisitor >> visitPSQLASTSelectIntoQuery: aPSQLASTSelectIntoQuery
 
 { #category : #visiting }
 PSQLASTReflectiveVisitor >> visitPSQLASTSelectQuery: aPSQLASTSelectQuery [
-	(self childrenFor: aPSQLASTSelectQuery) do: [:aChild | aChild acceptVisitor: self]
+	| selectQuery |
+	selectQuery := self
+		createEntity: FmxSQLSelectQuery
+		from: aPSQLASTSelectQuery.
+	self visit: aPSQLASTSelectQuery withClause thenDo: [ :visitResult | Halt now ].
+	self visit: aPSQLASTSelectQuery allOrDistinctClause thenDo: [ :visitResult | Halt now ].
+	self visitAll: aPSQLASTSelectQuery columnsAndAliasesSelected thenDoForEach: [ :visitResult | Halt now ].
+	self visit: aPSQLASTSelectQuery fromClause thenDo: [ :visitResult | Halt now ].
+	self visit: aPSQLASTSelectQuery whereClause thenDo: [ :visitResult | Halt now ].
+	self visit: aPSQLASTSelectQuery groupByClause thenDo: [ :visitResult | Halt now ].
+	self visit: aPSQLASTSelectQuery havingClause thenDo: [ :visitResult | Halt now ].
+	self visit: aPSQLASTSelectQuery windowClause thenDo: [ :visitResult | Halt now ].
+	self visit: aPSQLASTSelectQuery unionIntersectExceptClause thenDo: [ :visitResult | Halt now ].
+	self visit: aPSQLASTSelectQuery orderByClause thenDo: [ :visitResult | Halt now ].
+	self visit: aPSQLASTSelectQuery limitClause thenDo: [ :visitResult | Halt now ].
+	self visit: aPSQLASTSelectQuery offsetClause thenDo: [ :visitResult | Halt now ].
+	self visit: aPSQLASTSelectQuery fetchClause thenDo: [ :visitResult | Halt now ].
+	self visit: aPSQLASTSelectQuery forClause thenDo: [ :visitResult | Halt now ].
+	selectQuery mooseModel: model.
+	^ selectQuery
 ]
 
 { #category : #visiting }
@@ -322,7 +393,8 @@ PSQLASTReflectiveVisitor >> visitPSQLASTSetClauseItemType3: aPSQLASTSetClauseIte
 
 { #category : #visiting }
 PSQLASTReflectiveVisitor >> visitPSQLASTStringConstant: aPSQLASTStringConstant [
-	(self childrenFor: aPSQLASTStringConstant) do: [:aChild | aChild acceptVisitor: self]
+	"Ignoring constants for now".
+	^ aPSQLASTStringConstant 
 ]
 
 { #category : #visiting }

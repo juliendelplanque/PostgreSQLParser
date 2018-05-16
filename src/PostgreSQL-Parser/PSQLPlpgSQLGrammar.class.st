@@ -185,11 +185,6 @@ PSQLPlpgSQLGrammar >> identifierOrKeyword [
 	^ (self dependencyAt: self class tokenParser) identifierOrKeyword
 ]
 
-{ #category : #helpers }
-PSQLPlpgSQLGrammar >> identifierWithOptionalFieldAccess [
-	^ (self dependencyAt: self class sqlParser) identifierWithOptionalFieldAccess
-]
-
 { #category : #initialization }
 PSQLPlpgSQLGrammar >> initialize [
 	super initialize.
