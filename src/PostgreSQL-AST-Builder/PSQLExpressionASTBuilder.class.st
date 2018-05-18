@@ -107,9 +107,10 @@ PSQLExpressionASTBuilder >> compositeValueWith: anExpressionParser [
 
 { #category : #expression }
 PSQLExpressionASTBuilder >> conditionalExpression [
+	self flag: #TODO. "REQUIRE refactor following when expression refactor"
 	^ super conditionalExpression psqlASTBuild: [ :tokens |
 		PSQLASTConditionalExpression new
-			conditionsToExpressions: (tokens second collect: [ :item | item second -> item fourth ]);
+			conditionsToExpressions: (tokens second collect: [ :item | item first second -> item third ]);
 			elseExpression: tokens third second;
 			yourself ]
 ]

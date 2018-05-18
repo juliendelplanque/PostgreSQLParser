@@ -4,17 +4,14 @@ I build an AST for various subsets of the PSQL grammar that are shared between m
 Class {
 	#name : #PSQLSharedASTBuilder,
 	#superclass : #PSQLSharedGrammar,
+	#traits : 'PSQLTExpressionDependingBuilder',
+	#classTraits : 'PSQLTExpressionDependingBuilder classTrait',
 	#category : #'PostgreSQL-AST-Builder'
 }
 
 { #category : #accessing }
 PSQLSharedASTBuilder class >> crudQueryParser [
 	^ PSQLCRUDQueryASTBuilder
-]
-
-{ #category : #accessing }
-PSQLSharedASTBuilder class >> sqlParser [
-	^ PSQLExpressionASTBuilder
 ]
 
 { #category : #accessing }

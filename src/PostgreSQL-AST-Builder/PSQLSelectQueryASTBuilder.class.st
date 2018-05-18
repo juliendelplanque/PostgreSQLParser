@@ -4,6 +4,8 @@ I process SELECT and SELECT INTO query source code as input and build an AST usi
 Class {
 	#name : #PSQLSelectQueryASTBuilder,
 	#superclass : #PSQLSelectQueryGrammar,
+	#traits : 'PSQLTExpressionDependingBuilder',
+	#classTraits : 'PSQLTExpressionDependingBuilder classTrait',
 	#category : #'PostgreSQL-AST-Builder'
 }
 
@@ -15,11 +17,6 @@ PSQLSelectQueryASTBuilder class >> fromClauseParser [
 { #category : #accessing }
 PSQLSelectQueryASTBuilder class >> sharedParser [
 	^ PSQLSharedASTBuilder
-]
-
-{ #category : #accessing }
-PSQLSelectQueryASTBuilder class >> sqlParser [
-	^ PSQLExpressionASTBuilder
 ]
 
 { #category : #accessing }

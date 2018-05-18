@@ -4,17 +4,14 @@ I process DELETE query source code as input and build an AST using PSQLASTNode s
 Class {
 	#name : #PSQLDeleteQueryASTBuilder,
 	#superclass : #PSQLDeleteQueryGrammar,
+	#traits : 'PSQLTExpressionDependingBuilder',
+	#classTraits : 'PSQLTExpressionDependingBuilder classTrait',
 	#category : #'PostgreSQL-AST-Builder'
 }
 
 { #category : #accessing }
 PSQLDeleteQueryASTBuilder class >> sharedParser [
 	^ PSQLSharedASTBuilder
-]
-
-{ #category : #accessing }
-PSQLDeleteQueryASTBuilder class >> sqlParser [
-	^ PSQLExpressionASTBuilder
 ]
 
 { #category : #accessing }

@@ -4,17 +4,14 @@ I build an AST from FROM clause using PSQLASTNode subclasses from source code gi
 Class {
 	#name : #PSQLFromClauseASTBuilder,
 	#superclass : #PSQLFromClauseGrammar,
+	#traits : 'PSQLTExpressionDependingBuilder',
+	#classTraits : 'PSQLTExpressionDependingBuilder classTrait',
 	#category : #'PostgreSQL-AST-Builder'
 }
 
 { #category : #accessing }
 PSQLFromClauseASTBuilder class >> selectQueryParser [
 	^ PSQLSelectQueryASTBuilder
-]
-
-{ #category : #accessing }
-PSQLFromClauseASTBuilder class >> sqlParser [
-	^ PSQLExpressionASTBuilder
 ]
 
 { #category : #accessing }

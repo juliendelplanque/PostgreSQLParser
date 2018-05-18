@@ -4,13 +4,10 @@ I process VALUES command source code as input and build an AST using PSQLASTNode
 Class {
 	#name : #PSQLValuesASTBuilder,
 	#superclass : #PSQLValuesGrammar,
+	#traits : 'PSQLTExpressionDependingBuilder',
+	#classTraits : 'PSQLTExpressionDependingBuilder classTrait',
 	#category : #'PostgreSQL-AST-Builder'
 }
-
-{ #category : #accessing }
-PSQLValuesASTBuilder class >> sqlParser [
-	^ PSQLExpressionASTBuilder
-]
 
 { #category : #accessing }
 PSQLValuesASTBuilder class >> tokenParser [
@@ -19,7 +16,7 @@ PSQLValuesASTBuilder class >> tokenParser [
 
 { #category : #accessing }
 PSQLValuesASTBuilder >> expression [
-	^ (self dependencyAt: PSQLExpressionASTBuilder) expression
+	^ self expressionParser expression
 ]
 
 { #category : #'values command' }

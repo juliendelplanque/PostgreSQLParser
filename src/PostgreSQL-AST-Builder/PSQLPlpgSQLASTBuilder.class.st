@@ -4,6 +4,8 @@ I process PL/pgSQL source code as input and build an AST using PSQLASTNode subcl
 Class {
 	#name : #PSQLPlpgSQLASTBuilder,
 	#superclass : #PSQLPlpgSQLGrammar,
+	#traits : 'PSQLTExpressionDependingBuilder',
+	#classTraits : 'PSQLTExpressionDependingBuilder classTrait',
 	#category : #'PostgreSQL-AST-Builder'
 }
 
@@ -13,13 +15,13 @@ PSQLPlpgSQLASTBuilder class >> crudQueryParser [
 ]
 
 { #category : #accessing }
-PSQLPlpgSQLASTBuilder class >> selectQueryParser [
-	^ PSQLSelectQueryASTBuilder
+PSQLPlpgSQLASTBuilder class >> expressionParser [
+	^ PSQLExpressionASTBuilder
 ]
 
 { #category : #accessing }
-PSQLPlpgSQLASTBuilder class >> sqlParser [
-	^ PSQLExpressionASTBuilder
+PSQLPlpgSQLASTBuilder class >> selectQueryParser [
+	^ PSQLSelectQueryASTBuilder
 ]
 
 { #category : #accessing }
