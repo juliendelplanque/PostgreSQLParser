@@ -53,7 +53,8 @@ Class {
 		'colon',
 		'identifierOrKeyword',
 		'constant',
-		'positionalParameter'
+		'positionalParameter',
+		'whenExpression'
 	],
 	#category : #'PostgreSQL-Parser-Core'
 }
@@ -203,7 +204,7 @@ PSQLExpressionGrammar >> compositeValueWith: anExpressionParser [
 { #category : #expression }
 PSQLExpressionGrammar >> conditionalExpression [
 	^ kw case trim ,
-		(kw when trim , expression trim , kw then trim , expression trim) plus,
+		(whenExpression , kw then trim , expression trim) plus,
 		(kw else trim , expression trim) optional ,
 	kw endKeyword trim
 ]
@@ -491,4 +492,9 @@ PSQLExpressionGrammar >> typeCastConstruct [
 			kw then not,
 			identifierOrKeyword , (openParenthesis trim , (constant separatedBy: comma trim) , closeParenthesis trim) optional
 			) plus separatedBy: #space asParser plus).
+]
+
+{ #category : #expression }
+PSQLExpressionGrammar >> whenExpression [
+	^ kw when trim , expression trim
 ]

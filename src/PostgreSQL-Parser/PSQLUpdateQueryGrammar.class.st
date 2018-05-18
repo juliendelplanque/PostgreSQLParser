@@ -4,6 +4,8 @@ I parse PostgreSQL UPDATE query.
 Class {
 	#name : #PSQLUpdateQueryGrammar,
 	#superclass : #PPCompositeParser,
+	#traits : 'PSQLTExpressionDependingGrammar',
+	#classTraits : 'PSQLTExpressionDependingGrammar classTrait',
 	#instVars : [
 		'updateCommand',
 		'fromClause',
@@ -21,7 +23,7 @@ Class {
 
 { #category : #accessing }
 PSQLUpdateQueryGrammar class >> dependencies [
-	^ { self sqlParser . self fromClauseParser . self sharedParser . self tokenParser }
+	^ { self expressionParser . self fromClauseParser . self sharedParser . self tokenParser }
 ]
 
 { #category : #example }
@@ -42,11 +44,6 @@ PSQLUpdateQueryGrammar class >> ignoredNames [
 { #category : #accessing }
 PSQLUpdateQueryGrammar class >> sharedParser [
 	^ PSQLSharedGrammar
-]
-
-{ #category : #accessing }
-PSQLUpdateQueryGrammar class >> sqlParser [
-	^ PSQLExpressionGrammar
 ]
 
 { #category : #accessing }
@@ -71,7 +68,7 @@ PSQLUpdateQueryGrammar >> identifier [
 
 { #category : #dependencies }
 PSQLUpdateQueryGrammar >> identifierOrKeyword [
-	^ (self dependencyAt: self class sqlParser) identifierOrKeyword
+	^ (self expressionParser) identifierOrKeyword
 ]
 
 { #category : #dependencies }

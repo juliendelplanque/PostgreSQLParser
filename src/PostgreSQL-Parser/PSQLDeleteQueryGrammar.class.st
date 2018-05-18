@@ -4,6 +4,8 @@ I parse PostgreSQL DELETE query.
 Class {
 	#name : #PSQLDeleteQueryGrammar,
 	#superclass : #PPCompositeParser,
+	#traits : 'PSQLTExpressionDependingGrammar',
+	#classTraits : 'PSQLTExpressionDependingGrammar classTrait',
 	#instVars : [
 		'usingClause',
 		'expression',
@@ -22,7 +24,7 @@ Class {
 
 { #category : #accessing }
 PSQLDeleteQueryGrammar class >> dependencies [
-	^ { self sqlParser . self sharedParser . self tokenParser }
+	^ { self expressionParser . self sharedParser . self tokenParser }
 ]
 
 { #category : #example }
@@ -38,11 +40,6 @@ PSQLDeleteQueryGrammar class >> ignoredNames [
 { #category : #accessing }
 PSQLDeleteQueryGrammar class >> sharedParser [
 	^ PSQLSharedGrammar
-]
-
-{ #category : #accessing }
-PSQLDeleteQueryGrammar class >> sqlParser [
-	^ PSQLExpressionGrammar
 ]
 
 { #category : #accessing }
@@ -77,7 +74,7 @@ PSQLDeleteQueryGrammar >> deleteCommand [
 
 { #category : #dependencies }
 PSQLDeleteQueryGrammar >> expression [
-	^ (self dependencyAt: self class sqlParser) expression
+	^ (self dependencyAt: self class expressionParser) expression
 ]
 
 { #category : #dependencies }

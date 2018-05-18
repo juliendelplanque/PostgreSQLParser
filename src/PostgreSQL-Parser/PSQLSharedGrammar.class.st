@@ -4,6 +4,8 @@ I hold part of the PostgreSQL grammar that are shared accross multiple parsers.
 Class {
 	#name : #PSQLSharedGrammar,
 	#superclass : #PPCompositeParser,
+	#traits : 'PSQLTExpressionDependingGrammar',
+	#classTraits : 'PSQLTExpressionDependingGrammar classTrait',
 	#instVars : [
 		'expression',
 		'selectCommand',
@@ -36,17 +38,12 @@ PSQLSharedGrammar class >> crudQueryParser [
 
 { #category : #accessing }
 PSQLSharedGrammar class >> dependencies [
-	^ { self crudQueryParser . self sqlParser . self tokenParser }
+	^ { self crudQueryParser . self expressionParser . self tokenParser }
 ]
 
 { #category : #accessing }
 PSQLSharedGrammar class >> ignoredNames [ 
 	^ super ignoredNames , #(kw)
-]
-
-{ #category : #accessing }
-PSQLSharedGrammar class >> sqlParser [
-	^ PSQLExpressionGrammar
 ]
 
 { #category : #accessing }
@@ -76,7 +73,7 @@ PSQLSharedGrammar >> deleteCommand [
 
 { #category : #dependencies }
 PSQLSharedGrammar >> expression [
-	^ (self dependencyAt: self class sqlParser) expression
+	^ (self expressionParser) expression
 ]
 
 { #category : #dependencies }
@@ -167,6 +164,8 @@ PSQLSharedGrammar >> updateCommand [
 { #category : #shared }
 PSQLSharedGrammar >> updateDeleteWhereClause [
 	"WHERE condition | WHERE CURRENT OF cursor_name"
+
+	self flag: #TODO.	"refactor"
 	^ kw whereKeyword trim , ((kw current trim , kw of trim , identifier) / expression)
 ]
 

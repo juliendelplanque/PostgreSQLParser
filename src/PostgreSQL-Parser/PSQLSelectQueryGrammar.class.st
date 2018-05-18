@@ -4,6 +4,8 @@ I parse PostgreSQL SELECT and SELECT INTO queries.
 Class {
 	#name : #PSQLSelectQueryGrammar,
 	#superclass : #PPCompositeParser,
+	#traits : 'PSQLTExpressionDependingGrammar',
+	#classTraits : 'PSQLTExpressionDependingGrammar classTrait',
 	#instVars : [
 		'expression',
 		'withClause',
@@ -39,7 +41,7 @@ Class {
 
 { #category : #accessing }
 PSQLSelectQueryGrammar class >> dependencies [
-	^ { self sqlParser . self fromClauseParser . self sharedParser . self tokenParser }
+	^ { self expressionParser . self fromClauseParser . self sharedParser . self tokenParser }
 ]
 
 { #category : #example }
@@ -73,11 +75,6 @@ PSQLSelectQueryGrammar class >> sharedParser [
 ]
 
 { #category : #accessing }
-PSQLSelectQueryGrammar class >> sqlParser [
-	^ PSQLExpressionGrammar
-]
-
-{ #category : #accessing }
 PSQLSelectQueryGrammar class >> tokenParser [
 	^ PSQLTokenizer
 ]
@@ -107,7 +104,7 @@ PSQLSelectQueryGrammar >> closeParenthesis [
 
 { #category : #dependencies }
 PSQLSelectQueryGrammar >> columnReference [
-	^ (self dependencyAt: self class sqlParser) columnReference
+	^ (self expressionParser) columnReference
 ]
 
 { #category : #'select command' }
@@ -129,7 +126,7 @@ PSQLSelectQueryGrammar >> escapeStringConstant [
 
 { #category : #dependencies }
 PSQLSelectQueryGrammar >> expression [
-	^ (self dependencyAt: self class sqlParser) expression
+	^ (self expressionParser) expression
 ]
 
 { #category : #'select command' }

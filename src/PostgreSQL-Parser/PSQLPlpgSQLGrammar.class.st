@@ -4,6 +4,8 @@ I parse PL/pgSQL source code.
 Class {
 	#name : #PSQLPlpgSQLGrammar,
 	#superclass : #PPCompositeParser,
+	#traits : 'PSQLTExpressionDependingGrammar',
+	#classTraits : 'PSQLTExpressionDependingGrammar classTrait',
 	#instVars : [
 		'deleteCommand',
 		'expression',
@@ -112,7 +114,7 @@ PSQLPlpgSQLGrammar class >> crudQueryParser [
 
 { #category : #accessing }
 PSQLPlpgSQLGrammar class >> dependencies [
-	^ { self sqlParser . self crudQueryParser . self selectQueryParser . self tokenParser }
+	^ { self expressionParser . self crudQueryParser . self selectQueryParser . self tokenParser }
 ]
 
 { #category : #accessing }
@@ -120,14 +122,9 @@ PSQLPlpgSQLGrammar class >> ignoredNames [
 	^ super ignoredNames , #(kw)
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 PSQLPlpgSQLGrammar class >> selectQueryParser [
 	^ PSQLSelectQueryGrammar
-]
-
-{ #category : #accessing }
-PSQLPlpgSQLGrammar class >> sqlParser [
-	^ PSQLExpressionGrammar
 ]
 
 { #category : #accessing }
@@ -172,7 +169,7 @@ PSQLPlpgSQLGrammar >> escapeStringConstant [
 
 { #category : #dependencies }
 PSQLPlpgSQLGrammar >> expression [
-	^ (self dependencyAt: self class sqlParser) expression
+	^ (self expressionParser) expression
 ]
 
 { #category : #dependencies }
@@ -283,7 +280,7 @@ PSQLPlpgSQLGrammar >> plpgsqlConditional [
 { #category : #statement }
 PSQLPlpgSQLGrammar >> plpgsqlContinueStatement [
 	"CONTINUE [ label ] [ WHEN boolean-expression ]"
-	^ kw continue trim , plpgsqlLabel trim optional , (kw when trim , expression) trim optional
+	^ kw continue trim , plpgsqlLabel trim optional , self whenExpression trim optional
 ]
 
 { #category : #'control structure' }
@@ -429,7 +426,7 @@ PSQLPlpgSQLGrammar >> plpgsqlDeclareExceptionHandler [
 	kw begin trim ,
 		plpgsqlStatements ,
 	kw exception trim ,
-		(kw when trim , expression , kw then trim , plpgsqlStatements) plus ,
+		(self whenExpression , kw then trim , plpgsqlStatements) plus ,
 	kw endKeyword trim
 ]
 
@@ -474,7 +471,7 @@ PSQLPlpgSQLGrammar >> plpgsqlExceptionHandler [
 	kw begin trim ,
 		plpgsqlStatements ,
 	kw exception trim ,
-		(kw when trim , expression , kw then trim , plpgsqlStatements) plus ,
+		(self whenExpression , kw then trim , plpgsqlStatements) plus ,
 	kw endKeyword trim
 ]
 
@@ -489,7 +486,8 @@ PSQLPlpgSQLGrammar >> plpgsqlExecuteStatement [
 { #category : #statement }
 PSQLPlpgSQLGrammar >> plpgsqlExitStatement [
 	"EXIT [ label ] [ WHEN boolean-expression ]"
-	^ kw exit trim , plpgsqlLabel trim optional , (kw when trim , expression) trim optional
+
+	^ kw exit trim , plpgsqlLabel trim optional , self whenExpression trim optional
 ]
 
 { #category : #cursor }
@@ -800,7 +798,7 @@ PSQLPlpgSQLGrammar >> plpgsqlSimpleCase [
       		statements ]
 	END CASE"
 	^ kw case trim ,
-		(kw when trim , expression , kw then trim ,
+		(self whenExpression , kw then trim ,
 			plpgsqlStatements) plus ,
 		(kw else trim , plpgsqlStatements) optional ,
 		kw endKeyword trim , kw case trim
@@ -831,7 +829,7 @@ PSQLPlpgSQLGrammar >> plpgsqlWhileLoop [
 
 { #category : #dependencies }
 PSQLPlpgSQLGrammar >> positionalParameter [
-	^ (self dependencyAt: self class sqlParser) positionalParameter
+	^ (self expressionParser) positionalParameter
 ]
 
 { #category : #dependencies }
