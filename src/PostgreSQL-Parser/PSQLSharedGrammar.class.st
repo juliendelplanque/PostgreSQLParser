@@ -125,7 +125,7 @@ PSQLSharedGrammar >> setClause [
                     ( column_name [, ...] ) = ( sub-SELECT )
                   } [, ...]"
 	^ kw set trim ,
-	((setItem1 / setItem2 / setItem3) plus separatedBy: comma trim)
+	((setItem1 / setItem2 / setItem3) separatedBy: comma trim)
 ]
 
 { #category : #'shared - set clause' }
