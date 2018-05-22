@@ -8,6 +8,11 @@ Class {
 }
 
 { #category : #visiting }
+PSQLASTVisitor >> visitPSQASTNull: aPSQLASTNull [ 
+	^ self subclassResponsibility 
+]
+
+{ #category : #visiting }
 PSQLASTVisitor >> visitPSQLASTAggregateFunctionCall: aPSQLASTAggregateFunctionCall [
 	^ self subclassResponsibility
 ]
@@ -449,5 +454,10 @@ PSQLASTVisitor >> visitPSQLPlpgSQLASTWhileLoop: aPSQLPlpgSQLASTWhileLoop [
 
 { #category : #visiting }
 PSQLASTVisitor >> visitPSQLPlpgSQLCursorUpdate: aPSQLPlpgSQLCursorUpdate [
+	^ self subclassResponsibility
+]
+
+{ #category : #visiting }
+PSQLASTVisitor >> visitPSQPlpgSQLASTExit: aPSQLPlpgSQLASTExit [
 	^ self subclassResponsibility
 ]

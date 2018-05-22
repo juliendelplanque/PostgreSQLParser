@@ -59,6 +59,15 @@ PSQLASTReflectiveVisitor >> findTableOrViewNamed: aString [
 ]
 
 { #category : #finding }
+PSQLASTReflectiveVisitor >> findTypeNamed: aName [
+	^ [ self findTableOrViewNamed: aName ]
+		on: NotFound
+		do: [ (self model allWithType: FmxSQLType)
+				detect: [ :aType | aType name = aName ]
+				ifNone: [ (self createEntity: FmxSQLType) name: aName ] ]
+]
+
+{ #category : #finding }
 PSQLASTReflectiveVisitor >> findViewNamed: anIdentifier [
 	^ (self model allWithType: FmxSQLView) detect: [ :table | table name = anIdentifier ]
 ]
@@ -85,7 +94,7 @@ PSQLASTReflectiveVisitor >> model: anObject [
 
 { #category : #'visit convenient' }
 PSQLASTReflectiveVisitor >> visit: nilOrNode thenDo: aBlockClosure [
-	nilOrNode ifNotNil: [ aBlockClosure value: (nilOrNode acceptVisitor: self) ]
+	^ nilOrNode ifNotNil: [ aBlockClosure value: (nilOrNode acceptVisitor: self) ]
 ]
 
 { #category : #'visiting convenience' }
@@ -96,6 +105,11 @@ PSQLASTReflectiveVisitor >> visitAll: aCollection thenDoForEach: aBlockClosure [
 { #category : #'visiting convenient' }
 PSQLASTReflectiveVisitor >> visitCollectionOfCollection: aCollectionOfCollectionOfNodes thenDoForEach: aBlockClosure [
 	aCollectionOfCollectionOfNodes do: [ :aCollectionOfNodes | self visitAll: aCollectionOfNodes thenDoForEach: aBlockClosure ]
+]
+
+{ #category : #visiting }
+PSQLASTReflectiveVisitor >> visitPSQASTNull: aPSQLASTNull [ 
+	^ aPSQLASTNull 
 ]
 
 { #category : #visiting }
@@ -459,7 +473,14 @@ PSQLASTReflectiveVisitor >> visitPSQLPlpgSQLASTBlockLabel: aPSQLPlpgSQLASTBlockL
 
 { #category : #visiting }
 PSQLASTReflectiveVisitor >> visitPSQLPlpgSQLASTClassicDeclaration: aPSQLPlpgSQLASTClassicDeclaration [
-	(self childrenFor: aPSQLPlpgSQLASTClassicDeclaration) do: [:aChild | aChild acceptVisitor: self]
+	| variable |
+	variable := self createEntity: FmxSQLLocalVariable from: aPSQLPlpgSQLASTClassicDeclaration.
+	self visit: aPSQLPlpgSQLASTClassicDeclaration defaultExpression thenDo: [ :e | Halt now ].
+	self
+		visit: aPSQLPlpgSQLASTClassicDeclaration identifier
+		thenDo: [ :name | variable name: name ].
+	self visit: aPSQLPlpgSQLASTClassicDeclaration type thenDo: [ :type | variable type: type ].
+	^ variable
 ]
 
 { #category : #visiting }
@@ -585,7 +606,8 @@ PSQLASTReflectiveVisitor >> visitPSQLPlpgSQLASTSimpleCase: aPSQLPlpgSQLASTSimple
 
 { #category : #visiting }
 PSQLASTReflectiveVisitor >> visitPSQLPlpgSQLASTType: aPSQLPlpgSQLASTType [
-	(self childrenFor: aPSQLPlpgSQLASTType) do: [:aChild | aChild acceptVisitor: self]
+	self flag: #TODO.	"consider size and dimensions"
+	^ self visit: aPSQLPlpgSQLASTType identifier thenDo: [ :typeName | self findTypeNamed: typeName ]
 ]
 
 { #category : #visiting }
@@ -596,4 +618,9 @@ PSQLASTReflectiveVisitor >> visitPSQLPlpgSQLASTWhileLoop: aPSQLPlpgSQLASTWhileLo
 { #category : #visiting }
 PSQLASTReflectiveVisitor >> visitPSQLPlpgSQLCursorUpdate: aPSQLPlpgSQLCursorUpdate [
 	(self childrenFor: aPSQLPlpgSQLCursorUpdate) do: [:aChild | aChild acceptVisitor: self]
+]
+
+{ #category : #visiting }
+PSQLASTReflectiveVisitor >> visitPSQPlpgSQLASTExit: aPSQLPlpgSQLASTExit [
+	^ self visit: aPSQLPlpgSQLASTExit booleanExpression thenDo: [ :res |  ]
 ]
