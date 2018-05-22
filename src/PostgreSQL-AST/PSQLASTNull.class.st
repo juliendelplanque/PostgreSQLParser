@@ -6,3 +6,8 @@ Class {
 	#superclass : #PSQLASTNode,
 	#category : #'PostgreSQL-AST-SQL'
 }
+
+{ #category : #visiting }
+PSQLASTNull >> acceptVisitor: aPSQLASTReflectiveVisitor [
+	^ aPSQLASTReflectiveVisitor visitPSQASTNull: self
+]
