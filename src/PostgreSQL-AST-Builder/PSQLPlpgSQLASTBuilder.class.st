@@ -117,14 +117,16 @@ PSQLPlpgSQLASTBuilder >> plpgsqlContinueStatement [
 
 { #category : #declaration }
 PSQLPlpgSQLASTBuilder >> plpgsqlCopyTypeDeclaration [
-	^ super plpgsqlCopyTypeDeclaration psqlASTBuild: [ :tokens |
-		PSQLPlpgSQLASTCopyTypeDeclaration new
-			identifier: tokens first;
-			accessToCopyType: (PSQLASTAttributeAccess new
-											attributeIdentifier: tokens second;
-											accessed: tokens fourth;
-											yourself);
-			yourself ]
+	^ super plpgsqlCopyTypeDeclaration
+		psqlASTBuild: [ :tokens | 
+			PSQLPlpgSQLASTCopyTypeDeclaration new
+				identifier: tokens first;
+				accessToCopyType:
+					(PSQLASTAttributeAccess new
+						accessed: tokens second;
+						attributeIdentifier: tokens fourth;
+						yourself);
+				yourself ]
 ]
 
 { #category : #cursor }

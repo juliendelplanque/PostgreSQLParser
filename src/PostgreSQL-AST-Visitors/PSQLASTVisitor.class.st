@@ -288,6 +288,16 @@ PSQLASTVisitor >> visitPSQLASTUpdateQuery: aPSQLASTUpdateQuery [
 ]
 
 { #category : #visiting }
+PSQLASTVisitor >> visitPSQLASTValuesClause: aPSQLASTValuesClause [
+	^ self subclassResponsibility
+]
+
+{ #category : #visiting }
+PSQLASTVisitor >> visitPSQLASTWhenExpression: aPSQLASTWhenExpression [ 
+	^ self subclassResponsibility .
+]
+
+{ #category : #visiting }
 PSQLASTVisitor >> visitPSQLASTWildCard: aPSQLASTWildCard [
 	^ self subclassResponsibility
 ]

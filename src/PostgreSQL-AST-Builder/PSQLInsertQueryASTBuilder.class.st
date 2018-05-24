@@ -64,3 +64,12 @@ PSQLInsertQueryASTBuilder >> onConflictClause [
 			action: tokens fourth;
 			yourself ]
 ]
+
+{ #category : #'insert command' }
+PSQLInsertQueryASTBuilder >> valuesClause [
+	^ super valuesClause
+		psqlASTBuild: [ :tokens | 
+			PSQLASTValuesClause new
+				values: tokens;
+				yourself ]
+]

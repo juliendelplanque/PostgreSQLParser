@@ -110,7 +110,7 @@ PSQLExpressionASTBuilder >> conditionalExpression [
 	self flag: #TODO. "REQUIRE refactor following when expression refactor"
 	^ super conditionalExpression psqlASTBuild: [ :tokens |
 		PSQLASTConditionalExpression new
-			conditionsToExpressions: (tokens second collect: [ :item | item first second -> item third ]);
+			conditionsToExpressions: (tokens second collect: [ :item | item first -> item third ]);
 			elseExpression: tokens third second;
 			yourself ]
 ]
@@ -199,5 +199,14 @@ PSQLExpressionASTBuilder >> prefixOperatorBlock [
 			PSQLASTPrefixOperator new
 				operator: op;
 				expression: exp;
+				yourself ]
+]
+
+{ #category : #expression }
+PSQLExpressionASTBuilder >> whenExpression [
+	^ super whenExpression
+		psqlASTBuild: [ :tokens | 
+			PSQLASTWhenExpression new
+				expression: tokens second;
 				yourself ]
 ]

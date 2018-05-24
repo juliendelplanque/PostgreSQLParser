@@ -75,6 +75,6 @@ PSQLValuesGrammar >> valuesCommand [
 	
 	^ kw values trim ,
 	((openParenthesis trim,
-		((kw default / expression) plus separatedBy: comma trim) ,
-	closeParenthesis trim) plus separatedBy: comma trim)
+		((kw default / expression) separatedBy: comma trim) ,
+	closeParenthesis trim) separatedBy: comma trim)
 ]

@@ -21,14 +21,18 @@ PSQLValuesASTBuilder >> expression [
 
 { #category : #'values command' }
 PSQLValuesASTBuilder >> valuesCommand [
-	^ super valuesCommand psqlASTBuild: [ :tokens |
-		tokens second
-			reject: [ :item | item = $, ]
-			thenCollect: [ :item | 
-				item first second
-					reject: [ :subitem | subitem = $, ]
-					thenCollect: [ :subItem |
-						subItem first = 'DEFAULT'
-							ifTrue: [ PSQLASTDefaultValue new ]
-							ifFalse: [ subItem first ] ] ] ]
+	^ super valuesCommand
+		psqlASTBuild: [ :tokens | 
+			PSQLASTValuesClause new
+				values:
+					(tokens second
+						reject: [ :item | item = $, ]
+						thenCollect: [ :item | 
+							item second
+								reject: [ :subitem | subitem = $, ]
+								thenCollect: [ :subItem | 
+									subItem = 'DEFAULT'
+										ifTrue: [ PSQLASTDefaultValue new ]
+										ifFalse: [ subItem ] ] ]) flatten;
+				yourself ]
 ]
