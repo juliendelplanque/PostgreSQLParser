@@ -104,3 +104,8 @@ PSQLReferenciesSolver >> scopes [
 PSQLReferenciesSolver >> scopes: anObject [
 	scopes := anObject
 ]
+
+{ #category : #accessing }
+PSQLReferenciesSolver >> topScopeReachableEntities [
+	^ self scopes top reachableEntities
+]

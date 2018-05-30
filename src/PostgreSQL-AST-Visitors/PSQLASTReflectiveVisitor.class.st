@@ -17,6 +17,13 @@ PSQLASTReflectiveVisitor class >> model: aMooseModel function: aFunction [
 		yourself
 ]
 
+{ #category : #'error management' }
+PSQLASTReflectiveVisitor >> addError: anErrorDuringVisit [
+	self flag: #TODO.
+	"should store encountered errors".
+	self inform: anErrorDuringVisit asString 
+]
+
 { #category : #children }
 PSQLASTReflectiveVisitor >> childrenFor: aNode [
 	^ aNode class instanceVariables
@@ -87,7 +94,7 @@ PSQLASTReflectiveVisitor >> function: anObject [
 { #category : #'convenient linking' }
 PSQLASTReflectiveVisitor >> linkReferencedEntities: aPSQIdentifierWithNode [
 	self flag: #TODO.	"add position in source"
-	(aPSQIdentifierWithNode entity createReferenceEntityTo: self function) mooseModel: self model.
+	aPSQIdentifierWithNode entity ifNotNil: [ (aPSQIdentifierWithNode entity createReferenceEntityTo: self function) mooseModel: self model ].
 	aPSQIdentifierWithNode isLast
 		ifFalse: [ self linkReferencedEntities: aPSQIdentifierWithNode next ]
 ]
@@ -117,6 +124,11 @@ PSQLASTReflectiveVisitor >> visit: aNode [
 { #category : #'visit convenient' }
 PSQLASTReflectiveVisitor >> visit: nilOrNode thenDo: aBlockClosure [
 	^ nilOrNode ifNotNil: [ aBlockClosure value: (nilOrNode acceptVisitor: self) ]
+]
+
+{ #category : #visiting }
+PSQLASTReflectiveVisitor >> visitAll: aCollection [
+	^ self visitAll: aCollection thenDoForEach: [ :e |  ]
 ]
 
 { #category : #'visiting convenience' }
@@ -166,19 +178,15 @@ PSQLASTReflectiveVisitor >> visitPSQLASTAttributeAccess: aPSQLASTAttributeAccess
 	identifiers := nil.
 	self
 		visit: aPSQLASTAttributeAccess attributeIdentifier
-		thenDo: [ :identifier | 
-			identifiers := PSQIdentifierWithNode
-				identifier: identifier
-				node: aPSQLASTAttributeAccess attributeIdentifier
-				next: identifiers ].
+		thenDo:
+			[ :identifier | identifiers := PSQIdentifierWithNode identifier: identifier node: aPSQLASTAttributeAccess attributeIdentifier next: identifiers ].
 	self
 		visit: aPSQLASTAttributeAccess accessed
-		thenDo: [ :identifier | 
-			identifiers := PSQIdentifierWithNode
-				identifier: identifier
-				node: aPSQLASTAttributeAccess accessed
-				next: identifiers ].
-	solver resolve: identifiers.
+		thenDo:
+			[ :identifier | identifiers := PSQIdentifierWithNode identifier: identifier node: aPSQLASTAttributeAccess accessed next: identifiers ].
+	[ solver resolve: identifiers ]
+		on: PSQLReferenciesInconsistencies
+		do: [ :err | self addError: err ].
 	self linkReferencedEntities: identifiers.
 	^ identifiers targetEntity
 ]
@@ -407,13 +415,19 @@ PSQLASTReflectiveVisitor >> visitPSQLASTSelectIntoQuery: aPSQLASTSelectIntoQuery
 
 { #category : #visiting }
 PSQLASTReflectiveVisitor >> visitPSQLASTSelectQuery: aPSQLASTSelectQuery [
-	| selectQuery |
+	| selectQuery pushedScope |
+	pushedScope := 0.
 	selectQuery := self createEntity: FmxSQLSelectQuery from: aPSQLASTSelectQuery.
 	"first we look at the from clause to resolve references"
-	self visit: aPSQLASTSelectQuery fromClause thenDo: [ :fromClause | fromClause query: selectQuery ].
+	self
+		visit: aPSQLASTSelectQuery fromClause
+		thenDo: [ :fromClause | 
+			fromClause query: selectQuery.
+			solver pushScope: fromClause.
+			pushedScope := pushedScope + 1 ].
 	self visit: aPSQLASTSelectQuery withClause thenDo: [ :visitResult | Halt now ].
 	self visit: aPSQLASTSelectQuery allOrDistinctClause thenDo: [ :visitResult | Halt now ].
-	self visitAll: aPSQLASTSelectQuery columnsAndAliasesSelected thenDoForEach: [ :visitResult | Halt now ].
+	self visitAll: aPSQLASTSelectQuery columnsAndAliasesSelected.
 	self visit: aPSQLASTSelectQuery whereClause thenDo: [ :visitResult | Halt now ].
 	self visit: aPSQLASTSelectQuery groupByClause thenDo: [ :visitResult | Halt now ].
 	self visit: aPSQLASTSelectQuery havingClause thenDo: [ :visitResult | Halt now ].
@@ -425,6 +439,7 @@ PSQLASTReflectiveVisitor >> visitPSQLASTSelectQuery: aPSQLASTSelectQuery [
 	self visit: aPSQLASTSelectQuery fetchClause thenDo: [ :visitResult | Halt now ].
 	self visit: aPSQLASTSelectQuery forClause thenDo: [ :visitResult | Halt now ].
 	selectQuery mooseModel: model.
+	pushedScope timesRepeat: [ solver popScope ].
 	^ selectQuery
 ]
 
@@ -499,7 +514,10 @@ PSQLASTReflectiveVisitor >> visitPSQLASTWhenExpression: aPSQLASTWhenExpression [
 
 { #category : #visiting }
 PSQLASTReflectiveVisitor >> visitPSQLASTWildCard: aPSQLASTWildCard [
-	(self childrenFor: aPSQLASTWildCard) do: [:aChild | aChild acceptVisitor: self]
+	"Here we will create a reference on each accessible entities at the current scope"
+
+	self solver topScopeReachableEntities
+		do: [ :aReachableEntity | (aReachableEntity createReferenceEntityTo: self function) mooseModel: self model ]
 ]
 
 { #category : #visiting }
