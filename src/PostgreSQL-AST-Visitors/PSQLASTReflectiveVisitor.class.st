@@ -1,10 +1,11 @@
 Class {
 	#name : #PSQLASTReflectiveVisitor,
 	#superclass : #PSQLASTVisitor,
+	#traits : 'PSQLSolverUserVisitor',
+	#classTraits : 'PSQLSolverUserVisitor classTrait',
 	#instVars : [
 		'model',
-		'function',
-		'solver'
+		'function'
 	],
 	#category : #'PostgreSQL-AST-Visitors'
 }
@@ -88,13 +89,15 @@ PSQLASTReflectiveVisitor >> function [
 { #category : #accessing }
 PSQLASTReflectiveVisitor >> function: anObject [
 	function := anObject.
-	solver pushScope: function
+	self currentEntity: function
 ]
 
 { #category : #'convenient linking' }
 PSQLASTReflectiveVisitor >> linkReferencedEntities: aPSQIdentifierWithNode [
 	self flag: #TODO.	"add position in source"
-	aPSQIdentifierWithNode entity ifNotNil: [ (aPSQIdentifierWithNode entity createReferenceEntityTo: self function) mooseModel: self model ].
+	aPSQIdentifierWithNode entity
+		ifNotNil: [ (aPSQIdentifierWithNode entity createReferenceEntityTo: self currentEntity)
+				mooseModel: self model ].
 	aPSQIdentifierWithNode isLast
 		ifFalse: [ self linkReferencedEntities: aPSQIdentifierWithNode next ]
 ]
@@ -107,13 +110,9 @@ PSQLASTReflectiveVisitor >> model [
 { #category : #accessing }
 PSQLASTReflectiveVisitor >> model: anObject [
 	model := anObject.
-	solver := PSQLReferenciesSolver
-		defaultScopeEntities: (model allWithType: FmxSQLTable) , (model allWithType: FmxSQLView)
-]
-
-{ #category : #accessing }
-PSQLASTReflectiveVisitor >> solver [
-	^ solver
+	self initialiseSolver.
+	self
+		pushEntitiesAsScope: (model allWithType: FmxSQLTable) , (model allWithType: FmxSQLView)
 ]
 
 { #category : #'visiting - convenience' }
@@ -300,6 +299,7 @@ PSQLASTReflectiveVisitor >> visitPSQLASTFromClauseItemType5: aPSQLASTFromClauseI
 
 { #category : #visiting }
 PSQLASTReflectiveVisitor >> visitPSQLASTFromClauseItemType6: aPSQLASTFromClauseItemType6 [
+	Halt now.
 	(self childrenFor: aPSQLASTFromClauseItemType6) do: [:aChild | aChild acceptVisitor: self]
 ]
 
@@ -423,7 +423,7 @@ PSQLASTReflectiveVisitor >> visitPSQLASTSelectQuery: aPSQLASTSelectQuery [
 		visit: aPSQLASTSelectQuery fromClause
 		thenDo: [ :fromClause | 
 			fromClause query: selectQuery.
-			solver pushScope: fromClause.
+			self currentEntity: fromClause.
 			pushedScope := pushedScope + 1 ].
 	self visit: aPSQLASTSelectQuery withClause thenDo: [ :visitResult | Halt now ].
 	self visit: aPSQLASTSelectQuery allOrDistinctClause thenDo: [ :visitResult | Halt now ].
@@ -445,7 +445,13 @@ PSQLASTReflectiveVisitor >> visitPSQLASTSelectQuery: aPSQLASTSelectQuery [
 
 { #category : #visiting }
 PSQLASTReflectiveVisitor >> visitPSQLASTSelectWhereClause: aPSQLASTSelectWhereClause [
-	(self childrenFor: aPSQLASTSelectWhereClause) do: [:aChild | aChild acceptVisitor: self]
+	| whereClause |
+	whereClause := self createEntity: FmxSQLWhereClause from: aPSQLASTSelectWhereClause.
+	whereClause query: self currentEntity.
+	self
+		useCurrentEntity: whereClause
+		during: [ self visit: aPSQLASTSelectWhereClause condition ].
+	^ whereClause
 ]
 
 { #category : #visiting }
@@ -516,8 +522,8 @@ PSQLASTReflectiveVisitor >> visitPSQLASTWhenExpression: aPSQLASTWhenExpression [
 PSQLASTReflectiveVisitor >> visitPSQLASTWildCard: aPSQLASTWildCard [
 	"Here we will create a reference on each accessible entities at the current scope"
 
-	self solver topScopeReachableEntities
-		do: [ :aReachableEntity | (aReachableEntity createReferenceEntityTo: self function) mooseModel: self model ]
+	self topScopeReachableEntities
+		do: [ :aReachableEntity | (aReachableEntity createReferenceEntityTo: self currentEntity) mooseModel: self model ]
 ]
 
 { #category : #visiting }

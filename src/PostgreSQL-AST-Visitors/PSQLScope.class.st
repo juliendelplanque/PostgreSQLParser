@@ -1,18 +1,15 @@
 Class {
 	#name : #PSQLScope,
 	#superclass : #Object,
-	#instVars : [
-		'reachableEntities'
-	],
 	#category : #'PostgreSQL-AST-Visitors-Solver'
 }
 
-{ #category : #accessing }
-PSQLScope >> reachableEntities [
-	^ reachableEntities
+{ #category : #testing }
+PSQLScope >> hasCurrentEntity [
+	^ false
 ]
 
 { #category : #accessing }
-PSQLScope >> reachableEntities: anObject [
-	reachableEntities := anObject
+PSQLScope >> reachableEntities [
+	^ self subclassResponsibility 
 ]

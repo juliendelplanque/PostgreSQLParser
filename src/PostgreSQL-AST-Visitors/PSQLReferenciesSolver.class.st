@@ -1,5 +1,5 @@
 "
-I am a class that can solve referencies
+I am a class that can solve referencies and is able to give you the current entity for your visit
 "
 Class {
 	#name : #PSQLReferenciesSolver,
@@ -10,18 +10,9 @@ Class {
 	#category : #'PostgreSQL-AST-Visitors-Solver'
 }
 
-{ #category : #'instance creation' }
-PSQLReferenciesSolver class >> defaultScope: aDefaultScope [
-	^ self new
-		pushScope: aDefaultScope;
-		yourself
-]
-
-{ #category : #'instance creation' }
-PSQLReferenciesSolver class >> defaultScopeEntities: aCollectionOfEntities [
-	^ self new
-		pushEntitiesAsScope: aCollectionOfEntities;
-		yourself
+{ #category : #accessing }
+PSQLReferenciesSolver >> currentEntity [
+	^ (self scopes detect: #hasCurrentEntity) currentEntity
 ]
 
 { #category : #accessing }
@@ -39,7 +30,7 @@ PSQLReferenciesSolver >> popScope [
 PSQLReferenciesSolver >> pushEntitiesAsScope: aCollectionOfEntities [
 	self
 		pushScope:
-			(PSQLScope new
+			(PSQLCollectionScope new
 				reachableEntities: aCollectionOfEntities;
 				yourself)
 ]
@@ -48,7 +39,7 @@ PSQLReferenciesSolver >> pushEntitiesAsScope: aCollectionOfEntities [
 PSQLReferenciesSolver >> pushEntityAsScope: anEntity [
 	self
 		pushScope:
-			(PSQLScope new
+			(PSQLCollectionScope new
 				reachableEntities: {anEntity};
 				yourself)
 ]
