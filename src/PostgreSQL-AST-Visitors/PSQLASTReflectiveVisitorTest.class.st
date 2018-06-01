@@ -63,6 +63,34 @@ END;'.
 ]
 
 { #category : #parsing }
+PSQLASTReflectiveVisitorTest >> testDeleteQueryInCodeWithWhereAndAnd [
+	| table columnType column |
+	table := FmxSQLTable new
+		name: 'unit';
+		mooseModel: model;
+		yourself.
+	columnType := FmxSQLType new
+		name: 'myType';
+		mooseModel: model;
+		yourself.
+	column := FmxSQLColumn new
+		columnsContainer: table;
+		mooseModel: model;
+		name: 'id';
+		type: columnType;
+		yourself.Halt now.
+	self
+		parseAndVisitFunction:
+			' DECLARE
+BEGIN
+	DELETE FROM "direct_population_snapshot"
+        WHERE "issue_id" = "issue_id_p"
+        AND "event" = ''periodic'';
+END;'.
+	"self assert: function clauses size equals: 1"
+]
+
+{ #category : #parsing }
 PSQLASTReflectiveVisitorTest >> testRowTypeDeclaration [
 	| table |
 	table := FmxSQLTable new
@@ -78,4 +106,38 @@ END;'.
 	self assert: function localVariables size equals: 1.
 	self assert: function localVariables first name equals: 'issue_row'.
 	self assert: function localVariables first type equals: table
+]
+
+{ #category : #parsing }
+PSQLASTReflectiveVisitorTest >> testVariableAccess [
+	self
+		parseAndVisitFunction:
+			' DECLARE
+      "a"            INT4;
+      "b"            INT4;
+BEGIN
+	"a"         := 0;
+	"b"         := "a";
+END;'.
+	self assert: function localVariables size equals: 2.
+	self assert: function localVariables first name equals: 'a'.
+	self assert: function localVariables first type name equals: 'int4'.
+	self assert: function localVariables second name equals: 'b'.
+	self assert: function localVariables second type name equals: 'int4'.
+	self assert: function references size equals: 3
+]
+
+{ #category : #parsing }
+PSQLASTReflectiveVisitorTest >> testVariableAssignation [
+	self
+		parseAndVisitFunction:
+			' DECLARE
+      "a"            INT4;
+BEGIN
+	"a"         := 0;
+END;'.
+	self assert: function localVariables size equals: 1.
+	self assert: function localVariables first name equals: 'a'.
+	self assert: function localVariables first type name equals: 'int4'.
+	self assert: function references size equals: 1
 ]

@@ -50,6 +50,13 @@ PSQLASTReflectiveVisitor >> createEntity: anEntityClass from: aPSQLASTNode [
 	^ self createEntity: anEntityClass 
 ]
 
+{ #category : #'convenient linking' }
+PSQLASTReflectiveVisitor >> createReferenceTo: anEntity [
+	^ (anEntity createReferenceEntityTo: self currentEntity)
+		mooseModel: self model;
+		yourself
+]
+
 { #category : #finding }
 PSQLASTReflectiveVisitor >> findColumnNamed: aColumnName inTableOrView: aFmxSQLView [ 
 	^ aFmxSQLView columns detect: [ :column | column name = aColumnName ]
@@ -96,8 +103,7 @@ PSQLASTReflectiveVisitor >> function: anObject [
 PSQLASTReflectiveVisitor >> linkReferencedEntities: aPSQIdentifierWithNode [
 	self flag: #TODO.	"add position in source"
 	aPSQIdentifierWithNode entity
-		ifNotNil: [ (aPSQIdentifierWithNode entity createReferenceEntityTo: self currentEntity)
-				mooseModel: self model ].
+		ifNotNil: [ self createReferenceTo: aPSQIdentifierWithNode entity ].
 	aPSQIdentifierWithNode isLast
 		ifFalse: [ self linkReferencedEntities: aPSQIdentifierWithNode next ]
 ]
@@ -115,6 +121,13 @@ PSQLASTReflectiveVisitor >> model: anObject [
 		pushEntitiesAsScope: (model allWithType: FmxSQLTable) , (model allWithType: FmxSQLView)
 ]
 
+{ #category : #convenient }
+PSQLASTReflectiveVisitor >> resolveAndLinkSilently: identifiers [ 
+	self resolveSilently: identifiers.
+	self linkReferencedEntities: identifiers.
+	
+]
+
 { #category : #'visiting - convenience' }
 PSQLASTReflectiveVisitor >> visit: aNode [ 
 	^ aNode acceptVisitor: self
@@ -125,17 +138,17 @@ PSQLASTReflectiveVisitor >> visit: nilOrNode thenDo: aBlockClosure [
 	^ nilOrNode ifNotNil: [ aBlockClosure value: (nilOrNode acceptVisitor: self) ]
 ]
 
-{ #category : #visiting }
+{ #category : #'visiting - convenience' }
 PSQLASTReflectiveVisitor >> visitAll: aCollection [
 	^ self visitAll: aCollection thenDoForEach: [ :e |  ]
 ]
 
-{ #category : #'visiting convenience' }
+{ #category : #'visiting - convenience' }
 PSQLASTReflectiveVisitor >> visitAll: aCollection thenDoForEach: aBlockClosure [
 	aCollection ifNotNil: [ aCollection do: [ :aNode | self visit: aNode thenDo: aBlockClosure ] ]
 ]
 
-{ #category : #'visiting convenient' }
+{ #category : #'visiting - convenience' }
 PSQLASTReflectiveVisitor >> visitCollectionOfCollection: aCollectionOfCollectionOfNodes thenDoForEach: aBlockClosure [
 	aCollectionOfCollectionOfNodes do: [ :aCollectionOfNodes | self visitAll: aCollectionOfNodes thenDoForEach: aBlockClosure ]
 ]
@@ -177,16 +190,19 @@ PSQLASTReflectiveVisitor >> visitPSQLASTAttributeAccess: aPSQLASTAttributeAccess
 	identifiers := nil.
 	self
 		visit: aPSQLASTAttributeAccess attributeIdentifier
-		thenDo:
-			[ :identifier | identifiers := PSQIdentifierWithNode identifier: identifier node: aPSQLASTAttributeAccess attributeIdentifier next: identifiers ].
+		thenDo: [ :identifier | 
+			identifiers := PSQIdentifierWithNode
+				identifier: identifier
+				node: aPSQLASTAttributeAccess attributeIdentifier
+				next: identifiers ].
 	self
 		visit: aPSQLASTAttributeAccess accessed
-		thenDo:
-			[ :identifier | identifiers := PSQIdentifierWithNode identifier: identifier node: aPSQLASTAttributeAccess accessed next: identifiers ].
-	[ solver resolve: identifiers ]
-		on: PSQLReferenciesInconsistencies
-		do: [ :err | self addError: err ].
-	self linkReferencedEntities: identifiers.
+		thenDo: [ :identifier | 
+			identifiers := PSQIdentifierWithNode
+				identifier: identifier
+				node: aPSQLASTAttributeAccess accessed
+				next: identifiers ].
+	self resolveAndLinkSilently: identifiers.
 	^ identifiers targetEntity
 ]
 
@@ -231,7 +247,21 @@ PSQLASTReflectiveVisitor >> visitPSQLASTDefaultValues: aPSQLASTDefaultValues [
 
 { #category : #visiting }
 PSQLASTReflectiveVisitor >> visitPSQLASTDeleteQuery: aPSQLASTDeleteQuery [
-	(self childrenFor: aPSQLASTDeleteQuery) do: [:aChild | aChild acceptVisitor: self]
+	| deleteQuery |
+	deleteQuery := self createEntity: FmxSQLDeleteQuery from: aPSQLASTDeleteQuery.
+	"First we create the from clause of the query"
+	self
+		visit: aPSQLASTDeleteQuery tableName
+		thenDo: [ :tableName | 
+			self
+				useCurrentEntity: (self createEntity: FmxSQLFromClause from: aPSQLASTDeleteQuery tableName)
+				during: [ self createReferenceTo: (self findTableOrViewNamed: tableName) ] ].
+	self
+		useCurrentEntity: deleteQuery
+		during: [ self visit: aPSQLASTDeleteQuery withClause.
+			self visit: aPSQLASTDeleteQuery usingList.
+			self visit: aPSQLASTDeleteQuery whereClause.
+			self visit: aPSQLASTDeleteQuery returningClause ]
 ]
 
 { #category : #visiting }
@@ -365,7 +395,8 @@ PSQLASTReflectiveVisitor >> visitPSQLASTLimitClause: aPSQLASTLimitClause [
 
 { #category : #visiting }
 PSQLASTReflectiveVisitor >> visitPSQLASTNumericConstant: aPSQLASTNumericConstant [
-	(self childrenFor: aPSQLASTNumericConstant) do: [:aChild | aChild acceptVisitor: self]
+	(aPSQLASTNumericConstant content asNumber )
+	"Do nothing, we ignore the content of the constant, just check that it is a number"
 ]
 
 { #category : #visiting }
@@ -438,7 +469,6 @@ PSQLASTReflectiveVisitor >> visitPSQLASTSelectQuery: aPSQLASTSelectQuery [
 	self visit: aPSQLASTSelectQuery offsetClause thenDo: [ :visitResult | Halt now ].
 	self visit: aPSQLASTSelectQuery fetchClause thenDo: [ :visitResult | Halt now ].
 	self visit: aPSQLASTSelectQuery forClause thenDo: [ :visitResult | Halt now ].
-	selectQuery mooseModel: model.
 	pushedScope timesRepeat: [ solver popScope ].
 	^ selectQuery
 ]
@@ -543,7 +573,12 @@ PSQLASTReflectiveVisitor >> visitPSQLPlpgSQLASTArrayLoop: aPSQLPlpgSQLASTArrayLo
 
 { #category : #visiting }
 PSQLASTReflectiveVisitor >> visitPSQLPlpgSQLASTAssignment: aPSQLPlpgSQLASTAssignment [
-	(self childrenFor: aPSQLPlpgSQLASTAssignment) do: [:aChild | aChild acceptVisitor: self]
+	self visit: aPSQLPlpgSQLASTAssignment toAssign.
+	self
+		resolveAndLinkSilently:
+			(PSQIdentifierWithNode
+				identifier: (self visit: aPSQLPlpgSQLASTAssignment target)
+				node: aPSQLPlpgSQLASTAssignment target)
 ]
 
 { #category : #visiting }

@@ -39,6 +39,18 @@ PSQLSolverUserVisitor >> pushEntityAsScope: anEntity [
 	self solver pushEntityAsScope: anEntity
 ]
 
+{ #category : #'as yet unclassified' }
+PSQLSolverUserVisitor >> resolve: identifiers [
+	self solver resolve: identifiers
+]
+
+{ #category : #'as yet unclassified' }
+PSQLSolverUserVisitor >> resolveSilently: identifiers [
+	[ self resolve: identifiers ]
+		on: PSQLReferenciesInconsistencies
+		do: [ :err | self addError: err ]
+]
+
 { #category : #accessing }
 PSQLSolverUserVisitor >> solver [
 	^ solver

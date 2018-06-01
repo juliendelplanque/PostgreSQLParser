@@ -71,14 +71,16 @@ PSQLExpressionASTBuilder >> binaryOperatorBlock [
 
 { #category : #helpers }
 PSQLExpressionASTBuilder >> columnReference [
-	^ super columnReference psqlASTBuild: [ :tokens |
-		tokens first ifNotNil: [ 
-			PSQLASTAttributeAccess new
-				accessed: tokens first first;
-				attributeIdentifier: tokens second;
-				yourself ]
-			ifNil: [ 
-				tokens second ] ]
+	^ super columnReference
+		psqlASTBuild: [ :tokens | 
+			tokens first
+				ifNotNil: [ PSQLASTAttributeAccess new
+						accessed: tokens first first;
+						attributeIdentifier: tokens second;
+						yourself ]
+				ifNil: [ PSQLASTAttributeAccess new
+						accessed: tokens second;
+						yourself ] ]
 ]
 
 { #category : #expression }
@@ -175,6 +177,12 @@ PSQLExpressionASTBuilder >> parenthesedExpressionParserWith: expressionParser [
 				PSQLASTParenthesedExpression new
 					expression: tokens second;
 					yourself ]
+]
+
+{ #category : #helpers }
+PSQLExpressionASTBuilder >> positionalParameter [
+	^ super positionalParameter
+		psqlASTBuild: [ :tokens | "Here we should create a node for positional parameter" Halt now ]
 ]
 
 { #category : #'accessing - blocks' }

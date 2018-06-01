@@ -11,6 +11,14 @@ Class {
 }
 
 { #category : #'instance creation' }
+PSQIdentifierWithNode class >> identifier: aStringIdentifier node: aPSQLASTIdentifier [
+	^ self new
+		identifier: aStringIdentifier;
+		node: aPSQLASTIdentifier;
+		yourself
+]
+
+{ #category : #'instance creation' }
 PSQIdentifierWithNode class >> identifier: aStringIdentifier node: aPSQLASTIdentifier next: aNextPSQIdentifierWithNode [
 	^ self new
 		identifier: aStringIdentifier;
