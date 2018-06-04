@@ -37,5 +37,5 @@ PSQLDeleteQueryASTBuilder >> deleteCommand [
 { #category : #accessing }
 PSQLDeleteQueryASTBuilder >> usingClause [
 	^ super usingClause psqlASTBuild: [ :tokens |
-		tokens second ]
+		PSQLASTUsingClause new. Halt now. ]
 ]
