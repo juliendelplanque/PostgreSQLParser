@@ -130,12 +130,12 @@ PSQLASTReflectiveVisitor >> resolveAndLinkSilently: identifiers [
 
 { #category : #'visiting - convenience' }
 PSQLASTReflectiveVisitor >> visit: aNode [ 
-	^ aNode acceptVisitor: self
+	^ self visit: aNode thenDo: [:res | res ]
 ]
 
 { #category : #'visit convenient' }
 PSQLASTReflectiveVisitor >> visit: nilOrNode thenDo: aBlockClosure [
-	^ nilOrNode ifNotNil: [ aBlockClosure value: (nilOrNode acceptVisitor: self) ]
+	^ nilOrNode ifNotNil: [ ^ aBlockClosure value: (nilOrNode acceptVisitor: self) ]
 ]
 
 { #category : #'visiting - convenience' }
@@ -190,19 +190,21 @@ PSQLASTReflectiveVisitor >> visitPSQLASTAttributeAccess: aPSQLASTAttributeAccess
 	identifiers := nil.
 	self
 		visit: aPSQLASTAttributeAccess attributeIdentifier
-		thenDo: [ :identifier | 
-			identifiers := PSQIdentifierWithNode
-				identifier: identifier
-				node: aPSQLASTAttributeAccess attributeIdentifier
-				next: identifiers ].
+		thenDo:
+			[ :identifier | identifiers := PSQIdentifierWithNode identifier: identifier node: aPSQLASTAttributeAccess attributeIdentifier next: identifiers ].
 	self
 		visit: aPSQLASTAttributeAccess accessed
-		thenDo: [ :identifier | 
-			identifiers := PSQIdentifierWithNode
-				identifier: identifier
-				node: aPSQLASTAttributeAccess accessed
-				next: identifiers ].
-	self resolveAndLinkSilently: identifiers.
+		thenDo: [ :identifier | identifiers := PSQIdentifierWithNode identifier: identifier node: aPSQLASTAttributeAccess accessed next: identifiers ].
+	[ self resolveAndLinkSilently: identifiers ]
+		on: NotFound
+		do: [ :anError | 
+			(identifiers identifier = 'new' or: [ identifiers identifier = 'old' ])
+				ifTrue: [ FmxSQLLocalVariable new
+						name: identifiers identifier;
+						storedProcedure: self function;
+						mooseModel: self model;
+						yourself ].
+			self resolveAndLinkSilently: identifiers ].
 	^ identifiers targetEntity
 ]
 
@@ -259,7 +261,7 @@ PSQLASTReflectiveVisitor >> visitPSQLASTDeleteQuery: aPSQLASTDeleteQuery [
 	self
 		useCurrentEntity: deleteQuery
 		during: [ self visit: aPSQLASTDeleteQuery withClause.
-			self visit: aPSQLASTDeleteQuery usingList.
+			self visitAll: aPSQLASTDeleteQuery usingList.
 			self visit: aPSQLASTDeleteQuery whereClause.
 			self visit: aPSQLASTDeleteQuery returningClause ]
 ]
@@ -288,7 +290,7 @@ PSQLASTReflectiveVisitor >> visitPSQLASTForClause: aPSQLASTForClause [
 PSQLASTReflectiveVisitor >> visitPSQLASTFromClause: aPSQLASTFromClause [
 	| fromClause |
 	fromClause := self createEntity: FmxSQLFromClause from: aPSQLASTFromClause.
-	self visitAll: aPSQLASTFromClause items thenDoForEach: [ :ref | ref clause: fromClause ].
+	self visitAll: aPSQLASTFromClause items thenDoForEach: [ :ref | Halt now. ref clause: fromClause ].
 	^ fromClause
 ]
 
@@ -527,12 +529,23 @@ PSQLASTReflectiveVisitor >> visitPSQLASTUnionClause: aPSQLASTUnionClause [
 
 { #category : #visiting }
 PSQLASTReflectiveVisitor >> visitPSQLASTUpdateDeleteWhereClause: aPSQLASTUpdateDeleteWhereClause [
-	(self childrenFor: aPSQLASTUpdateDeleteWhereClause) do: [:aChild | aChild acceptVisitor: self]
+	| whereClause |
+	whereClause := self createEntity: FmxSQLWhereClause from: aPSQLASTUpdateDeleteWhereClause.
+	whereClause query: self currentEntity.
+	self
+		useCurrentEntity: whereClause
+		during: [ self visit: aPSQLASTUpdateDeleteWhereClause condition.
+			self visit: aPSQLASTUpdateDeleteWhereClause currentOfCursor ]
 ]
 
 { #category : #visiting }
 PSQLASTReflectiveVisitor >> visitPSQLASTUpdateQuery: aPSQLASTUpdateQuery [
 	(self childrenFor: aPSQLASTUpdateQuery) do: [:aChild | aChild acceptVisitor: self]
+]
+
+{ #category : #visiting }
+PSQLASTReflectiveVisitor >> visitPSQLASTUsingClause: aPSQLASTUsingClause [
+	^ self explicitRequirement
 ]
 
 { #category : #visiting }
@@ -574,11 +587,12 @@ PSQLASTReflectiveVisitor >> visitPSQLPlpgSQLASTArrayLoop: aPSQLPlpgSQLASTArrayLo
 { #category : #visiting }
 PSQLASTReflectiveVisitor >> visitPSQLPlpgSQLASTAssignment: aPSQLPlpgSQLASTAssignment [
 	self visit: aPSQLPlpgSQLASTAssignment toAssign.
+	self flag: #TODO.	"aPSQLPlpgSQLASTAssignment target can be an expression of any kind. The problem is when the expression is only an Identifier because it is not yet referenced."
 	self
-		resolveAndLinkSilently:
-			(PSQIdentifierWithNode
-				identifier: (self visit: aPSQLPlpgSQLASTAssignment target)
-				node: aPSQLPlpgSQLASTAssignment target)
+		visit: aPSQLPlpgSQLASTAssignment target
+		thenDo: [ :res | 
+			res isString
+				ifTrue: [ self resolveAndLinkSilently: (PSQIdentifierWithNode identifier: res node: aPSQLPlpgSQLASTAssignment target) ] ]
 ]
 
 { #category : #visiting }
