@@ -197,14 +197,14 @@ PSQLASTReflectiveVisitor >> visitPSQLASTAttributeAccess: aPSQLASTAttributeAccess
 		thenDo: [ :identifier | identifiers := PSQIdentifierWithNode identifier: identifier node: aPSQLASTAttributeAccess accessed next: identifiers ].
 	[ self resolveAndLinkSilently: identifiers ]
 		on: NotFound
-		do: [ :anError | 
+		do: [ :anError | "new and old are implicit declared variables in stored procedures"
 			(identifiers identifier = 'new' or: [ identifiers identifier = 'old' ])
 				ifTrue: [ FmxSQLLocalVariable new
 						name: identifiers identifier;
 						storedProcedure: self function;
-						mooseModel: self model;
-						yourself ].
-			self resolveAndLinkSilently: identifiers ].
+						mooseModel: self model.
+					self resolveAndLinkSilently: identifiers ]
+				ifFalse: [ anError signal ] ].
 	^ identifiers targetEntity
 ]
 
