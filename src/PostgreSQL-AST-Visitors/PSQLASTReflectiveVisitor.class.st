@@ -453,24 +453,28 @@ PSQLASTReflectiveVisitor >> visitPSQLASTSelectQuery: aPSQLASTSelectQuery [
 	selectQuery := self createEntity: FmxSQLSelectQuery from: aPSQLASTSelectQuery.
 	"first we look at the from clause to resolve references"
 	self
-		visit: aPSQLASTSelectQuery fromClause
-		thenDo: [ :fromClause | 
-			fromClause query: selectQuery.
-			self currentEntity: fromClause.
-			pushedScope := pushedScope + 1 ].
-	self visit: aPSQLASTSelectQuery withClause thenDo: [ :visitResult | Halt now ].
-	self visit: aPSQLASTSelectQuery allOrDistinctClause thenDo: [ :visitResult | Halt now ].
-	self visitAll: aPSQLASTSelectQuery columnsAndAliasesSelected.
-	self visit: aPSQLASTSelectQuery whereClause thenDo: [ :visitResult | Halt now ].
-	self visit: aPSQLASTSelectQuery groupByClause thenDo: [ :visitResult | Halt now ].
-	self visit: aPSQLASTSelectQuery havingClause thenDo: [ :visitResult | Halt now ].
-	self visit: aPSQLASTSelectQuery windowClause thenDo: [ :visitResult | Halt now ].
-	self visit: aPSQLASTSelectQuery unionIntersectExceptClause thenDo: [ :visitResult | Halt now ].
-	self visit: aPSQLASTSelectQuery orderByClause thenDo: [ :visitResult | Halt now ].
-	self visit: aPSQLASTSelectQuery limitClause thenDo: [ :visitResult | Halt now ].
-	self visit: aPSQLASTSelectQuery offsetClause thenDo: [ :visitResult | Halt now ].
-	self visit: aPSQLASTSelectQuery fetchClause thenDo: [ :visitResult | Halt now ].
-	self visit: aPSQLASTSelectQuery forClause thenDo: [ :visitResult | Halt now ].
+		useCurrentEntity: selectQuery
+		during: [ self
+				visit: aPSQLASTSelectQuery fromClause
+				thenDo: [ :fromClause | 
+					fromClause query: selectQuery.
+					self pushEntityAsScope: fromClause.
+					pushedScope := pushedScope + 1 ].
+			self visit: aPSQLASTSelectQuery withClause thenDo: [ :visitResult | Halt now ].
+			self visit: aPSQLASTSelectQuery allOrDistinctClause thenDo: [ :visitResult | Halt now ].
+			self visitAll: aPSQLASTSelectQuery columnsAndAliasesSelected.
+			self visit: aPSQLASTSelectQuery whereClause thenDo: [ :visitResult | Halt now ].
+			self visit: aPSQLASTSelectQuery groupByClause thenDo: [ :visitResult | Halt now ].
+			self visit: aPSQLASTSelectQuery havingClause thenDo: [ :visitResult | Halt now ].
+			self visit: aPSQLASTSelectQuery windowClause thenDo: [ :visitResult | Halt now ].
+			self
+				visit: aPSQLASTSelectQuery unionIntersectExceptClause
+				thenDo: [ :visitResult | Halt now ].
+			self visit: aPSQLASTSelectQuery orderByClause thenDo: [ :visitResult | Halt now ].
+			self visit: aPSQLASTSelectQuery limitClause thenDo: [ :visitResult | Halt now ].
+			self visit: aPSQLASTSelectQuery offsetClause thenDo: [ :visitResult | Halt now ].
+			self visit: aPSQLASTSelectQuery fetchClause thenDo: [ :visitResult | Halt now ].
+			self visit: aPSQLASTSelectQuery forClause thenDo: [ :visitResult | Halt now ] ].
 	pushedScope timesRepeat: [ solver popScope ].
 	^ selectQuery
 ]
@@ -540,7 +544,26 @@ PSQLASTReflectiveVisitor >> visitPSQLASTUpdateDeleteWhereClause: aPSQLASTUpdateD
 
 { #category : #visiting }
 PSQLASTReflectiveVisitor >> visitPSQLASTUpdateQuery: aPSQLASTUpdateQuery [
-	(self childrenFor: aPSQLASTUpdateQuery) do: [:aChild | aChild acceptVisitor: self]
+	| pushedScope updateQuery |
+	pushedScope := 0.
+	updateQuery := self createEntity: FmxSQLUpdateQuery from: aPSQLASTUpdateQuery.
+	self
+		useCurrentEntity: updateQuery
+		during: [ self
+				visit: aPSQLASTUpdateQuery fromClause
+				thenDo: [ :fromClause | 
+					fromClause query: updateQuery.
+					self pushEntityAsScope: fromClause.
+					pushedScope := pushedScope + 1 ].
+			self
+				visit: aPSQLASTUpdateQuery tableName
+				thenDo: [ :tableName | updateQuery table: (self findTableOrViewNamed: tableName) ].
+			self visit: aPSQLASTUpdateQuery setClause.
+			self visit: aPSQLASTUpdateQuery whereClause.
+			self visit: aPSQLASTUpdateQuery returningClause.
+			#(#alias #areDescendantTablesIncluded #hasOnly).
+			self flag: #TODO	"manage thing in this table" ].
+	pushedScope timesRepeat: [ solver popScope ]
 ]
 
 { #category : #visiting }
