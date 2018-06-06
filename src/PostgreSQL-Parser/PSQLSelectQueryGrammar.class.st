@@ -34,7 +34,8 @@ Class {
 		'asterik',
 		'identifier',
 		'numericConstant',
-		'identifierWithOptionalFieldAccess'
+		'identifierWithOptionalFieldAccess',
+		'aliasDefinition'
 	],
 	#category : #'PostgreSQL-Parser-Grammars-CRUD'
 }
@@ -80,6 +81,11 @@ PSQLSelectQueryGrammar class >> tokenParser [
 ]
 
 { #category : #'select command' }
+PSQLSelectQueryGrammar >> aliasDefinition [
+	^ self expressionParser asOperator trim , identifier
+]
+
+{ #category : #'select command' }
 PSQLSelectQueryGrammar >> allOrDistinctClause [
 	"ALL | DISTINCT [ ON ( expression [, ...] ) ]"
 	^ kw all trim /
@@ -109,9 +115,8 @@ PSQLSelectQueryGrammar >> columnReference [
 
 { #category : #'select command' }
 PSQLSelectQueryGrammar >> columnsAndAliasesSelected [
-	^ (
-			((identifier , $. asParser) optional , asterik trim) / expression
-		) plus separatedBy: comma trim 
+	^ ((identifier , $. asParser) optional , asterik trim) / expression
+		, aliasDefinition optional separatedBy: comma trim
 ]
 
 { #category : #dependencies }
