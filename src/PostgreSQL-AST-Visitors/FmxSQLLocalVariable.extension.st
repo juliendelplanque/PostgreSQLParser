@@ -1,7 +1,7 @@
 Extension { #name : #FmxSQLLocalVariable }
 
 { #category : #'*PostgreSQL-AST-Visitors' }
-FmxSQLLocalVariable >> createReferenceEntityTo: aFmxSQLEntity [
+FmxSQLLocalVariable >> createReferenceEntityFrom: aFmxSQLEntity [
 	| localVariableAccess |
 	localVariableAccess := FmxSQLLocalVariableAccess new
 		localVariable: self;
@@ -12,5 +12,5 @@ FmxSQLLocalVariable >> createReferenceEntityTo: aFmxSQLEntity [
 
 { #category : #'*PostgreSQL-AST-Visitors' }
 FmxSQLLocalVariable >> reachableEntities [
-	^ self type reachableEntities
+	^ self type ifNil: [ #() ] ifNotNil: [ :aType | aType reachableEntities ]
 ]

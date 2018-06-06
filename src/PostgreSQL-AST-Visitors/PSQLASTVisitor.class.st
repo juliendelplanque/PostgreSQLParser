@@ -18,6 +18,11 @@ PSQLASTVisitor >> visitPSQLASTAggregateFunctionCall: aPSQLASTAggregateFunctionCa
 ]
 
 { #category : #visiting }
+PSQLASTVisitor >> visitPSQLASTAliasDefinition: aPSQLASTAliasDefinition [
+	^ self subclassResponsibility
+]
+
+{ #category : #visiting }
 PSQLASTVisitor >> visitPSQLASTAllClause: aPSQLASTAllClause [
 	^ self subclassResponsibility
 ]

@@ -1,6 +1,11 @@
 Extension { #name : #FmxSQLParameter }
 
 { #category : #'*PostgreSQL-AST-Visitors' }
-FmxSQLParameter >> createReferenceEntityTo: aFmxSQLStoredProcedure [ 
-	self shouldBeImplemented.
+FmxSQLParameter >> createReferenceEntityFrom: aFmxSQLEntity [
+	| parameterAccess |
+	parameterAccess := FmxSQLParameterAccess new
+		parameter: self;
+		yourself.
+	aFmxSQLEntity references add: parameterAccess.
+	^ parameterAccess
 ]

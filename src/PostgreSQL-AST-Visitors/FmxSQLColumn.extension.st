@@ -1,7 +1,7 @@
 Extension { #name : #FmxSQLColumn }
 
 { #category : #'*PostgreSQL-AST-Visitors' }
-FmxSQLColumn >> createReferenceEntityTo: aFmxSQLEntity [
+FmxSQLColumn >> createReferenceEntityFrom: aFmxSQLEntity [
 	| columnReference |
 	columnReference := FmxSQLColumnReference new
 		column: self;

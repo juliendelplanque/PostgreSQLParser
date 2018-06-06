@@ -52,7 +52,7 @@ PSQLASTReflectiveVisitor >> createEntity: anEntityClass from: aPSQLASTNode [
 
 { #category : #'convenient linking' }
 PSQLASTReflectiveVisitor >> createReferenceTo: anEntity [
-	^ (anEntity createReferenceEntityTo: self currentEntity)
+	^ (anEntity createReferenceEntityFrom: self currentEntity)
 		mooseModel: self model;
 		yourself
 ]
@@ -170,6 +170,11 @@ PSQLASTReflectiveVisitor >> visitPSQLASTAggregateFunctionCall: aPSQLASTAggregate
 ]
 
 { #category : #visiting }
+PSQLASTReflectiveVisitor >> visitPSQLASTAliasDefinition: aPSQLASTAliasDefinition [
+	^ self explicitRequirement
+]
+
+{ #category : #visiting }
 PSQLASTReflectiveVisitor >> visitPSQLASTAllClause: aPSQLASTAllClause [
 	(self childrenFor: aPSQLASTAllClause) do: [:aChild | aChild acceptVisitor: self]
 ]
@@ -261,7 +266,7 @@ PSQLASTReflectiveVisitor >> visitPSQLASTDeleteQuery: aPSQLASTDeleteQuery [
 	self
 		useCurrentEntity: deleteQuery
 		during: [ self visit: aPSQLASTDeleteQuery withClause.
-			self visitAll: aPSQLASTDeleteQuery usingList.
+			self visit: aPSQLASTDeleteQuery usingList.
 			self visit: aPSQLASTDeleteQuery whereClause.
 			self visit: aPSQLASTDeleteQuery returningClause ]
 ]
@@ -290,7 +295,8 @@ PSQLASTReflectiveVisitor >> visitPSQLASTForClause: aPSQLASTForClause [
 PSQLASTReflectiveVisitor >> visitPSQLASTFromClause: aPSQLASTFromClause [
 	| fromClause |
 	fromClause := self createEntity: FmxSQLFromClause from: aPSQLASTFromClause.
-	self visitAll: aPSQLASTFromClause items thenDoForEach: [ :ref | Halt now. ref clause: fromClause ].
+	fromClause query: self currentEntity.
+	self useCurrentEntity: fromClause during: [ self visitAll: aPSQLASTFromClause items ].
 	^ fromClause
 ]
 
@@ -306,6 +312,7 @@ PSQLASTReflectiveVisitor >> visitPSQLASTFromClauseItemType1: aPSQLASTFromClauseI
 		thenDo: [ :columnAlias | Halt now	"Alias not managed now" ].
 	^ (self createEntity: FmxSQLTableReference from: aPSQLASTFromClauseItemType1)
 		table: table;
+		clause: self currentEntity;
 		yourself
 ]
 
@@ -331,8 +338,10 @@ PSQLASTReflectiveVisitor >> visitPSQLASTFromClauseItemType5: aPSQLASTFromClauseI
 
 { #category : #visiting }
 PSQLASTReflectiveVisitor >> visitPSQLASTFromClauseItemType6: aPSQLASTFromClauseItemType6 [
-	Halt now.
-	(self childrenFor: aPSQLASTFromClauseItemType6) do: [:aChild | aChild acceptVisitor: self]
+	self visit: aPSQLASTFromClauseItemType6 leftFromItem.
+	self visit: aPSQLASTFromClauseItemType6 rightFromItem.
+	self visit: aPSQLASTFromClauseItemType6 joinCondition.
+	self visit: aPSQLASTFromClauseItemType6 usingList
 ]
 
 { #category : #visiting }
@@ -462,14 +471,17 @@ PSQLASTReflectiveVisitor >> visitPSQLASTSelectQuery: aPSQLASTSelectQuery [
 					pushedScope := pushedScope + 1 ].
 			self visit: aPSQLASTSelectQuery withClause thenDo: [ :visitResult | Halt now ].
 			self visit: aPSQLASTSelectQuery allOrDistinctClause thenDo: [ :visitResult | Halt now ].
-			self visitAll: aPSQLASTSelectQuery columnsAndAliasesSelected.
+			self
+				useCurrentEntity:
+					((self createEntity: FmxSQLSelectClause)
+						query: selectQuery;
+						yourself)
+				during: [ self visitAll: aPSQLASTSelectQuery columnsAndAliasesSelected ].
 			self visit: aPSQLASTSelectQuery whereClause thenDo: [ :visitResult | Halt now ].
 			self visit: aPSQLASTSelectQuery groupByClause thenDo: [ :visitResult | Halt now ].
 			self visit: aPSQLASTSelectQuery havingClause thenDo: [ :visitResult | Halt now ].
 			self visit: aPSQLASTSelectQuery windowClause thenDo: [ :visitResult | Halt now ].
-			self
-				visit: aPSQLASTSelectQuery unionIntersectExceptClause
-				thenDo: [ :visitResult | Halt now ].
+			self visit: aPSQLASTSelectQuery unionIntersectExceptClause thenDo: [ :visitResult | Halt now ].
 			self visit: aPSQLASTSelectQuery orderByClause thenDo: [ :visitResult | Halt now ].
 			self visit: aPSQLASTSelectQuery limitClause thenDo: [ :visitResult | Halt now ].
 			self visit: aPSQLASTSelectQuery offsetClause thenDo: [ :visitResult | Halt now ].
@@ -568,7 +580,12 @@ PSQLASTReflectiveVisitor >> visitPSQLASTUpdateQuery: aPSQLASTUpdateQuery [
 
 { #category : #visiting }
 PSQLASTReflectiveVisitor >> visitPSQLASTUsingClause: aPSQLASTUsingClause [
-	^ self explicitRequirement
+	self
+		useCurrentEntity:
+			((self createEntity: FmxSQLUsingClause from: aPSQLASTUsingClause)
+				query: self currentEntity;
+				yourself)
+		during: [ self visitAll: aPSQLASTUsingClause list ]
 ]
 
 { #category : #visiting }
@@ -589,7 +606,7 @@ PSQLASTReflectiveVisitor >> visitPSQLASTWildCard: aPSQLASTWildCard [
 	"Here we will create a reference on each accessible entities at the current scope"
 
 	self topScopeReachableEntities
-		do: [ :aReachableEntity | (aReachableEntity createReferenceEntityTo: self currentEntity) mooseModel: self model ]
+		do: [ :aReachableEntity | (aReachableEntity createReferenceEntityFrom: self currentEntity) mooseModel: self model ]
 ]
 
 { #category : #visiting }
