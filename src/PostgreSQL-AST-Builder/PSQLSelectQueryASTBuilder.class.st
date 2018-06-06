@@ -25,6 +25,15 @@ PSQLSelectQueryASTBuilder class >> tokenParser [
 ]
 
 { #category : #'select command' }
+PSQLSelectQueryASTBuilder >> aliasDefinition [
+	^ super aliasDefinition
+		psqlASTBuild: [ :tokens | 
+			PSQLASTAliasDefinition new
+				alias: tokens second;
+				yourself ]
+]
+
+{ #category : #'select command' }
 PSQLSelectQueryASTBuilder >> allOrDistinctClause [
 	^ super allOrDistinctClause psqlASTBuild: [ :tokens |
 		tokens isString
@@ -39,19 +48,26 @@ PSQLSelectQueryASTBuilder >> allOrDistinctClause [
 
 { #category : #'select command' }
 PSQLSelectQueryASTBuilder >> columnsAndAliasesSelected [
-	^ super columnsAndAliasesSelected psqlASTBuild: [ :tokens |
-		tokens reject: [ :item | item = $, ] thenCollect: [ :item |
-			item first isArray
-				ifTrue: [
-					item first first
-						ifNotNil: [ 
-							PSQLASTAttributeAccess new 
-								accessed: item first first first;
-								attributeIdentifier: item first second;
-								yourself ]
-						ifNil: [ item first second ] ]
-				ifFalse: [ 
-					item first ] ] ]
+	^ super columnsAndAliasesSelected
+		psqlASTBuild: [ :tokens | 
+			tokens
+				reject: [ :item | item = $, ]
+				thenCollect: [ :item | 
+					| selection |
+					selection := item first isArray
+						ifTrue: [ item first first
+								ifNotNil: [ PSQLASTAttributeAccess new
+										accessed: item first first first;
+										attributeIdentifier: item first second;
+										yourself ]
+								ifNil: [ item first second ] ]
+						ifFalse: [ item first ].
+					item second
+						ifNil: [ selection ]
+						ifNotNil: [ "here we have an alias so we put the selection in it"
+							item second
+								selection: selection;
+								yourself ] ] ]
 ]
 
 { #category : #'select command' }
