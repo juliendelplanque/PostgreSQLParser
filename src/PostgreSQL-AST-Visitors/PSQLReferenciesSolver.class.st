@@ -39,8 +39,8 @@ PSQLReferenciesSolver >> pushEntitiesAsScope: aCollectionOfEntities [
 PSQLReferenciesSolver >> pushEntityAsScope: anEntity [
 	self
 		pushScope:
-			(PSQLCollectionScope new
-				reachableEntities: {anEntity};
+			(PSQLNotCurrentEntityScope new
+				entity: anEntity;
 				yourself)
 ]
 

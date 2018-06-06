@@ -72,6 +72,22 @@ PSQIdentifierWithNode >> node: anObject [
 	node := anObject
 ]
 
+{ #category : #printing }
+PSQIdentifierWithNode >> printIdentifierPath: aStream [
+	aStream nextPutAll: self identifier.
+	self isLast
+		ifFalse: [ aStream nextPut: $..
+			self next printIdentifierPath: aStream ]
+]
+
+{ #category : #printing }
+PSQIdentifierWithNode >> printOn: aStream [
+	super printOn: aStream.
+	aStream nextPut: $(.
+	self printIdentifierPath: aStream.
+	aStream nextPut: $)
+]
+
 { #category : #accessing }
 PSQIdentifierWithNode >> targetEntity [
 	^ self isLast
