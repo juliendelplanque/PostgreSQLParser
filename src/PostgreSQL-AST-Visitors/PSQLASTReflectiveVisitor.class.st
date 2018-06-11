@@ -38,6 +38,13 @@ PSQLASTReflectiveVisitor >> childrenFor: aNode [
 						ifTrue: [ varContent asCollection ] ] ]
 ]
 
+{ #category : #convenient }
+PSQLASTReflectiveVisitor >> createClause: aClauseClass from: aPSQLASTClauseNode [
+	^ (self createEntity: aClauseClass from: aPSQLASTClauseNode)
+		query: self currentEntity;
+		yourself
+]
+
 { #category : #'entity creation' }
 PSQLASTReflectiveVisitor >> createEntity: anEntityClass [ 
 	^ anEntityClass new
@@ -278,6 +285,7 @@ PSQLASTReflectiveVisitor >> visitPSQLASTDistinctClause: aPSQLASTDistinctClause [
 
 { #category : #visiting }
 PSQLASTReflectiveVisitor >> visitPSQLASTExceptClause: aPSQLASTExceptClause [
+	Halt now.
 	(self childrenFor: aPSQLASTExceptClause) do: [:aChild | aChild acceptVisitor: self]
 ]
 
@@ -304,12 +312,10 @@ PSQLASTReflectiveVisitor >> visitPSQLASTFromClause: aPSQLASTFromClause [
 PSQLASTReflectiveVisitor >> visitPSQLASTFromClauseItemType1: aPSQLASTFromClauseItemType1 [
 	| table |
 	table := self findTableOrViewNamed: (self visit: aPSQLASTFromClauseItemType1 tableName).
+	self visit: aPSQLASTFromClauseItemType1 alias thenDo: [ :alias | Halt now	"Alias not managed now" ].
 	self
-		visit: aPSQLASTFromClauseItemType1 alias
-		thenDo: [ :alias | Halt now	"Alias not managed now" ].
-	self
-		visit: aPSQLASTFromClauseItemType1 columnAliases
-		thenDo: [ :columnAlias | Halt now	"Alias not managed now" ].
+		visitAll: aPSQLASTFromClauseItemType1 columnAliases
+		thenDoForEach: [ :columnAlias | Halt now	"Alias not managed now" ].
 	^ (self createEntity: FmxSQLTableReference from: aPSQLASTFromClauseItemType1)
 		table: table;
 		clause: self currentEntity;
@@ -391,6 +397,7 @@ PSQLASTReflectiveVisitor >> visitPSQLASTInsertQuery: aPSQLASTInsertQuery [
 
 { #category : #visiting }
 PSQLASTReflectiveVisitor >> visitPSQLASTIntersectClause: aPSQLASTIntersectClause [
+	Halt now.
 	(self childrenFor: aPSQLASTIntersectClause) do: [:aChild | aChild acceptVisitor: self]
 ]
 
@@ -422,7 +429,9 @@ PSQLASTReflectiveVisitor >> visitPSQLASTOnConflictClause: aPSQLASTOnConflictClau
 
 { #category : #visiting }
 PSQLASTReflectiveVisitor >> visitPSQLASTOrderByClause: aPSQLASTOrderByClause [
-	(self childrenFor: aPSQLASTOrderByClause) do: [:aChild | aChild acceptVisitor: self]
+	self
+		useCurrentEntity: (self createClause: FmxSQLOrderByClause from: aPSQLASTOrderByClause)
+		during: [ self visitAll: aPSQLASTOrderByClause items ]
 ]
 
 { #category : #visiting }
@@ -477,12 +486,12 @@ PSQLASTReflectiveVisitor >> visitPSQLASTSelectQuery: aPSQLASTSelectQuery [
 						query: selectQuery;
 						yourself)
 				during: [ self visitAll: aPSQLASTSelectQuery columnsAndAliasesSelected ].
-			self visit: aPSQLASTSelectQuery whereClause thenDo: [ :visitResult | Halt now ].
+			self visit: aPSQLASTSelectQuery whereClause.
 			self visit: aPSQLASTSelectQuery groupByClause thenDo: [ :visitResult | Halt now ].
 			self visit: aPSQLASTSelectQuery havingClause thenDo: [ :visitResult | Halt now ].
 			self visit: aPSQLASTSelectQuery windowClause thenDo: [ :visitResult | Halt now ].
-			self visit: aPSQLASTSelectQuery unionIntersectExceptClause thenDo: [ :visitResult | Halt now ].
-			self visit: aPSQLASTSelectQuery orderByClause thenDo: [ :visitResult | Halt now ].
+			self visit: aPSQLASTSelectQuery unionIntersectExceptClause.
+			self visit: aPSQLASTSelectQuery orderByClause.
 			self visit: aPSQLASTSelectQuery limitClause thenDo: [ :visitResult | Halt now ].
 			self visit: aPSQLASTSelectQuery offsetClause thenDo: [ :visitResult | Halt now ].
 			self visit: aPSQLASTSelectQuery fetchClause thenDo: [ :visitResult | Halt now ].
@@ -530,7 +539,8 @@ PSQLASTReflectiveVisitor >> visitPSQLASTStringConstant: aPSQLASTStringConstant [
 
 { #category : #visiting }
 PSQLASTReflectiveVisitor >> visitPSQLASTSubscript: aPSQLASTSubscript [
-	(self childrenFor: aPSQLASTSubscript) do: [:aChild | aChild acceptVisitor: self]
+	self visit: aPSQLASTSubscript target.
+	self visit: aPSQLASTSubscript subscriptExpression
 ]
 
 { #category : #visiting }
@@ -540,7 +550,9 @@ PSQLASTReflectiveVisitor >> visitPSQLASTTableAlias: aPSQLASTTableAlias [
 
 { #category : #visiting }
 PSQLASTReflectiveVisitor >> visitPSQLASTUnionClause: aPSQLASTUnionClause [
-	(self childrenFor: aPSQLASTUnionClause) do: [:aChild | aChild acceptVisitor: self]
+	self
+		useCurrentEntity: (self createClause: FmxSQLUnionClause from: aPSQLASTUnionClause)
+		during: [ self visit: aPSQLASTUnionClause selectQuery ]
 ]
 
 { #category : #visiting }
@@ -735,8 +747,8 @@ PSQLASTReflectiveVisitor >> visitPSQLPlpgSQLASTIf: aPSQLPlpgSQLASTIf [
 ]
 
 { #category : #visiting }
-PSQLASTReflectiveVisitor >> visitPSQLPlpgSQLASTLoop: aPSQLPlpgSQLASTLoop [ 
-	(self childrenFor: aPSQLPlpgSQLASTLoop) do: [:aChild | aChild acceptVisitor: self]
+PSQLASTReflectiveVisitor >> visitPSQLPlpgSQLASTLoop: aPSQLPlpgSQLASTLoop [
+	self visitAll: aPSQLPlpgSQLASTLoop statements
 ]
 
 { #category : #visiting }
