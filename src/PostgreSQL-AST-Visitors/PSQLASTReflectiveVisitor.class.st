@@ -135,6 +135,11 @@ PSQLASTReflectiveVisitor >> resolveAndLinkSilently: identifiers [
 	
 ]
 
+{ #category : #testing }
+PSQLASTReflectiveVisitor >> shouldRejectIdentifiers: aPSQIdentifierWithNode [
+	^ #('true' 'false' 'array') includes: aPSQIdentifierWithNode identifier
+]
+
 { #category : #'visiting - convenience' }
 PSQLASTReflectiveVisitor >> visit: aNode [ 
 	^ self visit: aNode thenDo: [:res | res ]
@@ -207,9 +212,15 @@ PSQLASTReflectiveVisitor >> visitPSQLASTAttributeAccess: aPSQLASTAttributeAccess
 	self
 		visit: aPSQLASTAttributeAccess accessed
 		thenDo: [ :identifier | identifiers := PSQIdentifierWithNode identifier: identifier node: aPSQLASTAttributeAccess accessed next: identifiers ].
+
+	"We check that the identifier should be ignored (for example true or false)"
+	(self shouldRejectIdentifiers: identifiers)
+		ifTrue: [ ^ nil ].
+		
 	[ self resolveAndLinkSilently: identifiers ]
 		on: NotFound
-		do: [ :anError | "new and old are implicit declared variables in stored procedures"
+		do: [ :anError | 
+			"new and old are implicit declared variables in stored procedures"
 			(identifiers identifier = 'new' or: [ identifiers identifier = 'old' ])
 				ifTrue: [ FmxSQLLocalVariable new
 						name: identifiers identifier;
