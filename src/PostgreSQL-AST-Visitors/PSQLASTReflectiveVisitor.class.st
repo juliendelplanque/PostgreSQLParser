@@ -57,6 +57,22 @@ PSQLASTReflectiveVisitor >> createEntity: anEntityClass from: aPSQLASTNode [
 	^ self createEntity: anEntityClass 
 ]
 
+{ #category : #convenient }
+PSQLASTReflectiveVisitor >> createQueryContainedByCurrentEntity: aClass from: anASTNode [
+	| newQuery currentEntity |
+	newQuery := self createEntity: aClass from: anASTNode.
+	currentEntity := self currentEntity.
+	currentEntity class = FmxSQLStoredProcedure
+		ifTrue:
+			[ "If current entity is a storedProcedure we can directly set the entity as contained by it" newQuery container: currentEntity ]
+		ifFalse: [ "Otherwise we need to create a reference to a DerivedTable"
+			(self createEntity: FmxSQLDerivedTable)
+				createReferenceEntityFrom: currentEntity;
+				query: newQuery;
+				yourself ].
+	^ newQuery
+]
+
 { #category : #'convenient linking' }
 PSQLASTReflectiveVisitor >> createReferenceTo: anEntity [
 	^ (anEntity createReferenceEntityFrom: self currentEntity)
@@ -273,7 +289,9 @@ PSQLASTReflectiveVisitor >> visitPSQLASTDefaultValues: aPSQLASTDefaultValues [
 { #category : #visiting }
 PSQLASTReflectiveVisitor >> visitPSQLASTDeleteQuery: aPSQLASTDeleteQuery [
 	| deleteQuery |
-	deleteQuery := self createEntity: FmxSQLDeleteQuery from: aPSQLASTDeleteQuery.
+	deleteQuery := self
+		createQueryContainedByCurrentEntity: FmxSQLDeleteQuery
+		from: aPSQLASTDeleteQuery.
 	"First we create the from clause of the query"
 	self
 		visit: aPSQLASTDeleteQuery tableName
@@ -392,18 +410,15 @@ PSQLASTReflectiveVisitor >> visitPSQLASTIdentifier: aPSQLASTIdentifier [
 
 { #category : #visiting }
 PSQLASTReflectiveVisitor >> visitPSQLASTInsertQuery: aPSQLASTInsertQuery [
-	| insertQuery |
-	insertQuery := self createEntity: FmxSQLInsertQuery from: aPSQLASTInsertQuery.
-	self visit: aPSQLASTInsertQuery withClause thenDo: [ :visitResult | Halt now ].
-	self visit: aPSQLASTInsertQuery returningClause thenDo: [ :visitResult | Halt now ].
-	self visit: aPSQLASTInsertQuery onConflictClause thenDo: [ :visitResult | Halt now ].
-	self
-		visit: aPSQLASTInsertQuery valuesClause
-		thenDo: [ :fmxValuesClause | Halt now. fmxValuesClause resolveAsPartOfTheQuery: insertQuery ].
-	self visit: aPSQLASTInsertQuery tableName thenDo: [ :visitResult | Halt now ].
-	self visit: aPSQLASTInsertQuery alias thenDo: [ :visitResult | Halt now ].
-	self visitAll: aPSQLASTInsertQuery columns thenDoForEach: [ :visitResult | Halt now ].
-	^ insertQuery
+	^ self
+		useCurrentEntity: (self createQueryContainedByCurrentEntity: FmxSQLInsertQuery from: aPSQLASTInsertQuery)
+		during: [ self visit: aPSQLASTInsertQuery withClause thenDo: [ :visitResult | Halt now ].
+			self visit: aPSQLASTInsertQuery returningClause thenDo: [ :visitResult | Halt now ].
+			self visit: aPSQLASTInsertQuery onConflictClause thenDo: [ :visitResult | Halt now ].
+			self visit: aPSQLASTInsertQuery valuesClause.
+			self visit: aPSQLASTInsertQuery tableName thenDo: [ :visitResult | Halt now ].
+			self visit: aPSQLASTInsertQuery alias thenDo: [ :visitResult | Halt now ].
+			self visitAll: aPSQLASTInsertQuery columns thenDoForEach: [ :visitResult | Halt now ] ]
 ]
 
 { #category : #visiting }
@@ -479,7 +494,9 @@ PSQLASTReflectiveVisitor >> visitPSQLASTSelectIntoQuery: aPSQLASTSelectIntoQuery
 PSQLASTReflectiveVisitor >> visitPSQLASTSelectQuery: aPSQLASTSelectQuery [
 	| selectQuery pushedScope |
 	pushedScope := 0.
-	selectQuery := self createEntity: FmxSQLSelectQuery from: aPSQLASTSelectQuery.
+	selectQuery := self
+		createQueryContainedByCurrentEntity: FmxSQLSelectQuery
+		from: aPSQLASTSelectQuery.
 	"first we look at the from clause to resolve references"
 	self
 		useCurrentEntity: selectQuery
@@ -581,7 +598,9 @@ PSQLASTReflectiveVisitor >> visitPSQLASTUpdateDeleteWhereClause: aPSQLASTUpdateD
 PSQLASTReflectiveVisitor >> visitPSQLASTUpdateQuery: aPSQLASTUpdateQuery [
 	| pushedScope updateQuery |
 	pushedScope := 0.
-	updateQuery := self createEntity: FmxSQLUpdateQuery from: aPSQLASTUpdateQuery.
+	updateQuery := self
+		createQueryContainedByCurrentEntity: FmxSQLUpdateQuery
+		from: aPSQLASTUpdateQuery.
 	self
 		useCurrentEntity: updateQuery
 		during: [ self
@@ -613,10 +632,9 @@ PSQLASTReflectiveVisitor >> visitPSQLASTUsingClause: aPSQLASTUsingClause [
 
 { #category : #visiting }
 PSQLASTReflectiveVisitor >> visitPSQLASTValuesClause: aPSQLASTValuesClause [
-	| valuesClause |
-	valuesClause := self createEntity: FmxSQLValuesClause from: aPSQLASTValuesClause.
-	self visit: aPSQLASTValuesClause values thenDo: [ :res | Halt now ].
-	^ valuesClause
+	self
+		useCurrentEntity: (self createClause: FmxSQLValuesClause from: aPSQLASTValuesClause)
+		during: [ self visit: aPSQLASTValuesClause values ]
 ]
 
 { #category : #visiting }

@@ -67,5 +67,6 @@ PSQLSolverUserVisitor >> useCurrentEntity: anEntity during: aBlock [
 
 	self currentEntity: anEntity.
 	aBlock value.
-	self popScope
+	self popScope.
+	^ anEntity
 ]
