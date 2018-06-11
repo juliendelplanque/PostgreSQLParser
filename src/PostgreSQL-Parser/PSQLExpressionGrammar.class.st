@@ -240,7 +240,6 @@ PSQLExpressionGrammar >> expression [
 		group: [ :g | g left: isNotDistinctFromOperator trim do: self binaryOperatorBlock ];
 		group: [ :g | g left: betweenConstructOperator trim do: self binaryOperatorBlock ];
 		group: [ :g | g left: binaryLogicalOperator trim do: self binaryOperatorBlock ];
-		group: [ :g | g left: asOperator trim do: self binaryOperatorBlock ];
 		group: [ :g |
 			g postfix: operator trim do: self postfixOperatorBlock ].
 	^ expressionParser
