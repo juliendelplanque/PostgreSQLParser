@@ -23,7 +23,7 @@ PSQLValuesASTBuilder >> expression [
 PSQLValuesASTBuilder >> valuesCommand [
 	^ super valuesCommand
 		psqlASTBuild: [ :tokens | 
-			PSQLASTValuesClause new
+			PSQLASTValuesCommand new
 				values:
 					(tokens second
 						reject: [ :item | item = $, ]
