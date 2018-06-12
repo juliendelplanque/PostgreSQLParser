@@ -111,7 +111,7 @@ PSQLPlpgSQLASTBuilder >> plpgsqlContinueStatement [
 	^ super plpgsqlContinueStatement psqlASTBuild: [ :tokens |
 		PSQLPlpgSQLASTContinue new
 			label: tokens second;
-			whenExpression: tokens third second;
+			whenExpression: tokens third ;
 			yourself ]
 ]
 
@@ -502,7 +502,7 @@ PSQLPlpgSQLASTBuilder >> plpgsqlSearchedCase [
 PSQLPlpgSQLASTBuilder >> plpgsqlSimpleCase [
 	^ super plpgsqlSimpleCase psqlASTBuild: [ :tokens |
 		PSQLPlpgSQLASTSimpleCase new
-			conditionToStatements: (tokens second collect: [ :subTokens | subTokens second -> subTokens fourth ]);
+			conditionToStatements: (tokens second collect: [ :subTokens | subTokens first -> subTokens third ]);
 			elseStatements: (tokens third ifNotNil: #second);
 			yourself ]
 ]
