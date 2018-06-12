@@ -25,26 +25,26 @@ PSQLSharedASTBuilderTest >> testOrderByClause [
 		assert: node items size equals: 4;
 		"c1"
 		assert: node items first class equals: PSQLASTOrderByClauseItem;
-		assert: node items first expression class equals: PSQLASTIdentifier;
+		assert: node items first expression class equals: PSQLASTAttributeAccess;
 		deny: node items first hasIsAscOrIsDesc;
 		deny: node items first hasNullsFirstOrNullsLast;
 		"c2"
 		assert: node items second class equals: PSQLASTOrderByClauseItem;
-		assert: node items second expression class equals: PSQLASTIdentifier;
+		assert: node items second expression class equals: PSQLASTAttributeAccess;
 		assert: node items second hasIsAscOrIsDesc;
 		assert: node items second isAsc;
 		deny: node items second isDesc;
 		deny: node items second hasNullsFirstOrNullsLast;
 		"c3"
 		assert: node items third class equals: PSQLASTOrderByClauseItem;
-		assert: node items third expression class equals: PSQLASTIdentifier;
+		assert: node items third expression class equals: PSQLASTAttributeAccess;
 		deny: node items third hasIsAscOrIsDesc;
 		assert: node items third hasNullsFirstOrNullsLast;
 		assert: node items third isNullsFirst;
 		deny: node items third isNullsLast;
 		"c4"
 		assert: node items fourth class equals: PSQLASTOrderByClauseItem;
-		assert: node items fourth expression class equals: PSQLASTIdentifier;
+		assert: node items fourth expression class equals: PSQLASTAttributeAccess;
 		assert: node items fourth hasIsAscOrIsDesc;
 		assert: node items fourth isDesc;
 		deny: node items fourth isAsc;

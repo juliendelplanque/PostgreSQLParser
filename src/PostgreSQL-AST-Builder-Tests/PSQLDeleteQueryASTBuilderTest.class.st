@@ -81,7 +81,7 @@ DELETE FROM bar'.
 		assert: node hasReturningClause;
 		assert: node returningClause class equals: PSQLASTReturningClause;
 		assert: node hasUsingList;
-		assert: node usingList size equals: 1;
+		assert: node usingList list size equals: 1;
 		assert: node hasWhereClause;
 		assert: node whereClause class equals: PSQLASTUpdateDeleteWhereClause;
 		deny: node areDescendantTablesIncluded.

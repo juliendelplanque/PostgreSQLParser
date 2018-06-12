@@ -82,14 +82,12 @@ PSQLInsertQueryASTBuilderTest >> testOnConflictClause [
 PSQLInsertQueryASTBuilderTest >> testValuesClause [
 	| node |
 	node := builder valuesClause parse: 'VALUES (1, DEFAULT, var+1)'.
-	self
-		assert: node class equals: Array.
-		
+	self assert: node class equals: PSQLASTValuesClause.
+	self assert: node values class equals: PSQLASTValuesCommand.
 	node := builder valuesClause parse: 'DEFAULT VALUES'.
-	self
-		assert: node class equals: PSQLASTDefaultValues.
-		
+	self assert: node class equals: PSQLASTValuesClause.
+	self assert: node values class equals: PSQLASTDefaultValues.
 	node := builder valuesClause parse: 'SELECT * FROM foo'.
-	self
-		assert: node class equals: PSQLASTSelectQuery.
+	self assert: node class equals: PSQLASTValuesClause.
+	self assert: node values class equals: PSQLASTSelectQuery
 ]

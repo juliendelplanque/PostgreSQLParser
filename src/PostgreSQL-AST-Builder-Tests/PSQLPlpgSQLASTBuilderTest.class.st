@@ -115,7 +115,7 @@ PSQLPlpgSQLASTBuilderTest >> testPlpgsqlContinueStatement [
 	self
 		assert: node class equals: PSQLPlpgSQLASTContinue;
 		assert: node label isNil;
-		assert: node whenExpression class equals: PSQLASTBinaryOperator
+		assert: node whenExpression class equals: PSQLASTWhenExpression 
 ]
 
 { #category : #'tests-plpgsql' }
@@ -124,8 +124,8 @@ PSQLPlpgSQLASTBuilderTest >> testPlpgsqlCopyTypeDeclaration [
 	node := builder plpgsqlCopyTypeDeclaration parse: 'user_id users.user_id%TYPE'.
 	self
 		assert: node class equals: PSQLPlpgSQLASTCopyTypeDeclaration;
-		assert: node accessToCopyType attributeIdentifier identifier equals: 'users';
-		assert: node accessToCopyType accessed identifier equals: 'user_id'
+		assert: node accessToCopyType accessed identifier equals: 'users';
+		assert: node accessToCopyType attributeIdentifier identifier equals: 'user_id'
 ]
 
 { #category : #'tests-plpgsql' }
@@ -695,7 +695,9 @@ PSQLPlpgSQLASTBuilderTest >> testPlpgsqlRowTypeDeclaration [
 { #category : #'tests-plpgsql' }
 PSQLPlpgSQLASTBuilderTest >> testPlpgsqlSearchedCase [
 	| node |
-	node := builder plpgsqlSearchedCase parse: 'CASE x
+	node := builder plpgsqlSearchedCase
+		parse:
+			'CASE x
     WHEN 1, 2 THEN
         msg := ''one or two'';
 	WHEN 3, 4 THEN
@@ -703,7 +705,7 @@ PSQLPlpgSQLASTBuilderTest >> testPlpgsqlSearchedCase [
 END CASE'.
 	self
 		assert: node class equals: PSQLPlpgSQLASTSearchedCase;
-		assert: node searchedExpression class equals: PSQLASTIdentifier;
+		assert: node searchedExpression class equals: PSQLASTAttributeAccess;
 		assert: node conditionsToStatements size equals: 2;
 		assert: node conditionsToStatements first key size equals: 2;
 		assert: node conditionsToStatements first value size equals: 1;
