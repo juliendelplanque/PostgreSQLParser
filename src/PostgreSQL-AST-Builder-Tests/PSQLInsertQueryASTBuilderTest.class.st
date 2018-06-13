@@ -41,11 +41,11 @@ PSQLInsertQueryASTBuilderTest >> testInsertCommand [
 		assert: node tableName identifier equals: 'table';
 		assert: node hasColumns;
 		assert: node columns size equals: 2;
-		assert: node valuesClause class equals: Array;
+		assert: node valuesClause class equals: PSQLASTValuesClause;
 		deny: node hasOnConflictClause;
 		deny: node hasReturningClause.
-		
-	node := builder insertCommand parse: 'INSERT INTO table AS t (id, name) VALUES (DEFAULT, ''john''), (SELECT * FROM foo) ON CONFLICT DO NOTHING RETURNING *'.
+	node := builder insertCommand
+		parse: 'INSERT INTO table AS t (id, name) VALUES (DEFAULT, ''john''), (SELECT * FROM foo) ON CONFLICT DO NOTHING RETURNING *'.
 	self
 		assert: node class equals: PSQLASTInsertQuery;
 		deny: node hasWithClause;
@@ -55,7 +55,7 @@ PSQLInsertQueryASTBuilderTest >> testInsertCommand [
 		assert: node tableName identifier equals: 'table';
 		assert: node hasColumns;
 		assert: node columns size equals: 2;
-		assert: node valuesClause class equals: Array;
+		assert: node valuesClause class equals: PSQLASTValuesClause;
 		assert: node hasOnConflictClause;
 		assert: node onConflictClause class equals: PSQLASTOnConflictClause;
 		assert: node hasReturningClause;

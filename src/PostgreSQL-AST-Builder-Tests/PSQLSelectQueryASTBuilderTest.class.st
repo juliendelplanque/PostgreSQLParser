@@ -143,34 +143,29 @@ PSQLSelectQueryASTBuilderTest >> testHavingClause [
 PSQLSelectQueryASTBuilderTest >> testIntoClause [
 	| node |
 	node := builder intoClause parse: 'INTO t'.
-	
 	self
 		assert: node class equals: PSQLASTIntoClause;
 		deny: node isTemporary;
 		deny: node isTemp;
 		deny: node isUnlogged;
 		deny: node hasTable;
-		assert: node newTable class equals: PSQLASTIdentifier.
-		
+		assert: node newTable class equals: PSQLASTAttributeAccess.
 	node := builder intoClause parse: 'INTO TEMPORARY TABLE t'.
-	
 	self
 		assert: node class equals: PSQLASTIntoClause;
 		assert: node isTemporary;
 		deny: node isTemp;
 		deny: node isUnlogged;
 		assert: node hasTable;
-		assert: node newTable class equals: PSQLASTIdentifier.
-		
+		assert: node newTable class equals: PSQLASTAttributeAccess.
 	node := builder intoClause parse: 'INTO UNLOGGED t'.
-	
 	self
 		assert: node class equals: PSQLASTIntoClause;
 		deny: node isTemporary;
 		deny: node isTemp;
 		assert: node isUnlogged;
 		deny: node hasTable;
-		assert: node newTable class equals: PSQLASTIdentifier.
+		assert: node newTable class equals: PSQLASTAttributeAccess
 ]
 
 { #category : #'tests-select command' }

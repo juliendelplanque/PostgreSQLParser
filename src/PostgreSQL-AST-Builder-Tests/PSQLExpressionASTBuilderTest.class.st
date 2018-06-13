@@ -54,7 +54,7 @@ PSQLExpressionASTBuilderTest >> testConditionalExpression [
 	self
 		assert: node class equals: PSQLASTConditionalExpression;
 		assert: node conditionsToExpressions size equals: 1;
-		assert: node conditionsToExpressions first key class equals: PSQLASTParenthesedExpression;
+		assert: node conditionsToExpressions first key class equals: PSQLASTWhenExpression;
 		assert: node conditionsToExpressions first value class equals: PSQLASTAttributeAccess;
 		assert: node elseExpression class equals: PSQLASTAttributeAccess
 ]
@@ -90,7 +90,7 @@ PSQLExpressionASTBuilderTest >> testFunctionCallParserWith [
 		assert: node functionIdentifier identifier equals: 'fct';
 		assert: node argumentsList size equals: 3;
 		assert: node argumentsList first class equals: PSQLASTNumericConstant;
-		assert: node argumentsList second class equals: PSQLASTIdentifier;
+		assert: node argumentsList second class equals: PSQLASTAttributeAccess;
 		assert: node argumentsList third class equals: PSQLASTBinaryOperator;
 		assert: node argumentsDictionary size equals: 1;
 		assert: node argumentsDictionary associations first key class equals: PSQLASTIdentifier;
