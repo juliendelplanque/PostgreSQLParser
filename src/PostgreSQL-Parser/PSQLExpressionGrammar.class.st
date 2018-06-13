@@ -54,7 +54,8 @@ Class {
 		'identifierOrKeyword',
 		'constant',
 		'positionalParameter',
-		'whenExpression'
+		'whenExpression',
+		'cast'
 	],
 	#category : #'PostgreSQL-Parser-Core'
 }
@@ -129,6 +130,11 @@ PSQLExpressionGrammar >> aggregateExpressionParserWith: expressionParser [
 	(self aggregateExpressionParserForm2With: expressionParser) /
 	(self aggregateExpressionParserForm3With: expressionParser) /
 	(self aggregateExpressionParserForm4With: expressionParser)
+]
+
+{ #category : #expression }
+PSQLExpressionGrammar >> aliasDefinition [
+	^ asOperator trim , identifier
 ]
 
 { #category : #expression }

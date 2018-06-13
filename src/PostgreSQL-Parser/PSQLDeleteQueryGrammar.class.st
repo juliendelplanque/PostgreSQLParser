@@ -111,7 +111,9 @@ PSQLDeleteQueryGrammar >> updateDeleteWhereClause [
 { #category : #accessing }
 PSQLDeleteQueryGrammar >> usingClause [
 	"USING using_list"
-	^ kw using trim , (expression separatedBy: comma trim)
+
+	^ kw using trim
+		, (expression , self expressionParser aliasDefinition optional separatedBy: comma trim)
 ]
 
 { #category : #dependencies }

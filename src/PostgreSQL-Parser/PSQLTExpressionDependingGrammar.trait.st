@@ -9,6 +9,11 @@ PSQLTExpressionDependingGrammar classSide >> expressionParser [
 ]
 
 { #category : #expression }
+PSQLTExpressionDependingGrammar >> aliasDefinition [
+	^ self expressionParser aliasDefinition
+]
+
+{ #category : #expression }
 PSQLTExpressionDependingGrammar >> expressionParser [
 	^ (self dependencyAt: self class expressionParser)
 ]

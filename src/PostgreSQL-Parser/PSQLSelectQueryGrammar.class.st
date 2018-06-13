@@ -81,11 +81,6 @@ PSQLSelectQueryGrammar class >> tokenParser [
 ]
 
 { #category : #'select command' }
-PSQLSelectQueryGrammar >> aliasDefinition [
-	^ self expressionParser asOperator trim , identifier
-]
-
-{ #category : #'select command' }
 PSQLSelectQueryGrammar >> allOrDistinctClause [
 	"ALL | DISTINCT [ ON ( expression [, ...] ) ]"
 	^ kw all trim /
