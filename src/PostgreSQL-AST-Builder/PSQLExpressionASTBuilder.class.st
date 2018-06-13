@@ -55,6 +55,15 @@ PSQLExpressionASTBuilder >> aggregateExpressionParserForm3With: expressionParser
 ]
 
 { #category : #expression }
+PSQLExpressionASTBuilder >> aliasDefinition [
+	^ super aliasDefinition
+		psqlASTBuild: [ :tokens | 
+			PSQLASTAliasDefinition new
+				alias: tokens second;
+				yourself ]
+]
+
+{ #category : #expression }
 PSQLExpressionASTBuilder >> asOperator [
 	^ super asOperator psqlASTBuild: [ :tokens | tokens second ]
 ]

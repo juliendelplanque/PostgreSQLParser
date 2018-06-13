@@ -39,6 +39,14 @@ PSQLDeleteQueryASTBuilder >> usingClause [
 	^ super usingClause
 		psqlASTBuild: [ :tokens | 
 			PSQLASTUsingClause new
-				list: tokens second;
+				list:
+					(tokens second
+						collect: [ :item | 
+							item second
+								ifNil: [ item first ]
+								ifNotNil: [ :alias | 
+									alias
+										definition: item first;
+										yourself ] ]);
 				yourself ]
 ]

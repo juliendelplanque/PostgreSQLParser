@@ -25,15 +25,6 @@ PSQLSelectQueryASTBuilder class >> tokenParser [
 ]
 
 { #category : #'select command' }
-PSQLSelectQueryASTBuilder >> aliasDefinition [
-	^ super aliasDefinition
-		psqlASTBuild: [ :tokens | 
-			PSQLASTAliasDefinition new
-				alias: tokens second;
-				yourself ]
-]
-
-{ #category : #'select command' }
 PSQLSelectQueryASTBuilder >> allOrDistinctClause [
 	^ super allOrDistinctClause psqlASTBuild: [ :tokens |
 		tokens isString
