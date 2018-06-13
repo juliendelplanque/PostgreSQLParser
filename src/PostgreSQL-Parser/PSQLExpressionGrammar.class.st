@@ -172,6 +172,12 @@ PSQLExpressionGrammar >> booleanTestConstructOperator [
 	^ (isTrue / isNotTrue / isFalse / isNotFalse / isUnknown / isNotUnknown) , keywordStop
 ]
 
+{ #category : #expression }
+PSQLExpressionGrammar >> cast [
+	^ kw cast trim , openParenthesis trim , expression , kw as trim , identifier
+		, closeParenthesis trim
+]
+
 { #category : #dependencies }
 PSQLExpressionGrammar >> closeBracket [
 	^ (self dependencyAt: self class tokenParser) closeBracket
@@ -258,7 +264,9 @@ PSQLExpressionGrammar >> expressionParserTermFor: expressionParser [
 	functionCallTemp := self functionCallParserWith: expressionParser.
 	aggregateExpression := self aggregateExpressionParserWith: expressionParser.
 	compositeValue := self compositeValueWith: expressionParser.
-	^ (parenthesedExpression / nullExpression / compositeValue / conditionalExpression / aggregateExpression / extractFunctionCall / functionCallTemp / primary / selectCommand) , typeCastConstruct optional.
+	^ cast / parenthesedExpression / nullExpression / compositeValue / conditionalExpression
+		/ aggregateExpression / extractFunctionCall / functionCallTemp / primary / selectCommand
+		, typeCastConstruct optional
 ]
 
 { #category : #expression }
