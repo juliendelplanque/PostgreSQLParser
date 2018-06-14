@@ -408,13 +408,20 @@ PSQLASTReflectiveVisitor >> visitPSQLASTIdentifier: aPSQLASTIdentifier [
 
 { #category : #visiting }
 PSQLASTReflectiveVisitor >> visitPSQLASTInsertQuery: aPSQLASTInsertQuery [
+	| insertQuery |
+	insertQuery := self createQueryContainedByCurrentEntity: FmxSQLInsertQuery from: aPSQLASTInsertQuery.
 	^ self
-		useCurrentEntity: (self createQueryContainedByCurrentEntity: FmxSQLInsertQuery from: aPSQLASTInsertQuery)
-		during: [ self visit: aPSQLASTInsertQuery withClause thenDo: [ :visitResult | Halt now ].
+		useCurrentEntity: insertQuery
+		during: [ self
+				visit: aPSQLASTInsertQuery tableName
+				thenDo: [ :visitResult | 
+					self
+						useCurrentEntity: (self createClause: FmxSQLIntoClause from: aPSQLASTInsertQuery tableName)
+						during: [ self createReferenceTo: (self findTableOrViewNamed: visitResult) ] ].
+			self visit: aPSQLASTInsertQuery withClause thenDo: [ :visitResult | Halt now ].
 			self visit: aPSQLASTInsertQuery returningClause thenDo: [ :visitResult | Halt now ].
 			self visit: aPSQLASTInsertQuery onConflictClause thenDo: [ :visitResult | Halt now ].
 			self visit: aPSQLASTInsertQuery valuesClause.
-			self visit: aPSQLASTInsertQuery tableName thenDo: [ :visitResult | Halt now ].
 			self visit: aPSQLASTInsertQuery alias thenDo: [ :visitResult | Halt now ].
 			self visitAll: aPSQLASTInsertQuery columns thenDoForEach: [ :visitResult | Halt now ] ]
 ]
