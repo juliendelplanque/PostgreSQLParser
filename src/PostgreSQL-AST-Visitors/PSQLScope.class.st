@@ -9,6 +9,11 @@ PSQLScope >> hasCurrentEntity [
 	^ false
 ]
 
+{ #category : #testing }
+PSQLScope >> isAlias [
+	^ false
+]
+
 { #category : #accessing }
 PSQLScope >> reachableEntities [
 	^ self subclassResponsibility 

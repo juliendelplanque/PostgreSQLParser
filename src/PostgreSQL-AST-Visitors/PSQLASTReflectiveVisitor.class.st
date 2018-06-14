@@ -75,7 +75,7 @@ PSQLASTReflectiveVisitor >> createQueryContainedByCurrentEntity: aClass from: an
 
 { #category : #'convenient linking' }
 PSQLASTReflectiveVisitor >> createReferenceTo: anEntity [
-	^ (anEntity createReferenceEntityFrom: self currentEntity)
+	^ (anEntity value createReferenceEntityFrom: self currentEntity)
 		mooseModel: self model;
 		yourself
 ]

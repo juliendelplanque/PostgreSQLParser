@@ -19,6 +19,11 @@ PSQLSolverUserVisitor >> currentEntity: anEntity [
 	^ self solver pushScope: (PSQLCurrentEntityScope entity: anEntity)
 ]
 
+{ #category : #alias }
+PSQLSolverUserVisitor >> defineAliasInCurrentScope: anAlias for: aBlockClosure [
+	^ self solver defineAliasInCurrentScope: anAlias for: aBlockClosure
+]
+
 { #category : #initialization }
 PSQLSolverUserVisitor >> initialiseSolver [
 	solver := PSQLReferenciesSolver new
