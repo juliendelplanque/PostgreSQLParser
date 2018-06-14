@@ -199,7 +199,7 @@ PSQLASTReflectiveVisitor >> visitPSQLASTAggregateFunctionCall: aPSQLASTAggregate
 
 { #category : #visiting }
 PSQLASTReflectiveVisitor >> visitPSQLASTAliasDefinition: aPSQLASTAliasDefinition [
-	^ self explicitRequirement
+	self defineAliasInCurrentScope: (self visit: aPSQLASTAliasDefinition alias) for: [ self visit: aPSQLASTAliasDefinition definition ]
 ]
 
 { #category : #visiting }
