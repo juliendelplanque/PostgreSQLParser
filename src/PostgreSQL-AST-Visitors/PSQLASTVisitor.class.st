@@ -303,6 +303,11 @@ PSQLASTVisitor >> visitPSQLASTValuesClause: aPSQLASTValuesClause [
 ]
 
 { #category : #visiting }
+PSQLASTVisitor >> visitPSQLASTValuesCommand: aPSQLASTValuesCommand [
+	^ self subclassResponsibility
+]
+
+{ #category : #visiting }
 PSQLASTVisitor >> visitPSQLASTWhenExpression: aPSQLASTWhenExpression [ 
 	^ self subclassResponsibility .
 ]

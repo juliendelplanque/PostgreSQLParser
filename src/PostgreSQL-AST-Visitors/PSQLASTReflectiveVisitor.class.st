@@ -643,6 +643,11 @@ PSQLASTReflectiveVisitor >> visitPSQLASTValuesClause: aPSQLASTValuesClause [
 ]
 
 { #category : #visiting }
+PSQLASTReflectiveVisitor >> visitPSQLASTValuesCommand: aPSQLASTValuesCommand [
+	self visitAll: aPSQLASTValuesCommand values
+]
+
+{ #category : #visiting }
 PSQLASTReflectiveVisitor >> visitPSQLASTWhenExpression: aPSQLASTWhenExpression [ 
 	^ self visit: aPSQLASTWhenExpression expression
 ]
