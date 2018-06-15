@@ -2,30 +2,30 @@ Class {
 	#name : #PSQLAliasScope,
 	#superclass : #PSQLScope,
 	#instVars : [
-		'alias',
-		'correspondingEntity'
+		'aliasDefinition'
 	],
 	#category : #'PostgreSQL-AST-Visitors-Solver'
 }
 
-{ #category : #accessing }
-PSQLAliasScope >> alias [
-	^ alias
+{ #category : #'instance creation' }
+PSQLAliasScope class >> alias: anAlias entity: aCorrespondingEntity [
+	^ self new
+		aliasDefinition:
+			(PSQLAliasDefinition new
+				alias: anAlias;
+				entity: aCorrespondingEntity;
+				yourself);
+		yourself
 ]
 
 { #category : #accessing }
-PSQLAliasScope >> alias: anObject [
-	alias := anObject
+PSQLAliasScope >> aliasDefinition [
+	^ aliasDefinition
 ]
 
 { #category : #accessing }
-PSQLAliasScope >> correspondingEntity [
-	^ correspondingEntity
-]
-
-{ #category : #accessing }
-PSQLAliasScope >> correspondingEntity: anObject [
-	correspondingEntity := anObject
+PSQLAliasScope >> aliasDefinition: anObject [
+	aliasDefinition := anObject
 ]
 
 { #category : #accessing }
@@ -34,16 +34,6 @@ PSQLAliasScope >> isAlias [
 ]
 
 { #category : #accessing }
-PSQLAliasScope >> name [
-	^ self alias
-]
-
-{ #category : #accessing }
 PSQLAliasScope >> reachableEntities [
-	^ { self }
-]
-
-{ #category : #evaluating }
-PSQLAliasScope >> value [
-	^ self correspondingEntity
+	^ {aliasDefinition}
 ]

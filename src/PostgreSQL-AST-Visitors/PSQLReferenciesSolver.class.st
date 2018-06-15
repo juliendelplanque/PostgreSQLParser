@@ -17,12 +17,7 @@ PSQLReferenciesSolver >> currentEntity [
 
 { #category : #alias }
 PSQLReferenciesSolver >> defineAliasInCurrentScope: aString for: aBlockClosure [
-	self
-		pushScope:
-			(PSQLAliasScope new
-				alias: aString;
-				correspondingEntity: aBlockClosure value;
-				yourself)
+	self pushScope: (PSQLAliasScope alias: aString entity: aBlockClosure value)
 ]
 
 { #category : #accessing }
@@ -91,7 +86,7 @@ PSQLReferenciesSolver >> resolve: aChainOfIdentifiers inScope: aScope [
 		reachableEntitiesFor: aScope
 		detect: [ :entity | entity name = aChainOfIdentifiers identifier ]
 		ifFound: [ :entity | 
-			aChainOfIdentifiers entity: entity.
+			aChainOfIdentifiers entity: entity value.
 			aChainOfIdentifiers isLast
 				ifTrue: [ ^ aChainOfIdentifiers ]
 				ifFalse: [ [ (self resolve: aChainOfIdentifiers next inScope: entity) ]
