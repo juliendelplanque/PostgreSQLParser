@@ -145,7 +145,7 @@ INSERT INTO table_name [ AS alias ] [ ( column_name [, ...] ) ]
 	^ withClause trim optional ,
 		kw insert trim , kw into trim , identifierWithOptionalFieldAccess trim , (kw as trim , identifier) optional , 
 		(openParenthesis trim , 
-			(expression plus separatedBy: comma trim) , "Apparently, a column name can be generated from an expression."
+			(expression separatedBy: comma trim) , "Apparently, a column name can be generated from an expression."
 		closeParenthesis trim) trim optional ,
 		valuesClause trim ,
 		onConflictClause trim optional ,
