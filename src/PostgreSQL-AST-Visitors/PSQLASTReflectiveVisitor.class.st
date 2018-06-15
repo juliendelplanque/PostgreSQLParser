@@ -413,17 +413,16 @@ PSQLASTReflectiveVisitor >> visitPSQLASTInsertQuery: aPSQLASTInsertQuery [
 	^ self
 		useCurrentEntity: insertQuery
 		during: [ self
-				visit: aPSQLASTInsertQuery tableName
-				thenDo: [ :visitResult | 
-					self
-						useCurrentEntity: (self createClause: FmxSQLIntoClause from: aPSQLASTInsertQuery tableName)
-						during: [ self createReferenceTo: (self findTableOrViewNamed: visitResult) ] ].
-			self visit: aPSQLASTInsertQuery withClause thenDo: [ :visitResult | Halt now ].
-			self visit: aPSQLASTInsertQuery returningClause thenDo: [ :visitResult | Halt now ].
-			self visit: aPSQLASTInsertQuery onConflictClause thenDo: [ :visitResult | Halt now ].
-			self visit: aPSQLASTInsertQuery valuesClause.
-			self visit: aPSQLASTInsertQuery alias thenDo: [ :visitResult | Halt now ].
-			self visitAll: aPSQLASTInsertQuery columns thenDoForEach: [ :visitResult | Halt now ] ]
+				useCurrentEntity: (self createClause: FmxSQLIntoClause from: aPSQLASTInsertQuery tableName)
+				during: [ self
+						visit: aPSQLASTInsertQuery tableName
+						thenDo: [ :visitResult | self createReferenceTo: (self findTableOrViewNamed: visitResult) ].
+					self visitAll: aPSQLASTInsertQuery columns.
+					self visit: aPSQLASTInsertQuery withClause thenDo: [ :visitResult | Halt now ].
+					self visit: aPSQLASTInsertQuery returningClause thenDo: [ :visitResult | Halt now ].
+					self visit: aPSQLASTInsertQuery onConflictClause thenDo: [ :visitResult | Halt now ].
+					self visit: aPSQLASTInsertQuery valuesClause.
+					self visit: aPSQLASTInsertQuery alias thenDo: [ :visitResult | Halt now ] ] ]
 ]
 
 { #category : #visiting }
