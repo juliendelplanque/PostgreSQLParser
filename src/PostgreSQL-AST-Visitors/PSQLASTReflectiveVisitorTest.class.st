@@ -8,6 +8,31 @@ Class {
 	#category : #'PostgreSQL-AST-Visitors-Tests'
 }
 
+{ #category : #helpers }
+PSQLASTReflectiveVisitorTest >> createColumn: aName inTable: aFmxSQLTable [
+	^ FmxSQLColumn new
+		columnsContainer: aFmxSQLTable;
+		name: aName;
+		mooseModel: model;
+		yourself
+]
+
+{ #category : #helpers }
+PSQLASTReflectiveVisitorTest >> createTable: aTableName [
+	^ FmxSQLTable new
+		name: aTableName;
+		mooseModel: model;
+		yourself
+]
+
+{ #category : #helpers }
+PSQLASTReflectiveVisitorTest >> createTable: aTableName withColumns: aCollectionOfColumnNames [
+	| table |
+	table := self createTable: aTableName.
+	aCollectionOfColumnNames do: [ :aColumnName | self createColumn: aColumnName inTable: table ].
+	^ table
+]
+
 { #category : #parsing }
 PSQLASTReflectiveVisitorTest >> parseAndVisitFunction: aFunctionCode [
 	(PSQLPlpgSQLASTBuilder parse: (PSQLCommentsRemover parse: aFunctionCode))
@@ -78,7 +103,7 @@ PSQLASTReflectiveVisitorTest >> testDeleteQueryInCodeWithWhereAndAnd [
 		mooseModel: model;
 		name: 'id';
 		type: columnType;
-		yourself.Halt now.
+		yourself..
 	self
 		parseAndVisitFunction:
 			' DECLARE
@@ -106,6 +131,24 @@ END;'.
 	self assert: function localVariables size equals: 1.
 	self assert: function localVariables first name equals: 'issue_row'.
 	self assert: function localVariables first type equals: table
+]
+
+{ #category : #parsing }
+PSQLASTReflectiveVisitorTest >> testSelectWithJoinAndAliasing [
+	self createTable: #initiative withColumns: #(id issue_id).
+	self createTable: #battle withColumns: #(losing_iniative_id).
+	self
+		parseAndVisitFunction:
+			'DECLARE
+BEGIN
+	SELECT "new_initiative"."id" AS "initiative_id"
+		FROM "initiative" "old_initiative"
+		JOIN "initiative" "new_initiative"
+			ON "new_initiative"."issue_id" = 10
+		JOIN "battle" "battle_win"
+			ON "battle_win"."losing_initiative_id" = "old_initiative"."id";
+END;'.
+	
 ]
 
 { #category : #parsing }
