@@ -16,7 +16,7 @@ PSQLSolverUserVisitor >> currentEntity [
 
 { #category : #accessing }
 PSQLSolverUserVisitor >> currentEntity: anEntity [
-	^ self solver pushScope: (PSQLCurrentEntityScope entity: anEntity)
+	^ self solver pushScope: (PSQLEntityScope currentEntity: anEntity)
 ]
 
 { #category : #alias }
@@ -44,12 +44,12 @@ PSQLSolverUserVisitor >> pushEntityAsScope: anEntity [
 	self solver pushEntityAsScope: anEntity
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #resolution }
 PSQLSolverUserVisitor >> resolve: identifiers [
 	self solver resolve: identifiers
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #resolution }
 PSQLSolverUserVisitor >> resolveSilently: identifiers [
 	[ self resolve: identifiers ]
 		on: PSQLReferenciesInconsistencies

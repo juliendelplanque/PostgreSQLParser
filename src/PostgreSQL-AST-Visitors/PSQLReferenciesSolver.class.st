@@ -17,7 +17,7 @@ PSQLReferenciesSolver >> currentEntity [
 
 { #category : #alias }
 PSQLReferenciesSolver >> defineAliasInCurrentScope: aString for: aBlockClosure [
-	self pushScope: (PSQLAliasScope alias: aString entity: aBlockClosure value)
+	self topScope addAlias: aString forEntity: aBlockClosure value
 ]
 
 { #category : #accessing }
@@ -28,9 +28,6 @@ PSQLReferenciesSolver >> initialize [
 
 { #category : #accessing }
 PSQLReferenciesSolver >> popScope [
-	"poping will remove all the transparents scopes (alias) and the first real scope"
-
-	[ self scopes top isAlias ] whileTrue: [ self scopes pop ].
 	^ self scopes pop
 ]
 
@@ -45,11 +42,7 @@ PSQLReferenciesSolver >> pushEntitiesAsScope: aCollectionOfEntities [
 
 { #category : #accessing }
 PSQLReferenciesSolver >> pushEntityAsScope: anEntity [
-	self
-		pushScope:
-			(PSQLNotCurrentEntityScope new
-				entity: anEntity;
-				yourself)
+	self pushScope: (PSQLEntityScope entity: anEntity)
 ]
 
 { #category : #accessing }
@@ -104,7 +97,12 @@ PSQLReferenciesSolver >> scopes: anObject [
 	scopes := anObject
 ]
 
+{ #category : #alias }
+PSQLReferenciesSolver >> topScope [
+	^ self scopes top
+]
+
 { #category : #accessing }
 PSQLReferenciesSolver >> topScopeReachableEntities [
-	^ (self scopes detect: [ :aScope | aScope isAlias not ]) reachableEntities
+	^ self topScope reachableEntities
 ]
