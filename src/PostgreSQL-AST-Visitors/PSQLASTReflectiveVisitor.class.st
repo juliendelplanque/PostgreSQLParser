@@ -289,19 +289,16 @@ PSQLASTReflectiveVisitor >> visitPSQLASTDefaultValues: aPSQLASTDefaultValues [
 { #category : #visiting }
 PSQLASTReflectiveVisitor >> visitPSQLASTDeleteQuery: aPSQLASTDeleteQuery [
 	| deleteQuery |
-	deleteQuery := self
-		createQueryContainedByCurrentEntity: FmxSQLDeleteQuery
-		from: aPSQLASTDeleteQuery.
-	"First we create the from clause of the query"
 	self
-		visit: aPSQLASTDeleteQuery tableName
-		thenDo: [ :tableName | 
+		useCurrentEntity: (self createQueryContainedByCurrentEntity: FmxSQLDeleteQuery from: aPSQLASTDeleteQuery)
+		during: [ "First we create the from clause of the query"
 			self
-				useCurrentEntity: (self createEntity: FmxSQLFromClause from: aPSQLASTDeleteQuery tableName)
-				during: [ self createReferenceTo: (self findTableOrViewNamed: tableName) ] ].
-	self
-		useCurrentEntity: deleteQuery
-		during: [ self visit: aPSQLASTDeleteQuery withClause.
+				visit: aPSQLASTDeleteQuery tableName
+				thenDo: [ :tableName | 
+					self
+						useCurrentEntity: (self createEntity: FmxSQLFromClause from: aPSQLASTDeleteQuery tableName)
+						during: [ self createReferenceTo: (self findTableOrViewNamed: tableName) ] ].
+			self visit: aPSQLASTDeleteQuery withClause.
 			self visit: aPSQLASTDeleteQuery usingList.
 			self visit: aPSQLASTDeleteQuery whereClause.
 			self visit: aPSQLASTDeleteQuery returningClause ]
@@ -330,11 +327,12 @@ PSQLASTReflectiveVisitor >> visitPSQLASTForClause: aPSQLASTForClause [
 
 { #category : #visiting }
 PSQLASTReflectiveVisitor >> visitPSQLASTFromClause: aPSQLASTFromClause [
-	| fromClause |
-	fromClause := self createEntity: FmxSQLFromClause from: aPSQLASTFromClause.
-	fromClause query: self currentEntity.
-	self useCurrentEntity: fromClause during: [ self visitAll: aPSQLASTFromClause items ].
-	^ fromClause
+	| fromScope |
+	self
+		useCurrentEntity: (self createClause: FmxSQLFromClause from: aPSQLASTFromClause)
+		during: [ self visitAll: aPSQLASTFromClause items.
+			fromScope := self solver topScope ].
+	^ fromScope
 ]
 
 { #category : #visiting }
@@ -417,12 +415,13 @@ PSQLASTReflectiveVisitor >> visitPSQLASTInsertQuery: aPSQLASTInsertQuery [
 				during: [ self
 						visit: aPSQLASTInsertQuery tableName
 						thenDo: [ :visitResult | self createReferenceTo: (self findTableOrViewNamed: visitResult) ].
-					self visitAll: aPSQLASTInsertQuery columns.
-					self visit: aPSQLASTInsertQuery withClause thenDo: [ :visitResult | Halt now ].
-					self visit: aPSQLASTInsertQuery returningClause thenDo: [ :visitResult | Halt now ].
-					self visit: aPSQLASTInsertQuery onConflictClause thenDo: [ :visitResult | Halt now ].
-					self visit: aPSQLASTInsertQuery valuesClause.
-					self visit: aPSQLASTInsertQuery alias thenDo: [ :visitResult | Halt now ] ] ]
+					"The into clause add the table scope but only for the columns visit"
+					self visitAll: aPSQLASTInsertQuery columns ].
+			self visit: aPSQLASTInsertQuery withClause thenDo: [ :visitResult | Halt now ].
+			self visit: aPSQLASTInsertQuery returningClause thenDo: [ :visitResult | Halt now ].
+			self visit: aPSQLASTInsertQuery onConflictClause thenDo: [ :visitResult | Halt now ].
+			self visit: aPSQLASTInsertQuery valuesClause.
+			self visit: aPSQLASTInsertQuery alias thenDo: [ :visitResult | Halt now ] ]
 ]
 
 { #category : #visiting }
@@ -498,17 +497,16 @@ PSQLASTReflectiveVisitor >> visitPSQLASTSelectIntoQuery: aPSQLASTSelectIntoQuery
 PSQLASTReflectiveVisitor >> visitPSQLASTSelectQuery: aPSQLASTSelectQuery [
 	| selectQuery pushedScope |
 	pushedScope := 0.
-	selectQuery := self
-		createQueryContainedByCurrentEntity: FmxSQLSelectQuery
-		from: aPSQLASTSelectQuery.
+	selectQuery := self createQueryContainedByCurrentEntity: FmxSQLSelectQuery from: aPSQLASTSelectQuery.
 	"first we look at the from clause to resolve references"
 	self
 		useCurrentEntity: selectQuery
 		during: [ self
 				visit: aPSQLASTSelectQuery fromClause
-				thenDo: [ :fromClause | 
-					fromClause query: selectQuery.
-					self pushEntityAsScope: fromClause.
+				thenDo: [ :fromScope | 
+					"I have to precise that the from clause scope is not the current entity anymore"
+					fromScope isCurrentEntity: false.
+					self solver pushScope: fromScope.
 					pushedScope := pushedScope + 1 ].
 			self visit: aPSQLASTSelectQuery withClause thenDo: [ :visitResult | Halt now ].
 			self visit: aPSQLASTSelectQuery allOrDistinctClause thenDo: [ :visitResult | Halt now ].
@@ -609,9 +607,10 @@ PSQLASTReflectiveVisitor >> visitPSQLASTUpdateQuery: aPSQLASTUpdateQuery [
 		useCurrentEntity: updateQuery
 		during: [ self
 				visit: aPSQLASTUpdateQuery fromClause
-				thenDo: [ :fromClause | 
-					fromClause query: updateQuery.
-					self pushEntityAsScope: fromClause.
+				thenDo: [ :fromScope | 
+					"I have to precise that the from clause scope is not the current entity anymore"
+					fromScope isCurrentEntity: false.
+					self solver pushScope: fromScope.
 					pushedScope := pushedScope + 1 ].
 			self
 				visit: aPSQLASTUpdateQuery tableName
