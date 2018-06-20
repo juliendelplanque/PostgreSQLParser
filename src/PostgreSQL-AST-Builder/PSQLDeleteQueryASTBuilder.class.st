@@ -20,6 +20,15 @@ PSQLDeleteQueryASTBuilder class >> tokenParser [
 ]
 
 { #category : #accessing }
+PSQLDeleteQueryASTBuilder >> aliasedExpression [
+	^ super aliasedExpression
+		psqlASTBuild: [ :tokens | 
+			tokens second
+				definition: tokens first;
+				yourself ]
+]
+
+{ #category : #accessing }
 PSQLDeleteQueryASTBuilder >> deleteCommand [
 	^ super deleteCommand psqlASTBuild: [ :tokens |
 		PSQLASTDeleteQuery new
@@ -39,14 +48,6 @@ PSQLDeleteQueryASTBuilder >> usingClause [
 	^ super usingClause
 		psqlASTBuild: [ :tokens | 
 			PSQLASTUsingClause new
-				list:
-					(tokens second
-						collect: [ :item | 
-							item second
-								ifNil: [ item first ]
-								ifNotNil: [ :alias | 
-									alias
-										definition: item first;
-										yourself ] ]);
+				list: tokens second;
 				yourself ]
 ]
