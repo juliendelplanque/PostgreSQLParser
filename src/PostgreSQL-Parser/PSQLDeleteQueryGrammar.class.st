@@ -17,7 +17,8 @@ Class {
 		'identifierWithOptionalFieldAccess',
 		'asterik',
 		'identifier',
-		'comma'
+		'comma',
+		'aliasedExpression'
 	],
 	#category : #'PostgreSQL-Parser-Grammars-CRUD'
 }
@@ -45,6 +46,11 @@ PSQLDeleteQueryGrammar class >> sharedParser [
 { #category : #accessing }
 PSQLDeleteQueryGrammar class >> tokenParser [
 	^ PSQLTokenizer
+]
+
+{ #category : #accessing }
+PSQLDeleteQueryGrammar >> aliasedExpression [
+	^ expression , self expressionParser aliasDefinition
 ]
 
 { #category : #dependencies }
@@ -112,8 +118,7 @@ PSQLDeleteQueryGrammar >> updateDeleteWhereClause [
 PSQLDeleteQueryGrammar >> usingClause [
 	"USING using_list"
 
-	^ kw using trim
-		, (expression , self expressionParser aliasDefinition optional separatedBy: comma trim)
+	^ kw using trim , (aliasedExpression / expression separatedBy: comma trim)
 ]
 
 { #category : #dependencies }
