@@ -10,6 +10,11 @@ Class {
 	#category : #'PostgreSQL-AST-Visitors-Solver'
 }
 
+{ #category : #manager }
+PSQLReferenciesSolver >> createScopeManager [
+	^ PSQLScopeManager newAssociatedToSolver: self
+]
+
 { #category : #accessing }
 PSQLReferenciesSolver >> currentEntity [
 	^ (self scopes detect: #hasCurrentEntity) currentEntity
@@ -59,6 +64,11 @@ PSQLReferenciesSolver >> reachableEntitiesFor: aScope detect: aBlockClosure ifFo
 		ifFound: [ :f | ^ aBlockClosureAction value: f ]
 		ifNone: [ "continue" ].
 	NotFound signal
+]
+
+{ #category : #removing }
+PSQLReferenciesSolver >> removeScope: aPSQLScope [
+	self scopes remove: aPSQLScope
 ]
 
 { #category : #accessing }
