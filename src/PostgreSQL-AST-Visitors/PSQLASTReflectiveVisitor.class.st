@@ -199,7 +199,10 @@ PSQLASTReflectiveVisitor >> visitPSQLASTAggregateFunctionCall: aPSQLASTAggregate
 
 { #category : #visiting }
 PSQLASTReflectiveVisitor >> visitPSQLASTAliasDefinition: aPSQLASTAliasDefinition [
-	self defineAliasInCurrentScope: (self visit: aPSQLASTAliasDefinition alias) for: [ self visit: aPSQLASTAliasDefinition definition ]
+	self
+		defineAliasInCurrentScope: (self visit: aPSQLASTAliasDefinition alias)
+		for: [ self visit: aPSQLASTAliasDefinition definition ].
+	^ self solver topScope
 ]
 
 { #category : #visiting }
@@ -288,7 +291,8 @@ PSQLASTReflectiveVisitor >> visitPSQLASTDefaultValues: aPSQLASTDefaultValues [
 
 { #category : #visiting }
 PSQLASTReflectiveVisitor >> visitPSQLASTDeleteQuery: aPSQLASTDeleteQuery [
-	| deleteQuery |
+	| scopeManager |
+	scopeManager := self solver createScopeManager.
 	self
 		useCurrentEntity: (self createQueryContainedByCurrentEntity: FmxSQLDeleteQuery from: aPSQLASTDeleteQuery)
 		during: [ "First we create the from clause of the query"
@@ -299,9 +303,14 @@ PSQLASTReflectiveVisitor >> visitPSQLASTDeleteQuery: aPSQLASTDeleteQuery [
 						useCurrentEntity: (self createEntity: FmxSQLFromClause from: aPSQLASTDeleteQuery tableName)
 						during: [ self createReferenceTo: (self findTableOrViewNamed: tableName) ] ].
 			self visit: aPSQLASTDeleteQuery withClause.
-			self visit: aPSQLASTDeleteQuery usingList.
+			self
+				visit: aPSQLASTDeleteQuery usingList
+				thenDo: [ :usingScope | 
+					usingScope isCurrentEntity: false.
+					scopeManager pushScope: usingScope ].
 			self visit: aPSQLASTDeleteQuery whereClause.
-			self visit: aPSQLASTDeleteQuery returningClause ]
+			self visit: aPSQLASTDeleteQuery returningClause.
+			scopeManager clear ]
 ]
 
 { #category : #visiting }
@@ -470,7 +479,7 @@ PSQLASTReflectiveVisitor >> visitPSQLASTOrderByClauseItem: aPSQLASTOrderByClause
 
 { #category : #visiting }
 PSQLASTReflectiveVisitor >> visitPSQLASTParenthesedExpression: aPSQLASTParenthesedExpression [
-	(self childrenFor: aPSQLASTParenthesedExpression) do: [:aChild | aChild acceptVisitor: self]
+	^ self visit: aPSQLASTParenthesedExpression expression
 ]
 
 { #category : #visiting }
@@ -588,8 +597,7 @@ PSQLASTReflectiveVisitor >> visitPSQLASTUnionClause: aPSQLASTUnionClause [
 { #category : #visiting }
 PSQLASTReflectiveVisitor >> visitPSQLASTUpdateDeleteWhereClause: aPSQLASTUpdateDeleteWhereClause [
 	| whereClause |
-	whereClause := self createEntity: FmxSQLWhereClause from: aPSQLASTUpdateDeleteWhereClause.
-	whereClause query: self currentEntity.
+	whereClause := self createClause: FmxSQLWhereClause from: aPSQLASTUpdateDeleteWhereClause.
 	self
 		useCurrentEntity: whereClause
 		during: [ self visit: aPSQLASTUpdateDeleteWhereClause condition.
@@ -625,12 +633,15 @@ PSQLASTReflectiveVisitor >> visitPSQLASTUpdateQuery: aPSQLASTUpdateQuery [
 
 { #category : #visiting }
 PSQLASTReflectiveVisitor >> visitPSQLASTUsingClause: aPSQLASTUsingClause [
+	| usingScope |
 	self
 		useCurrentEntity:
 			((self createEntity: FmxSQLUsingClause from: aPSQLASTUsingClause)
 				query: self currentEntity;
 				yourself)
-		during: [ self visitAll: aPSQLASTUsingClause list ]
+		during: [ usingScope := self solver topScope.
+			self visitAll: aPSQLASTUsingClause list ].
+	^ usingScope
 ]
 
 { #category : #visiting }
