@@ -38,11 +38,7 @@ PSQLReferenciesSolver >> popScope [
 
 { #category : #accessing }
 PSQLReferenciesSolver >> pushEntitiesAsScope: aCollectionOfEntities [
-	self
-		pushScope:
-			(PSQLCollectionScope new
-				reachableEntities: aCollectionOfEntities;
-				yourself)
+	self pushScope: (PSQLCollectionScope reachableEntities: aCollectionOfEntities)
 ]
 
 { #category : #accessing }
@@ -52,7 +48,7 @@ PSQLReferenciesSolver >> pushEntityAsScope: anEntity [
 
 { #category : #accessing }
 PSQLReferenciesSolver >> pushScope: aScope [
-	self scopes push: aScope
+	^ self scopes push: aScope
 ]
 
 { #category : #detect }

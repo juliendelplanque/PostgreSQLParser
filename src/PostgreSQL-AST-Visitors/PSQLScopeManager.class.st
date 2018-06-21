@@ -40,6 +40,14 @@ PSQLScopeManager >> clear [
 	self addedScopes do: [ :aScope | self associatedSolver removeScope: aScope ]
 ]
 
+{ #category : #clearing }
+PSQLScopeManager >> clearAndReturnScope [
+	| compositeScope |
+	compositeScope := PSQLCompositeScope withScopes: self addedScopes.
+	self clear.
+	^ compositeScope
+]
+
 { #category : #initialization }
 PSQLScopeManager >> initialize [
 	super initialize.
@@ -49,5 +57,6 @@ PSQLScopeManager >> initialize [
 { #category : #'scope creation' }
 PSQLScopeManager >> pushScope: aPSQLScope [
 	self associatedSolver pushScope: aPSQLScope.
-	self addedScopes add: aPSQLScope
+	self addedScopes add: aPSQLScope.
+	^ aPSQLScope
 ]
