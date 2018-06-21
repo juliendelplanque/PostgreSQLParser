@@ -358,7 +358,10 @@ PSQLASTReflectiveVisitor >> visitPSQLASTFromClauseItemType1: aPSQLASTFromClauseI
 
 { #category : #visiting }
 PSQLASTReflectiveVisitor >> visitPSQLASTFromClauseItemType2: aPSQLASTFromClauseItemType2 [
-	(self childrenFor: aPSQLASTFromClauseItemType2) do: [:aChild | aChild acceptVisitor: self]
+	self
+		defineAliasInCurrentScope: (self visit: aPSQLASTFromClauseItemType2 alias)
+		for: (self visit: aPSQLASTFromClauseItemType2 valuesOrSelect).
+	self visitAll: aPSQLASTFromClauseItemType2 columnAliases thenDoForEach: [ :each | Halt now ]
 ]
 
 { #category : #visiting }
