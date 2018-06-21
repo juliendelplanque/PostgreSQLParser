@@ -65,6 +65,6 @@ PSQLEntityScope >> isCurrentEntity: anObject [
 ]
 
 { #category : #accessing }
-PSQLEntityScope >> reachableEntities [
+PSQLEntityScope >> reachableEntitiesOwned [
 	^ self entity reachableEntities
 ]

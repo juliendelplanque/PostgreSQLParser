@@ -28,13 +28,6 @@ PSQLScope >> aliases: anObject [
 ]
 
 { #category : #accessing }
-PSQLScope >> allReachableEntities [
-	^ self hasAliases
-		ifTrue: [ self aliases , self reachableEntities ]
-		ifFalse: [ self reachableEntities ]
-]
-
-{ #category : #accessing }
 PSQLScope >> hasAliases [
 	^ aliases notNil and: [ aliases notEmpty ]
 ]
@@ -46,5 +39,12 @@ PSQLScope >> hasCurrentEntity [
 
 { #category : #accessing }
 PSQLScope >> reachableEntities [
+	^ self hasAliases
+		ifTrue: [ self aliases , self reachableEntitiesOwned ]
+		ifFalse: [ self reachableEntitiesOwned ]
+]
+
+{ #category : #accessing }
+PSQLScope >> reachableEntitiesOwned [
 	^ self subclassResponsibility 
 ]

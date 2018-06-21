@@ -5,17 +5,24 @@ Class {
 	#name : #PSQLCollectionScope,
 	#superclass : #PSQLScope,
 	#instVars : [
-		'reachableEntities'
+		'reachableEntitiesOwned'
 	],
 	#category : #'PostgreSQL-AST-Visitors-Solver'
 }
 
-{ #category : #accessing }
-PSQLCollectionScope >> reachableEntities [
-	^ reachableEntities
+{ #category : #'instance creation' }
+PSQLCollectionScope class >> reachableEntities: aMooseGroup [
+	^ self new
+		reachableEntitiesOwned: aMooseGroup;
+		yourself
 ]
 
 { #category : #accessing }
-PSQLCollectionScope >> reachableEntities: anObject [
-	reachableEntities := anObject
+PSQLCollectionScope >> reachableEntitiesOwned [
+	^ reachableEntitiesOwned
+]
+
+{ #category : #accessing }
+PSQLCollectionScope >> reachableEntitiesOwned: anObject [
+	reachableEntitiesOwned := anObject
 ]
