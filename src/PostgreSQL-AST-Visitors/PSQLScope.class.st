@@ -27,6 +27,11 @@ PSQLScope >> aliases: anObject [
 	aliases := anObject
 ]
 
+{ #category : #helpers }
+PSQLScope >> createReferenceEntityFrom: aFmxEntity [ 
+	"I am a convenient function that do nothing because an identifier pointed this scope (because of an aliasing)"
+]
+
 { #category : #accessing }
 PSQLScope >> hasAliases [
 	^ aliases notNil and: [ aliases notEmpty ]
@@ -35,6 +40,11 @@ PSQLScope >> hasAliases [
 { #category : #testing }
 PSQLScope >> hasCurrentEntity [
 	^ false
+]
+
+{ #category : #convenient }
+PSQLScope >> mooseModel: aMooseModel [ 
+	""
 ]
 
 { #category : #accessing }

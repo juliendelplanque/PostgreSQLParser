@@ -507,9 +507,11 @@ PSQLASTReflectiveVisitor >> visitPSQLASTSelectIntoQuery: aPSQLASTSelectIntoQuery
 
 { #category : #visiting }
 PSQLASTReflectiveVisitor >> visitPSQLASTSelectQuery: aPSQLASTSelectQuery [
-	| selectQuery scopeManager selectClause |
+	| selectQuery scopeManager selectClauseScope |
 	scopeManager := self solver createScopeManager.
-	selectQuery := self createQueryContainedByCurrentEntity: FmxSQLSelectQuery from: aPSQLASTSelectQuery.
+	selectQuery := self
+		createQueryContainedByCurrentEntity: FmxSQLSelectQuery
+		from: aPSQLASTSelectQuery.
 	"first we look at the from clause to resolve references"
 	self
 		useCurrentEntity: selectQuery
@@ -523,12 +525,13 @@ PSQLASTReflectiveVisitor >> visitPSQLASTSelectQuery: aPSQLASTSelectQuery [
 			self visit: aPSQLASTSelectQuery allOrDistinctClause thenDo: [ :visitResult | Halt now ].
 			self
 				useCurrentEntity:
-					(selectClause := (self createEntity: FmxSQLSelectClause)
+					((self createEntity: FmxSQLSelectClause)
 						query: selectQuery;
 						yourself)
-				during: [ self visitAll: aPSQLASTSelectQuery columnsAndAliasesSelected ].
+				during: [ selectClauseScope := self solver topScope.
+					self visitAll: aPSQLASTSelectQuery columnsAndAliasesSelected ].
 			self visit: aPSQLASTSelectQuery whereClause.
-			self visit: aPSQLASTSelectQuery groupByClause thenDo: [ :visitResult | Halt now ].
+			self visit: aPSQLASTSelectQuery groupByClause.
 			self visit: aPSQLASTSelectQuery havingClause thenDo: [ :visitResult | Halt now ].
 			self visit: aPSQLASTSelectQuery windowClause thenDo: [ :visitResult | Halt now ].
 			self visit: aPSQLASTSelectQuery unionIntersectExceptClause.
@@ -538,8 +541,8 @@ PSQLASTReflectiveVisitor >> visitPSQLASTSelectQuery: aPSQLASTSelectQuery [
 			self visit: aPSQLASTSelectQuery fetchClause thenDo: [ :visitResult | Halt now ].
 			self visit: aPSQLASTSelectQuery forClause thenDo: [ :visitResult | Halt now ].
 			scopeManager clear ].
-		"Here we return the select clause to be used as a scope if it is in a using clause"
-	^ selectClause
+	"Here we return the select clause scope to be used if it is in a using clause"
+	^ selectClauseScope
 ]
 
 { #category : #visiting }
