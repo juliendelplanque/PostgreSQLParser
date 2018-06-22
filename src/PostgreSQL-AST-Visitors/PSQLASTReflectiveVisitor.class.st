@@ -451,7 +451,9 @@ PSQLASTReflectiveVisitor >> visitPSQLASTIntoClause: aPSQLASTIntoClause [
 
 { #category : #visiting }
 PSQLASTReflectiveVisitor >> visitPSQLASTLimitClause: aPSQLASTLimitClause [
-	(self childrenFor: aPSQLASTLimitClause) do: [:aChild | aChild acceptVisitor: self]
+	self
+		useCurrentEntity: (self createClause: FmxSQLLimitClause from: aPSQLASTLimitClause)
+		during: [ self visit: aPSQLASTLimitClause limit ]
 ]
 
 { #category : #visiting }
@@ -538,7 +540,7 @@ PSQLASTReflectiveVisitor >> visitPSQLASTSelectQuery: aPSQLASTSelectQuery [
 			self visit: aPSQLASTSelectQuery windowClause thenDo: [ :visitResult | Halt now ].
 			self visit: aPSQLASTSelectQuery unionIntersectExceptClause.
 			self visit: aPSQLASTSelectQuery orderByClause.
-			self visit: aPSQLASTSelectQuery limitClause thenDo: [ :visitResult | Halt now ].
+			self visit: aPSQLASTSelectQuery limitClause.
 			self visit: aPSQLASTSelectQuery offsetClause thenDo: [ :visitResult | Halt now ].
 			self visit: aPSQLASTSelectQuery fetchClause thenDo: [ :visitResult | Halt now ].
 			self visit: aPSQLASTSelectQuery forClause thenDo: [ :visitResult | Halt now ].
