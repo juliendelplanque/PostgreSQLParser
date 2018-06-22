@@ -399,7 +399,9 @@ PSQLASTReflectiveVisitor >> visitPSQLASTFunctionCall: aPSQLASTFunctionCall [
 
 { #category : #visiting }
 PSQLASTReflectiveVisitor >> visitPSQLASTGroupByClause: aPSQLASTGroupByClause [
-	(self childrenFor: aPSQLASTGroupByClause) do: [:aChild | aChild acceptVisitor: self]
+	self
+		useCurrentEntity: (self createClause: FmxSQLGroupByClause from: aPSQLASTGroupByClause)
+		during: [ self visitAll: aPSQLASTGroupByClause expressions ]
 ]
 
 { #category : #visiting }
