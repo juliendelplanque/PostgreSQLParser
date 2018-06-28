@@ -55,7 +55,9 @@ Class {
 		'constant',
 		'positionalParameter',
 		'whenExpression',
-		'cast'
+		'cast',
+		'stringConstant',
+		'stringToTypeConversionCommand'
 	],
 	#category : #'PostgreSQL-Parser-Core'
 }
@@ -264,9 +266,8 @@ PSQLExpressionGrammar >> expressionParserTermFor: expressionParser [
 	functionCallTemp := self functionCallParserWith: expressionParser.
 	aggregateExpression := self aggregateExpressionParserWith: expressionParser.
 	compositeValue := self compositeValueWith: expressionParser.
-	^ cast / parenthesedExpression / nullExpression / compositeValue / conditionalExpression
-		/ aggregateExpression / extractFunctionCall / functionCallTemp / primary / selectCommand
-		, typeCastConstruct optional
+	^ stringToTypeConversionCommand / cast / parenthesedExpression / nullExpression / compositeValue / conditionalExpression / aggregateExpression
+		/ extractFunctionCall / functionCallTemp / primary / selectCommand , typeCastConstruct optional
 ]
 
 { #category : #expression }
@@ -481,6 +482,16 @@ PSQLExpressionGrammar >> simpleStringConstant [
 { #category : #accessing }
 PSQLExpressionGrammar >> start [
 	^ expression end
+]
+
+{ #category : #dependencies }
+PSQLExpressionGrammar >> stringConstant [
+	^ (self dependencyAt: self class tokenParser) stringConstant
+]
+
+{ #category : #expression }
+PSQLExpressionGrammar >> stringToTypeConversionCommand [
+	^ (identifier separatedBy: (#space asParser plus)) , #space asParser plus , stringConstant , identifier trim star
 ]
 
 { #category : #expression }
