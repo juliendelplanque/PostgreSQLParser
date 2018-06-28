@@ -123,6 +123,76 @@ END;'.
 ]
 
 { #category : #parsing }
+PSQLASTReflectiveVisitorTest >> testCursorDeclaration3 [
+	| cursor |
+	self createTable: 'test_table'.
+	self
+		parseAndVisitFunction:
+			'DECLARE
+    curs refcursor;
+BEGIN
+	OPEN curs FOR SELECT * FROM test_table;
+END;'.
+	self assert: function localVariables size equals: 1.
+	self assert: function localVariables first name equals: 'curs'.
+	self assert: function localVariables first type name equals: 'refcursor'.
+	self assert: function references size equals: 2.
+	self assert: function references first class equals: #FmxSQLCursorReference. self flag: #TODO.
+	self assert: function references second class equals: FmxSQLLocalVariableAccess.
+	cursor := function references first cursor.
+	self assert: cursor query class equals: FmxSQLSelectQuery.
+	self assert: cursor query references size equals: 1.
+	self assert: cursor query references first class equals: FmxSQLTableReference.
+	self assert: cursor query references first table name equals: 'test_table'.
+]
+
+{ #category : #parsing }
+PSQLASTReflectiveVisitorTest >> testCursorWithParameterDeclaration [
+	| cursor |
+	self createTable: 'test_table'.
+	self
+		parseAndVisitFunction:
+			'DECLARE
+    curs2 CURSOR (curs_param integer) FOR SELECT * FROM test_table;
+BEGIN
+END;'.
+	self assert: function localVariables size equals: 1.
+	self assert: function localVariables first name equals: 'curs2'.
+	self assert: function localVariables first type name equals: 'refcursor'.
+	self assert: function references size equals: 1.
+	self assert: function references first class equals: #FmxSQLCursorReference. self flag: #TODO.
+	cursor := function references first cursor.
+	self assert: cursor parameters size equals: 1.
+	self assert: cursor parameters first name equals: 'curs_param'.
+	self assert: cursor parameters first type name equals: 'integer'.
+	self assert: cursor query class equals: FmxSQLSelectQuery.
+	self assert: cursor query references size equals: 1.
+	self assert: cursor query references first class equals: FmxSQLTableReference.
+	self assert: cursor query references first table name equals: 'test_table'.
+]
+
+{ #category : #parsing }
+PSQLASTReflectiveVisitorTest >> testCursorWithParameterDeclarationAndAccessToIt [
+	| cursor |
+	self createTable: 'test_table'.
+	self
+		parseAndVisitFunction:
+			'DECLARE
+    curs2 CURSOR (curs_param integer) FOR SELECT curs_param, * FROM test_table;
+BEGIN
+END;'.
+	cursor := function references first cursor.
+	self assert: cursor query clauses size equals: 2.
+	cursor query clauses
+		detect: [ :clause | clause class = FmxSQLSelectClause ]
+		ifFound: [ :selectClause | 
+			self assert: selectClause references size equals: 1.
+			self assert: selectClause references first class equals: FmxSQLCursorParameterAccess.
+			self assert: selectClause references first parameter equals: cursor parameter first ]
+		ifNone: [ self fail ]
+]
+
+{ #category : #parsing }
 PSQLASTReflectiveVisitorTest >> testDeleteQueryInCodeWithWhereAndAnd [
 	| table columnType column |
 	table := FmxSQLTable new
