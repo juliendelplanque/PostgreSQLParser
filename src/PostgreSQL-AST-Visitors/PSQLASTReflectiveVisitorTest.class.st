@@ -88,6 +88,41 @@ END;'.
 ]
 
 { #category : #parsing }
+PSQLASTReflectiveVisitorTest >> testCursorDeclaration [
+	self
+		parseAndVisitFunction:
+			' DECLARE
+      curs1 refcursor;
+BEGIN
+END;'.
+	self assert: function localVariables size equals: 1.
+	self assert: function localVariables first name equals: 'curs1'.
+	self assert: function localVariables first type name equals: 'refcursor'
+]
+
+{ #category : #parsing }
+PSQLASTReflectiveVisitorTest >> testCursorDeclaration2 [
+	| cursor |
+	self createTable: 'test_table'.
+	self
+		parseAndVisitFunction:
+			'DECLARE
+    curs2 CURSOR FOR SELECT * FROM test_table;
+BEGIN
+END;'.
+	self assert: function localVariables size equals: 1.
+	self assert: function localVariables first name equals: 'curs2'.
+	self assert: function localVariables first type name equals: 'refcursor'.
+	self assert: function references size equals: 1.
+	self assert: function references first class equals: #FmxSQLCursorReference. self flag: #TODO.
+	cursor := function references first cursor.
+	self assert: cursor query class equals: FmxSQLSelectQuery.
+	self assert: cursor query references size equals: 1.
+	self assert: cursor query references first class equals: FmxSQLTableReference.
+	self assert: cursor query references first table name equals: 'test_table'.
+]
+
+{ #category : #parsing }
 PSQLASTReflectiveVisitorTest >> testDeleteQueryInCodeWithWhereAndAnd [
 	| table columnType column |
 	table := FmxSQLTable new
