@@ -1,7 +1,7 @@
 Class {
 	#name : #PSQLSharedGrammarTest,
 	#superclass : #PPCompositeParserTest,
-	#category : #PostgreSQL-Parser-Tests
+	#category : #'PostgreSQL-Parser-Tests'
 }
 
 { #category : #accessing }
@@ -9,7 +9,7 @@ PSQLSharedGrammarTest >> parserClass [
 	^ PSQLSharedGrammar
 ]
 
-{ #category : #tests-accessing }
+{ #category : #'tests-accessing' }
 PSQLSharedGrammarTest >> testOrderByClause [
 	self
 		parse: 'ORDER BY a + b, c' rule: #orderByClause;
@@ -17,7 +17,7 @@ PSQLSharedGrammarTest >> testOrderByClause [
 		parse: 'ORDER BY 1 ASC NULLS LAST' rule: #orderByClause
 ]
 
-{ #category : #tests-shared }
+{ #category : #'tests-shared' }
 PSQLSharedGrammarTest >> testReturningClause [
 	self
 		parse: 'RETURNING *' rule: #returningClause;
@@ -25,7 +25,7 @@ PSQLSharedGrammarTest >> testReturningClause [
 		parse: 'RETURNING *,id' rule: #returningClause
 ]
 
-{ #category : #tests-shared }
+{ #category : #'tests-shared' }
 PSQLSharedGrammarTest >> testSetClause [
 	self
 		parse: 'SET "reverse_beat_path" = CASE WHEN "policy_row"."defeat_strength" = ''simple''::"defeat_strength" THEN NULL ELSE "matrix_p"[1]["i"]."primary" >= 0 END' rule: #setClause
@@ -38,14 +38,14 @@ PSQLSharedGrammarTest >> testUpdateDeleteWhereClause [
 		parse: 'WHERE CURRENT OF curs1' rule: #updateDeleteWhereClause
 ]
 
-{ #category : #tests-shared }
+{ #category : #'tests-shared' }
 PSQLSharedGrammarTest >> testWithClause [
 	self
 		parse: 'WITH table AS (SELECT * FROM foo), table2(id,text) AS (SELECT * FROM bar)' rule: #withClause;
 		parse: 'WITH RECURSIVE table AS (SELECT * FROM foo), table2(id,text) AS (SELECT * FROM bar)' rule: #withClause
 ]
 
-{ #category : #tests-shared }
+{ #category : #'tests-shared' }
 PSQLSharedGrammarTest >> testWithQuery [
 	self
 		parse: 'table AS (SELECT * FROM foo)' rule: #withQuery;

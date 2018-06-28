@@ -1,7 +1,7 @@
 Class {
 	#name : #PSQLFromClauseGrammarTest,
 	#superclass : #PPCompositeParserTest,
-	#category : #PostgreSQL-Parser-Tests
+	#category : #'PostgreSQL-Parser-Tests'
 }
 
 { #category : #accessing }
@@ -17,7 +17,7 @@ PSQLFromClauseGrammarTest >> testColumnDefinition [
 		parse: 'sexe VARCHAR' rule: #columnDefinition
 ]
 
-{ #category : #tests-shared }
+{ #category : #'tests-shared' }
 PSQLFromClauseGrammarTest >> testFromClause [
 	"A smoke test with multiple FROM clauses extracted from existing open-source schemas."
 	self
@@ -27,7 +27,7 @@ PSQLFromClauseGrammarTest >> testFromClause [
 		parse: 'FROM (((personne LEFT JOIN these ON ((personne.cle = these.cle_personne))) LEFT JOIN civilite ON ((personne.civilite = civilite.cle))) LEFT JOIN support ON ((support.cle_personne = personne.cle))), grade, typesupport, employeur' rule: #fromClause
 ]
 
-{ #category : #tests-shared }
+{ #category : #'tests-shared' }
 PSQLFromClauseGrammarTest >> testFromItems [
 	self
 		parse: 'ONLY table * AS alias (c1, c2,C3)' rule: #fromItems;
@@ -50,7 +50,7 @@ PSQLFromClauseGrammarTest >> testFromItems [
 		parse: '(((personne LEFT JOIN these ON ((personne.cle = these.cle_personne))) LEFT JOIN civilite ON ((personne.civilite = civilite.cle))) LEFT JOIN support ON ((support.cle_personne = personne.cle)))' rule: #fromItems
 ]
 
-{ #category : #tests-shared }
+{ #category : #'tests-shared' }
 PSQLFromClauseGrammarTest >> testFromItems1 [
 	self
 		parse: 'ONLY table * AS alias (c1, c2,C3)' rule: #fromItems1;
@@ -59,7 +59,7 @@ PSQLFromClauseGrammarTest >> testFromItems1 [
 		parse: 'ONLY table *' rule: #fromItems1
 ]
 
-{ #category : #tests-shared }
+{ #category : #'tests-shared' }
 PSQLFromClauseGrammarTest >> testFromItems2 [
 	self
 		parse: '(SELECT * FROM table) AS alias' rule: #fromItems2;
@@ -96,7 +96,7 @@ PSQLFromClauseGrammarTest >> testFromItems2 [
       ) AS "subquery"' rule: #fromItems2
 ]
 
-{ #category : #tests-shared }
+{ #category : #'tests-shared' }
 PSQLFromClauseGrammarTest >> testFromItems3 [
 	self
 		parse: 'queryName' rule: #fromItems3;
@@ -104,27 +104,27 @@ PSQLFromClauseGrammarTest >> testFromItems3 [
 		parse: 'queryName AS aliasName (c1,C2, c3   )' rule: #fromItems3
 ]
 
-{ #category : #tests-shared }
+{ #category : #'tests-shared' }
 PSQLFromClauseGrammarTest >> testFromItems4 [
 	self
 		parse: 'membres(labo,dateobservation::DATE,dateobservation::DATE) AS mbrs( clepersonne INTEGER, datearrivee DATE, sexe VARCHAR, nompersonne VARCHAR, prenompersonne VARCHAR, datenaissance DATE, paysorigine VARCHAR, nomcategorie VARCHAR, corps VARCHAR, typedusupport VARCHAR, numsection INT2, numcmu INT2, debutsupport DATE, finsupport DATE, nomequipes TEXT, nomemployeur VARCHAR, nomenseignement VARCHAR, typefinancement VARCHAR, financeurs TEXT, reffinancement VARCHAR, responsablethese TEXT )' rule: #fromItems4;
 		parse: 'membres(1, (now())::date) membres(clepersonne integer, datearrivee date, sexe character varying, nompersonne character varying, prenompersonne character varying, datenaissance date, paysorigine character varying, nomcategorie character varying, corps character varying, typedusupport character varying, numsection smallint, numcmu smallint, debutsupport date, finsupport date, nomequipes text, nomemployeur character varying, nomenseignement character varying, typefinancement character varying, financeurs text, reffinancement character varying, responsablethese text)' rule: #fromItems4
 ]
 
-{ #category : #tests-shared }
+{ #category : #'tests-shared' }
 PSQLFromClauseGrammarTest >> testFromItems5 [
 	self
 		parse: 'membres(labo,dateobservation::DATE,dateobservation::DATE) AS ( clepersonne INTEGER, datearrivee DATE, sexe VARCHAR, nompersonne VARCHAR, prenompersonne VARCHAR, datenaissance DATE, paysorigine VARCHAR, nomcategorie VARCHAR, corps VARCHAR, typedusupport VARCHAR, numsection INT2, numcmu INT2, debutsupport DATE, finsupport DATE, nomequipes TEXT, nomemployeur VARCHAR, nomenseignement VARCHAR, typefinancement VARCHAR, financeurs TEXT, reffinancement VARCHAR, responsablethese TEXT )' rule: #fromItems5
 ]
 
-{ #category : #tests-shared }
+{ #category : #'tests-shared' }
 PSQLFromClauseGrammarTest >> testFromItems6 [
 	self
 		parse: 'JOIN "interest" ON "initiative"."issue_id" = "interest"."issue_id"' rule: #fromItems6;
 		parse: 'LEFT JOIN "membership"' rule: #fromItems6
 ]
 
-{ #category : #tests-shared }
+{ #category : #'tests-shared' }
 PSQLFromClauseGrammarTest >> testFromItems7 [
 	self
 		parse: 'function(1, "a") aliasName' rule: #fromItems7;
@@ -132,7 +132,7 @@ PSQLFromClauseGrammarTest >> testFromItems7 [
 		parse: 'function(1, "a") aliasName (c1, C2, "C3")' rule: #fromItems7
 ]
 
-{ #category : #tests-keywords }
+{ #category : #'tests-keywords' }
 PSQLFromClauseGrammarTest >> testJoinType [
 	self
 		parse: 'INNER JOIN' rule: #joinType;

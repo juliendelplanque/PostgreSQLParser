@@ -1,7 +1,7 @@
 Class {
 	#name : #PSQLTokenizerTest,
 	#superclass : #PPCompositeParserTest,
-	#category : #PostgreSQL-Parser-Tests
+	#category : #'PostgreSQL-Parser-Tests'
 }
 
 { #category : #accessing }
@@ -102,21 +102,21 @@ END;
 $ function$' rule: #dollarQuotedStringConstant
 ]
 
-{ #category : #tests-accessing }
+{ #category : #'tests-accessing' }
 PSQLTokenizerTest >> testDollarQuotedStringConstantCloseTag [
 	self
 		parse: '$ hello$' rule: #dollarQuotedStringConstantCloseTag;
 		fail: '$hello$' rule: #dollarQuotedStringConstantCloseTag
 ]
 
-{ #category : #tests-accessing }
+{ #category : #'tests-accessing' }
 PSQLTokenizerTest >> testDollarQuotedStringConstantOpenTag [
 	self
 		fail: '$ hello$' rule: #dollarQuotedStringConstantOpenTag;
 		parse: '$hello$' rule: #dollarQuotedStringConstantOpenTag
 ]
 
-{ #category : #tests-accessing }
+{ #category : #'tests-accessing' }
 PSQLTokenizerTest >> testEscapeStringConstant [
 	self 
 		parse: 'e''\\''' rule: #escapeStringConstant
