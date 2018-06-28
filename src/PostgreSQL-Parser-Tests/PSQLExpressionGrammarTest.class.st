@@ -102,7 +102,6 @@ PSQLExpressionGrammarTest >> testExpression [
 		parse: '''{{" "," "," "},{" "," "," "},{" "," "," "}}'''
 			rule: #expression;
 		parse: '"matrix_p"[1]["i"]."primary" >= 0' rule: #expression;
-		parse: '(SELECT * FROM table) AS subquery' rule: #expression;
 		parse: 'e''\\''' rule: #expression;
 		parse: 'ts_headline(''pg_catalog.simple'', replace(replace("body_p", e''\\'', e''\\\\''), ''*'', e''\\*''), "text_search_query"("query_text_p"), ''StartSel=* StopSel=* HighlightAll=TRUE'' )'
 			rule: #expression;
