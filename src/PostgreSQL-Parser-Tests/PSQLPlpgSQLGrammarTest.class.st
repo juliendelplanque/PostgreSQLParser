@@ -55,7 +55,7 @@ PSQLPlpgSQLGrammarTest >> testPlpgsqlAssignmentStatement [
             "policy_row"."tie_breaking"
           )
         )::"link_strength"' rule: #plpgsqlAssignmentStatement;
-	parse: 'date2 := date1 - interval ''1'' day;' rule: #plpgsqlAssignmentStatement
+	parse: 'date2 := date1 - interval ''1'' day' rule: #plpgsqlAssignmentStatement
 ]
 
 { #category : #'tests-plpgsql' }

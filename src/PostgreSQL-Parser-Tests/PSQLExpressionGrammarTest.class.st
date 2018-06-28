@@ -118,7 +118,8 @@ PSQLExpressionGrammarTest >> testExpression [
 		parse: 'min(max(localisation.cle))' rule: #expression;
 		parse: '((min(max(localisation))))' rule: #expression;
 		parse: '((grade.cle = 27) OR (grade.cle = 17))' rule: #expression;
-		fail: 'k..nbrspechar' rule: #expression
+		fail: 'k..nbrspechar' rule: #expression;
+		parse: 'date1 - interval ''1'' day' rule: #expression
 ]
 
 { #category : #'tests-expression' }
