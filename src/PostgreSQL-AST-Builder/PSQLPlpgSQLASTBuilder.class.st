@@ -150,8 +150,8 @@ PSQLPlpgSQLASTBuilder >> plpgsqlCursorDeclaration [
 							ifNotNil: [ :subTokens | 
 								(subTokens second reject: [ :item | item = $, ])
 									collect: [ :item | 
-										PSQLASTColumnDefinition new
-											columnName: item first first;
+										PSQLASTCursorParameter new
+											parameterName: item first first;
 											type: (PSQLASTIdentifier identifier: (item first second joinUsing: ' '));
 											yourself
 										 ] ]);
