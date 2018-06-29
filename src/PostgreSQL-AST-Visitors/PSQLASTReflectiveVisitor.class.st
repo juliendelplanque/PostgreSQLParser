@@ -62,7 +62,8 @@ PSQLASTReflectiveVisitor >> createQueryContainedByCurrentEntity: aClass from: an
 	| newQuery currentEntity |
 	newQuery := self createEntity: aClass from: anASTNode.
 	currentEntity := self currentEntity.
-	currentEntity class = FmxSQLStoredProcedure
+	self flag: #TODO.	"change test to isQueryContainer"
+	(currentEntity class = FmxSQLStoredProcedure or: [ currentEntity class = FmxSQLCursor ])
 		ifTrue:
 			[ "If current entity is a storedProcedure we can directly set the entity as contained by it" newQuery container: currentEntity ]
 		ifFalse: [ "Otherwise we need to create a reference to a DerivedTable"
@@ -749,7 +750,21 @@ PSQLASTReflectiveVisitor >> visitPSQLPlpgSQLASTCursorClose: aPSQLPlpgSQLASTCurso
 
 { #category : #visiting }
 PSQLASTReflectiveVisitor >> visitPSQLPlpgSQLASTCursorDeclaration: aPSQLPlpgSQLASTCursorDeclaration [
-	(self childrenFor: aPSQLPlpgSQLASTCursorDeclaration) do: [:aChild | aChild acceptVisitor: self]
+	| localVariable cursor |
+	localVariable := self createEntity: FmxSQLLocalVariable.
+	self
+		visit: aPSQLPlpgSQLASTCursorDeclaration identifier
+		thenDo: [ :variableName | localVariable name: variableName ].
+	localVariable type: (self findTypeNamed: 'refcursor').
+	localVariable storedProcedure: self currentEntity.
+	cursor := self createEntity: FmxSQLCursor from: aPSQLPlpgSQLASTCursorDeclaration.
+	self createReferenceTo: cursor.
+	self
+		useCurrentEntity: cursor
+		during: [ self
+				visitAll: aPSQLPlpgSQLASTCursorDeclaration arguments
+				thenDoForEach: [ :arg | Halt now ].
+			self visit: aPSQLPlpgSQLASTCursorDeclaration selectQuery ]
 ]
 
 { #category : #visiting }
