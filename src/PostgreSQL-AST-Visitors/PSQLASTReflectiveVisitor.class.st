@@ -794,7 +794,20 @@ PSQLASTReflectiveVisitor >> visitPSQLPlpgSQLASTCursorMoveDirection: aPSQLPlpgSQL
 
 { #category : #visiting }
 PSQLASTReflectiveVisitor >> visitPSQLPlpgSQLASTCursorOpenForQuery: aPSQLPlpgSQLASTCursorOpenForQuery [
-	(self childrenFor: aPSQLPlpgSQLASTCursorOpenForQuery) do: [:aChild | aChild acceptVisitor: self]
+	| cursor |
+	self
+		visit: aPSQLPlpgSQLASTCursorOpenForQuery cursorIdentifier
+		thenDo: [ :cursVar | 
+			self
+				resolveAndLinkSilently:
+					(PSQIdentifierWithNode
+						identifier: cursVar
+						node: aPSQLPlpgSQLASTCursorOpenForQuery cursorIdentifier) ].
+	cursor := self createEntity: FmxSQLCursor from: aPSQLPlpgSQLASTCursorOpenForQuery.
+	self createReferenceTo: cursor.
+	self
+		useCurrentEntity: cursor
+		during: [ self visit: aPSQLPlpgSQLASTCursorOpenForQuery selectQuery ]
 ]
 
 { #category : #visiting }
