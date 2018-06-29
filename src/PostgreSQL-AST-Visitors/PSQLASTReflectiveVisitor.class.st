@@ -281,6 +281,17 @@ PSQLASTReflectiveVisitor >> visitPSQLASTConflictAction: aPSQLASTConflictAction [
 ]
 
 { #category : #visiting }
+PSQLASTReflectiveVisitor >> visitPSQLASTCursorParameter: aPSQLASTCursorParameter [
+	| parameter |
+	parameter := self createEntity: FmxSQLCursorParameter from: aPSQLASTCursorParameter.
+	parameter
+		name: (self visit: aPSQLASTCursorParameter parameterName);
+		type: (self findTypeNamed: (self visit: aPSQLASTCursorParameter type));
+		cursor: self currentEntity.
+	^ parameter
+]
+
+{ #category : #visiting }
 PSQLASTReflectiveVisitor >> visitPSQLASTDefaultValue: aPSQLASTDefaultValue [
 	(self childrenFor: aPSQLASTDefaultValue) do: [:aChild | aChild acceptVisitor: self]
 ]
@@ -762,8 +773,7 @@ PSQLASTReflectiveVisitor >> visitPSQLPlpgSQLASTCursorDeclaration: aPSQLPlpgSQLAS
 	self
 		useCurrentEntity: cursor
 		during: [ self
-				visitAll: aPSQLPlpgSQLASTCursorDeclaration arguments
-				thenDoForEach: [ :arg | Halt now ].
+				visitAll: aPSQLPlpgSQLASTCursorDeclaration arguments.
 			self visit: aPSQLPlpgSQLASTCursorDeclaration selectQuery ]
 ]
 

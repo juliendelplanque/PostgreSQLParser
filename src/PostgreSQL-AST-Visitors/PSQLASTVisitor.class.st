@@ -68,6 +68,11 @@ PSQLASTVisitor >> visitPSQLASTConflictAction: aPSQLASTConflictAction [
 ]
 
 { #category : #visiting }
+PSQLASTVisitor >> visitPSQLASTCursorParameter: aPSQLASTCursorParameter [
+	^ self subclassResponsibility
+]
+
+{ #category : #visiting }
 PSQLASTVisitor >> visitPSQLASTDefaultValue: aPSQLASTDefaultValue [
 	^ self subclassResponsibility
 ]
