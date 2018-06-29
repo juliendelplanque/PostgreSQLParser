@@ -33,6 +33,14 @@ PSQLASTReflectiveVisitorTest >> createTable: aTableName withColumns: aCollection
 	^ table
 ]
 
+{ #category : #convenient }
+PSQLASTReflectiveVisitorTest >> find: aClass in: aCollection thenDo: aBlockClosure [
+	^ aCollection
+		detect: [ :x | x class = aClass ]
+		ifFound: [ :x | aBlockClosure cull: x ]
+		ifNone: [ NotFound signalFor: aClass in: aCollection ]
+]
+
 { #category : #parsing }
 PSQLASTReflectiveVisitorTest >> parseAndVisitFunction: aFunctionCode [
 	(PSQLPlpgSQLASTBuilder parse: (PSQLCommentsRemover parse: aFunctionCode))
@@ -114,12 +122,17 @@ END;'.
 	self assert: function localVariables first name equals: 'curs2'.
 	self assert: function localVariables first type name equals: 'refcursor'.
 	self assert: function references size equals: 1.
-	self assert: function references first class equals: #FmxSQLCursorReference. self flag: #TODO.
+	self assert: function references first class equals: FmxSQLCursorReference.
 	cursor := function references first cursor.
 	self assert: cursor query class equals: FmxSQLSelectQuery.
-	self assert: cursor query references size equals: 1.
-	self assert: cursor query references first class equals: FmxSQLTableReference.
-	self assert: cursor query references first table name equals: 'test_table'.
+	self assert: cursor query clauses size equals: 2.
+	self
+		find: FmxSQLFromClause
+		in: cursor query clauses
+		thenDo: [ :fromClause | 
+			self assert: fromClause references size equals: 1.
+			self assert: fromClause references first class equals: FmxSQLTableReference.
+			self assert: fromClause references first table name equals: 'test_table' ]
 ]
 
 { #category : #parsing }
