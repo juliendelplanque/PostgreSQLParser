@@ -55,6 +55,23 @@ PSQLASTReflectiveVisitorTest >> setUp [
 ]
 
 { #category : #parsing }
+PSQLASTReflectiveVisitorTest >> testAliasingMethodsResult [
+	self createTable: 'table1' withColumns: #('column1' 'column2').
+	self
+		parseAndVisitFunction:
+			'DECLARE
+BEGIN
+	RETURN QUERY SELECT
+		function1(column1,column2)::INTEGER AS res1,
+		SUM(function2())::INTEGER AS res2
+	FROM
+		table1
+	GROUP BY res1
+	ORDER BY res2;
+END;'
+]
+
+{ #category : #parsing }
 PSQLASTReflectiveVisitorTest >> testClassicDeclaration [
 	self
 		parseAndVisitFunction:
