@@ -102,7 +102,8 @@ Class {
 		'simpleStringConstant',
 		'stringConstant',
 		'colon',
-		'constant'
+		'constant',
+		'argument'
 	],
 	#category : #'PostgreSQL-Parser-Grammars-PLpgSQL'
 }
@@ -130,6 +131,11 @@ PSQLPlpgSQLGrammar class >> selectQueryParser [
 { #category : #accessing }
 PSQLPlpgSQLGrammar class >> tokenParser [
 	^ PSQLTokenizer
+]
+
+{ #category : #declaration }
+PSQLPlpgSQLGrammar >> argument [
+	^ (identifier trim , ':=' asParser) trim optional , expression trim
 ]
 
 { #category : #dependencies }
@@ -615,7 +621,7 @@ PSQLPlpgSQLGrammar >> plpgsqlOpenCursorBounded [
 	"OPEN bound_cursorvar [ ( [ argument_name := ] argument_value [, ...] ) ]"
 	^ kw open trim , identifier trim , 
 	( openParenthesis trim , 
-		(((identifier trim , ':=' asParser) trim optional , expression trim) plus separatedBy: comma trim) ,
+		(argument separatedBy: comma trim) ,
 	closeParenthesis trim ) optional
 ]
 
