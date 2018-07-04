@@ -30,6 +30,11 @@ PSQLPlpgSQLASTBuilder class >> tokenParser [
 ]
 
 { #category : #declaration }
+PSQLPlpgSQLASTBuilder >> argument [
+	^ super argument psqlASTBuild: [ :tokens | Halt now ]
+]
+
+{ #category : #declaration }
 PSQLPlpgSQLASTBuilder >> plpgsqlAliasDeclaration [
 	^ super plpgsqlAliasDeclaration psqlASTBuild: [ :tokens |
 		PSQLPlpgSQLASTAliasDeclaration new
@@ -219,6 +224,12 @@ PSQLPlpgSQLASTBuilder >> plpgsqlDeclarations [
 		tokens first reject: [ :item | item = $; ] ]
 ]
 
+{ #category : #declaration }
+PSQLPlpgSQLASTBuilder >> plpgsqlDeclareExceptionHandler [
+	^ super plpgsqlDeclareExceptionHandler psqlASTBuild: [ :tokens | 
+			Halt now ]
+]
+
 { #category : #plpgsql }
 PSQLPlpgSQLASTBuilder >> plpgsqlExitStatement [
 	^ super plpgsqlExitStatement
@@ -331,14 +342,25 @@ PSQLPlpgSQLASTBuilder >> plpgsqlMoveCursorDirection [
 
 { #category : #cursor }
 PSQLPlpgSQLASTBuilder >> plpgsqlOpenCursorBounded [
-	self flag: 'TODO'.
 	^ super plpgsqlOpenCursorBounded
+		psqlASTBuild: [ :tokens | 
+			PSQLPlpgSQLASTCursorOpen new
+				cursorIdentifier: tokens second;
+				arguments: tokens third;
+				yourself ]
 ]
 
 { #category : #cursor }
 PSQLPlpgSQLASTBuilder >> plpgsqlOpenCursorForExecute [
-	self flag: 'TODO'.
 	^ super plpgsqlOpenCursorForExecute
+		psqlASTBuild: [ :tokens | 
+			Halt now.
+			PSQLPlpgSQLASTCursorOpenForExecute new
+				cursorIdentifier: tokens second;
+				scroll:
+					(tokens third ifNil: [ true ] ifNotNil: [ :subTokens | subTokens first isNil ]);
+				executeStatement: tokens fifth;
+				yourself ]
 ]
 
 { #category : #cursor }
