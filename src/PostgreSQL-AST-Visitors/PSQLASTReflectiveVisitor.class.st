@@ -714,12 +714,8 @@ PSQLASTReflectiveVisitor >> visitPSQLPlpgSQLASTAssignment: aPSQLPlpgSQLASTAssign
 { #category : #visiting }
 PSQLASTReflectiveVisitor >> visitPSQLPlpgSQLASTBlock: aPSQLPlpgSQLASTBlock [
 	self visit: aPSQLPlpgSQLASTBlock label thenDo: [ :res | Halt now ].
-	self
-		visitAll: aPSQLPlpgSQLASTBlock declarations
-		thenDoForEach: [ :res | "nothing to do" ].
-	self
-		visitAll: aPSQLPlpgSQLASTBlock statements
-		thenDoForEach: [ :res | "nothing to do" ]
+	self visitAll: aPSQLPlpgSQLASTBlock declarations.
+	self visitAll: aPSQLPlpgSQLASTBlock statements
 ]
 
 { #category : #visiting }
