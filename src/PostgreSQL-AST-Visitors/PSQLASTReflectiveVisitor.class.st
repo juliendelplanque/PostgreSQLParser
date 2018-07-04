@@ -26,13 +26,6 @@ PSQLASTReflectiveVisitor class >> model: aMooseModel function: aFmxSQLStoredProc
 		yourself
 ]
 
-{ #category : #'error management' }
-PSQLASTReflectiveVisitor >> addError: anErrorDuringVisit [
-	self flag: #TODO.
-	"should store encountered errors".
-	self inform: anErrorDuringVisit asString 
-]
-
 { #category : #children }
 PSQLASTReflectiveVisitor >> childrenFor: aNode [
 	^ aNode class instanceVariables
