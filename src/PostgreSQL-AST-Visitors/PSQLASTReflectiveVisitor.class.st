@@ -5,7 +5,8 @@ Class {
 	#classTraits : 'PSQLSolverUserVisitor classTrait',
 	#instVars : [
 		'model',
-		'function'
+		'function',
+		'report'
 	],
 	#category : #'PostgreSQL-AST-Visitors'
 }
@@ -525,9 +526,7 @@ PSQLASTReflectiveVisitor >> visitPSQLASTSelectIntoQuery: aPSQLASTSelectIntoQuery
 PSQLASTReflectiveVisitor >> visitPSQLASTSelectQuery: aPSQLASTSelectQuery [
 	| selectQuery scopeManager selectClauseScope |
 	scopeManager := self solver createScopeManager.
-	selectQuery := self
-		createQueryContainedByCurrentEntity: FmxSQLSelectQuery
-		from: aPSQLASTSelectQuery.
+	selectQuery := self createQueryContainedByCurrentEntity: FmxSQLSelectQuery from: aPSQLASTSelectQuery.
 	"first we look at the from clause to resolve references"
 	self
 		useCurrentEntity: selectQuery
@@ -545,7 +544,9 @@ PSQLASTReflectiveVisitor >> visitPSQLASTSelectQuery: aPSQLASTSelectQuery [
 						query: selectQuery;
 						yourself)
 				during: [ selectClauseScope := self solver topScope.
-					self visitAll: aPSQLASTSelectQuery columnsAndAliasesSelected ].
+					self visitAll: aPSQLASTSelectQuery columnsAndAliasesSelected.
+					selectClauseScope isCurrentEntity: false.
+					scopeManager pushScope: selectClauseScope ].
 			self visit: aPSQLASTSelectQuery whereClause.
 			self visit: aPSQLASTSelectQuery groupByClause.
 			self visit: aPSQLASTSelectQuery havingClause thenDo: [ :visitResult | Halt now ].
