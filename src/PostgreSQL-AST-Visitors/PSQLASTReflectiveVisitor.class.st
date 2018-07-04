@@ -800,6 +800,11 @@ PSQLASTReflectiveVisitor >> visitPSQLPlpgSQLASTCursorMoveDirection: aPSQLPlpgSQL
 ]
 
 { #category : #visiting }
+PSQLASTReflectiveVisitor >> visitPSQLPlpgSQLASTCursorOpen: aPSQLPlpgSQLASTCursorOpen [ 
+	self shouldBeImplemented.
+]
+
+{ #category : #visiting }
 PSQLASTReflectiveVisitor >> visitPSQLPlpgSQLASTCursorOpenForQuery: aPSQLPlpgSQLASTCursorOpenForQuery [
 	| cursor |
 	self
