@@ -24,6 +24,17 @@ PSQLSolverUserVisitor >> defineAliasInCurrentScope: anAlias for: aBlockClosure [
 	^ self solver defineAliasInCurrentScope: anAlias for: aBlockClosure
 ]
 
+{ #category : #accessing }
+PSQLSolverUserVisitor >> errorReport [
+	errorReport ifNil: [ errorReport := PSQParsingReport new ].
+	^ errorReport
+]
+
+{ #category : #accessing }
+PSQLSolverUserVisitor >> errorReport: anObject [
+	errorReport := anObject
+]
+
 { #category : #initialization }
 PSQLSolverUserVisitor >> initialiseSolver [
 	solver := PSQLReferenciesSolver new
@@ -52,8 +63,8 @@ PSQLSolverUserVisitor >> resolve: identifiers [
 { #category : #resolution }
 PSQLSolverUserVisitor >> resolveSilently: identifiers [
 	[ self resolve: identifiers ]
-		on: PSQLReferenciesInconsistencies
-		do: [ :err | self addError: err ]
+		on: PSQLReferenciesInconsistencies , PSQLReferenciesNotFound
+		do: [ :err | self errorReport addError: err ]
 ]
 
 { #category : #accessing }

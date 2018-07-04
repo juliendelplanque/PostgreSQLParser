@@ -19,6 +19,13 @@ PSQLASTReflectiveVisitor class >> model: aMooseModel function: aFunction [
 		yourself
 ]
 
+{ #category : #'instance creation' }
+PSQLASTReflectiveVisitor class >> model: aMooseModel function: aFmxSQLStoredProcedure errorReport: aPSQParsingReport [
+	^ (self model: aMooseModel function: aFmxSQLStoredProcedure)
+		errorReport: aPSQParsingReport;
+		yourself
+]
+
 { #category : #'error management' }
 PSQLASTReflectiveVisitor >> addError: anErrorDuringVisit [
 	self flag: #TODO.
