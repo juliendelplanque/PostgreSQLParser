@@ -132,6 +132,16 @@ PSQLTokenizerTest >> testHexBitStringConstant [
 ]
 
 { #category : #tests }
+PSQLTokenizerTest >> testIdentifier [
+	self
+		fail: 'INTEGER AS res2
+	FROM
+		table1
+	GROUP BY res1' rule: #identifier
+		
+]
+
+{ #category : #tests }
 PSQLTokenizerTest >> testIdentifierOrKeyword [
 	self
 		parse: 'select' rule: #identifierOrKeyword;
