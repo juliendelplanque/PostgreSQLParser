@@ -8,26 +8,40 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-PSQLASTAndVisitorGenerator class >> generateRule: ruleName inClass: aClass withVisitMethodInClass: aVisitorClass [
-	| astClassName nodeClass |
-	astClassName := 'PSQLAST' , ruleName capitalized.
+PSQLASTAndVisitorGenerator class >> generateASTNodeAndVisitorsMethodRule: ruleName withVisitMethodInClass: aVisitorClass [
+	"self generateASTNodeAndVisitorsMethodRule: #ruleName withVisitMethodInClass: PSQLASTReflectiveVisitor"
 
+	self generateASTNodeForRule: ruleName forVisitor: aVisitorClass.
+	self generateVisitorsMethodsForRule: ruleName forVisitor: aVisitorClass
+]
+
+{ #category : #'as yet unclassified' }
+PSQLASTAndVisitorGenerator class >> generateASTNodeForRule: ruleName forVisitor: aVisitorClass [
+	| astClassName nodeClass |
+	"PSQLASTAndVisitorGenerator generateASTNodeForRule: ruleName forVisitor: PSQLASTReflectiveVisitor"
+	astClassName := 'PSQLAST' , ruleName capitalized.
 	nodeClass := PSQLASTNode
 		subclass: astClassName asSymbol
 		instanceVariableNames: ''
 		classVariableNames: ''
 		package: 'PostgreSQL-AST-SQL'.
+	nodeClass
+		compile:
+			'acceptVisitor: a' , aVisitorClass superclass name
+				,
+					'
+	^ a' , aVisitorClass superclass name , ' visit' , astClassName , ': self'
+		classified: 'visiting'
+]
 
-	nodeClass compile: 'acceptVisitor: a', aVisitorClass superclass name, '
-	^ a', aVisitorClass superclass name, ' visit', astClassName ,': self'  classified: 'visiting'.
-	
-	aVisitorClass superclass compile: 'visit', astClassName ,': a', astClassName, '
-	^ self subclassResponsibility'  classified: 'visiting'.
-	
-	aVisitorClass compile: 'visit', astClassName ,': a', astClassName, '
-	^ self explicitRequirement'  classified: 'visiting'.
-
-	aClass
+{ #category : #'as yet unclassified' }
+PSQLASTAndVisitorGenerator class >> generateRule: ruleName inClass: aBuilderClass withVisitMethodInClass: aVisitorClass [
+	| astClassName |
+	"PSQLASTAndVisitorGenerator "
+	astClassName := 'PSQLAST' , ruleName capitalized.
+	self generateASTNodeForRule: ruleName forVisitor: aVisitorClass.
+	self generateVisitorsMethodsForRule: ruleName forVisitor: aVisitorClass.
+	aBuilderClass
 		compile:
 			ruleName
 				,
@@ -36,5 +50,25 @@ PSQLASTAndVisitorGenerator class >> generateRule: ruleName inClass: aClass withV
 				,
 					' psqlASTBuild: [ :tokens |
 		' , astClassName , ' new. Halt now. ]'
-		classified: (aClass superclass >> ruleName asSymbol) protocol
+		classified: (aBuilderClass superclass >> ruleName asSymbol) protocol
+]
+
+{ #category : #'as yet unclassified' }
+PSQLASTAndVisitorGenerator class >> generateVisitorsMethodsForRule: ruleName forVisitor: aVisitorClass [
+	| astClassName |
+	astClassName := 'PSQLAST' , ruleName capitalized.
+	aVisitorClass superclass
+		compile:
+			'visit' , astClassName , ': a' , astClassName
+				,
+					'
+	^ self subclassResponsibility'
+		classified: 'visiting'.
+	aVisitorClass
+		compile:
+			'visit' , astClassName , ': a' , astClassName
+				,
+					'
+	^ self explicitRequirement'
+		classified: 'visiting'
 ]
