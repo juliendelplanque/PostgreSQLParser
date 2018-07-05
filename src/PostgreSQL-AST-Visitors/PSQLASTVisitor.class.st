@@ -33,6 +33,11 @@ PSQLASTVisitor >> visitPSQLASTAlternativeSelectIntoQuery: aPSQLASTAlternativeSel
 ]
 
 { #category : #visiting }
+PSQLASTVisitor >> visitPSQLASTArgument: aPSQLASTArgument [
+	^ self subclassResponsibility
+]
+
+{ #category : #visiting }
 PSQLASTVisitor >> visitPSQLASTArrayConstructor: aPSQLASTArrayConstructor [
 	^ self subclassResponsibility
 ]
