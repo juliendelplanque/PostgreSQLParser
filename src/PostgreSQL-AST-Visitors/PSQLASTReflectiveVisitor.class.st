@@ -218,6 +218,12 @@ PSQLASTReflectiveVisitor >> visitPSQLASTAlternativeSelectIntoQuery: aPSQLASTAlte
 ]
 
 { #category : #visiting }
+PSQLASTReflectiveVisitor >> visitPSQLASTArgument: aPSQLASTArgument [
+	self flag: #TODO.	"Maybe we can do more with the parameter name in the linking"
+	^ self visit: aPSQLASTArgument parameterValue
+]
+
+{ #category : #visiting }
 PSQLASTReflectiveVisitor >> visitPSQLASTArrayConstructor: aPSQLASTArrayConstructor [
 	(self childrenFor: aPSQLASTArrayConstructor) do: [:aChild | aChild acceptVisitor: self]
 ]
@@ -781,7 +787,8 @@ PSQLASTReflectiveVisitor >> visitPSQLPlpgSQLASTCursorDelete: aPSQLPlpgSQLASTCurs
 
 { #category : #visiting }
 PSQLASTReflectiveVisitor >> visitPSQLPlpgSQLASTCursorFetch: aPSQLPlpgSQLASTCursorFetch [
-	(self childrenFor: aPSQLPlpgSQLASTCursorFetch) do: [:aChild | aChild acceptVisitor: self]
+	self visit: aPSQLPlpgSQLASTCursorFetch cursorIdentifier.
+	self visitAll: aPSQLPlpgSQLASTCursorFetch targets
 ]
 
 { #category : #visiting }
@@ -800,8 +807,9 @@ PSQLASTReflectiveVisitor >> visitPSQLPlpgSQLASTCursorMoveDirection: aPSQLPlpgSQL
 ]
 
 { #category : #visiting }
-PSQLASTReflectiveVisitor >> visitPSQLPlpgSQLASTCursorOpen: aPSQLPlpgSQLASTCursorOpen [ 
-	self shouldBeImplemented.
+PSQLASTReflectiveVisitor >> visitPSQLPlpgSQLASTCursorOpen: aPSQLPlpgSQLASTCursorOpen [
+	self visit: aPSQLPlpgSQLASTCursorOpen cursorIdentifier.
+	self visitAll: aPSQLPlpgSQLASTCursorOpen arguments
 ]
 
 { #category : #visiting }
