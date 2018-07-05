@@ -31,7 +31,12 @@ PSQLPlpgSQLASTBuilder class >> tokenParser [
 
 { #category : #declaration }
 PSQLPlpgSQLASTBuilder >> argument [
-	^ super argument psqlASTBuild: [ :tokens | Halt now ]
+	^ super argument
+		psqlASTBuild: [ :tokens | 
+			PSQLASTArgument new
+				parameterName: (tokens first ifNotNil: [ :t | t first]);
+				parameterValue: tokens second;
+				yourself ]
 ]
 
 { #category : #declaration }
