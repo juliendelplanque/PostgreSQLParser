@@ -180,13 +180,17 @@ PSQLPlpgSQLASTBuilder >> plpgsqlCursorDelete [
 
 { #category : #cursor }
 PSQLPlpgSQLASTBuilder >> plpgsqlCursorFetch [
-	^ super plpgsqlCursorFetch psqlASTBuild: [ :tokens |
-		PSQLPlpgSQLASTCursorFetch new
-			direction: (tokens second ifNotNil: #first);
-			isFrom: (tokens second ifNotNil: [ :array | array second asUppercase = 'FROM' ]);
-			cursorIdentifier: tokens third;
-			targets: (tokens fifth reject: [ :item | item = $, ]);
-			yourself ]
+	^ super plpgsqlCursorFetch
+		psqlASTBuild: [ :tokens | 
+			PSQLPlpgSQLASTCursorFetch new
+				direction: (tokens second ifNotNil: #first);
+				isFrom: (tokens second ifNotNil: [ :array | array second asUppercase = 'FROM' ]);
+				cursorIdentifier:
+					(PSQLASTAttributeAccess new
+						accessed: tokens third;
+						yourself);
+				targets: (tokens fifth reject: [ :item | item = $, ]);
+				yourself ]
 ]
 
 { #category : #cursor }
@@ -350,8 +354,11 @@ PSQLPlpgSQLASTBuilder >> plpgsqlOpenCursorBounded [
 	^ super plpgsqlOpenCursorBounded
 		psqlASTBuild: [ :tokens | 
 			PSQLPlpgSQLASTCursorOpen new
-				cursorIdentifier: tokens second;
-				arguments: tokens third;
+				cursorIdentifier:
+					(PSQLASTAttributeAccess new
+						accessed: tokens second;
+						yourself);
+				arguments: (tokens third ifNotNil: [ :t | t second reject: #isCharacter ]);
 				yourself ]
 ]
 
