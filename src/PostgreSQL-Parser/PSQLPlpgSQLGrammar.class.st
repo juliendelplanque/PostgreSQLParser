@@ -332,7 +332,7 @@ PSQLPlpgSQLGrammar >> plpgsqlCursorFetch [
 	"FETCH [ direction { FROM | IN } ] cursor INTO target"
 	^ kw fetch trim , 
 	(plpgsqlFetchCursorDirection trim , (kw from / kw in)) trim optional ,
-	identifier trim , kw into trim , (expression plus separatedBy: comma trim)
+	identifier trim , kw into trim , (expression separatedBy: comma trim)
 ]
 
 { #category : #cursor }
