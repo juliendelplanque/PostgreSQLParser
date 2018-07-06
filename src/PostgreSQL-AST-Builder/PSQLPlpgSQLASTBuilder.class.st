@@ -39,6 +39,16 @@ PSQLPlpgSQLASTBuilder >> argument [
 				yourself ]
 ]
 
+{ #category : #conditional }
+PSQLPlpgSQLASTBuilder >> exceptionCase [
+	^ super exceptionCase
+		psqlASTBuild: [ :tokens | 
+			PSQLASTExceptionCase new
+				exception: tokens first;
+				statements: tokens third;
+				yourself ]
+]
+
 { #category : #declaration }
 PSQLPlpgSQLASTBuilder >> plpgsqlAliasDeclaration [
 	^ super plpgsqlAliasDeclaration psqlASTBuild: [ :tokens |
@@ -237,6 +247,17 @@ PSQLPlpgSQLASTBuilder >> plpgsqlDeclarations [
 PSQLPlpgSQLASTBuilder >> plpgsqlDeclareExceptionHandler [
 	^ super plpgsqlDeclareExceptionHandler psqlASTBuild: [ :tokens | 
 			Halt now ]
+]
+
+{ #category : #conditional }
+PSQLPlpgSQLASTBuilder >> plpgsqlExceptionHandler [
+	^ super plpgsqlExceptionHandler
+		psqlASTBuild: [ :tokens | 
+			PSQLASTExceptionHandler new
+				declarations: (tokens second ifNotNil: #second);
+				statements: tokens fourth;
+				exceptionCases: tokens sixth;
+				yourself ]
 ]
 
 { #category : #plpgsql }

@@ -145,7 +145,11 @@ PSQLExpressionASTBuilder >> expressionParserTermFor: expressionParser [
 
 { #category : #expression }
 PSQLExpressionASTBuilder >> extractFunctionCall [
-	^ super extractFunctionCall psqlASTBuild: [ :tokens | Halt now ]
+	^ super extractFunctionCall
+		psqlASTBuild: [ :tokens | 
+			PSQLASTExtractFunctionCall new
+				parameter: tokens fifth;
+				yourself ]
 ]
 
 { #category : #expression }
