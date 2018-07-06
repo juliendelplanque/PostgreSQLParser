@@ -103,7 +103,8 @@ Class {
 		'stringConstant',
 		'colon',
 		'constant',
-		'argument'
+		'argument',
+		'exceptionCase'
 	],
 	#category : #'PostgreSQL-Parser-Grammars-PLpgSQL'
 }
@@ -171,6 +172,15 @@ PSQLPlpgSQLGrammar >> deleteCommand [
 { #category : #dependencies }
 PSQLPlpgSQLGrammar >> escapeStringConstant [
 	^ (self dependencyAt: self class tokenParser) escapeStringConstant
+]
+
+{ #category : #'control structure' }
+PSQLPlpgSQLGrammar >> exceptionCase [
+	"WHEN condition [ OR condition ... ] THEN
+        	handler_statements
+    	"
+
+	^ self whenExpression , kw then trim , plpgsqlStatements
 ]
 
 { #category : #dependencies }
@@ -477,7 +487,7 @@ PSQLPlpgSQLGrammar >> plpgsqlExceptionHandler [
 	kw begin trim ,
 		plpgsqlStatements ,
 	kw exception trim ,
-		(self whenExpression , kw then trim , plpgsqlStatements) plus ,
+		exceptionCase plus ,
 	kw endKeyword trim
 ]
 
