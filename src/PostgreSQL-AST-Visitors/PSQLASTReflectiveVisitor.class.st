@@ -344,6 +344,24 @@ PSQLASTReflectiveVisitor >> visitPSQLASTExceptClause: aPSQLASTExceptClause [
 ]
 
 { #category : #visiting }
+PSQLASTReflectiveVisitor >> visitPSQLASTExceptionCase: aPSQLASTExceptionCase [
+	self visit: aPSQLASTExceptionCase exception.
+	self visitAll: aPSQLASTExceptionCase statements
+]
+
+{ #category : #visiting }
+PSQLASTReflectiveVisitor >> visitPSQLASTExceptionHandler: aPSQLASTExceptionHandler [
+	self visitAll: aPSQLASTExceptionHandler declarations.
+	self visitAll: aPSQLASTExceptionHandler statements.
+	self visitAll: aPSQLASTExceptionHandler exceptionCases
+]
+
+{ #category : #visiting }
+PSQLASTReflectiveVisitor >> visitPSQLASTExtractFunctionCall: aPSQLASTExtractFunctionCall [
+	^ self visit: aPSQLASTExtractFunctionCall parameter
+]
+
+{ #category : #visiting }
 PSQLASTReflectiveVisitor >> visitPSQLASTFetchClause: aPSQLASTFetchClause [
 	(self childrenFor: aPSQLASTFetchClause) do: [:aChild | aChild acceptVisitor: self]
 ]
