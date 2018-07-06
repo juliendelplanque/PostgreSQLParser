@@ -103,6 +103,21 @@ PSQLASTVisitor >> visitPSQLASTExceptClause: aPSQLASTExceptClause [
 ]
 
 { #category : #visiting }
+PSQLASTVisitor >> visitPSQLASTExceptionCase: aPSQLASTExceptionCase [
+	^ self subclassResponsibility
+]
+
+{ #category : #visiting }
+PSQLASTVisitor >> visitPSQLASTExceptionHandler: aPSQLASTExceptionHandler [
+	^ self subclassResponsibility
+]
+
+{ #category : #visiting }
+PSQLASTVisitor >> visitPSQLASTExtractFunctionCall: aPSQLASTExtractFunctionCall [
+	^ self subclassResponsibility
+]
+
+{ #category : #visiting }
 PSQLASTVisitor >> visitPSQLASTFetchClause: aPSQLASTFetchClause [
 	^ self subclassResponsibility
 ]
