@@ -18,6 +18,14 @@ PSQLASTReflectiveVisitorTest >> createColumn: aName inTable: aFmxSQLTable [
 ]
 
 { #category : #helpers }
+PSQLASTReflectiveVisitorTest >> createStoredProcedure: aProcedureName [
+	^ FmxSQLStoredProcedure new
+		name: aProcedureName;
+		mooseModel: model;
+		yourself
+]
+
+{ #category : #helpers }
 PSQLASTReflectiveVisitorTest >> createTable: aTableName [
 	^ FmxSQLTable new
 		name: aTableName;
@@ -51,7 +59,8 @@ PSQLASTReflectiveVisitorTest >> parseAndVisitFunction: aFunctionCode [
 PSQLASTReflectiveVisitorTest >> setUp [
 	model := MooseModel new.
 	function := FmxSQLStoredProcedure new.
-	function mooseModel: model
+	function mooseModel: model.
+	function name: 'currentFunction'
 ]
 
 { #category : #parsing }
@@ -292,6 +301,17 @@ BEGIN
 			ON "battle_win"."losing_initiative_id" = "old_initiative"."id";
 END;'.
 	
+]
+
+{ #category : #parsing }
+PSQLASTReflectiveVisitorTest >> testStoredProcedureInvocation [
+	self createStoredProcedure: 'myFunction'.
+	self
+		parseAndVisitFunction:
+			' DECLARE
+BEGIN
+	myFunction();
+END;'
 ]
 
 { #category : #parsing }
