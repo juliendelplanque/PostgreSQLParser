@@ -87,6 +87,13 @@ PSQLASTReflectiveVisitor >> findColumnNamed: aColumnName inTableOrView: aFmxSQLV
 	^ aFmxSQLView columns detect: [ :column | column name = aColumnName ]
 ]
 
+{ #category : #convenient }
+PSQLASTReflectiveVisitor >> findStoredProcedureNamed: anIdentifier [
+	anIdentifier indexOfFirstUppercaseCharacter > 0
+		ifTrue: [ ^ (self model allWithType: FmxSQLStoredProcedure) detect: [ :aFunction | aFunction name = anIdentifier ] ]
+		ifFalse: [ ^ (self model allWithType: FmxSQLStoredProcedure) detect: [ :aFunction | aFunction name asLowercase = anIdentifier ] ]
+]
+
 { #category : #finding }
 PSQLASTReflectiveVisitor >> findTableNamed: anIdentifier [ 
 	^ (self model allWithType: FmxSQLTable) detect: [ :table | table name = anIdentifier ]  .
@@ -431,7 +438,9 @@ PSQLASTReflectiveVisitor >> visitPSQLASTFromClauseItemType7: aPSQLASTFromClauseI
 
 { #category : #visiting }
 PSQLASTReflectiveVisitor >> visitPSQLASTFunctionCall: aPSQLASTFunctionCall [
-	(self childrenFor: aPSQLASTFunctionCall) do: [:aChild | aChild acceptVisitor: self]
+	self createReferenceTo: (self findStoredProcedureNamed: (self visit: aPSQLASTFunctionCall functionIdentifier)).
+	self visitAll: aPSQLASTFunctionCall argumentsList.
+	Halt if: aPSQLASTFunctionCall argumentsDictionary notEmpty
 ]
 
 { #category : #visiting }
