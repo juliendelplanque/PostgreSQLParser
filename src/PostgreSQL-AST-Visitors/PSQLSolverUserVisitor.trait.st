@@ -64,7 +64,7 @@ PSQLSolverUserVisitor >> resolve: identifiers [
 PSQLSolverUserVisitor >> resolveSilently: identifiers [
 	[ self resolve: identifiers ]
 		on: PSQLReferenciesInconsistencies , PSQLReferenciesNotFound
-		do: [ :err | self errorReport addError: err ]
+		do: [ :err |  self errorReport addError: err ]
 ]
 
 { #category : #accessing }

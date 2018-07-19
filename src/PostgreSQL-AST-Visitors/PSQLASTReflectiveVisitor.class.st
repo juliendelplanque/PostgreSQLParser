@@ -154,6 +154,13 @@ PSQLASTReflectiveVisitor >> model: anObject [
 ]
 
 { #category : #convenient }
+PSQLASTReflectiveVisitor >> resolveAndLink: identifiers [ 
+	self resolve: identifiers.
+	self linkReferencedEntities: identifiers.
+	
+]
+
+{ #category : #convenient }
 PSQLASTReflectiveVisitor >> resolveAndLinkSilently: identifiers [ 
 	self resolveSilently: identifiers.
 	self linkReferencedEntities: identifiers.
@@ -245,8 +252,7 @@ PSQLASTReflectiveVisitor >> visitPSQLASTAttributeAccess: aPSQLASTAttributeAccess
 	identifiers := nil.
 	self
 		visit: aPSQLASTAttributeAccess attributeIdentifier
-		thenDo:
-			[ :identifier | identifiers := PSQIdentifierWithNode identifier: identifier node: aPSQLASTAttributeAccess attributeIdentifier next: identifiers ].
+		thenDo: [ :identifier | identifiers := PSQIdentifierWithNode identifier: identifier node: aPSQLASTAttributeAccess attributeIdentifier next: identifiers ].
 	self
 		visit: aPSQLASTAttributeAccess accessed
 		thenDo: [ :identifier | identifiers := PSQIdentifierWithNode identifier: identifier node: aPSQLASTAttributeAccess accessed next: identifiers ].
@@ -254,9 +260,8 @@ PSQLASTReflectiveVisitor >> visitPSQLASTAttributeAccess: aPSQLASTAttributeAccess
 	"We check that the identifier should be ignored (for example true or false)"
 	(self shouldRejectIdentifiers: identifiers)
 		ifTrue: [ ^ nil ].
-		
-	[ self resolveAndLinkSilently: identifiers ]
-		on: NotFound
+	[ self resolveAndLink: identifiers ]
+		on: PSQLReferenciesInconsistencies , PSQLReferenciesNotFound
 		do: [ :anError | 
 			"new and old are implicit declared variables in stored procedures"
 			(identifiers identifier = 'new' or: [ identifiers identifier = 'old' ])
@@ -265,7 +270,7 @@ PSQLASTReflectiveVisitor >> visitPSQLASTAttributeAccess: aPSQLASTAttributeAccess
 						storedProcedure: self function;
 						mooseModel: self model.
 					self resolveAndLinkSilently: identifiers ]
-				ifFalse: [ anError signal ] ].
+				ifFalse: [ self errorReport addError: anError ] ].
 	^ identifiers targetEntity
 ]
 
