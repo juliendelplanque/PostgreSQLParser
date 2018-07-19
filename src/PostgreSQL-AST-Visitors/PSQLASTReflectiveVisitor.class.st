@@ -203,7 +203,11 @@ PSQLASTReflectiveVisitor >> visitPSQASTNull: aPSQLASTNull [
 
 { #category : #visiting }
 PSQLASTReflectiveVisitor >> visitPSQLASTAggregateFunctionCall: aPSQLASTAggregateFunctionCall [
-	(self childrenFor: aPSQLASTAggregateFunctionCall) do: [:aChild | aChild acceptVisitor: self]
+	[ self createReferenceTo: (self findStoredProcedureNamed: (self visit: aPSQLASTAggregateFunctionCall functionIdentifier)) ]
+		on: NotFound
+		do: [ :error | self errorReport addError: error ].
+	self visitAll: aPSQLASTAggregateFunctionCall expressions.
+	self visit: aPSQLASTAggregateFunctionCall orderByClause
 ]
 
 { #category : #visiting }
