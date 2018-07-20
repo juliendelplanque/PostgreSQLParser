@@ -131,6 +131,11 @@ PSQLASTReflectiveVisitor >> function: anObject [
 	self currentEntity: function
 ]
 
+{ #category : #implicit }
+PSQLASTReflectiveVisitor >> isImplicitVariable: anIdentifier [
+	^ #('new' 'old' 'found') includes: anIdentifier
+]
+
 { #category : #'convenient linking' }
 PSQLASTReflectiveVisitor >> linkReferencedEntities: aPSQIdentifierWithNode [
 	self flag: #TODO.	"add position in source"
@@ -264,13 +269,14 @@ PSQLASTReflectiveVisitor >> visitPSQLASTAttributeAccess: aPSQLASTAttributeAccess
 		on: PSQLReferenciesInconsistencies , PSQLReferenciesNotFound
 		do: [ :anError | 
 			"new and old are implicit declared variables in stored procedures"
-			(identifiers identifier = 'new' or: [ identifiers identifier = 'old' ])
+			(self isImplicitVariable: identifiers identifier)
 				ifTrue: [ FmxSQLLocalVariable new
 						name: identifiers identifier;
 						storedProcedure: self function;
 						mooseModel: self model.
 					self resolveAndLinkSilently: identifiers ]
-				ifFalse: [ self errorReport addError: anError ] ].
+				ifFalse: [ Halt if: [ anError class = PSQLReferenciesNotFound ].
+					self errorReport addError: anError ] ].
 	^ identifiers targetEntity
 ]
 
