@@ -411,7 +411,7 @@ PSQLASTReflectiveVisitor >> visitPSQLASTFromClauseItemType1: aPSQLASTFromClauseI
 	self visitAll: aPSQLASTFromClauseItemType1 columnAliases thenDoForEach: [ :columnAlias | Halt now	"Alias not managed now" ].
 	^ (self createEntity: FmxSQLTableReference from: aPSQLASTFromClauseItemType1)
 		table: table;
-		clause: self currentEntity;
+		container: self currentEntity;
 		yourself
 ]
 
