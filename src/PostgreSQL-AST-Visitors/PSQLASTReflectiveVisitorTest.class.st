@@ -51,8 +51,13 @@ PSQLASTReflectiveVisitorTest >> find: aClass in: aCollection thenDo: aBlockClosu
 
 { #category : #parsing }
 PSQLASTReflectiveVisitorTest >> parseAndVisitFunction: aFunctionCode [
+	| visitor |
+	visitor := (PSQLASTReflectiveVisitor model: model function: function).
+	
 	(PSQLPlpgSQLASTBuilder parse: (PSQLCommentsRemover parse: aFunctionCode))
-		acceptVisitor: (PSQLASTReflectiveVisitor model: model function: function)
+		acceptVisitor: visitor.
+		
+	self assert: visitor errorReport errors isEmpty
 ]
 
 { #category : #running }
