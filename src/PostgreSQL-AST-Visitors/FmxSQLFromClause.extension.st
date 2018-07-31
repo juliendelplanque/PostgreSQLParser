@@ -4,9 +4,11 @@ Extension { #name : #FmxSQLFromClause }
 FmxSQLFromClause >> reachableEntities [
 	"The FROM clause add only tables and views in the scope, not the columns and functions which are only used for conditions"
 
-	^ self references
-		flatCollect: [ :aReference | 
-			aReference reference isColumnsContainer
-				ifTrue: [ aReference reference reachableEntities ]
-				ifFalse: [ #() ] ]
+	^ super reachableEntities
+		,
+			(self references
+				flatCollect: [ :aReference | 
+					aReference reference isColumnsContainer
+						ifTrue: [ aReference reference reachableEntities ]
+						ifFalse: [ #() ] ])
 ]

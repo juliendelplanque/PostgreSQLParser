@@ -39,6 +39,21 @@ PSQLASTReflectiveVisitor >> childrenFor: aNode [
 						ifTrue: [ varContent asCollection ] ] ]
 ]
 
+{ #category : #alias }
+PSQLASTReflectiveVisitor >> createAliasInCurrentScope: anAlias for: aFmxSQLEntityOrBlock [
+	| alias |
+	alias := (self createEntity: FmxSQLAlias)
+		clause: self currentEntity;
+		name: anAlias;
+		yourself.
+	self
+		useCurrentEntity: alias
+		during: [ aFmxSQLEntityOrBlock isClosure
+				ifTrue: [ aFmxSQLEntityOrBlock value ]
+				ifFalse: [ self createReferenceTo: aFmxSQLEntityOrBlock ] ].
+	^ alias
+]
+
 { #category : #convenient }
 PSQLASTReflectiveVisitor >> createClause: aClauseClass from: aPSQLASTClauseNode [
 	^ (self createEntity: aClauseClass from: aPSQLASTClauseNode)
@@ -225,7 +240,7 @@ PSQLASTReflectiveVisitor >> visitPSQLASTAggregateFunctionCall: aPSQLASTAggregate
 { #category : #visiting }
 PSQLASTReflectiveVisitor >> visitPSQLASTAliasDefinition: aPSQLASTAliasDefinition [
 	self
-		defineAliasInCurrentScope: (self visit: aPSQLASTAliasDefinition alias)
+		createAliasInCurrentScope: (self visit: aPSQLASTAliasDefinition alias)
 		for: [ self visit: aPSQLASTAliasDefinition definition ].
 	^ self solver topScope
 ]
@@ -275,7 +290,7 @@ PSQLASTReflectiveVisitor >> visitPSQLASTAttributeAccess: aPSQLASTAttributeAccess
 						storedProcedure: self function;
 						mooseModel: self model.
 					self resolveAndLinkSilently: identifiers ]
-				ifFalse: [ Halt if: [ anError class = PSQLReferenciesNotFound ].
+				ifFalse: [ "Halt if: [ anError class = PSQLReferenciesNotFound ]".
 					self errorReport addError: anError ] ].
 	^ identifiers targetEntity
 ]
@@ -407,7 +422,7 @@ PSQLASTReflectiveVisitor >> visitPSQLASTFromClause: aPSQLASTFromClause [
 PSQLASTReflectiveVisitor >> visitPSQLASTFromClauseItemType1: aPSQLASTFromClauseItemType1 [
 	| table |
 	table := self findTableOrViewNamed: (self visit: aPSQLASTFromClauseItemType1 tableName).
-	self visit: aPSQLASTFromClauseItemType1 alias thenDo: [ :alias | self defineAliasInCurrentScope: alias for: table ].
+	self visit: aPSQLASTFromClauseItemType1 alias thenDo: [ :alias | self createAliasInCurrentScope: alias for: table ].
 	self visitAll: aPSQLASTFromClauseItemType1 columnAliases thenDoForEach: [ :columnAlias | Halt now	"Alias not managed now" ].
 	^ (self createEntity: FmxSQLTableReference from: aPSQLASTFromClauseItemType1)
 		table: table;
@@ -418,7 +433,7 @@ PSQLASTReflectiveVisitor >> visitPSQLASTFromClauseItemType1: aPSQLASTFromClauseI
 { #category : #visiting }
 PSQLASTReflectiveVisitor >> visitPSQLASTFromClauseItemType2: aPSQLASTFromClauseItemType2 [
 	self
-		defineAliasInCurrentScope: (self visit: aPSQLASTFromClauseItemType2 alias)
+		createAliasInCurrentScope: (self visit: aPSQLASTFromClauseItemType2 alias)
 		for: (self visit: aPSQLASTFromClauseItemType2 valuesOrSelect).
 	self visitAll: aPSQLASTFromClauseItemType2 columnAliases thenDoForEach: [ :each | Halt now ]
 ]

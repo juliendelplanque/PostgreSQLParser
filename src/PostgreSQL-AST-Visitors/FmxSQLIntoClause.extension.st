@@ -4,9 +4,11 @@ Extension { #name : #FmxSQLIntoClause }
 FmxSQLIntoClause >> reachableEntities [
 	"The INTO clause adds only tables and views in the scope"
 
-	^ self references
-		flatCollect: [ :aReference | 
-			aReference reference isColumnsContainer
-				ifTrue: [ aReference reference reachableEntities ]
-				ifFalse: [ #() ] ]
+	^ super reachableEntities
+		,
+			(self references
+				flatCollect: [ :aReference | 
+					aReference reference isColumnsContainer
+						ifTrue: [ aReference reference reachableEntities ]
+						ifFalse: [ #() ] ])
 ]
