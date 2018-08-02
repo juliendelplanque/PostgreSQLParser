@@ -72,7 +72,7 @@ PSQLFromClauseGrammar >> closeParenthesis [
 
 { #category : #'shared - from clause' }
 PSQLFromClauseGrammar >> columnDefinition [
-	^ columnReference trim , (identifier separatedBy: #space asParser plus)
+	^ identifier trim , (identifier separatedBy: #space asParser plus)
 ]
 
 { #category : #dependencies }

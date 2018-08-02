@@ -302,7 +302,9 @@ PSQLASTReflectiveVisitor >> visitPSQLASTBinaryOperator: aPSQLASTBinaryOperator [
 
 { #category : #visiting }
 PSQLASTReflectiveVisitor >> visitPSQLASTColumnDefinition: aPSQLASTColumnDefinition [
-	(self childrenFor: aPSQLASTColumnDefinition) do: [:aChild | aChild acceptVisitor: self]
+	self flag: #TODO.	"ask for column definition representation in model"
+	self visit: aPSQLASTColumnDefinition columnName.
+	self visit: aPSQLASTColumnDefinition type
 ]
 
 { #category : #visiting }
