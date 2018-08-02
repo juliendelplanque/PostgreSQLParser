@@ -148,7 +148,7 @@ PSQLASTReflectiveVisitor >> function: anObject [
 
 { #category : #implicit }
 PSQLASTReflectiveVisitor >> isImplicitVariable: anIdentifier [
-	^ #('new' 'old' 'found') includes: anIdentifier
+	^ #('new' 'old' 'found' 'others') includes: anIdentifier
 ]
 
 { #category : #'convenient linking' }
