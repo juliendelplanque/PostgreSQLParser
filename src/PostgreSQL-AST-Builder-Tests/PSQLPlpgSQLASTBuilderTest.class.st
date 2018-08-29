@@ -169,7 +169,7 @@ PSQLPlpgSQLASTBuilderTest >> testPlpgsqlCursorDeclaration [
 		deny: node scroll;
 		assert: node arguments class equals: Array;
 		assert: node arguments size equals: 2;
-		assert: (node arguments allSatisfy: [ :any | any class = PSQLASTColumnDefinition ]);
+		assert: (node arguments allSatisfy: [ :any | any class = PSQLASTCursorParameter ]);
 		assert: node selectQuery class equals: PSQLASTSelectQuery
 ]
 
@@ -194,8 +194,9 @@ PSQLPlpgSQLASTBuilderTest >> testPlpgsqlCursorFetch [
 		assert: node direction isNil;
 		assert: node isFrom isNil;
 		deny: node hasDirection;
-		assert: node cursorIdentifier class equals: PSQLASTIdentifier;
-		assert: node cursorIdentifier identifier equals: 'curs';
+		assert: node cursorIdentifier class equals: PSQLASTAttributeAccess;
+		assert: node cursorIdentifier accessed class equals: PSQLASTIdentifier;
+		assert: node cursorIdentifier accessed identifier equals: 'curs';
 		assert: node targets class equals: Array;
 		assert: node targets size equals: 3.
 		
@@ -206,8 +207,9 @@ PSQLPlpgSQLASTBuilderTest >> testPlpgsqlCursorFetch [
 		deny: node isFrom;
 		assert: node isIn;
 		assert: node hasDirection;
-		assert: node cursorIdentifier class equals: PSQLASTIdentifier;
-		assert: node cursorIdentifier identifier equals: 'curs';
+		assert: node cursorIdentifier class equals: PSQLASTAttributeAccess;
+		assert: node cursorIdentifier accessed class equals: PSQLASTIdentifier;
+		assert: node cursorIdentifier accessed identifier equals: 'curs';
 		assert: node targets class equals: Array;
 		assert: node targets size equals: 1.
 ]
