@@ -197,12 +197,6 @@ PSQLExpressionASTBuilder >> parenthesedExpressionParserWith: expressionParser [
 					yourself ]
 ]
 
-{ #category : #helpers }
-PSQLExpressionASTBuilder >> positionalParameter [
-	^ super positionalParameter
-		psqlASTBuild: [ :tokens | "Here we should create a node for positional parameter" Halt now ]
-]
-
 { #category : #'accessing - blocks' }
 PSQLExpressionASTBuilder >> postfixOperatorBlock [
 	^ [ :exp :op |
