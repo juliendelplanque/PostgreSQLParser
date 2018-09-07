@@ -19,3 +19,8 @@ PSQLASTConstant >> content [
 PSQLASTConstant >> content: anObject [
 	content := anObject
 ]
+
+{ #category : #testing }
+PSQLASTConstant >> isConstant [
+	^ true
+]
