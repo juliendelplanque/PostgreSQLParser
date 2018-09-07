@@ -41,9 +41,22 @@ PSQLSelectQueryAnalysisVisitor >> leaveWhereClause [
 ]
 
 { #category : #visiting }
+PSQLSelectQueryAnalysisVisitor >> visitPSQASTNull: aPSQLASTNull [ 
+	^ aPSQLASTNull
+]
+
+{ #category : #visiting }
 PSQLSelectQueryAnalysisVisitor >> visitPSQLASTAggregateFunctionCall: aPSQLASTAggregateFunctionCall [ 
 	^ aPSQLASTAggregateFunctionCall expressions collect: [ :exp |
 		exp acceptVisitor: self ]
+]
+
+{ #category : #visiting }
+PSQLSelectQueryAnalysisVisitor >> visitPSQLASTAlternativeSelectIntoQuery: aPSQLASTAlternativeSelectIntoQuery [ 
+	self flag: #TODO. "Maybe to enhance?"
+	self enterWhereClause.
+	aPSQLASTAlternativeSelectIntoQuery whereClause ifNotNil: [ :whereClause | whereClause acceptVisitor: self ].
+	self leaveWhereClause
 ]
 
 { #category : #visiting }
@@ -65,6 +78,21 @@ PSQLSelectQueryAnalysisVisitor >> visitPSQLASTBinaryOperator: aPSQLASTBinaryOper
 	aPSQLASTBinaryOperator left acceptVisitor: self.
 	
 	aPSQLASTBinaryOperator right acceptVisitor: self.
+]
+
+{ #category : #visiting }
+PSQLSelectQueryAnalysisVisitor >> visitPSQLASTCompositeValue: aPSQLASTCompositeValue [ 
+	aPSQLASTCompositeValue items do: [ :i |
+		i acceptVisitor: self ]
+]
+
+{ #category : #visiting }
+PSQLSelectQueryAnalysisVisitor >> visitPSQLASTConditionalExpression: aPSQLASTConditionalExpression [ 
+	aPSQLASTConditionalExpression conditionsToExpressions do: [ :assoc |
+		assoc key acceptVisitor: self.
+		assoc value acceptVisitor: self ].
+	
+	aPSQLASTConditionalExpression elseExpression ifNotNil: [ :e | e acceptVisitor: self ]
 ]
 
 { #category : #visiting }
@@ -200,6 +228,11 @@ PSQLSelectQueryAnalysisVisitor >> visitPSQLPlpgSQLASTClassicDeclaration: aPSQLPl
 ]
 
 { #category : #visiting }
+PSQLSelectQueryAnalysisVisitor >> visitPSQLPlpgSQLASTCopyTypeDeclaration: aPSQLPlpgSQLASTCopyTypeDeclaration [ 
+	^ aPSQLPlpgSQLASTCopyTypeDeclaration
+]
+
+{ #category : #visiting }
 PSQLSelectQueryAnalysisVisitor >> visitPSQLPlpgSQLASTCursorClose: aPSQLPlpgSQLASTCursorClose [ 
 	^ aPSQLPlpgSQLASTCursorClose
 ]
@@ -243,6 +276,20 @@ PSQLSelectQueryAnalysisVisitor >> visitPSQLPlpgSQLASTLoop: aPSQLPlpgSQLASTLoop [
 ]
 
 { #category : #visiting }
+PSQLSelectQueryAnalysisVisitor >> visitPSQLPlpgSQLASTPerform: aPSQLPlpgSQLASTPerform [
+	self flag: #TODO. "Check in case there is a WHERE clause?"
+	^ aPSQLPlpgSQLASTPerform
+]
+
+{ #category : #visiting }
+PSQLSelectQueryAnalysisVisitor >> visitPSQLPlpgSQLASTQueryResultsLoop: aPSQLPlpgSQLASTQueryResultsLoop [ 
+	aPSQLPlpgSQLASTQueryResultsLoop query acceptVisitor: self.
+	
+	aPSQLPlpgSQLASTQueryResultsLoop statements do: [ :s |
+		s acceptVisitor: self ]
+]
+
+{ #category : #visiting }
 PSQLSelectQueryAnalysisVisitor >> visitPSQLPlpgSQLASTRaiseStatement: aPSQLPlpgSQLASTRaiseStatement [ 
 	^ aPSQLPlpgSQLASTRaiseStatement
 ]
@@ -251,6 +298,11 @@ PSQLSelectQueryAnalysisVisitor >> visitPSQLPlpgSQLASTRaiseStatement: aPSQLPlpgSQ
 PSQLSelectQueryAnalysisVisitor >> visitPSQLPlpgSQLASTReturnStatement: aPSQLPlpgSQLASTReturnStatement [ 
 	aPSQLPlpgSQLASTReturnStatement query ifNotNil: [ :q |
 		q acceptVisitor: self ]
+]
+
+{ #category : #visiting }
+PSQLSelectQueryAnalysisVisitor >> visitPSQLPlpgSQLASTRowTypeDeclaration: aPSQLPlpgSQLASTRowTypeDeclaration [ 
+	^ aPSQLPlpgSQLASTRowTypeDeclaration
 ]
 
 { #category : #visiting }
