@@ -27,6 +27,14 @@ PSQLExpressionASTBuilderTest >> testAggregateExpressionParserForm3With [
 		assert: node expressions first class equals: PSQLASTWildCard
 ]
 
+{ #category : #tests }
+PSQLExpressionASTBuilderTest >> testBinaryLogicalOperator [
+	| str |
+	str := builder binaryLogicalOperator parse: 'AND '.
+	
+	self assert: str equals: 'AND'
+]
+
 { #category : #'tests-expression' }
 PSQLExpressionASTBuilderTest >> testCompositeValueWith [
 	| node |
