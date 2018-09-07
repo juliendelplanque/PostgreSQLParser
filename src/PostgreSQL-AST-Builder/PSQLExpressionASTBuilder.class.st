@@ -68,6 +68,12 @@ PSQLExpressionASTBuilder >> asOperator [
 	^ super asOperator psqlASTBuild: [ :tokens | tokens second ]
 ]
 
+{ #category : #expression }
+PSQLExpressionASTBuilder >> binaryLogicalOperator [
+	^ super binaryLogicalOperator ==> [ :tokens |
+		tokens first ]
+]
+
 { #category : #'accessing - blocks' }
 PSQLExpressionASTBuilder >> binaryOperatorBlock [
 	^ [ :exp1 :op :exp2 |
