@@ -55,6 +55,12 @@ PSQLTokenASTBuilder >> numericConstant [
 ]
 
 { #category : #accessing }
+PSQLTokenASTBuilder >> operator [
+	^ super operator ==> [ :tokens |
+		String newFrom: tokens ]
+]
+
+{ #category : #accessing }
 PSQLTokenASTBuilder >> positionalParameter [
 	^ super positionalParameter psqlASTBuild: [ :tokens | 
 		PSQLPlpgSQLASTPositionalParameter new
