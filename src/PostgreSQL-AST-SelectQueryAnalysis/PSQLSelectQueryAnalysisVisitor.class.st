@@ -69,8 +69,8 @@ PSQLSelectQueryAnalysisVisitor >> visitPSQLASTBinaryOperator: aPSQLASTBinaryOper
 
 { #category : #visiting }
 PSQLSelectQueryAnalysisVisitor >> visitPSQLASTDeleteQuery: aPSQLASTDeleteQuery [ 
-	self flag: #TODO. "For now does nothing but should be handled in the future i guess."
-	^ aPSQLASTDeleteQuery
+	self flag: #TODO. "Maybe to enhance?"
+	^ aPSQLASTDeleteQuery whereClause acceptVisitor: self
 ]
 
 { #category : #visiting }
@@ -112,7 +112,6 @@ PSQLSelectQueryAnalysisVisitor >> visitPSQLASTIdentifier: aPSQLASTIdentifier [
 
 { #category : #visiting }
 PSQLSelectQueryAnalysisVisitor >> visitPSQLASTInsertQuery: aPSQLASTInsertQuery [ 
-	self flag: #TODO. "Take care of this later."
 	^ aPSQLASTInsertQuery
 ]
 
@@ -165,9 +164,16 @@ PSQLSelectQueryAnalysisVisitor >> visitPSQLASTSubscript: aPSQLASTSubscript [
 ]
 
 { #category : #visiting }
+PSQLSelectQueryAnalysisVisitor >> visitPSQLASTUpdateDeleteWhereClause: aPSQLASTUpdateDeleteWhereClause [ 
+	self enterWhereClause.
+	aPSQLASTUpdateDeleteWhereClause condition acceptVisitor: self.
+	self leaveWhereClause
+]
+
+{ #category : #visiting }
 PSQLSelectQueryAnalysisVisitor >> visitPSQLASTUpdateQuery: aPSQLASTUpdateQuery [ 
-	self flag: #TODO. "We do not care yet, but after we will."
-	^ aPSQLASTUpdateQuery
+	self flag: #TODO. "Naive approach maybe to enhance?"
+	^ aPSQLASTUpdateQuery whereClause ifNotNil: [ :whereClause | whereClause acceptVisitor: self ]
 ]
 
 { #category : #visiting }
