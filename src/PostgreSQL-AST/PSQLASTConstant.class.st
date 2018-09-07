@@ -20,6 +20,12 @@ PSQLASTConstant >> content: anObject [
 	content := anObject
 ]
 
+{ #category : #printing }
+PSQLASTConstant >> innerPrintOn: aStream [
+	aStream
+		<< self content
+]
+
 { #category : #testing }
 PSQLASTConstant >> isConstant [
 	^ true
