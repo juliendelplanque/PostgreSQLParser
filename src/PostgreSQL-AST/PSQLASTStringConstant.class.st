@@ -11,3 +11,10 @@ Class {
 PSQLASTStringConstant >> acceptVisitor: aVisitor [
 	^ aVisitor visitPSQLASTStringConstant: self
 ]
+
+{ #category : #printing }
+PSQLASTStringConstant >> innerPrintOn: aStream [
+	aStream << $'.
+	super innerPrintOn: aStream.
+	aStream << $'.
+]
