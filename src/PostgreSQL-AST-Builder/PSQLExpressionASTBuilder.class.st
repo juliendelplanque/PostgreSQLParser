@@ -180,6 +180,12 @@ PSQLExpressionASTBuilder >> functionCallParserWith: expressionParser [
 ]
 
 { #category : #expression }
+PSQLExpressionASTBuilder >> inOperator [
+	^ super inOperator ==> [ :tokens |
+		tokens second ]
+]
+
+{ #category : #expression }
 PSQLExpressionASTBuilder >> isNotNull [
 	^ super isNotNull psqlASTBuild: [ :tokens | tokens joinUsing: ' ' ]
 ]
