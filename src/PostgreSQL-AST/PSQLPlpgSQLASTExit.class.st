@@ -11,6 +11,11 @@ Class {
 	#category : #'PostgreSQL-AST-PlpgSQL'
 }
 
+{ #category : #visiting }
+PSQLPlpgSQLASTExit >> acceptVisitor: aPSQLASTReflectiveVisitor [ 
+	^ aPSQLASTReflectiveVisitor visitPSQPlpgSQLASTExit: self
+]
+
 { #category : #accessing }
 PSQLPlpgSQLASTExit >> booleanExpression [
 	^ booleanExpression

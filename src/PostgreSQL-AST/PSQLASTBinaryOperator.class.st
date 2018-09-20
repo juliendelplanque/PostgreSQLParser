@@ -15,6 +15,16 @@ PSQLASTBinaryOperator >> acceptVisitor: aVisitor [
 	^ aVisitor visitPSQLASTBinaryOperator: self
 ]
 
+{ #category : #printing }
+PSQLASTBinaryOperator >> innerPrintOn: aStream [
+	self left innerPrintOn: aStream.
+	aStream
+		<< Character space;
+		<< self operator;
+		<< Character space.
+	self right innerPrintOn: aStream
+]
+
 { #category : #accessing }
 PSQLASTBinaryOperator >> left [
 	^ self expression

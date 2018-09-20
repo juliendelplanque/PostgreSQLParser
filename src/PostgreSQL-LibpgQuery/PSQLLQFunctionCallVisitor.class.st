@@ -4,7 +4,7 @@ I convert function call dictionary to a PSQLASTFunctionCall.
 Class {
 	#name : #PSQLLQFunctionCallVisitor,
 	#superclass : #PSQLJSONVisitor,
-	#category : #PostgreSQL-LibpgQuery-Visitors
+	#category : #'PostgreSQL-LibpgQuery-Visitors'
 }
 
 { #category : #visiting }

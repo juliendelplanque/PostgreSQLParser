@@ -4,13 +4,10 @@ I process VALUES command source code as input and build an AST using PSQLASTNode
 Class {
 	#name : #PSQLValuesASTBuilder,
 	#superclass : #PSQLValuesGrammar,
+	#traits : 'PSQLTExpressionDependingBuilder',
+	#classTraits : 'PSQLTExpressionDependingBuilder classTrait',
 	#category : #'PostgreSQL-AST-Builder'
 }
-
-{ #category : #accessing }
-PSQLValuesASTBuilder class >> sqlParser [
-	^ PSQLExpressionASTBuilder
-]
 
 { #category : #accessing }
 PSQLValuesASTBuilder class >> tokenParser [
@@ -19,19 +16,23 @@ PSQLValuesASTBuilder class >> tokenParser [
 
 { #category : #accessing }
 PSQLValuesASTBuilder >> expression [
-	^ (self dependencyAt: PSQLExpressionASTBuilder) expression
+	^ self expressionParser expression
 ]
 
 { #category : #'values command' }
 PSQLValuesASTBuilder >> valuesCommand [
-	^ super valuesCommand psqlASTBuild: [ :tokens |
-		tokens second
-			reject: [ :item | item = $, ]
-			thenCollect: [ :item | 
-				item first second
-					reject: [ :subitem | subitem = $, ]
-					thenCollect: [ :subItem |
-						subItem first = 'DEFAULT'
-							ifTrue: [ PSQLASTDefaultValue new ]
-							ifFalse: [ subItem first ] ] ] ]
+	^ super valuesCommand
+		psqlASTBuild: [ :tokens | 
+			PSQLASTValuesCommand new
+				values:
+					(tokens second
+						reject: [ :item | item = $, ]
+						thenCollect: [ :item | 
+							item second
+								reject: [ :subitem | subitem = $, ]
+								thenCollect: [ :subItem | 
+									subItem = 'DEFAULT'
+										ifTrue: [ PSQLASTDefaultValue new ]
+										ifFalse: [ subItem ] ] ]) flatten;
+				yourself ]
 ]

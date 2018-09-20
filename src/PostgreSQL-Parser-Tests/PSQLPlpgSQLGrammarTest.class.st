@@ -1,7 +1,7 @@
 Class {
 	#name : #PSQLPlpgSQLGrammarTest,
 	#superclass : #PPCompositeParserTest,
-	#category : #PostgreSQL-Parser-Tests
+	#category : #'PostgreSQL-Parser-Tests'
 }
 
 { #category : #accessing }
@@ -9,7 +9,7 @@ PSQLPlpgSQLGrammarTest >> parserClass [
 	^ PSQLPlpgSQLGrammar
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLGrammarTest >> testPlpgsqlAliasDeclaration [
 	self
 		parse: 'subtotal ALIAS FOR $1' rule: #plpgsqlAliasDeclaration;
@@ -19,7 +19,7 @@ PSQLPlpgSQLGrammarTest >> testPlpgsqlAliasDeclaration [
 		parse: 'updated ALIAS FOR new' rule: #plpgsqlAliasDeclaration
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLGrammarTest >> testPlpgsqlArrayLoop [
 	self
 		parse: 'FOREACH x IN ARRAY $1
@@ -28,7 +28,7 @@ PSQLPlpgSQLGrammarTest >> testPlpgsqlArrayLoop [
   END LOOP' rule: #plpgsqlArrayLoop
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLGrammarTest >> testPlpgsqlAssertStatement [
 	self
 		parse: 'ASSERT 1 + 1 = 2' rule: #plpgsqlAssertStatement;
@@ -36,7 +36,7 @@ PSQLPlpgSQLGrammarTest >> testPlpgsqlAssertStatement [
 		parse: 'ASSERT 1 + 1 = 2, ''Should'' || notBeRaised()' rule: #plpgsqlAssertStatement
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLGrammarTest >> testPlpgsqlAssignmentStatement [
 	self
 		parse: 'tax := subtotal * 0.06' rule: #plpgsqlAssignmentStatement;
@@ -54,16 +54,17 @@ PSQLPlpgSQLGrammarTest >> testPlpgsqlAssignmentStatement [
             "j",
             "policy_row"."tie_breaking"
           )
-        )::"link_strength"' rule: #plpgsqlAssignmentStatement
+        )::"link_strength"' rule: #plpgsqlAssignmentStatement;
+	parse: 'date2 := date1 - interval ''1'' day' rule: #plpgsqlAssignmentStatement
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLGrammarTest >> testPlpgsqlBeginLabel [
 	self
 		parse: '<< outerblock >>' rule: #plpgsqlBeginLabel
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLGrammarTest >> testPlpgsqlBody [
 	self
 		parse: 'BEGIN
@@ -129,25 +130,25 @@ BEGIN
 END;' rule: #plpgsqlBody
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLGrammarTest >> testPlpgsqlContinuetatement [
 	self
 		parse: 'CONTINUE WHEN count < 50' rule: #plpgsqlContinueStatement
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLGrammarTest >> testPlpgsqlCopyTypeDeclaration [
 	self
 		parse: 'id table.id%TYPE' rule: #plpgsqlCopyTypeDeclaration
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLGrammarTest >> testPlpgsqlCursorClose [
 	self
 		parse: 'CLOSE curs1' rule: #plpgsqlCursorClose
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLGrammarTest >> testPlpgsqlCursorDeclaration [
 	self
 		parse: 'curs2 SCROLL CURSOR FOR SELECT * FROM tenk1' rule: #plpgsqlCursorDeclaration;
@@ -155,13 +156,13 @@ PSQLPlpgSQLGrammarTest >> testPlpgsqlCursorDeclaration [
 		parse: 'curs3 NO SCROLL CURSOR (key integer, key2 char , key3 varchar) FOR SELECT * FROM tenk1 WHERE unique1 = key' rule: #plpgsqlCursorDeclaration
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLGrammarTest >> testPlpgsqlCursorDelete [
 	self
 		parse: 'DELETE FROM table WHERE CURRENT OF cursor' rule: #plpgsqlCursorDelete
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLGrammarTest >> testPlpgsqlCursorFetch [
 	self
 		parse: 'FETCH curs1 INTO rowvar' rule: #plpgsqlCursorFetch;
@@ -170,7 +171,7 @@ PSQLPlpgSQLGrammarTest >> testPlpgsqlCursorFetch [
 		parse: 'FETCH RELATIVE -2 FROM curs4 INTO x' rule: #plpgsqlCursorFetch
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLGrammarTest >> testPlpgsqlCursorForLoop [
 	self
 		parse: 'FOR record_var in curs1 (key1 := 1, key2 := 42) LOOP
@@ -178,7 +179,7 @@ PSQLPlpgSQLGrammarTest >> testPlpgsqlCursorForLoop [
 END LOOP' rule: #plpgsqlCursorForLoop
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLGrammarTest >> testPlpgsqlCursorMove [
 	self
 		parse: 'MOVE curs1' rule: #plpgsqlCursorMove;
@@ -187,20 +188,20 @@ PSQLPlpgSQLGrammarTest >> testPlpgsqlCursorMove [
 		parse: 'MOVE FORWARD 2 FROM curs4' rule: #plpgsqlCursorMove
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLGrammarTest >> testPlpgsqlCursorUpdate [
 	self
 		parse: 'UPDATE foo SET dataval = myval WHERE CURRENT OF curs1' rule: #plpgsqlCursorUpdate
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLGrammarTest >> testPlpgsqlDeclarationCollate [
 	self
 		parse: 'COLLATE "en_US"' rule: #plpgsqlDeclarationCollate;
 		parse: 'COLLATE "C"' rule: #plpgsqlDeclarationCollate
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLGrammarTest >> testPlpgsqlDeclarationItem [
 	self
 		parse: 'user_id integer' rule: #plpgsqlDeclarationItem;
@@ -215,7 +216,7 @@ PSQLPlpgSQLGrammarTest >> testPlpgsqlDeclarationItem [
 		parse: 'curs3 NO SCROLL CURSOR (key integer, key2 char , key3 varchar) FOR SELECT * FROM tenk1 WHERE unique1 = key' rule: #plpgsqlDeclarationItem
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLGrammarTest >> testPlpgsqlDeclarationType [
 	self
 		parse: 'integer' rule: #plpgsqlDeclarationType;
@@ -225,7 +226,7 @@ PSQLPlpgSQLGrammarTest >> testPlpgsqlDeclarationType [
 		parse: 'varying char(16)[][]' rule: #plpgsqlDeclarationType
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLGrammarTest >> testPlpgsqlDeclarations [
 	self
 		parse: 'local_a text := a;
@@ -257,7 +258,7 @@ arow RECORD;' rule: #plpgsqlDeclarations;
       "initiative_id_v" "initiative"."id"%TYPE;' rule: #plpgsqlDeclarations
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLGrammarTest >> testPlpgsqlExceptionHandler [
 	self
 		parse: 'BEGIN
@@ -269,7 +270,7 @@ EXCEPTION
 END' rule: #plpgsqlExceptionHandler
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLGrammarTest >> testPlpgsqlExecuteStatement [
 	self
 		parse: 'EXECUTE ''SELECT count(*) FROM mytable WHERE inserted_by = $1 AND inserted <= $2''
@@ -285,7 +286,7 @@ PSQLPlpgSQLGrammarTest >> testPlpgsqlExecuteStatement [
    USING checked_user, checked_date' rule: #plpgsqlExecuteStatement
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLGrammarTest >> testPlpgsqlExitStatement [
 	self
 		parse: 'EXIT' rule: #plpgsqlExitStatement;
@@ -294,7 +295,7 @@ PSQLPlpgSQLGrammarTest >> testPlpgsqlExitStatement [
 		parse: 'EXIT ablock WHEN count > 0' rule: #plpgsqlExitStatement
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLGrammarTest >> testPlpgsqlForLoop [
 	self
 		parse: 'FOR i IN 1 .. 10 LOOP
@@ -315,7 +316,7 @@ END LOOP label' rule: #plpgsqlForLoop;
 		END LOOP' rule: #plpgsqlForLoop
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLGrammarTest >> testPlpgsqlIfThen [
 	self
 		parse: 'IF v_user_id <> 0 THEN
@@ -326,7 +327,7 @@ END IF' rule: #plpgsqlIfThen;
 END IF' rule: #plpgsqlIfThen
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLGrammarTest >> testPlpgsqlIfThenElse [
 	self
 		parse: 'IF parentid = 1 OR parentid = ''''
@@ -349,7 +350,7 @@ ELSE
 END IF' rule: #plpgsqlIfThenElse
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLGrammarTest >> testPlpgsqlIfThenElsif [
 	self
 		parse: 'IF number = 0 THEN
@@ -377,14 +378,14 @@ ELSE
 END IF' rule: #plpgsqlIfThenElsif
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLGrammarTest >> testPlpgsqlIndexParameter [
 	self
 		parse: '$1' rule: #plpgsqlIndexParameter;
 		parse: '$42' rule: #plpgsqlIndexParameter
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLGrammarTest >> testPlpgsqlLoopLoop [
 	self
 		parse: 'LOOP
@@ -397,7 +398,7 @@ END LOOP' rule: #plpgsqlLoopLoop;
 END LOOP' rule: #plpgsqlLoopLoop
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLGrammarTest >> testPlpgsqlNullStatement [
 	self
 		parse: 'NULL' rule: #plpgsqlNullStatement";
@@ -405,7 +406,7 @@ PSQLPlpgSQLGrammarTest >> testPlpgsqlNullStatement [
 ' rule: #plpgsqlNullStatement"
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLGrammarTest >> testPlpgsqlOpenCursorBounded [
 	self
 		parse: 'OPEN curs2' rule: #plpgsqlOpenCursorBounded;
@@ -414,13 +415,13 @@ PSQLPlpgSQLGrammarTest >> testPlpgsqlOpenCursorBounded [
 		parse: 'OPEN curs3(key := 42, key2 := ''test'')' rule: #plpgsqlOpenCursorBounded
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLGrammarTest >> testPlpgsqlOpenCursorForExecute [
 	self
 		parse: 'OPEN curs1 FOR EXECUTE format(''SELECT * FROM %I WHERE col1 = $1'',tabname) USING keyvalue' rule: #plpgsqlOpenCursorForExecute
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLGrammarTest >> testPlpgsqlOpenCursorForQuery [
 	self
 		parse: 'OPEN curs1 FOR SELECT * FROM foo WHERE key = mykey' rule: #plpgsqlOpenCursorForQuery;
@@ -428,13 +429,13 @@ PSQLPlpgSQLGrammarTest >> testPlpgsqlOpenCursorForQuery [
 		parse: 'OPEN curs1 SCROLL FOR SELECT * FROM foo WHERE key = mykey' rule: #plpgsqlOpenCursorForQuery
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLGrammarTest >> testPlpgsqlPerformStatement [
 	self
 		parse: 'PERFORM "require_transaction_isolation"()' rule: #plpgsqlPerformStatement
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLGrammarTest >> testPlpgsqlQueryResultsLoop [
 	self
 		parse: 'FOR mviews IN SELECT * FROM cs_materialized_views ORDER BY sort_key LOOP
@@ -453,7 +454,7 @@ END LOOP label' rule: #plpgsqlQueryResultsLoop;
 	END LOOP' rule: #plpgsqlQueryResultsLoop
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLGrammarTest >> testPlpgsqlRaiseStatement [
 	self
 		parse: 'RAISE NOTICE ''Calling cs_create_job(%)'', v_job_id' rule: #plpgsqlRaiseStatement;
@@ -465,53 +466,53 @@ PSQLPlpgSQLGrammarTest >> testPlpgsqlRaiseStatement [
 		parse: 'RAISE unique_violation USING MESSAGE = ''Duplicate user ID: '' || user_id' rule: #plpgsqlRaiseStatement
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLGrammarTest >> testPlpgsqlRaiseStatement1 [
 	self
 		parse: 'RAISE EXCEPTION ''Nonexistent ID --> %'', user_id
       USING HINT = ''Please check your user ID''' rule: #plpgsqlRaiseStatement1
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLGrammarTest >> testPlpgsqlRaiseStatement2 [
 	self
 		parse: 'RAISE division_by_zero' rule: #plpgsqlRaiseStatement2;
 		parse: 'RAISE division_by_zero USING ERRCODE = ''1234''' rule: #plpgsqlRaiseStatement2
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLGrammarTest >> testPlpgsqlRaiseStatement3 [
 	self
 		parse: 'RAISE INFO SQLSTATE ''22012''' rule: #plpgsqlRaiseStatement3;
 		parse: 'RAISE INFO SQLSTATE ''22012'' USING ERRCODE = ''err''' rule: #plpgsqlRaiseStatement3
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLGrammarTest >> testPlpgsqlRaiseStatement4 [
 	self
 		parse: 'RAISE INFO USING ERRCODE = ''23505''' rule: #plpgsqlRaiseStatement4;
 		parse: 'RAISE INFO USING ERRCODE = ''23505'' , OTHER = ''test''' rule: #plpgsqlRaiseStatement4
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLGrammarTest >> testPlpgsqlRaiseStatement5 [
 	self
 		parse: 'RAISE' rule: #plpgsqlRaiseStatement5
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLGrammarTest >> testPlpgsqlRecordDeclaration [
 	self
 		parse: 'identifier RECORD' rule: #plpgsqlRecordDeclaration
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLGrammarTest >> testPlpgsqlResultValueStatement [
 	self
 		parse: 'GET DIAGNOSTICS integer_var = ROW_COUNT' rule: #plpgsqlResultValueStatement
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLGrammarTest >> testPlpgsqlReturn [
 	self
 		parse: 'RETURN 1 + 2' rule: #plpgsqlReturn;
@@ -532,13 +533,13 @@ PSQLPlpgSQLGrammarTest >> testPlpgsqlReturn [
 		parse: 'RETURN ts_headline(''pg_catalog.simple'', replace(replace("body_p", e''\\'', e''\\\\''), ''*'', e''\\*''), "text_search_query"("query_text_p"), ''StartSel=* StopSel=* HighlightAll=TRUE'' )' rule: #plpgsqlReturn
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLGrammarTest >> testPlpgsqlRowTypeDeclaration [
 	self
 		parse: 't2_row table2%ROWTYPE' rule: #plpgsqlRowTypeDeclaration
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLGrammarTest >> testPlpgsqlSearchedCase [
 	self
 		parse: 'CASE x
@@ -555,7 +556,7 @@ END CASE' rule: #plpgsqlSearchedCase;
 END CASE' rule: #plpgsqlSearchedCase
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLGrammarTest >> testPlpgsqlSimpleCase [
 	self
 		parse: 'CASE
@@ -576,7 +577,7 @@ END CASE' rule: #plpgsqlSimpleCase;
                      ELSE "matrix_d"["i"]["j"] END CASE' rule: #plpgsqlSimpleCase
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLGrammarTest >> testPlpgsqlStatement [
 	self
 		parse: 'v_user_id := 42' rule: #plpgsqlStatement;
@@ -612,7 +613,7 @@ END LOOP' rule: #plpgsqlStatement;
           END LOOP' rule: #plpgsqlStatement
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLGrammarTest >> testPlpgsqlStatements [
 	self
 		parse: 'v_user_id := 42 ; v_user_id := 42 ;' rule: #plpgsqlStatements;
@@ -965,7 +966,7 @@ PSQLPlpgSQLGrammarTest >> testPlpgsqlStatements [
   RETURN;' rule: #plpgsqlStatements
 ]
 
-{ #category : #tests-plpgsql }
+{ #category : #'tests-plpgsql' }
 PSQLPlpgSQLGrammarTest >> testPlpgsqlWhileLoop [
 	self
 		parse: 'WHILE amount_owed < 42 LOOP

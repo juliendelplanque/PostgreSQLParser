@@ -1,5 +1,5 @@
 Class {
 	#name : #PSQLLQTransactionVisitor,
 	#superclass : #PSQLJSONVisitor,
-	#category : #PostgreSQL-LibpgQuery-Visitors
+	#category : #'PostgreSQL-LibpgQuery-Visitors'
 }

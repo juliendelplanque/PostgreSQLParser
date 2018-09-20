@@ -4,6 +4,8 @@ I parse PostgreSQL DELETE query.
 Class {
 	#name : #PSQLDeleteQueryGrammar,
 	#superclass : #PPCompositeParser,
+	#traits : 'PSQLTExpressionDependingGrammar',
+	#classTraits : 'PSQLTExpressionDependingGrammar classTrait',
 	#instVars : [
 		'usingClause',
 		'expression',
@@ -15,14 +17,15 @@ Class {
 		'identifierWithOptionalFieldAccess',
 		'asterik',
 		'identifier',
-		'comma'
+		'comma',
+		'aliasedExpression'
 	],
 	#category : #'PostgreSQL-Parser-Grammars-CRUD'
 }
 
 { #category : #accessing }
 PSQLDeleteQueryGrammar class >> dependencies [
-	^ { self sqlParser . self sharedParser . self tokenParser }
+	^ { self expressionParser . self sharedParser . self tokenParser }
 ]
 
 { #category : #example }
@@ -41,13 +44,13 @@ PSQLDeleteQueryGrammar class >> sharedParser [
 ]
 
 { #category : #accessing }
-PSQLDeleteQueryGrammar class >> sqlParser [
-	^ PSQLExpressionGrammar
+PSQLDeleteQueryGrammar class >> tokenParser [
+	^ PSQLTokenizer
 ]
 
 { #category : #accessing }
-PSQLDeleteQueryGrammar class >> tokenParser [
-	^ PSQLTokenizer
+PSQLDeleteQueryGrammar >> aliasedExpression [
+	^ expression , self expressionParser aliasDefinition
 ]
 
 { #category : #dependencies }
@@ -77,7 +80,7 @@ PSQLDeleteQueryGrammar >> deleteCommand [
 
 { #category : #dependencies }
 PSQLDeleteQueryGrammar >> expression [
-	^ (self dependencyAt: self class sqlParser) expression
+	^ (self dependencyAt: self class expressionParser) expression
 ]
 
 { #category : #dependencies }
@@ -114,7 +117,8 @@ PSQLDeleteQueryGrammar >> updateDeleteWhereClause [
 { #category : #accessing }
 PSQLDeleteQueryGrammar >> usingClause [
 	"USING using_list"
-	^ kw using trim , (expression separatedBy: comma trim)
+
+	^ kw using trim , (aliasedExpression / expression separatedBy: comma trim)
 ]
 
 { #category : #dependencies }

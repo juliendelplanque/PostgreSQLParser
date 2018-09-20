@@ -11,7 +11,7 @@ Class {
 		'parameters',
 		'language'
 	],
-	#category : #PostgreSQL-LibpgQuery-AST-Extension
+	#category : #'PostgreSQL-LibpgQuery-AST-Extension'
 }
 
 { #category : #accessing }

@@ -55,8 +55,23 @@ PSQLExpressionASTBuilder >> aggregateExpressionParserForm3With: expressionParser
 ]
 
 { #category : #expression }
+PSQLExpressionASTBuilder >> aliasDefinition [
+	^ super aliasDefinition
+		psqlASTBuild: [ :tokens | 
+			PSQLASTAliasDefinition new
+				alias: tokens second;
+				yourself ]
+]
+
+{ #category : #expression }
 PSQLExpressionASTBuilder >> asOperator [
 	^ super asOperator psqlASTBuild: [ :tokens | tokens second ]
+]
+
+{ #category : #expression }
+PSQLExpressionASTBuilder >> binaryLogicalOperator [
+	^ super binaryLogicalOperator ==> [ :tokens |
+		tokens first ]
 ]
 
 { #category : #'accessing - blocks' }
@@ -71,14 +86,16 @@ PSQLExpressionASTBuilder >> binaryOperatorBlock [
 
 { #category : #helpers }
 PSQLExpressionASTBuilder >> columnReference [
-	^ super columnReference psqlASTBuild: [ :tokens |
-		tokens first ifNotNil: [ 
-			PSQLASTAttributeAccess new
-				accessed: tokens first first;
-				attributeIdentifier: tokens second;
-				yourself ]
-			ifNil: [ 
-				tokens second ] ]
+	^ super columnReference
+		psqlASTBuild: [ :tokens | 
+			tokens first
+				ifNotNil: [ PSQLASTAttributeAccess new
+						accessed: tokens first first;
+						attributeIdentifier: tokens second;
+						yourself ]
+				ifNil: [ PSQLASTAttributeAccess new
+						accessed: tokens second;
+						yourself ] ]
 ]
 
 { #category : #expression }
@@ -107,9 +124,10 @@ PSQLExpressionASTBuilder >> compositeValueWith: anExpressionParser [
 
 { #category : #expression }
 PSQLExpressionASTBuilder >> conditionalExpression [
+	self flag: #TODO. "REQUIRE refactor following when expression refactor"
 	^ super conditionalExpression psqlASTBuild: [ :tokens |
 		PSQLASTConditionalExpression new
-			conditionsToExpressions: (tokens second collect: [ :item | item second -> item fourth ]);
+			conditionsToExpressions: (tokens second collect: [ :item | item first -> item third ]);
 			elseExpression: tokens third second;
 			yourself ]
 ]
@@ -129,6 +147,15 @@ PSQLExpressionASTBuilder >> expressionParserTermFor: expressionParser [
 					operator: '::';
 					left: tokens first;
 					right: (PSQLASTIdentifier new identifier: (tokens second second joinUsing: ' '); yourself) ] ]
+]
+
+{ #category : #expression }
+PSQLExpressionASTBuilder >> extractFunctionCall [
+	^ super extractFunctionCall
+		psqlASTBuild: [ :tokens | 
+			PSQLASTExtractFunctionCall new
+				parameter: tokens fifth;
+				yourself ]
 ]
 
 { #category : #expression }
@@ -153,6 +180,12 @@ PSQLExpressionASTBuilder >> functionCallParserWith: expressionParser [
 ]
 
 { #category : #expression }
+PSQLExpressionASTBuilder >> inOperator [
+	^ super inOperator ==> [ :tokens |
+		tokens second ]
+]
+
+{ #category : #expression }
 PSQLExpressionASTBuilder >> isNotNull [
 	^ super isNotNull psqlASTBuild: [ :tokens | tokens joinUsing: ' ' ]
 ]
@@ -160,6 +193,11 @@ PSQLExpressionASTBuilder >> isNotNull [
 { #category : #expression }
 PSQLExpressionASTBuilder >> isNull [
 	^ super isNull psqlASTBuild: [ :tokens | tokens joinUsing: ' ' ]
+]
+
+{ #category : #expression }
+PSQLExpressionASTBuilder >> nullExpression [
+	^ super nullExpression psqlASTBuild: [ :tokens | PSQLASTNull new ]
 ]
 
 { #category : #expression }
@@ -193,5 +231,14 @@ PSQLExpressionASTBuilder >> prefixOperatorBlock [
 			PSQLASTPrefixOperator new
 				operator: op;
 				expression: exp;
+				yourself ]
+]
+
+{ #category : #expression }
+PSQLExpressionASTBuilder >> whenExpression [
+	^ super whenExpression
+		psqlASTBuild: [ :tokens | 
+			PSQLASTWhenExpression new
+				expression: tokens second;
 				yourself ]
 ]

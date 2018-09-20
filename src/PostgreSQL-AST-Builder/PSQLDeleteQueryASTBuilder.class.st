@@ -4,6 +4,8 @@ I process DELETE query source code as input and build an AST using PSQLASTNode s
 Class {
 	#name : #PSQLDeleteQueryASTBuilder,
 	#superclass : #PSQLDeleteQueryGrammar,
+	#traits : 'PSQLTExpressionDependingBuilder',
+	#classTraits : 'PSQLTExpressionDependingBuilder classTrait',
 	#category : #'PostgreSQL-AST-Builder'
 }
 
@@ -13,13 +15,17 @@ PSQLDeleteQueryASTBuilder class >> sharedParser [
 ]
 
 { #category : #accessing }
-PSQLDeleteQueryASTBuilder class >> sqlParser [
-	^ PSQLExpressionASTBuilder
+PSQLDeleteQueryASTBuilder class >> tokenParser [
+	^ PSQLTokenASTBuilder
 ]
 
 { #category : #accessing }
-PSQLDeleteQueryASTBuilder class >> tokenParser [
-	^ PSQLTokenASTBuilder
+PSQLDeleteQueryASTBuilder >> aliasedExpression [
+	^ super aliasedExpression
+		psqlASTBuild: [ :tokens | 
+			tokens second
+				definition: tokens first;
+				yourself ]
 ]
 
 { #category : #accessing }
@@ -39,6 +45,9 @@ PSQLDeleteQueryASTBuilder >> deleteCommand [
 
 { #category : #accessing }
 PSQLDeleteQueryASTBuilder >> usingClause [
-	^ super usingClause psqlASTBuild: [ :tokens |
-		tokens second ]
+	^ super usingClause
+		psqlASTBuild: [ :tokens | 
+			PSQLASTUsingClause new
+				list: tokens second;
+				yourself ]
 ]

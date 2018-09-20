@@ -4,6 +4,8 @@ I parse PostgreSQL VALUES command.
 Class {
 	#name : #PSQLValuesGrammar,
 	#superclass : #PPCompositeParser,
+	#traits : 'PSQLTExpressionDependingGrammar',
+	#classTraits : 'PSQLTExpressionDependingGrammar classTrait',
 	#instVars : [
 		'expression',
 		'valuesCommand',
@@ -17,17 +19,12 @@ Class {
 
 { #category : #accessing }
 PSQLValuesGrammar class >> dependencies [
-	^ { self sqlParser . self tokenParser }
+	^ { self expressionParser . self tokenParser }
 ]
 
 { #category : #accessing }
 PSQLValuesGrammar class >> ignoredNames [ 
 	^ super ignoredNames , #(kw)
-]
-
-{ #category : #accessing }
-PSQLValuesGrammar class >> sqlParser [
-	^ PSQLExpressionGrammar
 ]
 
 { #category : #accessing }
@@ -47,7 +44,7 @@ PSQLValuesGrammar >> comma [
 
 { #category : #dependencies }
 PSQLValuesGrammar >> expression [
-	^ (self dependencyAt: self class sqlParser) expression
+	^ (self expressionParser) expression
 ]
 
 { #category : #initialization }
@@ -78,6 +75,6 @@ PSQLValuesGrammar >> valuesCommand [
 	
 	^ kw values trim ,
 	((openParenthesis trim,
-		((kw default / expression) plus separatedBy: comma trim) ,
-	closeParenthesis trim) plus separatedBy: comma trim)
+		((kw default / expression) separatedBy: comma trim) ,
+	closeParenthesis trim) separatedBy: comma trim)
 ]

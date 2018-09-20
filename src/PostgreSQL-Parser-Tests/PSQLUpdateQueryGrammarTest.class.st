@@ -1,7 +1,7 @@
 Class {
 	#name : #PSQLUpdateQueryGrammarTest,
 	#superclass : #PPCompositeParserTest,
-	#category : #PostgreSQL-Parser-Tests
+	#category : #'PostgreSQL-Parser-Tests'
 }
 
 { #category : #accessing }

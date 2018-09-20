@@ -53,7 +53,11 @@ Class {
 		'colon',
 		'identifierOrKeyword',
 		'constant',
-		'positionalParameter'
+		'positionalParameter',
+		'whenExpression',
+		'cast',
+		'stringConstant',
+		'stringToTypeConversionCommand'
 	],
 	#category : #'PostgreSQL-Parser-Core'
 }
@@ -131,6 +135,11 @@ PSQLExpressionGrammar >> aggregateExpressionParserWith: expressionParser [
 ]
 
 { #category : #expression }
+PSQLExpressionGrammar >> aliasDefinition [
+	^ asOperator trim , identifier
+]
+
+{ #category : #expression }
 PSQLExpressionGrammar >> asOperator [
 	^ kw asc not , kw as
 ]
@@ -163,6 +172,12 @@ PSQLExpressionGrammar >> binaryOperatorBlock [
 { #category : #expression }
 PSQLExpressionGrammar >> booleanTestConstructOperator [
 	^ (isTrue / isNotTrue / isFalse / isNotFalse / isUnknown / isNotUnknown) , keywordStop
+]
+
+{ #category : #expression }
+PSQLExpressionGrammar >> cast [
+	^ kw cast trim , openParenthesis trim , expression , kw as trim , identifier
+		, closeParenthesis trim
 ]
 
 { #category : #dependencies }
@@ -203,7 +218,7 @@ PSQLExpressionGrammar >> compositeValueWith: anExpressionParser [
 { #category : #expression }
 PSQLExpressionGrammar >> conditionalExpression [
 	^ kw case trim ,
-		(kw when trim , expression trim , kw then trim , expression trim) plus,
+		(whenExpression , kw then trim , expression trim) plus,
 		(kw else trim , expression trim) optional ,
 	kw endKeyword trim
 ]
@@ -239,7 +254,6 @@ PSQLExpressionGrammar >> expression [
 		group: [ :g | g left: isNotDistinctFromOperator trim do: self binaryOperatorBlock ];
 		group: [ :g | g left: betweenConstructOperator trim do: self binaryOperatorBlock ];
 		group: [ :g | g left: binaryLogicalOperator trim do: self binaryOperatorBlock ];
-		group: [ :g | g left: asOperator trim do: self binaryOperatorBlock ];
 		group: [ :g |
 			g postfix: operator trim do: self postfixOperatorBlock ].
 	^ expressionParser
@@ -252,7 +266,8 @@ PSQLExpressionGrammar >> expressionParserTermFor: expressionParser [
 	functionCallTemp := self functionCallParserWith: expressionParser.
 	aggregateExpression := self aggregateExpressionParserWith: expressionParser.
 	compositeValue := self compositeValueWith: expressionParser.
-	^ (parenthesedExpression / nullExpression / compositeValue / conditionalExpression / aggregateExpression / extractFunctionCall / functionCallTemp / primary / selectCommand) , typeCastConstruct optional.
+	^ stringToTypeConversionCommand / cast / parenthesedExpression / nullExpression / compositeValue / conditionalExpression / aggregateExpression
+		/ extractFunctionCall / functionCallTemp / primary / selectCommand , typeCastConstruct optional
 ]
 
 { #category : #expression }
@@ -469,6 +484,16 @@ PSQLExpressionGrammar >> start [
 	^ expression end
 ]
 
+{ #category : #dependencies }
+PSQLExpressionGrammar >> stringConstant [
+	^ (self dependencyAt: self class tokenParser) stringConstant
+]
+
+{ #category : #expression }
+PSQLExpressionGrammar >> stringToTypeConversionCommand [
+	^ (identifier separatedBy: (#space asParser plus)) , #space asParser plus , stringConstant , identifier trim star
+]
+
 { #category : #expression }
 PSQLExpressionGrammar >> subscriptWith: expressionParser [
 	^ openBracket , expressionParser , (colon , expressionParser) optional , closeBracket
@@ -491,4 +516,9 @@ PSQLExpressionGrammar >> typeCastConstruct [
 			kw then not,
 			identifierOrKeyword , (openParenthesis trim , (constant separatedBy: comma trim) , closeParenthesis trim) optional
 			) plus separatedBy: #space asParser plus).
+]
+
+{ #category : #expression }
+PSQLExpressionGrammar >> whenExpression [
+	^ kw when trim , expression trim
 ]

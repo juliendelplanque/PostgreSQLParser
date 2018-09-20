@@ -128,7 +128,8 @@ Class {
 		'of',
 		'order',
 		'raise',
-		'return'
+		'return',
+		'cast'
 	],
 	#category : #'PostgreSQL-Parser-Core'
 }
@@ -214,6 +215,12 @@ PSQLKeywordsParser >> by [
 PSQLKeywordsParser >> case [
 	<psqlkeyword>
 	^ self buildKeyword: 'case'
+]
+
+{ #category : #keywords }
+PSQLKeywordsParser >> cast [
+	<psqlkeyword>
+	^ self buildKeyword: 'cast'
 ]
 
 { #category : #keywords }

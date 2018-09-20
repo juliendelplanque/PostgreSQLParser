@@ -8,7 +8,17 @@ Class {
 }
 
 { #category : #visiting }
+PSQLASTVisitor >> visitPSQASTNull: aPSQLASTNull [ 
+	^ self subclassResponsibility 
+]
+
+{ #category : #visiting }
 PSQLASTVisitor >> visitPSQLASTAggregateFunctionCall: aPSQLASTAggregateFunctionCall [
+	^ self subclassResponsibility
+]
+
+{ #category : #visiting }
+PSQLASTVisitor >> visitPSQLASTAliasDefinition: aPSQLASTAliasDefinition [
 	^ self subclassResponsibility
 ]
 
@@ -19,6 +29,11 @@ PSQLASTVisitor >> visitPSQLASTAllClause: aPSQLASTAllClause [
 
 { #category : #visiting }
 PSQLASTVisitor >> visitPSQLASTAlternativeSelectIntoQuery: aPSQLASTAlternativeSelectIntoQuery [
+	^ self subclassResponsibility
+]
+
+{ #category : #visiting }
+PSQLASTVisitor >> visitPSQLASTArgument: aPSQLASTArgument [
 	^ self subclassResponsibility
 ]
 
@@ -58,6 +73,11 @@ PSQLASTVisitor >> visitPSQLASTConflictAction: aPSQLASTConflictAction [
 ]
 
 { #category : #visiting }
+PSQLASTVisitor >> visitPSQLASTCursorParameter: aPSQLASTCursorParameter [
+	^ self subclassResponsibility
+]
+
+{ #category : #visiting }
 PSQLASTVisitor >> visitPSQLASTDefaultValue: aPSQLASTDefaultValue [
 	^ self subclassResponsibility
 ]
@@ -79,6 +99,21 @@ PSQLASTVisitor >> visitPSQLASTDistinctClause: aPSQLASTDistinctClause [
 
 { #category : #visiting }
 PSQLASTVisitor >> visitPSQLASTExceptClause: aPSQLASTExceptClause [
+	^ self subclassResponsibility
+]
+
+{ #category : #visiting }
+PSQLASTVisitor >> visitPSQLASTExceptionCase: aPSQLASTExceptionCase [
+	^ self subclassResponsibility
+]
+
+{ #category : #visiting }
+PSQLASTVisitor >> visitPSQLASTExceptionHandler: aPSQLASTExceptionHandler [
+	^ self subclassResponsibility
+]
+
+{ #category : #visiting }
+PSQLASTVisitor >> visitPSQLASTExtractFunctionCall: aPSQLASTExtractFunctionCall [
 	^ self subclassResponsibility
 ]
 
@@ -283,6 +318,26 @@ PSQLASTVisitor >> visitPSQLASTUpdateQuery: aPSQLASTUpdateQuery [
 ]
 
 { #category : #visiting }
+PSQLASTVisitor >> visitPSQLASTUsingClause: aPSQLASTUsingClause [
+	^ self subclassResponsibility
+]
+
+{ #category : #visiting }
+PSQLASTVisitor >> visitPSQLASTValuesClause: aPSQLASTValuesClause [
+	^ self subclassResponsibility
+]
+
+{ #category : #visiting }
+PSQLASTVisitor >> visitPSQLASTValuesCommand: aPSQLASTValuesCommand [
+	^ self subclassResponsibility
+]
+
+{ #category : #visiting }
+PSQLASTVisitor >> visitPSQLASTWhenExpression: aPSQLASTWhenExpression [ 
+	^ self subclassResponsibility .
+]
+
+{ #category : #visiting }
 PSQLASTVisitor >> visitPSQLASTWildCard: aPSQLASTWildCard [
 	^ self subclassResponsibility
 ]
@@ -368,6 +423,11 @@ PSQLASTVisitor >> visitPSQLPlpgSQLASTCursorMoveDirection: aPSQLPlpgSQLASTCursorM
 ]
 
 { #category : #visiting }
+PSQLASTVisitor >> visitPSQLPlpgSQLASTCursorOpen: aPSQLPlpgSQLASTCursorOpen [
+	^ self subclassResponsibility
+]
+
+{ #category : #visiting }
 PSQLASTVisitor >> visitPSQLPlpgSQLASTCursorOpenForQuery: aPSQLPlpgSQLASTCursorOpenForQuery [
 	^ self subclassResponsibility
 ]
@@ -449,5 +509,10 @@ PSQLASTVisitor >> visitPSQLPlpgSQLASTWhileLoop: aPSQLPlpgSQLASTWhileLoop [
 
 { #category : #visiting }
 PSQLASTVisitor >> visitPSQLPlpgSQLCursorUpdate: aPSQLPlpgSQLCursorUpdate [
+	^ self subclassResponsibility
+]
+
+{ #category : #visiting }
+PSQLASTVisitor >> visitPSQPlpgSQLASTExit: aPSQLPlpgSQLASTExit [
 	^ self subclassResponsibility
 ]

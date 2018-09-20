@@ -4,6 +4,8 @@ I process UPDATE query source code as input and build an AST using PSQLASTNode s
 Class {
 	#name : #PSQLUpdateQueryASTBuilder,
 	#superclass : #PSQLUpdateQueryGrammar,
+	#traits : 'PSQLTExpressionDependingBuilder',
+	#classTraits : 'PSQLTExpressionDependingBuilder classTrait',
 	#category : #'PostgreSQL-AST-Builder'
 }
 
@@ -15,11 +17,6 @@ PSQLUpdateQueryASTBuilder class >> fromClauseParser [
 { #category : #accessing }
 PSQLUpdateQueryASTBuilder class >> sharedParser [
 	^ PSQLSharedASTBuilder
-]
-
-{ #category : #accessing }
-PSQLUpdateQueryASTBuilder class >> sqlParser [
-	^ PSQLExpressionASTBuilder
 ]
 
 { #category : #accessing }

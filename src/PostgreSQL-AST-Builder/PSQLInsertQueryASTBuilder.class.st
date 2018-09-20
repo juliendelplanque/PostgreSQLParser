@@ -4,17 +4,14 @@ I process INSERT query source code as input and build an AST using PSQLASTNode s
 Class {
 	#name : #PSQLInsertQueryASTBuilder,
 	#superclass : #PSQLInsertQueryGrammar,
+	#traits : 'PSQLTExpressionDependingBuilder',
+	#classTraits : 'PSQLTExpressionDependingBuilder classTrait',
 	#category : #'PostgreSQL-AST-Builder'
 }
 
 { #category : #accessing }
 PSQLInsertQueryASTBuilder class >> sharedParser [
 	^ PSQLSharedASTBuilder
-]
-
-{ #category : #accessing }
-PSQLInsertQueryASTBuilder class >> sqlParser [
-	^ PSQLExpressionASTBuilder
 ]
 
 { #category : #accessing }
@@ -66,4 +63,13 @@ PSQLInsertQueryASTBuilder >> onConflictClause [
 			target: tokens third;
 			action: tokens fourth;
 			yourself ]
+]
+
+{ #category : #'insert command' }
+PSQLInsertQueryASTBuilder >> valuesClause [
+	^ super valuesClause
+		psqlASTBuild: [ :tokens | 
+			PSQLASTValuesClause new
+				values: tokens;
+				yourself ]
 ]

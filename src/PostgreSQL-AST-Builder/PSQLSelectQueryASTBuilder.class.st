@@ -4,6 +4,8 @@ I process SELECT and SELECT INTO query source code as input and build an AST usi
 Class {
 	#name : #PSQLSelectQueryASTBuilder,
 	#superclass : #PSQLSelectQueryGrammar,
+	#traits : 'PSQLTExpressionDependingBuilder',
+	#classTraits : 'PSQLTExpressionDependingBuilder classTrait',
 	#category : #'PostgreSQL-AST-Builder'
 }
 
@@ -15,11 +17,6 @@ PSQLSelectQueryASTBuilder class >> fromClauseParser [
 { #category : #accessing }
 PSQLSelectQueryASTBuilder class >> sharedParser [
 	^ PSQLSharedASTBuilder
-]
-
-{ #category : #accessing }
-PSQLSelectQueryASTBuilder class >> sqlParser [
-	^ PSQLExpressionASTBuilder
 ]
 
 { #category : #accessing }
@@ -42,19 +39,26 @@ PSQLSelectQueryASTBuilder >> allOrDistinctClause [
 
 { #category : #'select command' }
 PSQLSelectQueryASTBuilder >> columnsAndAliasesSelected [
-	^ super columnsAndAliasesSelected psqlASTBuild: [ :tokens |
-		tokens reject: [ :item | item = $, ] thenCollect: [ :item |
-			item first isArray
-				ifTrue: [
-					item first first
-						ifNotNil: [ 
-							PSQLASTAttributeAccess new 
-								accessed: item first first first;
-								attributeIdentifier: item first second;
-								yourself ]
-						ifNil: [ item first second ] ]
-				ifFalse: [ 
-					item first ] ] ]
+	^ super columnsAndAliasesSelected
+		psqlASTBuild: [ :tokens | 
+			tokens
+				reject: [ :item | item = $, ]
+				thenCollect: [ :item | 
+					| selection |
+					selection := item first isArray
+						ifTrue: [ item first first
+								ifNotNil: [ PSQLASTAttributeAccess new
+										accessed: item first first first;
+										attributeIdentifier: item first second;
+										yourself ]
+								ifNil: [ item first second ] ]
+						ifFalse: [ item first ].
+					item second
+						ifNil: [ selection ]
+						ifNotNil: [ "here we have an alias so we put the selection in it"
+							item second
+								definition: selection;
+								yourself ] ] ]
 ]
 
 { #category : #'select command' }

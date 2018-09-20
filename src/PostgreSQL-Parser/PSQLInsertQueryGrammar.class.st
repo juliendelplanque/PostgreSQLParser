@@ -4,6 +4,8 @@ I parse PostgreSQL INSERT query.
 Class {
 	#name : #PSQLInsertQueryGrammar,
 	#superclass : #PPCompositeParser,
+	#traits : 'PSQLTExpressionDependingGrammar',
+	#classTraits : 'PSQLTExpressionDependingGrammar classTrait',
 	#instVars : [
 		'expression',
 		'returningClause',
@@ -31,7 +33,7 @@ Class {
 
 { #category : #accessing }
 PSQLInsertQueryGrammar class >> dependencies [
-	^ { self sqlParser . self valuesCommandParser . self sharedParser . self tokenParser }
+	^ { self expressionParser . self valuesCommandParser . self sharedParser . self tokenParser }
 ]
 
 { #category : #example }
@@ -47,11 +49,6 @@ PSQLInsertQueryGrammar class >> ignoredNames [
 { #category : #accessing }
 PSQLInsertQueryGrammar class >> sharedParser [
 	^ PSQLSharedGrammar
-]
-
-{ #category : #accessing }
-PSQLInsertQueryGrammar class >> sqlParser [
-	^ PSQLExpressionGrammar
 ]
 
 { #category : #accessing }
@@ -118,7 +115,7 @@ PSQLInsertQueryGrammar >> defaultValues [
 
 { #category : #dependencies }
 PSQLInsertQueryGrammar >> expression [
-	^ (self dependencyAt: self class sqlParser) expression
+	^ self expressionParser expression
 ]
 
 { #category : #dependencies }
@@ -148,7 +145,7 @@ INSERT INTO table_name [ AS alias ] [ ( column_name [, ...] ) ]
 	^ withClause trim optional ,
 		kw insert trim , kw into trim , identifierWithOptionalFieldAccess trim , (kw as trim , identifier) optional , 
 		(openParenthesis trim , 
-			(expression plus separatedBy: comma trim) , "Apparently, a column name can be generated from an expression."
+			(expression separatedBy: comma trim) , "Apparently, a column name can be generated from an expression."
 		closeParenthesis trim) trim optional ,
 		valuesClause trim ,
 		onConflictClause trim optional ,
@@ -173,7 +170,7 @@ PSQLInsertQueryGrammar >> returningClause [
 
 { #category : #dependencies }
 PSQLInsertQueryGrammar >> selectCommand [
-	^ (self dependencyAt: self class sqlParser) selectCommand
+	^ self expressionParser selectCommand
 ]
 
 { #category : #dependencies }

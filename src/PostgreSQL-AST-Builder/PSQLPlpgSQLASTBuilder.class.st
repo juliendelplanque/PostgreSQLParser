@@ -4,6 +4,8 @@ I process PL/pgSQL source code as input and build an AST using PSQLASTNode subcl
 Class {
 	#name : #PSQLPlpgSQLASTBuilder,
 	#superclass : #PSQLPlpgSQLGrammar,
+	#traits : 'PSQLTExpressionDependingBuilder',
+	#classTraits : 'PSQLTExpressionDependingBuilder classTrait',
 	#category : #'PostgreSQL-AST-Builder'
 }
 
@@ -13,18 +15,38 @@ PSQLPlpgSQLASTBuilder class >> crudQueryParser [
 ]
 
 { #category : #accessing }
+PSQLPlpgSQLASTBuilder class >> expressionParser [
+	^ PSQLExpressionASTBuilder
+]
+
+{ #category : #accessing }
 PSQLPlpgSQLASTBuilder class >> selectQueryParser [
 	^ PSQLSelectQueryASTBuilder
 ]
 
 { #category : #accessing }
-PSQLPlpgSQLASTBuilder class >> sqlParser [
-	^ PSQLExpressionASTBuilder
-]
-
-{ #category : #accessing }
 PSQLPlpgSQLASTBuilder class >> tokenParser [
 	^ PSQLTokenASTBuilder
+]
+
+{ #category : #declaration }
+PSQLPlpgSQLASTBuilder >> argument [
+	^ super argument
+		psqlASTBuild: [ :tokens | 
+			PSQLASTArgument new
+				parameterName: (tokens first ifNotNil: [ :t | t first]);
+				parameterValue: tokens second;
+				yourself ]
+]
+
+{ #category : #conditional }
+PSQLPlpgSQLASTBuilder >> exceptionCase [
+	^ super exceptionCase
+		psqlASTBuild: [ :tokens | 
+			PSQLASTExceptionCase new
+				exception: tokens first;
+				statements: tokens third;
+				yourself ]
 ]
 
 { #category : #declaration }
@@ -109,20 +131,22 @@ PSQLPlpgSQLASTBuilder >> plpgsqlContinueStatement [
 	^ super plpgsqlContinueStatement psqlASTBuild: [ :tokens |
 		PSQLPlpgSQLASTContinue new
 			label: tokens second;
-			whenExpression: tokens third second;
+			whenExpression: tokens third ;
 			yourself ]
 ]
 
 { #category : #declaration }
 PSQLPlpgSQLASTBuilder >> plpgsqlCopyTypeDeclaration [
-	^ super plpgsqlCopyTypeDeclaration psqlASTBuild: [ :tokens |
-		PSQLPlpgSQLASTCopyTypeDeclaration new
-			identifier: tokens first;
-			accessToCopyType: (PSQLASTAttributeAccess new
-											attributeIdentifier: tokens second;
-											accessed: tokens fourth;
-											yourself);
-			yourself ]
+	^ super plpgsqlCopyTypeDeclaration
+		psqlASTBuild: [ :tokens | 
+			PSQLPlpgSQLASTCopyTypeDeclaration new
+				identifier: tokens first;
+				accessToCopyType:
+					(PSQLASTAttributeAccess new
+						accessed: tokens second;
+						attributeIdentifier: tokens fourth;
+						yourself);
+				yourself ]
 ]
 
 { #category : #cursor }
@@ -146,8 +170,8 @@ PSQLPlpgSQLASTBuilder >> plpgsqlCursorDeclaration [
 							ifNotNil: [ :subTokens | 
 								(subTokens second reject: [ :item | item = $, ])
 									collect: [ :item | 
-										PSQLASTColumnDefinition new
-											columnName: item first first;
+										PSQLASTCursorParameter new
+											parameterName: item first first;
 											type: (PSQLASTIdentifier identifier: (item first second joinUsing: ' '));
 											yourself
 										 ] ]);
@@ -166,13 +190,17 @@ PSQLPlpgSQLASTBuilder >> plpgsqlCursorDelete [
 
 { #category : #cursor }
 PSQLPlpgSQLASTBuilder >> plpgsqlCursorFetch [
-	^ super plpgsqlCursorFetch psqlASTBuild: [ :tokens |
-		PSQLPlpgSQLASTCursorFetch new
-			direction: (tokens second ifNotNil: #first);
-			isFrom: (tokens second ifNotNil: [ :array | array second asUppercase = 'FROM' ]);
-			cursorIdentifier: tokens third;
-			targets: (tokens fifth reject: [ :item | item = $, ]);
-			yourself ]
+	^ super plpgsqlCursorFetch
+		psqlASTBuild: [ :tokens | 
+			PSQLPlpgSQLASTCursorFetch new
+				direction: (tokens second ifNotNil: #first);
+				isFrom: (tokens second ifNotNil: [ :array | array second asUppercase = 'FROM' ]);
+				cursorIdentifier:
+					(PSQLASTAttributeAccess new
+						accessed: tokens third;
+						yourself);
+				targets: (tokens fifth reject: [ :item | item = $, ]);
+				yourself ]
 ]
 
 { #category : #cursor }
@@ -215,14 +243,30 @@ PSQLPlpgSQLASTBuilder >> plpgsqlDeclarations [
 		tokens first reject: [ :item | item = $; ] ]
 ]
 
+{ #category : #declaration }
+PSQLPlpgSQLASTBuilder >> plpgsqlDeclareExceptionHandler [
+	^ super plpgsqlDeclareExceptionHandler psqlASTBuild: [ :tokens | 
+			Halt now ]
+]
+
+{ #category : #conditional }
+PSQLPlpgSQLASTBuilder >> plpgsqlExceptionHandler [
+	^ super plpgsqlExceptionHandler
+		psqlASTBuild: [ :tokens | 
+			PSQLASTExceptionHandler new
+				declarations: (tokens second ifNotNil: #second);
+				statements: tokens fourth;
+				exceptionCases: tokens sixth;
+				yourself ]
+]
+
 { #category : #plpgsql }
 PSQLPlpgSQLASTBuilder >> plpgsqlExitStatement [
 	^ super plpgsqlExitStatement
 		psqlASTBuild: [ :tokens | 
-			Halt now.
 			PSQLPlpgSQLASTExit new
 				label: tokens first;
-				booleanExpression: tokens fourth;
+				booleanExpression: tokens third;
 				yourself ]
 ]
 
@@ -328,14 +372,28 @@ PSQLPlpgSQLASTBuilder >> plpgsqlMoveCursorDirection [
 
 { #category : #cursor }
 PSQLPlpgSQLASTBuilder >> plpgsqlOpenCursorBounded [
-	self flag: 'TODO'.
 	^ super plpgsqlOpenCursorBounded
+		psqlASTBuild: [ :tokens | 
+			PSQLPlpgSQLASTCursorOpen new
+				cursorIdentifier:
+					(PSQLASTAttributeAccess new
+						accessed: tokens second;
+						yourself);
+				arguments: (tokens third ifNotNil: [ :t | t second reject: #isCharacter ]);
+				yourself ]
 ]
 
 { #category : #cursor }
 PSQLPlpgSQLASTBuilder >> plpgsqlOpenCursorForExecute [
-	self flag: 'TODO'.
 	^ super plpgsqlOpenCursorForExecute
+		psqlASTBuild: [ :tokens | 
+			Halt now.
+			PSQLPlpgSQLASTCursorOpenForExecute new
+				cursorIdentifier: tokens second;
+				scroll:
+					(tokens third ifNil: [ true ] ifNotNil: [ :subTokens | subTokens first isNil ]);
+				executeStatement: tokens fifth;
+				yourself ]
 ]
 
 { #category : #cursor }
@@ -499,7 +557,7 @@ PSQLPlpgSQLASTBuilder >> plpgsqlSearchedCase [
 PSQLPlpgSQLASTBuilder >> plpgsqlSimpleCase [
 	^ super plpgsqlSimpleCase psqlASTBuild: [ :tokens |
 		PSQLPlpgSQLASTSimpleCase new
-			conditionToStatements: (tokens second collect: [ :subTokens | subTokens second -> subTokens fourth ]);
+			conditionToStatements: (tokens second collect: [ :subTokens | subTokens first -> subTokens third ]);
 			elseStatements: (tokens third ifNotNil: #second);
 			yourself ]
 ]

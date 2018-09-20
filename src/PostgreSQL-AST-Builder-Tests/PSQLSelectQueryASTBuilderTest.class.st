@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'builder'
 	],
-	#category : #PostgreSQL-AST-Builder-Tests
+	#category : #'PostgreSQL-AST-Builder-Tests'
 }
 
 { #category : #initialization }
@@ -38,46 +38,36 @@ PSQLSelectQueryASTBuilderTest >> testAllOrDistinctClause [
 PSQLSelectQueryASTBuilderTest >> testColumnsAndAliasesSelected [
 	| node |
 	node := builder columnsAndAliasesSelected parse: '*'.
-	
 	self
 		assert: node class equals: Array;
 		assert: node size equals: 1;
 		assert: node first class equals: PSQLASTWildCard.
-		
 	node := builder columnsAndAliasesSelected parse: 'id.*'.
-	
 	self
 		assert: node class equals: Array;
 		assert: node size equals: 1;
 		assert: node first class equals: PSQLASTAttributeAccess;
-		assert: node first accessed class equals: PSQLASTIdentifier ;
+		assert: node first accessed class equals: PSQLASTIdentifier;
 		assert: node first attributeIdentifier class equals: PSQLASTWildCard.
-		
 	node := builder columnsAndAliasesSelected parse: 'column AS c'.
-	
 	self
 		assert: node class equals: Array;
 		assert: node size equals: 1;
-		assert: node first class equals: PSQLASTBinaryOperator;
-		assert: node first operator equals: 'AS';
-		assert: node first left class equals: PSQLASTIdentifier;
-		assert: node first left identifier equals: 'column';
-		assert: node first right class equals: PSQLASTIdentifier;
-		assert: node first right identifier equals: 'c'.
-		
+		assert: node first class equals: PSQLASTAliasDefinition;
+		assert: node first definition class equals: PSQLASTAttributeAccess;
+		assert: node first definition accessed identifier equals: 'column';
+		assert: node first alias class equals: PSQLASTIdentifier;
+		assert: node first alias identifier equals: 'c'.
 	node := builder columnsAndAliasesSelected parse: '*, col AS c, count(x)'.
-	
 	self
 		assert: node class equals: Array;
 		assert: node size equals: 3.
-		
 	node := builder columnsAndAliasesSelected parse: 'count(*), foo'.
-	
 	self
 		assert: node class equals: Array;
 		assert: node size equals: 2;
 		assert: node first class equals: PSQLASTAggregateFunctionCall;
-		assert: node second class equals: PSQLASTIdentifier
+		assert: node second class equals: PSQLASTAttributeAccess
 ]
 
 { #category : #'tests-select command' }
@@ -122,9 +112,9 @@ PSQLSelectQueryASTBuilderTest >> testForClause [
 		assert: node hasOfTables;
 		assert: node ofTables class equals: Array;
 		assert: node ofTables size equals: 3;
-		assert: node ofTables first class equals: PSQLASTIdentifier;
-		assert: node ofTables second class equals: PSQLASTIdentifier;
-		assert: node ofTables third class equals: PSQLASTIdentifier;
+		assert: node ofTables first class equals: PSQLASTAttributeAccess;
+		assert: node ofTables second class equals: PSQLASTAttributeAccess;
+		assert: node ofTables third class equals: PSQLASTAttributeAccess;
 		assert: node isNoWait
 ]
 
@@ -132,11 +122,10 @@ PSQLSelectQueryASTBuilderTest >> testForClause [
 PSQLSelectQueryASTBuilderTest >> testGroupByClause [
 	| node |
 	node := builder groupByClause parse: 'GROUP BY column'.
-	
 	self
 		assert: node class equals: PSQLASTGroupByClause;
 		assert: node expressions size equals: 1;
-		assert: node expressions first class equals: PSQLASTIdentifier
+		assert: node expressions first class equals: PSQLASTAttributeAccess
 ]
 
 { #category : #'tests-select command' }
@@ -147,41 +136,36 @@ PSQLSelectQueryASTBuilderTest >> testHavingClause [
 	self
 		assert: node class equals: PSQLASTHavingClause;
 		assert: node expressions size equals: 1;
-		assert: node expressions first class equals: PSQLASTIdentifier
+		assert: node expressions first class equals: PSQLASTAttributeAccess
 ]
 
 { #category : #'tests-select command' }
 PSQLSelectQueryASTBuilderTest >> testIntoClause [
 	| node |
 	node := builder intoClause parse: 'INTO t'.
-	
 	self
 		assert: node class equals: PSQLASTIntoClause;
 		deny: node isTemporary;
 		deny: node isTemp;
 		deny: node isUnlogged;
 		deny: node hasTable;
-		assert: node newTable class equals: PSQLASTIdentifier.
-		
+		assert: node newTable class equals: PSQLASTAttributeAccess.
 	node := builder intoClause parse: 'INTO TEMPORARY TABLE t'.
-	
 	self
 		assert: node class equals: PSQLASTIntoClause;
 		assert: node isTemporary;
 		deny: node isTemp;
 		deny: node isUnlogged;
 		assert: node hasTable;
-		assert: node newTable class equals: PSQLASTIdentifier.
-		
+		assert: node newTable class equals: PSQLASTAttributeAccess.
 	node := builder intoClause parse: 'INTO UNLOGGED t'.
-	
 	self
 		assert: node class equals: PSQLASTIntoClause;
 		deny: node isTemporary;
 		deny: node isTemp;
 		assert: node isUnlogged;
 		deny: node hasTable;
-		assert: node newTable class equals: PSQLASTIdentifier.
+		assert: node newTable class equals: PSQLASTAttributeAccess
 ]
 
 { #category : #'tests-select command' }

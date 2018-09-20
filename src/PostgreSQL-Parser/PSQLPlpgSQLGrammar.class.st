@@ -4,6 +4,8 @@ I parse PL/pgSQL source code.
 Class {
 	#name : #PSQLPlpgSQLGrammar,
 	#superclass : #PPCompositeParser,
+	#traits : 'PSQLTExpressionDependingGrammar',
+	#classTraits : 'PSQLTExpressionDependingGrammar classTrait',
 	#instVars : [
 		'deleteCommand',
 		'expression',
@@ -100,7 +102,9 @@ Class {
 		'simpleStringConstant',
 		'stringConstant',
 		'colon',
-		'constant'
+		'constant',
+		'argument',
+		'exceptionCase'
 	],
 	#category : #'PostgreSQL-Parser-Grammars-PLpgSQL'
 }
@@ -112,7 +116,7 @@ PSQLPlpgSQLGrammar class >> crudQueryParser [
 
 { #category : #accessing }
 PSQLPlpgSQLGrammar class >> dependencies [
-	^ { self sqlParser . self crudQueryParser . self selectQueryParser . self tokenParser }
+	^ { self expressionParser . self crudQueryParser . self selectQueryParser . self tokenParser }
 ]
 
 { #category : #accessing }
@@ -120,19 +124,19 @@ PSQLPlpgSQLGrammar class >> ignoredNames [
 	^ super ignoredNames , #(kw)
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 PSQLPlpgSQLGrammar class >> selectQueryParser [
 	^ PSQLSelectQueryGrammar
 ]
 
 { #category : #accessing }
-PSQLPlpgSQLGrammar class >> sqlParser [
-	^ PSQLExpressionGrammar
-]
-
-{ #category : #accessing }
 PSQLPlpgSQLGrammar class >> tokenParser [
 	^ PSQLTokenizer
+]
+
+{ #category : #declaration }
+PSQLPlpgSQLGrammar >> argument [
+	^ (identifier trim , ':=' asParser) trim optional , expression trim
 ]
 
 { #category : #dependencies }
@@ -170,9 +174,18 @@ PSQLPlpgSQLGrammar >> escapeStringConstant [
 	^ (self dependencyAt: self class tokenParser) escapeStringConstant
 ]
 
+{ #category : #'control structure' }
+PSQLPlpgSQLGrammar >> exceptionCase [
+	"WHEN condition [ OR condition ... ] THEN
+        	handler_statements
+    	"
+
+	^ self whenExpression , kw then trim , plpgsqlStatements
+]
+
 { #category : #dependencies }
 PSQLPlpgSQLGrammar >> expression [
-	^ (self dependencyAt: self class sqlParser) expression
+	^ (self expressionParser) expression
 ]
 
 { #category : #dependencies }
@@ -183,11 +196,6 @@ PSQLPlpgSQLGrammar >> identifier [
 { #category : #dependencies }
 PSQLPlpgSQLGrammar >> identifierOrKeyword [
 	^ (self dependencyAt: self class tokenParser) identifierOrKeyword
-]
-
-{ #category : #helpers }
-PSQLPlpgSQLGrammar >> identifierWithOptionalFieldAccess [
-	^ (self dependencyAt: self class sqlParser) identifierWithOptionalFieldAccess
 ]
 
 { #category : #initialization }
@@ -288,7 +296,7 @@ PSQLPlpgSQLGrammar >> plpgsqlConditional [
 { #category : #statement }
 PSQLPlpgSQLGrammar >> plpgsqlContinueStatement [
 	"CONTINUE [ label ] [ WHEN boolean-expression ]"
-	^ kw continue trim , plpgsqlLabel trim optional , (kw when trim , expression) trim optional
+	^ kw continue trim , plpgsqlLabel trim optional , self whenExpression trim optional
 ]
 
 { #category : #'control structure' }
@@ -334,7 +342,7 @@ PSQLPlpgSQLGrammar >> plpgsqlCursorFetch [
 	"FETCH [ direction { FROM | IN } ] cursor INTO target"
 	^ kw fetch trim , 
 	(plpgsqlFetchCursorDirection trim , (kw from / kw in)) trim optional ,
-	identifier trim , kw into trim , (expression plus separatedBy: comma trim)
+	identifier trim , kw into trim , (expression separatedBy: comma trim)
 ]
 
 { #category : #cursor }
@@ -434,7 +442,7 @@ PSQLPlpgSQLGrammar >> plpgsqlDeclareExceptionHandler [
 	kw begin trim ,
 		plpgsqlStatements ,
 	kw exception trim ,
-		(kw when trim , expression , kw then trim , plpgsqlStatements) plus ,
+		(self whenExpression , kw then trim , plpgsqlStatements) plus ,
 	kw endKeyword trim
 ]
 
@@ -479,7 +487,7 @@ PSQLPlpgSQLGrammar >> plpgsqlExceptionHandler [
 	kw begin trim ,
 		plpgsqlStatements ,
 	kw exception trim ,
-		(kw when trim , expression , kw then trim , plpgsqlStatements) plus ,
+		exceptionCase plus ,
 	kw endKeyword trim
 ]
 
@@ -494,7 +502,8 @@ PSQLPlpgSQLGrammar >> plpgsqlExecuteStatement [
 { #category : #statement }
 PSQLPlpgSQLGrammar >> plpgsqlExitStatement [
 	"EXIT [ label ] [ WHEN boolean-expression ]"
-	^ kw exit trim , plpgsqlLabel trim optional , (kw when trim , expression) trim optional
+
+	^ kw exit trim , plpgsqlLabel trim optional , self whenExpression trim optional
 ]
 
 { #category : #cursor }
@@ -622,7 +631,7 @@ PSQLPlpgSQLGrammar >> plpgsqlOpenCursorBounded [
 	"OPEN bound_cursorvar [ ( [ argument_name := ] argument_value [, ...] ) ]"
 	^ kw open trim , identifier trim , 
 	( openParenthesis trim , 
-		(((identifier trim , ':=' asParser) trim optional , expression trim) plus separatedBy: comma trim) ,
+		(argument separatedBy: comma trim) ,
 	closeParenthesis trim ) optional
 ]
 
@@ -805,7 +814,7 @@ PSQLPlpgSQLGrammar >> plpgsqlSimpleCase [
       		statements ]
 	END CASE"
 	^ kw case trim ,
-		(kw when trim , expression , kw then trim ,
+		(self whenExpression , kw then trim ,
 			plpgsqlStatements) plus ,
 		(kw else trim , plpgsqlStatements) optional ,
 		kw endKeyword trim , kw case trim
@@ -836,7 +845,7 @@ PSQLPlpgSQLGrammar >> plpgsqlWhileLoop [
 
 { #category : #dependencies }
 PSQLPlpgSQLGrammar >> positionalParameter [
-	^ (self dependencyAt: self class sqlParser) positionalParameter
+	^ (self expressionParser) positionalParameter
 ]
 
 { #category : #dependencies }

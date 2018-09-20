@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'builder'
 	],
-	#category : #PostgreSQL-AST-Builder-Tests
+	#category : #'PostgreSQL-AST-Builder-Tests'
 }
 
 { #category : #initialization }
@@ -15,7 +15,7 @@ PSQLFromClauseASTBuilderTest >> setUp [
 	builder := PSQLFromClauseASTBuilder new
 ]
 
-{ #category : #tests-shared }
+{ #category : #'tests-shared' }
 PSQLFromClauseASTBuilderTest >> testColumnDefinition [
 		| node |
 	node := builder columnDefinition parse: 'c VARYING CHAR'.
@@ -27,7 +27,7 @@ PSQLFromClauseASTBuilderTest >> testColumnDefinition [
 		assert: node type identifier equals: 'VARYING CHAR'
 ]
 
-{ #category : #tests-shared }
+{ #category : #'tests-shared' }
 PSQLFromClauseASTBuilderTest >> testFromClause [
 	| node |
 	node := builder fromClause parse: 'FROM affectation,support,personne'.
@@ -41,7 +41,7 @@ PSQLFromClauseASTBuilderTest >> testFromClause [
 		self assert: item class equals: PSQLASTFromClauseItemType1 ]
 ]
 
-{ #category : #tests-shared }
+{ #category : #'tests-shared' }
 PSQLFromClauseASTBuilderTest >> testFromItems [
 	| node |
 	node :=  builder fromItems parse: '(((personne LEFT JOIN these ON ((personne.cle = these.cle_personne))) LEFT JOIN civilite ON ((personne.civilite = civilite.cle))) LEFT JOIN support ON ((support.cle_personne = personne.cle)))'.
@@ -53,7 +53,7 @@ PSQLFromClauseASTBuilderTest >> testFromItems [
 		assert: node leftFromItem leftFromItem leftFromItem class equals: PSQLASTFromClauseItemType1
 ]
 
-{ #category : #tests-shared }
+{ #category : #'tests-shared' }
 PSQLFromClauseASTBuilderTest >> testFromItems1 [
 	| node |
 	node := builder fromItems1 parse: 'ONLY table * AS alias (c1, c2,C3)'.
@@ -78,7 +78,7 @@ PSQLFromClauseASTBuilderTest >> testFromItems1 [
 		deny: node hasColumnAliases
 ]
 
-{ #category : #tests-shared }
+{ #category : #'tests-shared' }
 PSQLFromClauseASTBuilderTest >> testFromItems2 [
 	| node |
 	node := builder fromItems2 parse: '(SELECT * FROM foo) AS t (c1,c2,c3)'.
@@ -93,7 +93,7 @@ PSQLFromClauseASTBuilderTest >> testFromItems2 [
 		assert: node valuesOrSelect class equals: PSQLASTSelectQuery
 ]
 
-{ #category : #tests-shared }
+{ #category : #'tests-shared' }
 PSQLFromClauseASTBuilderTest >> testFromItems3 [
 	| node |
 	node := builder fromItems3 parse: 'queryName queryAlias (c1,c2,c3)'.
@@ -107,7 +107,7 @@ PSQLFromClauseASTBuilderTest >> testFromItems3 [
 		assert: node columnAliases size equals: 3
 ]
 
-{ #category : #tests-shared }
+{ #category : #'tests-shared' }
 PSQLFromClauseASTBuilderTest >> testFromItems4 [
 	| node |
 	node := builder fromItems4 parse: 'LATERAL fct() AS t (c1 integer, c2 char)'.
@@ -123,7 +123,7 @@ PSQLFromClauseASTBuilderTest >> testFromItems4 [
 		self assert: columnDefinition class equals: PSQLASTColumnDefinition ]
 ]
 
-{ #category : #tests-shared }
+{ #category : #'tests-shared' }
 PSQLFromClauseASTBuilderTest >> testFromItems5 [
 	| node |
 	node := builder fromItems5 parse: 'LATERAL fct() AS (c1 integer, c2 char)'.
@@ -138,7 +138,7 @@ PSQLFromClauseASTBuilderTest >> testFromItems5 [
 		self assert: columnDefinition class equals: PSQLASTColumnDefinition ]
 ]
 
-{ #category : #tests-shared }
+{ #category : #'tests-shared' }
 PSQLFromClauseASTBuilderTest >> testFromItems6 [
 	| node |
 	node := builder fromItems6 parse: 'JOIN "interest" ON "initiative"."issue_id" = "interest"."issue_id"'.
@@ -165,7 +165,7 @@ PSQLFromClauseASTBuilderTest >> testFromItems6 [
 		assert: node usingList size equals: 1
 ]
 
-{ #category : #tests-shared }
+{ #category : #'tests-shared' }
 PSQLFromClauseASTBuilderTest >> testFromItems7 [
 	| node |
 	node := builder fromItems7 parse: 'LATERAL fct() WITH ORDINALITY AS t (c1, c2)'.

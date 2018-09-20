@@ -4,7 +4,7 @@ I convert statement dictionaries to corresponding AST nodes using a suitable vis
 Class {
 	#name : #PSQLStatementsExtractor,
 	#superclass : #PSQLJSONVisitor,
-	#category : #PostgreSQL-LibpgQuery-Visitors
+	#category : #'PostgreSQL-LibpgQuery-Visitors'
 }
 
 { #category : #accessing }

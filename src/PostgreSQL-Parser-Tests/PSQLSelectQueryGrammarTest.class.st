@@ -1,7 +1,7 @@
 Class {
 	#name : #PSQLSelectQueryGrammarTest,
 	#superclass : #PPCompositeParserTest,
-	#category : #PostgreSQL-Parser-Tests
+	#category : #'PostgreSQL-Parser-Tests'
 }
 
 { #category : #accessing }
@@ -26,7 +26,7 @@ PSQLSelectQueryGrammarTest >> testColumnsAndAliasesSelected [
 		parse: 'COUNT(*), foo' rule: #columnsAndAliasesSelected
 ]
 
-{ #category : #tests-accessing }
+{ #category : #'tests-accessing' }
 PSQLSelectQueryGrammarTest >> testFetchClause [
 	self
 		parse: 'FETCH FIRST ROW ONLY' rule: #fetchClause;
@@ -55,20 +55,20 @@ PSQLSelectQueryGrammarTest >> testGroupByClause [
 		parse: 'GROUP BY table."column_name", table."column_name2",table.column_name3' rule: #groupByClause
 ]
 
-{ #category : #tests-accessing }
+{ #category : #'tests-accessing' }
 PSQLSelectQueryGrammarTest >> testHavingClause [
 	self
 		parse: 'HAVING count(name) < 2' rule: #havingClause
 ]
 
-{ #category : #tests-accessing }
+{ #category : #'tests-accessing' }
 PSQLSelectQueryGrammarTest >> testLimitClause [
 	self
 		parse: 'LIMIT 42' rule: #limitClause;
 		parse: 'LIMIT ALL' rule: #limitClause
 ]
 
-{ #category : #tests-accessing }
+{ #category : #'tests-accessing' }
 PSQLSelectQueryGrammarTest >> testOffsetClause [
 	self
 		parse: 'OFFSET 25' rule: #offsetClause

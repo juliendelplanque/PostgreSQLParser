@@ -42,6 +42,11 @@ PSQLASTNode >> innerPrintOn: aStream [
 ]
 
 { #category : #testing }
+PSQLASTNode >> isConstant [
+	^ false
+]
+
+{ #category : #testing }
 PSQLASTNode >> isPSQLASTNode [
 	^ true
 ]

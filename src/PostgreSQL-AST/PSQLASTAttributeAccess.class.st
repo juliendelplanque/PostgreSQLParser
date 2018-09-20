@@ -35,3 +35,13 @@ PSQLASTAttributeAccess >> attributeIdentifier [
 PSQLASTAttributeAccess >> attributeIdentifier: anObject [
 	attributeIdentifier := anObject
 ]
+
+{ #category : #printing }
+PSQLASTAttributeAccess >> innerPrintOn: aStream [
+	self attributeIdentifier ifNotNil: [
+		aStream
+			<< self attributeIdentifier identifier;
+			<< $. ].
+	aStream
+		<< self accessed identifier
+]

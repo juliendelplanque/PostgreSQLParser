@@ -15,6 +15,16 @@ PSQLASTCompositeValue >> acceptVisitor: aVisitor [
 	^ aVisitor visitPSQLASTCompositeValue: self
 ]
 
+{ #category : #printing }
+PSQLASTCompositeValue >> innerPrintOn: aStream [
+	aStream
+		<< $(.
+	self items do: [ :item |
+		item innerPrintOn: aStream ] separatedBy: [ aStream << ', ' ].
+	aStream
+		<< $)
+]
+
 { #category : #accessing }
 PSQLASTCompositeValue >> items [
 	^ items

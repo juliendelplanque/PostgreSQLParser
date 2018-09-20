@@ -1,5 +1,5 @@
 "
-I am an anbstract FROM clause item node.
+I am an abstract FROM clause item node.
 "
 Class {
 	#name : #PSQLASTFromClauseItem,

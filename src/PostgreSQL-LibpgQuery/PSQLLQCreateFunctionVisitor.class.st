@@ -4,7 +4,7 @@ I visit the JSON model to build PSQLASTLQCreateFunction.
 Class {
 	#name : #PSQLLQCreateFunctionVisitor,
 	#superclass : #PSQLJSONVisitor,
-	#category : #PostgreSQL-LibpgQuery-Visitors
+	#category : #'PostgreSQL-LibpgQuery-Visitors'
 }
 
 { #category : #visiting }

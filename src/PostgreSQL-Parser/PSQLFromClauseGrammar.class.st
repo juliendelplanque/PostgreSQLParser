@@ -4,6 +4,8 @@ I parse PostgreSQL FROM clause for queries using this clause.
 Class {
 	#name : #PSQLFromClauseGrammar,
 	#superclass : #PPCompositeParser,
+	#traits : 'PSQLTExpressionDependingGrammar',
+	#classTraits : 'PSQLTExpressionDependingGrammar classTrait',
 	#instVars : [
 		'columnReference',
 		'expression',
@@ -35,7 +37,7 @@ Class {
 
 { #category : #accessing }
 PSQLFromClauseGrammar class >> dependencies [
-	^ { self sqlParser . self selectQueryParser . self valuesCommandParser . self tokenParser }
+	^ { self expressionParser . self selectQueryParser . self valuesCommandParser . self tokenParser }
 ]
 
 { #category : #accessing }
@@ -46,11 +48,6 @@ PSQLFromClauseGrammar class >> ignoredNames [
 { #category : #accessing }
 PSQLFromClauseGrammar class >> selectQueryParser [
 	^ PSQLSelectQueryGrammar
-]
-
-{ #category : #accessing }
-PSQLFromClauseGrammar class >> sqlParser [
-	^ PSQLExpressionGrammar
 ]
 
 { #category : #accessing }
@@ -75,12 +72,12 @@ PSQLFromClauseGrammar >> closeParenthesis [
 
 { #category : #'shared - from clause' }
 PSQLFromClauseGrammar >> columnDefinition [
-	^ columnReference trim , (identifier plus separatedBy: #space asParser plus)
+	^ identifier trim , (identifier separatedBy: #space asParser plus)
 ]
 
 { #category : #dependencies }
 PSQLFromClauseGrammar >> columnReference [
-	^ (self dependencyAt: self class sqlParser) columnReference
+	^ self expressionParser columnReference
 ]
 
 { #category : #dependencies }
@@ -90,7 +87,7 @@ PSQLFromClauseGrammar >> comma [
 
 { #category : #dependencies }
 PSQLFromClauseGrammar >> expression [
-	^ (self dependencyAt: self class sqlParser) expression
+	^ self expressionParser expression
 ]
 
 { #category : #'shared - from clause' }
@@ -211,7 +208,7 @@ PSQLFromClauseGrammar >> fromItems7 [
 
 { #category : #dependencies }
 PSQLFromClauseGrammar >> functionCall [
-	^ (self dependencyAt: self class sqlParser) functionCall
+	^ (self expressionParser) functionCall
 ]
 
 { #category : #dependencies }

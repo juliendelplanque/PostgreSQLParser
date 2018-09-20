@@ -19,7 +19,7 @@ Class {
 		'testSelectorLabel',
 		'testClassLabel'
 	],
-	#category : #PostgreSQL-DevTools
+	#category : #'PostgreSQL-DevTools'
 }
 
 { #category : #specs }
