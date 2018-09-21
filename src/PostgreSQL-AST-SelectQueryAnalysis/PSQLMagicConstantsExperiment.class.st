@@ -7,6 +7,9 @@ One should provide me a file reference of a directory containing a directory nam
 	- 'update-queries.txt'
 	- 'delete-queries.txt'
 
+Additional files might be there but will be ignored.
+
+
 "
 Class {
 	#name : #PSQLMagicConstantsExperiment,
@@ -30,10 +33,16 @@ PSQLMagicConstantsExperiment class >> insertQueriesFileName [
 
 { #category : #experiments }
 PSQLMagicConstantsExperiment class >> oscarExperiment [
-	^ PSQLMagicConstantsExperiment new
+	|simpleRegex regexWithDoubleQuotes regex|
+	simpleRegex := '\$\{[^}]+\}'.. 
+	regexWithDoubleQuotes := '"{1}"' format: { simpleRegex }.
+	regex := ('({1})|({2})' format: { simpleRegex . regexWithDoubleQuotes }) asRegex.
+	^ self new
 		directory: '/Users/julien/Documents/GIT/Papers/2019-MagicNumbersInDB/Experiments/QueriesAnalysis/dataset/OSCAR' asFileReference;
-		normalizeBlock: [ :queryString |
-			(queryString splitOn: '"?\$\{[^}]+\}"?' asRegex) joinUsing: '__magic_analysis_replaced_var__' ]
+		normalizeBlock: [ :string |
+			|queryString|
+			queryString := string trim trimRight: [ :c | c = $; ].
+			(queryString splitOn: regex) joinUsing: '__magic_analysis_replaced_var__' ]
 		yourself
 ]
 
@@ -128,6 +137,12 @@ PSQLMagicConstantsExperiment >> rawDirectory [
 { #category : #accessing }
 PSQLMagicConstantsExperiment >> selectQueriesFileName [
 	^ self class selectQueriesFileName
+]
+
+{ #category : #asts }
+PSQLMagicConstantsExperiment >> selectQueriesToASTs [
+	^ (self normalizedDirectory / self selectQueriesFileName) contents lines
+			collect: [ :query | PSQLSelectQueryASTBuilder parse: query ]
 ]
 
 { #category : #accessing }
