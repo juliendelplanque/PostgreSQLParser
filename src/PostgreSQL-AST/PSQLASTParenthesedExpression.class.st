@@ -24,3 +24,12 @@ PSQLASTParenthesedExpression >> expression [
 PSQLASTParenthesedExpression >> expression: anObject [
 	expression := anObject
 ]
+
+{ #category : #printing }
+PSQLASTParenthesedExpression >> innerPrintOn: aStream [
+	aStream
+		<< $(.
+	self expression innerPrintOn: aStream.
+	aStream
+		<< $).
+]

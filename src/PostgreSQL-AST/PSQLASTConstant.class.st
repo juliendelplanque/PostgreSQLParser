@@ -10,6 +10,13 @@ Class {
 	#category : #'PostgreSQL-AST-SQL'
 }
 
+{ #category : #'instance creation' }
+PSQLASTConstant class >> content: aString [
+	^ self new
+		content: aString;
+		yourself
+]
+
 { #category : #accessing }
 PSQLASTConstant >> content [
 	^ content

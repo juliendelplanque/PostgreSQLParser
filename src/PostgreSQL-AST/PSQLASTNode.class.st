@@ -6,7 +6,8 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'startPosition',
-		'endPosition'
+		'endPosition',
+		'parent'
 	],
 	#category : #'PostgreSQL-AST-SQL'
 }
@@ -26,6 +27,21 @@ PSQLASTNode class >> withAllConcreteSubclasses [
 	^ self withAllSubclasses reject: #isAbstract
 ]
 
+{ #category : #generators }
+PSQLASTNode >> breadthFirstGenerator [
+	"Returns a Generator that walks the tree breadth-first."
+	^ Generator on: [ :generator |
+		|visitStack|
+		visitStack := LinkedList new.
+		visitStack addFirst: self.
+		[ visitStack isNotEmpty  ] whileTrue: [
+			|currentNode|
+			currentNode := visitStack removeLast.
+			generator yield: currentNode.
+			currentNode childrenDo: [ :child |
+				visitStack addFirst: child ] ] ]
+]
+
 { #category : #'accessing - reflective' }
 PSQLASTNode >> children [
 	^ OrderedCollection streamContents: [ :stream | 
@@ -36,6 +52,21 @@ PSQLASTNode >> children [
 { #category : #enumerating }
 PSQLASTNode >> childrenDo: aBlock [
 	self children do: aBlock
+]
+
+{ #category : #generators }
+PSQLASTNode >> depthFirstGenerator [
+	"Returns a Generator that walks the tree depth-first."
+	^ Generator on: [ :generator |
+		|visitStack|
+		visitStack := Stack new.
+		visitStack push: self.
+		[ visitStack isNotEmpty  ] whileTrue: [
+			|currentNode|
+			currentNode := visitStack pop.
+			generator yield: currentNode.
+			currentNode children reverseDo: [ :child |
+				visitStack push: child ] ] ]
 ]
 
 { #category : #accessing }
@@ -63,7 +94,7 @@ PSQLASTNode >> instanceVariableNamesToChildren [
 { #category : #'accessing - reflective' }
 PSQLASTNode >> instanceVariableNamesToChildrenDo: aBlock [
 	"Evaluates aBlock with, as arguments, the name of the inst. var and the AST node it holds (or the collection of AST nodes depending on what is contained in the inst. var.)."
-	^ self class allInstVarNames
+	^ (self class allInstVarNames \ { #parent }) sorted
 		do: [ :instanceVar | 
 			(self perform: instanceVar)
 				in: [ :varContent | 
