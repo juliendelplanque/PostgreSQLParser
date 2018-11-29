@@ -28,15 +28,9 @@ PSQLASTNode class >> withAllConcreteSubclasses [
 
 { #category : #'accessing - reflective' }
 PSQLASTNode >> children [
-	^ self class allInstVarNames
-		flatCollect: [ :instanceVar | 
-			(self perform: instanceVar)
-				in: [ :varContent | 
-					varContent isPSQLASTNode
-						ifFalse: [ (varContent isString not and: [ varContent isCollection ])
-								ifTrue: [ varContent ]
-								ifFalse: [ {} ] ]
-						ifTrue: [ varContent asOrderedCollection ] ] ]
+	^ OrderedCollection streamContents: [ :stream | 
+			self instanceVariableNamesToChildrenDo: [ :instVarName :nodeOrCollection |
+				stream nextPutAll: nodeOrCollection asOrderedCollection ] ]
 ]
 
 { #category : #enumerating }
@@ -57,6 +51,26 @@ PSQLASTNode >> endPosition: anObject [
 { #category : #printing }
 PSQLASTNode >> innerPrintOn: aStream [
 	"To override if needed."
+]
+
+{ #category : #'accessing - reflective' }
+PSQLASTNode >> instanceVariableNamesToChildren [
+	^ OrderedCollection streamContents: [ :stream | 
+			self instanceVariableNamesToChildrenDo: [ :instVarName :nodeOrCollection |
+				stream nextPut: instVarName -> nodeOrCollection  ] ]
+]
+
+{ #category : #'accessing - reflective' }
+PSQLASTNode >> instanceVariableNamesToChildrenDo: aBlock [
+	"Evaluates aBlock with, as arguments, the name of the inst. var and the AST node it holds (or the collection of AST nodes depending on what is contained in the inst. var.)."
+	^ self class allInstVarNames
+		do: [ :instanceVar | 
+			(self perform: instanceVar)
+				in: [ :varContent | 
+					varContent isPSQLASTNode
+						ifFalse: [ (varContent isString not and: [ varContent isCollection ])
+								ifTrue: [ aBlock value: instanceVar value: varContent ] ]
+						ifTrue: [ aBlock value: instanceVar value: varContent ] ] ]
 ]
 
 { #category : #testing }
