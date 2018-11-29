@@ -304,7 +304,7 @@ PSQLPlpgSQLASTBuilder >> plpgsqlForLoop [
 PSQLPlpgSQLASTBuilder >> plpgsqlIfThen [
 	^ super plpgsqlIfThen psqlASTBuild: [ :tokens |
 		PSQLPlpgSQLASTIf new
-			conditionToStatements: { tokens second -> tokens fourth };
+			conditionToStatements: { PSQLPlpgSQLASTConditionToStatements condition: tokens second statements: tokens fourth };
 			yourself ]
 ]
 
@@ -312,7 +312,7 @@ PSQLPlpgSQLASTBuilder >> plpgsqlIfThen [
 PSQLPlpgSQLASTBuilder >> plpgsqlIfThenElse [
 	^ super plpgsqlIfThenElse psqlASTBuild: [ :tokens |
 		PSQLPlpgSQLASTIf new
-			conditionToStatements: { tokens second -> tokens fourth };
+			conditionToStatements: { PSQLPlpgSQLASTConditionToStatements condition: tokens second statements: tokens fourth };
 			elseStatements: tokens sixth;
 			yourself ]
 ]
@@ -321,7 +321,7 @@ PSQLPlpgSQLASTBuilder >> plpgsqlIfThenElse [
 PSQLPlpgSQLASTBuilder >> plpgsqlIfThenElsif [
 	^ super plpgsqlIfThenElsif psqlASTBuild: [ :tokens |
 		PSQLPlpgSQLASTIf new
-			conditionToStatements: { tokens second -> tokens fourth } , (tokens fifth collect: [ :subTokens | subTokens second -> subTokens fourth ]);
+			conditionToStatements: { PSQLPlpgSQLASTConditionToStatements condition: tokens second statements: tokens fourth } , (tokens fifth collect: [ :subTokens | PSQLPlpgSQLASTConditionToStatements condition: tokens second statements: tokens fourth ]);
 			elseStatements: (tokens sixth ifNotNil: #second);
 			yourself ]
 ]

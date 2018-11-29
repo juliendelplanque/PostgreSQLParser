@@ -63,6 +63,11 @@ PSQLASTVisitor >> visitPSQLASTCompositeValue: aPSQLASTCompositeValue [
 ]
 
 { #category : #visiting }
+PSQLASTVisitor >> visitPSQLASTConditionToExpression: aPSQLASTConditionToExpression [
+	^ self subclassResponsibility
+]
+
+{ #category : #visiting }
 PSQLASTVisitor >> visitPSQLASTConditionalExpression: aPSQLASTConditionalExpression [
 	^ self subclassResponsibility
 ]
@@ -374,6 +379,11 @@ PSQLASTVisitor >> visitPSQLPlpgSQLASTBlockLabel: aPSQLPlpgSQLASTBlockLabel [
 
 { #category : #visiting }
 PSQLASTVisitor >> visitPSQLPlpgSQLASTClassicDeclaration: aPSQLPlpgSQLASTClassicDeclaration [
+	^ self subclassResponsibility
+]
+
+{ #category : #visiting }
+PSQLASTVisitor >> visitPSQLPlpgSQLASTConditionToStatements: aPSQLPlpgSQLASTConditionToStatements [
 	^ self subclassResponsibility
 ]
 

@@ -62,8 +62,8 @@ PSQLExpressionASTBuilderTest >> testConditionalExpression [
 	self
 		assert: node class equals: PSQLASTConditionalExpression;
 		assert: node conditionsToExpressions size equals: 1;
-		assert: node conditionsToExpressions first key class equals: PSQLASTWhenExpression;
-		assert: node conditionsToExpressions first value class equals: PSQLASTAttributeAccess;
+		assert: node conditionsToExpressions first condition class equals: PSQLASTWhenExpression;
+		assert: node conditionsToExpressions first expression class equals: PSQLASTAttributeAccess;
 		assert: node elseExpression class equals: PSQLASTAttributeAccess
 ]
 

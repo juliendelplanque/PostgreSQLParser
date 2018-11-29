@@ -300,8 +300,8 @@ END IF'.
 	self
 		assert: node class equals: PSQLPlpgSQLASTIf;
 		assert: node conditionToStatements size equals: 1;
-		assert: node conditionToStatements first key class equals: PSQLASTBinaryOperator;
-		assert: node conditionToStatements first value size equals: 2
+		assert: node conditionToStatements first condition class equals: PSQLASTBinaryOperator;
+		assert: node conditionToStatements first statements size equals: 2
 ]
 
 { #category : #'tests-plpgsql' }
@@ -315,8 +315,8 @@ END IF'.
 	self
 		assert: node class equals: PSQLPlpgSQLASTIf;
 		assert: node conditionToStatements size equals: 1;
-		assert: node conditionToStatements first key class equals: PSQLASTBinaryOperator;
-		assert: node conditionToStatements first value size equals: 1;
+		assert: node conditionToStatements first condition class equals: PSQLASTBinaryOperator;
+		assert: node conditionToStatements first statements size equals: 1;
 		assert: node elseStatements size equals: 1
 ]
 
@@ -335,6 +335,12 @@ END IF'.
 	self
 		assert: node class equals: PSQLPlpgSQLASTIf;
 		assert: node conditionToStatements size equals: 3;
+		assert: node conditionToStatements first condition class equals: PSQLASTBinaryOperator;
+		assert: node conditionToStatements first statements size equals: 1;
+		assert: node conditionToStatements second condition class equals: PSQLASTBinaryOperator;
+		assert: node conditionToStatements second statements size equals: 1;
+		assert: node conditionToStatements third condition class equals: PSQLASTBinaryOperator;
+		assert: node conditionToStatements third statements size equals: 1;
 		assert: node elseStatements size equals: 1
 ]
 
