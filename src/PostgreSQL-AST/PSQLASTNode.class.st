@@ -26,6 +26,24 @@ PSQLASTNode class >> withAllConcreteSubclasses [
 	^ self withAllSubclasses reject: #isAbstract
 ]
 
+{ #category : #'accessing - reflective' }
+PSQLASTNode >> children [
+	^ self class allInstVarNames
+		flatCollect: [ :instanceVar | 
+			(self perform: instanceVar)
+				in: [ :varContent | 
+					varContent isPSQLASTNode
+						ifFalse: [ (varContent isString not and: [ varContent isCollection ])
+								ifTrue: [ varContent ]
+								ifFalse: [ {} ] ]
+						ifTrue: [ varContent asOrderedCollection ] ] ]
+]
+
+{ #category : #enumerating }
+PSQLASTNode >> childrenDo: aBlock [
+	self children do: aBlock
+]
+
 { #category : #accessing }
 PSQLASTNode >> endPosition [
 	^ endPosition
