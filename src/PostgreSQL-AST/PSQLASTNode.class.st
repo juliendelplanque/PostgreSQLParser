@@ -27,6 +27,44 @@ PSQLASTNode class >> withAllConcreteSubclasses [
 	^ self withAllSubclasses reject: #isAbstract
 ]
 
+{ #category : #enumerating }
+PSQLASTNode >> breadthFirstDetect: aBlock [
+	^ self breadthFirstDetect: aBlock ifFound: [ :found | ^ found ]
+]
+
+{ #category : #enumerating }
+PSQLASTNode >> breadthFirstDetect: aBlock ifFound: ifFoundBlock [
+	^ self breadthFirstDetect: aBlock ifFound: ifFoundBlock ifNone: [ NotFound signalFor: aBlock ]
+]
+
+{ #category : #enumerating }
+PSQLASTNode >> breadthFirstDetect: aBlock ifFound: ifFoundBlock ifNone: ifNoneBlock [
+	"Search for the first node for which aBlock returns true.
+	 If found, evaluate ifFoundBlock with the found node as arg.
+	 If not found, evaluate ifNoneBlock without arg.
+	 Walks the tree breadth-first."
+	self breadthFirstDo: [ :child |
+		(aBlock value: child)
+			ifTrue: [ ^ ifFoundBlock value: child ] ].
+		
+	ifNoneBlock value
+]
+
+{ #category : #enumerating }
+PSQLASTNode >> breadthFirstDetect: aBlock ifNone: ifNoneBlock [
+	^ self breadthFirstDetect: aBlock ifFound: [ :found | ^ found ] ifNone: ifNoneBlock
+]
+
+{ #category : #enumerating }
+PSQLASTNode >> breadthFirstDo: aBlock [
+	"Executes aBlock on myself and recursively on all the hierarchy of nodes forming the AST.
+	 I do breadth-first walk."
+	| generator |
+	generator := self breadthFirstGenerator.
+	[ generator atEnd ] whileFalse: [ 
+		aBlock value: generator next ]
+]
+
 { #category : #generators }
 PSQLASTNode >> breadthFirstGenerator [
 	"Returns a Generator that walks the tree breadth-first."
@@ -42,6 +80,18 @@ PSQLASTNode >> breadthFirstGenerator [
 				visitStack addFirst: child ] ] ]
 ]
 
+{ #category : #enumerating }
+PSQLASTNode >> breadthFirstSelect: aBlock [
+	"Select nodes of the AST for which aBlock returns true.
+	 Returns these nodes in an OrderedCollection."
+	| selected |
+	selected := OrderedCollection new.
+	self breadthFirstDo: [ :child |
+		(aBlock value: child)
+			ifTrue: [ selected add: child ] ].
+	^ selected
+]
+
 { #category : #'accessing - reflective' }
 PSQLASTNode >> children [
 	^ OrderedCollection streamContents: [ :stream | 
@@ -52,6 +102,29 @@ PSQLASTNode >> children [
 { #category : #enumerating }
 PSQLASTNode >> childrenDo: aBlock [
 	self children do: aBlock
+]
+
+{ #category : #enumerating }
+PSQLASTNode >> depthFirstDetect: aBlock ifFound: ifFoundBlock ifNone: ifNoneBlock [
+	"Search for the first node for which aBlock returns true.
+	 If found, evaluate ifFoundBlock with the found node as arg.
+	 If not found, evaluate ifNoneBlock without arg.
+	 Walks the tree depth-first."
+	self depthFirstDo: [ :child |
+		(aBlock value: child)
+			ifTrue: [ ^ ifFoundBlock value: child ] ].
+		
+	ifNoneBlock value
+]
+
+{ #category : #enumerating }
+PSQLASTNode >> depthFirstDo: aBlock [
+	"Executes aBlock on myself and recursively on all the hierarchy of nodes forming the AST.
+	 I do depth-first walk."
+	| generator |
+	generator := self depthFirstGenerator.
+	[ generator atEnd ] whileFalse: [ 
+		aBlock value: generator next ]
 ]
 
 { #category : #generators }
@@ -114,6 +187,16 @@ PSQLASTNode >> isPSQLASTNode [
 	^ true
 ]
 
+{ #category : #accessing }
+PSQLASTNode >> parent [
+	^ parent
+]
+
+{ #category : #accessing }
+PSQLASTNode >> parent: anObject [
+	parent := anObject
+]
+
 { #category : #printing }
 PSQLASTNode >> printOn: aStream [
 	super printOn: aStream.
@@ -122,6 +205,13 @@ PSQLASTNode >> printOn: aStream [
 	self innerPrintOn: aStream.
 	aStream
 		<< $)
+]
+
+{ #category : #'parent management' }
+PSQLASTNode >> setChildrenParent [
+	self childrenDo: [ :child |
+		child parent: self.
+		child setChildrenParent ]
 ]
 
 { #category : #accessing }
