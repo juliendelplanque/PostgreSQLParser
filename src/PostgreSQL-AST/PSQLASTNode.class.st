@@ -28,6 +28,20 @@ PSQLASTNode class >> withAllConcreteSubclasses [
 ]
 
 { #category : #enumerating }
+PSQLASTNode >> allParents [
+	^ self allParentsGenerator upToEnd
+]
+
+{ #category : #enumerating }
+PSQLASTNode >> allParentsGenerator [
+	^ Generator on: [ :generator |
+		| currentParent |
+		currentParent := self.
+		[ (currentParent := currentParent parent) isNotNil ]
+			whileTrue: [ generator yield: currentParent ] ]
+]
+
+{ #category : #enumerating }
 PSQLASTNode >> breadthFirstDetect: aBlock [
 	^ self breadthFirstDetect: aBlock ifFound: [ :found | ^ found ]
 ]

@@ -18,7 +18,18 @@ PSQLASTNodeTest >> setUp [
 									yourself);
 						right: (PSQLASTNumericConstant content: '2');
 						operator: '+';
-						yourself
+						yourself.
+						
+	sampleNode setChildrenParent
+]
+
+{ #category : #tests }
+PSQLASTNodeTest >> testAllParents [
+	self assertCollection: sampleNode left left allParents equals: { sampleNode left . sampleNode } asOrderedCollection.
+	
+	self assertCollection: sampleNode left allParents equals: { sampleNode } asOrderedCollection.
+	
+	self assertCollection: sampleNode allParents equals: OrderedCollection new
 ]
 
 { #category : #tests }
