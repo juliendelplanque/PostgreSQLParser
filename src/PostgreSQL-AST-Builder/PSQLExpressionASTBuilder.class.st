@@ -215,7 +215,7 @@ PSQLExpressionASTBuilder >> postfixOperatorBlock [
 			(op isArray and: [ op size = 4 and: [ op first = $[ and: [ op last = $] ] ] ])
 				ifFalse: [ 
 					PSQLASTPostfixOperator new
-						operator: op;
+						operator: (op isArray ifTrue: [ op detect: #isNotNil ] ifFalse: [ op ]);
 						expression: exp;
 						yourself ]
 				ifTrue: [ 
