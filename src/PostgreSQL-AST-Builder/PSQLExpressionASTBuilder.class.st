@@ -118,7 +118,7 @@ PSQLExpressionASTBuilder >> compositeValueWith: anExpressionParser [
 				node := PSQLASTBinaryOperator new
 							operator: '::';
 							left: node;
-							right: (PSQLASTIdentifier new identifier: ((tokens fourth second reject: [ :item | item first = Character space ] thenCollect: [ :item | (item first reject: #isNil) first ]) joinUsing: ' '); yourself) ].
+							right: (PSQLASTIdentifier new identifier: tokens fourth; yourself) ].
 			node ]
 ]
 
@@ -146,7 +146,7 @@ PSQLExpressionASTBuilder >> expressionParserTermFor: expressionParser [
 				PSQLASTBinaryOperator new
 					operator: '::';
 					left: tokens first;
-					right: (PSQLASTIdentifier new identifier: (tokens second second joinUsing: ' '); yourself) ] ]
+					right: (PSQLASTIdentifier new identifier: tokens second; yourself) ] ]
 ]
 
 { #category : #expression }
@@ -232,6 +232,12 @@ PSQLExpressionASTBuilder >> prefixOperatorBlock [
 				operator: op;
 				expression: exp;
 				yourself ]
+]
+
+{ #category : #expression }
+PSQLExpressionASTBuilder >> typeCastConstruct [
+	^ super typeCastConstruct ==> [ :tokens |
+		(tokens second flattened reject: #isNil) joinUsing: ' ' ]
 ]
 
 { #category : #expression }
