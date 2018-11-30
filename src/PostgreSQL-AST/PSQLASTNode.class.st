@@ -41,6 +41,11 @@ PSQLASTNode >> allParentsGenerator [
 			whileTrue: [ generator yield: currentParent ] ]
 ]
 
+{ #category : #testing }
+PSQLASTNode >> anyParentSatisfy: aBlock [
+	^ self allParents anySatisfy: aBlock
+]
+
 { #category : #enumerating }
 PSQLASTNode >> breadthFirstDetect: aBlock [
 	^ self breadthFirstDetect: aBlock ifFound: [ :found | ^ found ]
