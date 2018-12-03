@@ -514,6 +514,7 @@ PSQLExpressionGrammar >> typeCastConstruct [
 			kw andKeyword not , 
 			kw or not , 
 			kw then not,
+			kw as not ,
 			identifierOrKeyword , (openParenthesis trim , (constant separatedBy: comma trim) , closeParenthesis trim) optional
 			) plus separatedBy: #space asParser plus).
 ]

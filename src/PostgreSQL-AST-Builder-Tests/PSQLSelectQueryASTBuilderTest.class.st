@@ -67,7 +67,12 @@ PSQLSelectQueryASTBuilderTest >> testColumnsAndAliasesSelected [
 		assert: node class equals: Array;
 		assert: node size equals: 2;
 		assert: node first class equals: PSQLASTAggregateFunctionCall;
-		assert: node second class equals: PSQLASTAttributeAccess
+		assert: node second class equals: PSQLASTAttributeAccess.
+	node := builder columnsAndAliasesSelected parse: '1::text AS alias'.
+	self
+		assert: node class equals: Array;
+		assert: node size equals: 1;
+		assert: node first class equals: PSQLASTAliasDefinition
 ]
 
 { #category : #'tests-select command' }
