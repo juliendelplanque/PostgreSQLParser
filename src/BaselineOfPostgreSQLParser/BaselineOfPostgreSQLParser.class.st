@@ -18,27 +18,14 @@ BaselineOfPostgreSQLParser >> baseline: spec [
 { #category : #baselines }
 BaselineOfPostgreSQLParser >> defineDependencies: spec [
 	spec
-		project: 'PetitParser-Core' with: [
+		baseline: 'PetitParser' with: [
 			spec
-				className: 'ConfigurationOfPetitParser';
-				version: #stable;
-				repository: 'http://smalltalkhub.com/mc/Pharo/MetaRepoForPharo50/main';
-				loads: #('Core') ];
-		project: 'PetitParser-Tests' with: [
-			spec
-				className: 'ConfigurationOfPetitParser';
-				version: #stable;
-				repository: 'http://smalltalkhub.com/mc/Pharo/MetaRepoForPharo50/main';
-				loads: #('Tests') ];
-		project: 'PetitParser-Gui' with: [
-			spec
-				className: 'ConfigurationOfPetitParser';
-				version: #stable;
-				repository: 'http://smalltalkhub.com/mc/Pharo/MetaRepoForPharo50/main';
-				loads: #('Gui') ];
+				repository: 'github://moosetechnology/PetitParser/src' ];
+		project: 'PetitParser-Core' copyFrom: 'PetitParser' with: [ spec loads: #('Core') ];
+		project: 'PetitParser-Gui' copyFrom: 'PetitParser' with: [ spec loads: #('GT') ];
 		baseline: 'LibpgqueryBridge' with: [ 
 			spec
-				repository: 'github://juliendelplanque/LibpgqueryBridge/repository' ] 
+				repository: 'github://juliendelplanque/LibpgqueryBridge/repository' ]
 ]
 
 { #category : #baselines }
