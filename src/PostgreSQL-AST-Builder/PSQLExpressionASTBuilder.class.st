@@ -27,7 +27,7 @@ PSQLExpressionASTBuilder >> aggregateExpressionParserForm1With: expressionParser
 	^ (super aggregateExpressionParserForm1With: expressionParser) psqlASTBuild: [ :tokens |
 			PSQLASTAggregateFunctionCall new
 				functionIdentifier: tokens first;
-				expressions: (tokens third reject: [ :item | item = $, ]) flatten;
+				expressions: (tokens third reject: [ :item | item = $, ]) flattened;
 				orderByClause: tokens fourth;
 				yourself ]
 ]

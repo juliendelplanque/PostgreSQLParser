@@ -33,6 +33,6 @@ PSQLValuesASTBuilder >> valuesCommand [
 								thenCollect: [ :subItem | 
 									subItem = 'DEFAULT'
 										ifTrue: [ PSQLASTDefaultValue new ]
-										ifFalse: [ subItem ] ] ]) flatten;
+										ifFalse: [ subItem ] ] ]) flattened;
 				yourself ]
 ]
