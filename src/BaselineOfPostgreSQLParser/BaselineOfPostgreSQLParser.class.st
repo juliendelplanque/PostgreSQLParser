@@ -20,8 +20,8 @@ BaselineOfPostgreSQLParser >> defineDependencies: spec [
 	spec
 		baseline: 'PetitParser' with: [
 			spec
+				loads: #('Core');
 				repository: 'github://moosetechnology/PetitParser/src' ];
-		project: 'PetitParser-Core' copyFrom: 'PetitParser' with: [ spec loads: #('Core') ];
 		project: 'PetitParser-Gui' copyFrom: 'PetitParser' with: [ spec loads: #('GT') ];
 		baseline: 'LibpgqueryBridge' with: [ 
 			spec
@@ -47,8 +47,8 @@ BaselineOfPostgreSQLParser >> defineGroups: spec [
 { #category : #baselines }
 BaselineOfPostgreSQLParser >> definePackages: spec [
 	spec 
-		package: #'PostgreSQL-Parser' with: [ spec requires: #('PetitParser-Core') ];
-		package: #'PostgreSQL-Parser-Tests' with: [ spec requires: #('PetitParser-Core' 'PostgreSQL-Parser') ];
+		package: #'PostgreSQL-Parser' with: [ spec requires: #('PetitParser') ];
+		package: #'PostgreSQL-Parser-Tests' with: [ spec requires: #('PetitParser' 'PostgreSQL-Parser') ];
 		package: #'PostgreSQL-Parser-CrashTests' with: [ spec requires: #('PostgreSQL-Parser-Tests') ];
 		package: #'PostgreSQL-AST';
 		package: #'PostgreSQL-AST-Tests' with: [ spec requires: #('PostgreSQL-AST') ];
