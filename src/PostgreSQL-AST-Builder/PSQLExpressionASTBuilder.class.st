@@ -84,6 +84,15 @@ PSQLExpressionASTBuilder >> binaryOperatorBlock [
 				yourself ]
 ]
 
+{ #category : #expression }
+PSQLExpressionASTBuilder >> cast [
+	^ super cast psqlASTBuild: [ :tokens |
+			PSQLASTCastExpression new
+				expressionToCast: tokens third;
+				typeToCastToIdentifier: tokens fifth;
+				yourself ]
+]
+
 { #category : #helpers }
 PSQLExpressionASTBuilder >> columnReference [
 	^ super columnReference

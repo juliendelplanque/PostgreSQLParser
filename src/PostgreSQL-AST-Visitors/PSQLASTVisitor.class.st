@@ -53,6 +53,11 @@ PSQLASTVisitor >> visitPSQLASTBinaryOperator: aPSQLASTBinaryOperator [
 ]
 
 { #category : #visiting }
+PSQLASTVisitor >> visitPSQLASTCastExpression: aPSQLASTCastExpression [ 
+	^ self subclassResponsibility
+]
+
+{ #category : #visiting }
 PSQLASTVisitor >> visitPSQLASTColumnDefinition: aPSQLASTColumnDefinition [
 	^ self subclassResponsibility
 ]
