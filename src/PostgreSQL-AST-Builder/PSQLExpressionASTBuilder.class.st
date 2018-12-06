@@ -69,6 +69,12 @@ PSQLExpressionASTBuilder >> asOperator [
 ]
 
 { #category : #expression }
+PSQLExpressionASTBuilder >> betweenConstructOperator [
+	^ super betweenConstructOperator ==> [ :tokens |
+		tokens first ]
+]
+
+{ #category : #expression }
 PSQLExpressionASTBuilder >> binaryLogicalOperator [
 	^ super binaryLogicalOperator ==> [ :tokens |
 		tokens first ]
