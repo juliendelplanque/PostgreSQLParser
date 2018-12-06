@@ -383,6 +383,11 @@ PSQLASTVisitor >> visitPSQLPlpgSQLASTBlockLabel: aPSQLPlpgSQLASTBlockLabel [
 ]
 
 { #category : #visiting }
+PSQLASTVisitor >> visitPSQLPlpgSQLASTCasesToStatements: aPSQLPlpgSQLASTCasesToStatements [
+	^ self subclassResponsibility
+]
+
+{ #category : #visiting }
 PSQLASTVisitor >> visitPSQLPlpgSQLASTClassicDeclaration: aPSQLPlpgSQLASTClassicDeclaration [
 	^ self subclassResponsibility
 ]

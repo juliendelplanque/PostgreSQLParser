@@ -715,10 +715,10 @@ END CASE'.
 		assert: node class equals: PSQLPlpgSQLASTSearchedCase;
 		assert: node searchedExpression class equals: PSQLASTAttributeAccess;
 		assert: node conditionsToStatements size equals: 2;
-		assert: node conditionsToStatements first key size equals: 2;
-		assert: node conditionsToStatements first value size equals: 1;
-		assert: node conditionsToStatements second key size equals: 2;
-		assert: node conditionsToStatements second value size equals: 1;
+		assert: node conditionsToStatements first cases size equals: 2;
+		assert: node conditionsToStatements first statements size equals: 1;
+		assert: node conditionsToStatements second cases size equals: 2;
+		assert: node conditionsToStatements second statements size equals: 1;
 		assert: node elseStatements isNil
 ]
 

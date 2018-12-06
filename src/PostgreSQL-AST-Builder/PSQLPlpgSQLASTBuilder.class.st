@@ -548,7 +548,7 @@ PSQLPlpgSQLASTBuilder >> plpgsqlSearchedCase [
 		PSQLPlpgSQLASTSearchedCase new
 			searchedExpression: tokens second;
 			conditionsToStatements: (tokens third collect: [ :subTokens |
-				PSQLPlpgSQLASTConditionToStatements condition: (subTokens second reject: [ :item | item = $, ]) statements: subTokens fourth ]);
+				PSQLPlpgSQLASTCasesToStatements cases: (subTokens second reject: [ :item | item = $, ]) statements: subTokens fourth ]);
 			elseStatements: (tokens fourth ifNotNil: #second);
 			yourself ]
 ]
