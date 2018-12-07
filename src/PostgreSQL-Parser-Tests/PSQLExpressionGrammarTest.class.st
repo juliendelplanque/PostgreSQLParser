@@ -33,6 +33,14 @@ PSQLExpressionGrammarTest >> testBinaryOperator [
 		parse: '(3+value)/2' rule: #expression
 ]
 
+{ #category : #'tests-expression' }
+PSQLExpressionGrammarTest >> testCaseExpression [
+	self parse: 'CASE t.nom
+                    WHEN ''foo''::text THEN t.prenom
+                    ELSE tnom
+                END' rule: #expression
+]
+
 { #category : #'tests-accessing' }
 PSQLExpressionGrammarTest >> testColumnReference [
 	self

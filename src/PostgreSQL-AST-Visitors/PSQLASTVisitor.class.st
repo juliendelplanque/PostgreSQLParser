@@ -53,6 +53,16 @@ PSQLASTVisitor >> visitPSQLASTBinaryOperator: aPSQLASTBinaryOperator [
 ]
 
 { #category : #visiting }
+PSQLASTVisitor >> visitPSQLASTCaseExpression: aPSQLASTCaseExpression [
+	^ self subclassResponsibility
+]
+
+{ #category : #visiting }
+PSQLASTVisitor >> visitPSQLASTCaseToExpression: aPSQLASTCaseToExpression [
+	^ self subclassResponsibility
+]
+
+{ #category : #visiting }
 PSQLASTVisitor >> visitPSQLASTCastExpression: aPSQLASTCastExpression [ 
 	^ self subclassResponsibility
 ]

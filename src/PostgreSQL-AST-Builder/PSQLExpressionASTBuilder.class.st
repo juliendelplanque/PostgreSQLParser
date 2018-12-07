@@ -91,6 +91,16 @@ PSQLExpressionASTBuilder >> binaryOperatorBlock [
 ]
 
 { #category : #expression }
+PSQLExpressionASTBuilder >> caseExpressionWith: expressionParser [
+	^ (super caseExpressionWith: expressionParser) psqlASTBuild: [ :tokens |
+			PSQLASTCaseExpression new
+				caseToExpressions: (tokens third collect: [ :subTokens |
+					PSQLASTCaseToExpression case: subTokens second expression: subTokens fourth ]);
+				elseExpression: (tokens fifth)
+				yourself ]
+]
+
+{ #category : #expression }
 PSQLExpressionASTBuilder >> cast [
 	^ super cast psqlASTBuild: [ :tokens |
 			PSQLASTCastExpression new

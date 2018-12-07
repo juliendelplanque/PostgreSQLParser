@@ -175,6 +175,14 @@ PSQLExpressionGrammar >> booleanTestConstructOperator [
 ]
 
 { #category : #expression }
+PSQLExpressionGrammar >> caseExpressionWith: expressionParser [
+	^ 'CASE' asParser trim , expressionParser trim ,
+		('WHEN' asParser trim , expressionParser trim , 'THEN' asParser trim , expressionParser trim) plus ,
+		'ELSE' asParser trim , expressionParser trim ,
+	'END' asParser
+]
+
+{ #category : #expression }
 PSQLExpressionGrammar >> cast [
 	^ kw cast trim , openParenthesis trim , expression , kw as trim , identifier
 		, closeParenthesis trim
@@ -261,12 +269,13 @@ PSQLExpressionGrammar >> expression [
 
 { #category : #expression }
 PSQLExpressionGrammar >> expressionParserTermFor: expressionParser [
-	| parenthesedExpression functionCallTemp aggregateExpression compositeValue |
+	| parenthesedExpression functionCallTemp aggregateExpression compositeValue caseExpression |
 	parenthesedExpression := self parenthesedExpressionParserWith: expressionParser.
 	functionCallTemp := self functionCallParserWith: expressionParser.
 	aggregateExpression := self aggregateExpressionParserWith: expressionParser.
 	compositeValue := self compositeValueWith: expressionParser.
-	^ stringToTypeConversionCommand / cast / parenthesedExpression / nullExpression / compositeValue / conditionalExpression / aggregateExpression
+	caseExpression := self caseExpressionWith: expressionParser.
+	^ caseExpression / stringToTypeConversionCommand / cast / parenthesedExpression / nullExpression / compositeValue / conditionalExpression / aggregateExpression
 		/ extractFunctionCall / functionCallTemp / primary / selectCommand , typeCastConstruct optional
 ]
 

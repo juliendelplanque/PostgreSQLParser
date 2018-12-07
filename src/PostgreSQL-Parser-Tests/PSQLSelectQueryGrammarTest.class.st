@@ -75,6 +75,18 @@ PSQLSelectQueryGrammarTest >> testOffsetClause [
 ]
 
 { #category : #'tests-select command' }
+PSQLSelectQueryGrammarTest >> testSelectClauseWithCase [
+	self parse: 'SELECT
+            t.index,
+                CASE t.nom
+                    WHEN ''foo''::text THEN t.prenom
+                    ELSE tnom
+                END AS case_value,
+            t.other' rule: #selectCommand;
+		parse: 'SELECT CASE 1 WHEN 1 THEN ''hello'' ELSE ''oh'' END' rule: #selectCommand
+]
+
+{ #category : #'tests-select command' }
 PSQLSelectQueryGrammarTest >> testSelectCommand [
 	self
 		parse: 'SELECT 1 + 1' rule: #selectCommand;
