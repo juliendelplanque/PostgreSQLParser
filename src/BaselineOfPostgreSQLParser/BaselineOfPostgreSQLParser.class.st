@@ -41,7 +41,7 @@ BaselineOfPostgreSQLParser >> defineGroups: spec [
 		group: 'core' with: #('parser' 'ast' 'ast-builder' 'visitors');
 		group: 'core-tests' with: #('core' 'parser-tests' 'ast-builder-tests');
 		group: 'future' with: #('core-tests' 'PostgreSQL-Future');
-		group: 'dev' with: #('core-tests' 'PostgreSQL-DevTools' 'future')
+		group: 'dev' with: #('core-tests' 'PostgreSQL-DevTools' 'PostgreSQL-AST-GTExtensions' 'future')
 ]
 
 { #category : #baselines }
@@ -52,6 +52,7 @@ BaselineOfPostgreSQLParser >> definePackages: spec [
 		package: #'PostgreSQL-Parser-CrashTests' with: [ spec requires: #('PostgreSQL-Parser-Tests') ];
 		package: #'PostgreSQL-AST';
 		package: #'PostgreSQL-AST-Tests' with: [ spec requires: #('PostgreSQL-AST') ];
+		package: #'PostgreSQL-AST-GTExtensions' with: [ spec requires: #('PostgreSQL-AST') ];
 		package: #'PostgreSQL-AST-Builder' with: [ spec requires: #('PostgreSQL-AST' 'PostgreSQL-Parser') ];
 		package: #'PostgreSQL-AST-Builder-Tests' with: [ spec requires: #('PostgreSQL-Parser-Tests' 'PostgreSQL-AST-Builder') ];
 		package: #'PostgreSQL-AST-Builder-SmokeTests' with: [ spec requires: #('PostgreSQL-Parser-CrashTests') ];
