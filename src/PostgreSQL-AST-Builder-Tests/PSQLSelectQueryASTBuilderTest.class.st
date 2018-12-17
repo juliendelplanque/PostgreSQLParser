@@ -223,6 +223,31 @@ PSQLSelectQueryASTBuilderTest >> testSelectCommand [
 ]
 
 { #category : #'tests-select command' }
+PSQLSelectQueryASTBuilderTest >> testSelectCommandWithAttributeAccess [
+	| node |
+	node := builder selectCommand parse: 'SELECT t.c FROM t'.
+	
+	self
+		assert: node class equals: PSQLASTSelectQuery;
+		assert: node allOrDistinctClause isNil;
+		assert: node columnsAndAliasesSelected class equals: Array;
+		assert: node columnsAndAliasesSelected size equals: 1;
+		assert: node columnsAndAliasesSelected first attributeIdentifier identifier equals: 't';
+		assert: node columnsAndAliasesSelected first accessed identifier equals: 'c';
+		assert: node fromClause class equals: PSQLASTFromClause;
+		assert: node whereClause isNil;
+		assert: node groupByClause isNil;
+		assert: node havingClause isNil;
+		assert: node windowClause isNil;
+		assert: node unionIntersectExceptClause isNil;
+		assert: node orderByClause isNil;
+		assert: node limitClause isNil;
+		assert: node offsetClause isNil;
+		assert: node fetchClause isNil;
+		assert: node forClause isNil
+]
+
+{ #category : #'tests-select command' }
 PSQLSelectQueryASTBuilderTest >> testSelectIntoCommandAlternative [
 	| node |
 	node := builder selectIntoCommandAlternative parse: 'SELECT INTO newTable c1, c2, c3 FROM t ORDER BY c1 OFFSET 42'.

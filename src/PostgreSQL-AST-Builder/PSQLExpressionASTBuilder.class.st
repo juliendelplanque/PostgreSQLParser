@@ -112,11 +112,11 @@ PSQLExpressionASTBuilder >> cast [
 { #category : #helpers }
 PSQLExpressionASTBuilder >> columnReference [
 	^ super columnReference
-		psqlASTBuild: [ :tokens | 
+		psqlASTBuild: [ :tokens |
 			tokens first
 				ifNotNil: [ PSQLASTAttributeAccess new
-						accessed: tokens first first;
-						attributeIdentifier: tokens second;
+						accessed: tokens second;
+						attributeIdentifier: tokens first first;
 						yourself ]
 				ifNil: [ PSQLASTAttributeAccess new
 						accessed: tokens second;
