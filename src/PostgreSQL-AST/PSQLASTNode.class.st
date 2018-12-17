@@ -32,7 +32,7 @@ PSQLASTNode >> allParents [
 	^ self allParentsGenerator upToEnd
 ]
 
-{ #category : #enumerating }
+{ #category : #generators }
 PSQLASTNode >> allParentsGenerator [
 	^ Generator on: [ :generator |
 		| currentParent |
