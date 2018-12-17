@@ -45,7 +45,7 @@ PSQLPlpgSQLASTBuilder >> exceptionCase [
 		psqlASTBuild: [ :tokens | 
 			PSQLASTExceptionCase new
 				exception: tokens first;
-				statements: tokens third;
+				statements: (tokens third reject: #isNil); "When there is no statement in the handler, it is nil so we reject the nils."
 				yourself ]
 ]
 
@@ -435,7 +435,7 @@ PSQLPlpgSQLASTBuilder >> plpgsqlRaiseStatement1 [
 		PSQLPlpgSQLASTRaiseStatement new
 			level: tokens second;
 			formatString: tokens third;
-			formatExpressions: (tokens fourth reject: [ :item | item = $, or: [ item isArray and: [ item isEmpty ] ] ]);
+			formatExpressions: (tokens fourth reject: [ :item | item = $, or: [ item isArray and: [ item isEmpty ] ] ] thenCollect: [ :array | array first ]);
 			usingAssocs: tokens fifth;
 			yourself ]
 ]
