@@ -17,6 +17,8 @@ PSQLASTNode >> gtSourceCodeIn: composite [
 		title: 'Source code';
 		display: [ self sourceCode asText ];
 		initialize: [ :presentation | 
-			presentation selectionInterval: (self startPosition to: self endPosition) ];
+			(self startPosition isNil or: [ self endPosition isNil ])
+				ifFalse: [ 
+					presentation selectionInterval: (self startPosition to: self endPosition) ] ];
 		yourself
 ]
