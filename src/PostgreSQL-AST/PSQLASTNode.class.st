@@ -7,7 +7,8 @@ Class {
 	#instVars : [
 		'startPosition',
 		'endPosition',
-		'parent'
+		'parent',
+		'sourceCode'
 	],
 	#category : #'PostgreSQL-AST-SQL'
 }
@@ -181,6 +182,11 @@ PSQLASTNode >> endPosition [
 { #category : #accessing }
 PSQLASTNode >> endPosition: anObject [
 	endPosition := anObject
+]
+
+{ #category : #testing }
+PSQLASTNode >> hasParent [
+	^ self parent isNotNil
 ]
 
 { #category : #printing }
