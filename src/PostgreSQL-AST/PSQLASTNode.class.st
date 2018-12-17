@@ -32,6 +32,15 @@ PSQLASTNode >> allParents [
 	^ self allParentsGenerator upToEnd
 ]
 
+{ #category : #enumerating }
+PSQLASTNode >> allParentsDo: aBlock [
+	"Iterates on all the parents. Starting from current node parent finishing by the top node of the AST."
+	| generator |
+	generator := self allParentsGenerator.
+	[ generator atEnd ] whileFalse: [ 
+		aBlock value: generator next ]
+]
+
 { #category : #generators }
 PSQLASTNode >> allParentsGenerator [
 	^ Generator on: [ :generator |
@@ -43,7 +52,10 @@ PSQLASTNode >> allParentsGenerator [
 
 { #category : #testing }
 PSQLASTNode >> anyParentSatisfy: aBlock [
-	^ self allParents anySatisfy: aBlock
+	self allParentsDo: [ :p |
+		(aBlock value: p)
+			ifTrue: [ ^ true ] ].
+	^ false
 ]
 
 { #category : #enumerating }
