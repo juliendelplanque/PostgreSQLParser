@@ -232,8 +232,8 @@ PSQLSelectQueryASTBuilderTest >> testSelectCommandWithAttributeAccess [
 		assert: node allOrDistinctClause isNil;
 		assert: node columnsAndAliasesSelected class equals: Array;
 		assert: node columnsAndAliasesSelected size equals: 1;
-		assert: node columnsAndAliasesSelected first attributeIdentifier identifier equals: 't';
-		assert: node columnsAndAliasesSelected first accessed identifier equals: 'c';
+		assert: node columnsAndAliasesSelected first accessed identifier equals: 't';
+		assert: node columnsAndAliasesSelected first attributeIdentifier identifier equals: 'c';
 		assert: node fromClause class equals: PSQLASTFromClause;
 		assert: node whereClause isNil;
 		assert: node groupByClause isNil;

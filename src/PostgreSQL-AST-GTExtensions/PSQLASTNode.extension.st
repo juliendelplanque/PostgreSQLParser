@@ -16,6 +16,7 @@ PSQLASTNode >> gtSourceCodeIn: composite [
 	^ composite text
 		title: 'Source code';
 		display: [ self sourceCode asText ];
+		withLineNumbers: true;
 		initialize: [ :presentation | 
 			(self startPosition isNil or: [ self endPosition isNil ])
 				ifFalse: [ 

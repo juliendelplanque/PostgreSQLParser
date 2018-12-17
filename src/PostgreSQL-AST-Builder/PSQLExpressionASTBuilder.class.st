@@ -115,8 +115,8 @@ PSQLExpressionASTBuilder >> columnReference [
 		psqlASTBuild: [ :tokens |
 			tokens first
 				ifNotNil: [ PSQLASTAttributeAccess new
-						accessed: tokens second;
-						attributeIdentifier: tokens first first;
+						accessed: tokens first first;
+						attributeIdentifier: tokens second;
 						yourself ]
 				ifNil: [ PSQLASTAttributeAccess new
 						accessed: tokens second;

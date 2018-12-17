@@ -1,5 +1,5 @@
 "
-I represent an attribute access like 'identifier.attributeIdentifier'.
+I represent an attribute access like 'accessed.attributeIdentifier'.
 "
 Class {
 	#name : #PSQLASTAttributeAccess,
@@ -38,10 +38,11 @@ PSQLASTAttributeAccess >> attributeIdentifier: anObject [
 
 { #category : #printing }
 PSQLASTAttributeAccess >> innerPrintOn: aStream [
+	aStream
+		<< self accessed identifier.
+		
 	self attributeIdentifier ifNotNil: [
 		aStream
-			<< self attributeIdentifier identifier;
-			<< $. ].
-	aStream
-		<< self accessed identifier
+			<< $.;
+			<< self attributeIdentifier identifier ].
 ]
