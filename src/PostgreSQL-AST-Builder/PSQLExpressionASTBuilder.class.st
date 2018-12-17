@@ -221,6 +221,12 @@ PSQLExpressionASTBuilder >> isNull [
 ]
 
 { #category : #expression }
+PSQLExpressionASTBuilder >> notInOperator [
+	^ super notInOperator ==> [ :tokens |
+		tokens joinUsing: ' ' ]
+]
+
+{ #category : #expression }
 PSQLExpressionASTBuilder >> nullExpression [
 	^ super nullExpression psqlASTBuild: [ :tokens | PSQLASTNull new ]
 ]
