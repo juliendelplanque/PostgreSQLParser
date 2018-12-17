@@ -58,6 +58,7 @@ PSQLSelectQueryASTBuilder >> columnsAndAliasesSelected [
 						ifNotNil: [ "here we have an alias so we put the selection in it"
 							item second
 								definition: selection;
+								startPosition: selection startPosition;
 								yourself ] ] ]
 ]
 
