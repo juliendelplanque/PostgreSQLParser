@@ -252,6 +252,24 @@ PSQLASTNode >> setChildrenParent [
 ]
 
 { #category : #accessing }
+PSQLASTNode >> sourceCode [
+	sourceCode
+		ifNotNil: [ ^ sourceCode ].
+	
+	"If I hold no source code but I have a parent, I ask my parent because the top parent will hold the source code."
+	self hasParent
+		ifTrue: [ ^ self parent sourceCode ].
+	
+	"If I have no parent, I am at the top of the AST. Since I have no source code, I return nil."
+	^ nil
+]
+
+{ #category : #accessing }
+PSQLASTNode >> sourceCode: anObject [
+	sourceCode := anObject
+]
+
+{ #category : #accessing }
 PSQLASTNode >> startPosition [
 	^ startPosition
 ]
