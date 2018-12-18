@@ -87,6 +87,8 @@ PSQLExpressionASTBuilder >> binaryOperatorBlock [
 				operator: op;
 				left: exp1;
 				right: exp2;
+				startPosition: exp1 startPosition;
+				endPosition: exp2 endPosition;
 				yourself ]
 ]
 
