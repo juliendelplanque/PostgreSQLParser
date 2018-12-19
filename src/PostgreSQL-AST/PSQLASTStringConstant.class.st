@@ -18,3 +18,8 @@ PSQLASTStringConstant >> innerPrintOn: aStream [
 	super innerPrintOn: aStream.
 	aStream << $'.
 ]
+
+{ #category : #testing }
+PSQLASTStringConstant >> isStringConstant [
+	^ true
+]

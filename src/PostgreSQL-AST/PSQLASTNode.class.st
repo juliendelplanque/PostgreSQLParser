@@ -220,8 +220,18 @@ PSQLASTNode >> isConstant [
 ]
 
 { #category : #testing }
+PSQLASTNode >> isNumericConstant [
+	^ false
+]
+
+{ #category : #testing }
 PSQLASTNode >> isPSQLASTNode [
 	^ true
+]
+
+{ #category : #testing }
+PSQLASTNode >> isStringConstant [
+	^ false
 ]
 
 { #category : #accessing }

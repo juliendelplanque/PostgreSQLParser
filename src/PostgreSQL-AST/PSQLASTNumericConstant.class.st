@@ -11,3 +11,8 @@ Class {
 PSQLASTNumericConstant >> acceptVisitor: aVisitor [
 	^ aVisitor visitPSQLASTNumericConstant: self
 ]
+
+{ #category : #testing }
+PSQLASTNumericConstant >> isNumericConstant [
+	^ true
+]
