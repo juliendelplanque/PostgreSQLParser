@@ -15,10 +15,10 @@ PSQLASTNode >> gtSourceCodeIn: composite [
 	<gtInspectorPresentationOrder: 0>
 	^ composite text
 		title: 'Source code';
-		display: [ self sourceCode asText ];
+		display: [ self sourceCode ifNil: [ 'No source code available' ] ifNotNil: #asText ];
 		withLineNumbers: true;
 		initialize: [ :presentation | 
-			(self startPosition isNil or: [ self endPosition isNil ])
+			(self sourceCode isNil or: [ self startPosition isNil or: [ self endPosition isNil ] ])
 				ifFalse: [ 
 					presentation selectionInterval: (self startPosition to: self endPosition) ] ];
 		yourself
