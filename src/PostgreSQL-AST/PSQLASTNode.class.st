@@ -66,7 +66,7 @@ PSQLASTNode >> breadthFirstDetect: aBlock [
 
 { #category : #enumerating }
 PSQLASTNode >> breadthFirstDetect: aBlock ifFound: ifFoundBlock [
-	^ self breadthFirstDetect: aBlock ifFound: ifFoundBlock ifNone: [ NotFound signalFor: aBlock ]
+	^ self breadthFirstDetect: aBlock ifFound: ifFoundBlock ifNone: [ "Do nothing on purpose" ]
 ]
 
 { #category : #enumerating }
