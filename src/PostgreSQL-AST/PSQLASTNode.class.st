@@ -248,6 +248,16 @@ PSQLASTNode >> parent: anObject [
 PSQLASTNode >> printOn: aStream [
 	super printOn: aStream.
 	aStream
+		<< $[.
+	self startPosition
+		ifNotNil: [ aStream << self startPosition ]
+		ifNil: [ aStream << $? ].
+	aStream << $:.
+	self endPosition
+		ifNotNil: [ aStream << self endPosition ]
+		ifNil: [ aStream << $? ].
+	aStream
+		<< $];
 		<< $(.
 	self innerPrintOn: aStream.
 	aStream
