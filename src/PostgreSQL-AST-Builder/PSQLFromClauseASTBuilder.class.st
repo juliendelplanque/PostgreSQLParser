@@ -34,6 +34,8 @@ PSQLFromClauseASTBuilder >> columnDefinition [
 							item isCharacter
 								ifTrue: [ ' ' ]
 								ifFalse: [ item identifier ] ]) joinUsing: '');
+						startPosition: (tokens second flattened detect: [ :item | item class = PSQLASTIdentifier ]) startPosition;
+						endPosition: (tokens second flattened reversed detect: [ :item | item class = PSQLASTIdentifier ]) endPosition;
 						yourself);
 			yourself ]
 ]
