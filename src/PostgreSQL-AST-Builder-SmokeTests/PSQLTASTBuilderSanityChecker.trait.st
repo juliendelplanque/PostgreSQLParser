@@ -39,9 +39,10 @@ PSQLTASTBuilderSanityChecker >> checkEachNodeIsKindOfPSQLASTNode: ast [
 PSQLTASTBuilderSanityChecker >> parse: aString rule: aSymbol [
 	| ast |
 	ast := super parse: aString rule: aSymbol.
+	ast
+		setChildrenParent;
+		sourceCode: aString.
 	self checkEachNodeIsKindOfPSQLASTNode: ast.
 	self checkEachNodeHasItsPositionsSet: ast.
-	
-	ast setChildrenParent.
 	self checkEachNodeHasParentExceptRoot: ast
 ]
