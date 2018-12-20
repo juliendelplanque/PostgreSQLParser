@@ -175,11 +175,8 @@ PSQLExpressionASTBuilder >> expressionParserTermFor: expressionParser [
 				PSQLASTBinaryOperator new
 					operator: '::';
 					left: tokens first;
-					right: (PSQLASTIdentifier new
-								identifier: tokens second;
-								startPosition: petitToken stop - tokens second size;
-								endPosition: petitToken stop;
-								yourself) ] ]
+					right: tokens second;
+					yourself ] ]
 ]
 
 { #category : #expression }
@@ -270,17 +267,21 @@ PSQLExpressionASTBuilder >> postfixOperatorBlock [
 
 { #category : #'accessing - blocks' }
 PSQLExpressionASTBuilder >> prefixOperatorBlock [
-	^ [ :op :exp |
+	^ [ :opPetitToken :exp |
+			|op|
+			op := opPetitToken parsedValue.
 			PSQLASTPrefixOperator new
 				operator: op;
 				expression: exp;
+				startPosition: opPetitToken start;
+				endPosition: exp endPosition;
 				yourself ]
 ]
 
 { #category : #expression }
 PSQLExpressionASTBuilder >> typeCastConstruct [
-	^ super typeCastConstruct ==> [ :tokens |
-		(tokens second flattened reject: #isNil) joinUsing: ' ' ]
+	^ super typeCastConstruct psqlASTBuild: [ :tokens |
+		PSQLASTIdentifier identifier: ((tokens second flattened reject: #isNil) joinUsing: ' ') ]
 ]
 
 { #category : #expression }

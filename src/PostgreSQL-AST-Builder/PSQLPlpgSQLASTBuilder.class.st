@@ -159,7 +159,9 @@ PSQLPlpgSQLASTBuilder >> plpgsqlCursorClose [
 
 { #category : #cursor }
 PSQLPlpgSQLASTBuilder >> plpgsqlCursorDeclaration [
-	^ super plpgsqlCursorDeclaration psqlASTBuild: [ :tokens |
+	^ super plpgsqlCursorDeclaration token psqlASTBuild: [ :petitTokens |
+		|tokens|
+		tokens := petitTokens parsedValue.
 		PSQLPlpgSQLASTCursorDeclaration new
 			identifier: tokens first;
 			scroll: (tokens second
@@ -227,10 +229,14 @@ PSQLPlpgSQLASTBuilder >> plpgsqlCursorUpdate [
 
 { #category : #declaration }
 PSQLPlpgSQLASTBuilder >> plpgsqlDeclarationType [
-	^ super plpgsqlDeclarationType psqlASTBuild: [ :tokens |
+	^ super plpgsqlDeclarationType token psqlASTBuild: [ :petitToken |
+		|tokens|
+		tokens := petitToken parsedValue.
 		PSQLPlpgSQLASTType new
 					identifier: (PSQLASTIdentifier new
 										identifier: (tokens sixth joinUsing: ' ');
+										startPosition: petitToken start;
+										endPosition: petitToken stop;
 										yourself);
 					size: (tokens seventh ifNotNil: [ :array | array second content asNumber ]);
 					dimensions: (tokens eighth ifNotNil: [ :array | array size ]);
@@ -304,7 +310,11 @@ PSQLPlpgSQLASTBuilder >> plpgsqlForLoop [
 PSQLPlpgSQLASTBuilder >> plpgsqlIfThen [
 	^ super plpgsqlIfThen psqlASTBuild: [ :tokens |
 		PSQLPlpgSQLASTIf new
-			conditionToStatements: { PSQLPlpgSQLASTConditionToStatements condition: tokens second statements: tokens fourth };
+			conditionToStatements: { 
+				(PSQLPlpgSQLASTConditionToStatements condition: tokens second statements: tokens fourth)
+					startPosition: tokens second startPosition;
+					endPosition: tokens fourth last endPosition;
+					yourself };
 			yourself ]
 ]
 
@@ -312,7 +322,11 @@ PSQLPlpgSQLASTBuilder >> plpgsqlIfThen [
 PSQLPlpgSQLASTBuilder >> plpgsqlIfThenElse [
 	^ super plpgsqlIfThenElse psqlASTBuild: [ :tokens |
 		PSQLPlpgSQLASTIf new
-			conditionToStatements: { PSQLPlpgSQLASTConditionToStatements condition: tokens second statements: tokens fourth };
+			conditionToStatements: { 
+				(PSQLPlpgSQLASTConditionToStatements condition: tokens second statements: tokens fourth)
+					startPosition: tokens second startPosition;
+					endPosition: tokens fourth last endPosition;
+					yourself };
 			elseStatements: tokens sixth;
 			yourself ]
 ]
@@ -321,7 +335,15 @@ PSQLPlpgSQLASTBuilder >> plpgsqlIfThenElse [
 PSQLPlpgSQLASTBuilder >> plpgsqlIfThenElsif [
 	^ super plpgsqlIfThenElsif psqlASTBuild: [ :tokens |
 		PSQLPlpgSQLASTIf new
-			conditionToStatements: { PSQLPlpgSQLASTConditionToStatements condition: tokens second statements: tokens fourth } , (tokens fifth collect: [ :subTokens | PSQLPlpgSQLASTConditionToStatements condition: tokens second statements: tokens fourth ]);
+			conditionToStatements: { 
+				(PSQLPlpgSQLASTConditionToStatements condition: tokens second statements: tokens fourth)
+					startPosition: tokens second startPosition;
+					endPosition: tokens fourth last endPosition;
+					yourself } , (tokens fifth collect: [ :subTokens |
+						(PSQLPlpgSQLASTConditionToStatements condition: subTokens second statements: subTokens fourth)
+							startPosition: subTokens second startPosition;
+							endPosition: subTokens fourth last endPosition;
+							yourself ]);
 			elseStatements: (tokens sixth ifNotNil: #second);
 			yourself ]
 ]
@@ -558,7 +580,10 @@ PSQLPlpgSQLASTBuilder >> plpgsqlSimpleCase [
 	^ super plpgsqlSimpleCase psqlASTBuild: [ :tokens |
 		PSQLPlpgSQLASTSimpleCase new
 			conditionToStatements: (tokens second collect: [ :subTokens |
-				PSQLPlpgSQLASTConditionToStatements condition: subTokens first statements: subTokens third ]);
+				(PSQLPlpgSQLASTConditionToStatements condition: subTokens first statements: subTokens third)
+					startPosition: subTokens first startPosition;
+					endPosition: subTokens third last endPosition;
+					yourself ]);
 			elseStatements: (tokens third ifNotNil: #second);
 			yourself ]
 ]

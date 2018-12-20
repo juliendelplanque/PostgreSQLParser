@@ -245,10 +245,10 @@ PSQLExpressionGrammar >> expression [
 	"Operators definitions"
 	expressionParser
 		group: [ :g |
-			g prefix: operator trim do: self prefixOperatorBlock.
-			g prefix: kw notKeyword trim do: self prefixOperatorBlock.
-			g prefix: kw any trim do: self prefixOperatorBlock.
-			g prefix: kw distinct trim do: self prefixOperatorBlock.
+			g prefix: operator token trim do: self prefixOperatorBlock.
+			g prefix: kw notKeyword token trim do: self prefixOperatorBlock.
+			g prefix: kw any token trim do: self prefixOperatorBlock.
+			g prefix: kw distinct token trim do: self prefixOperatorBlock.
 			g postfix: nullTestConstructOperator token trim do: self postfixOperatorBlock.
 			g postfix: booleanTestConstructOperator token trim do: self postfixOperatorBlock.
 			g postfix: (self subscriptWith: expressionParser) token trim do: self postfixOperatorBlock.
@@ -465,15 +465,12 @@ PSQLExpressionGrammar >> positionalParameter [
 
 { #category : #'accessing - blocks' }
 PSQLExpressionGrammar >> postfixOperatorBlock [
-	^ [ :opPetitToken :exp | 
-		{ opPetitToken class = PPToken
-			ifTrue: [ opPetitToken parsedValue ]
-			ifFalse: [ opPetitToken ] . exp } ]
+	^ [ :exp :opPetitToken | { exp . opPetitToken parsedValue } ]
 ]
 
 { #category : #'accessing - blocks' }
 PSQLExpressionGrammar >> prefixOperatorBlock [
-	^ [ :op :exp | { op . exp } ]
+	^ [ :opPetitToken :exp | { opPetitToken parsedValue . exp } ]
 ]
 
 { #category : #helpers }

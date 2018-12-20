@@ -26,7 +26,8 @@ Class {
 		'asterik',
 		'identifier',
 		'openParenthesis',
-		'closeParenthesis'
+		'closeParenthesis',
+		'orderByClauseItem'
 	],
 	#category : #'PostgreSQL-Parser-Grammars-Others'
 }
@@ -99,10 +100,13 @@ PSQLSharedGrammar >> openParenthesis [
 
 { #category : #shared }
 PSQLSharedGrammar >> orderByClause [
-	^ kw order trim , kw by trim ,
-		((expression ,
-		(kw asc / kw desc) trim optional,
-		(kw nulls , (kw first / kw last) trim) trim optional) plus separatedBy: comma trim)
+	^ kw order trim , kw by trim , (orderByClauseItem plus separatedBy: comma trim)
+]
+
+{ #category : #shared }
+PSQLSharedGrammar >> orderByClauseItem [
+	^ expression , (kw asc / kw desc) trim optional
+		, (kw nulls , (kw first / kw last) trim) trim optional
 ]
 
 { #category : #shared }

@@ -23,15 +23,18 @@ PSQLSharedASTBuilder class >> tokenParser [
 PSQLSharedASTBuilder >> orderByClause [
 	^ super orderByClause psqlASTBuild: [ :tokens |
 		PSQLASTOrderByClause new
-			items: (tokens third reject: [ :item | item = $, ] thenCollect: [ :array |
-				|item|
-				item := array first.
-				PSQLASTOrderByClauseItem new
-					expression: item first;
-					isAsc: (item second ifNotNil: [ item second asUppercase = 'ASC' ]);
-					isNullsFirst: (item third ifNotNil: [ item third second asUppercase = 'FIRST' ]);
-					yourself ]);
+			items: (tokens third reject: [ :item | item = $, ] thenCollect: #first);
 			yourself ]
+]
+
+{ #category : #shared }
+PSQLSharedASTBuilder >> orderByClauseItem [
+	^ super orderByClauseItem psqlASTBuild: [ :tokens |
+			PSQLASTOrderByClauseItem new
+					expression: tokens first;
+					isAsc: (tokens second ifNotNil: [ tokens second asUppercase = 'ASC' ]);
+					isNullsFirst: (tokens third ifNotNil: [ tokens third second asUppercase = 'FIRST' ]);
+					yourself ]
 ]
 
 { #category : #shared }
