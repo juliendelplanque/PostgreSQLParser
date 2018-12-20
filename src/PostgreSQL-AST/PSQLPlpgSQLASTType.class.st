@@ -37,6 +37,11 @@ PSQLPlpgSQLASTType >> identifier: anObject [
 	identifier := anObject
 ]
 
+{ #category : #printing }
+PSQLPlpgSQLASTType >> innerPrintOn: aStream [
+	self identifier innerPrintOn: aStream
+]
+
 { #category : #accessing }
 PSQLPlpgSQLASTType >> size [
 	^ size
