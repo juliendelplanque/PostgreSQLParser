@@ -11,3 +11,8 @@ Class {
 PSQLASTWildCard >> acceptVisitor: aVisitor [
 	^ aVisitor visitPSQLASTWildCard: self
 ]
+
+{ #category : #printing }
+PSQLASTWildCard >> innerPrintOn: aStream [
+	aStream << $*
+]

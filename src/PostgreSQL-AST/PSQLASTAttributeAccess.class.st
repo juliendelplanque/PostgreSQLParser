@@ -43,6 +43,6 @@ PSQLASTAttributeAccess >> innerPrintOn: aStream [
 		
 	self attributeIdentifier ifNotNil: [
 		aStream
-			<< $.;
-			<< self attributeIdentifier identifier ].
+			<< $..
+		self attributeIdentifier innerPrintOn: aStream ].
 ]
