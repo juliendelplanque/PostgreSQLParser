@@ -49,5 +49,12 @@ PSQLASTFunctionCall >> functionIdentifier: anObject [
 
 { #category : #printing }
 PSQLASTFunctionCall >> innerPrintOn: aStream [
-	aStream << self functionIdentifier identifier
+	aStream
+		<< self functionIdentifier identifier;
+		<< $(.
+	self argumentsList
+		do: [ :argument | argument innerPrintOn: aStream ]
+		separatedBy: [ aStream << $, ].
+	aStream
+		<< $)
 ]
