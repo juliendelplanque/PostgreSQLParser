@@ -16,6 +16,16 @@ PSQLASTSubscript >> acceptVisitor: aVisitor [
 	^ aVisitor visitPSQLASTSubscript: self
 ]
 
+{ #category : #printing }
+PSQLASTSubscript >> innerPrintOn: aStream [
+	self target innerPrintOn: aStream.
+	aStream
+		<< $[.
+	self subscriptExpression innerPrintOn: aStream.
+	aStream
+		<< $]
+]
+
 { #category : #accessing }
 PSQLASTSubscript >> subscriptExpression [
 	^ subscriptExpression
