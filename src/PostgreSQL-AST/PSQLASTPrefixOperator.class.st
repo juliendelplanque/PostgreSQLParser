@@ -11,3 +11,12 @@ Class {
 PSQLASTPrefixOperator >> acceptVisitor: aVisitor [
 	^ aVisitor visitPSQLASTPrefixOperator: self
 ]
+
+{ #category : #printing }
+PSQLASTPrefixOperator >> innerPrintOn: aStream [
+	aStream
+		<< self operator;
+		<< Character space.
+		
+	self expression innerPrintOn: aStream.
+]
