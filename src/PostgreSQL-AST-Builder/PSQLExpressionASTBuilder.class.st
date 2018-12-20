@@ -266,6 +266,8 @@ PSQLExpressionASTBuilder >> postfixOperatorBlock [
 					PSQLASTSubscript new
 						target: exp;
 						subscriptExpression: op second;
+						startPosition: exp startPosition;
+						endPosition: opPetitToken stop;
 						yourself ] ]
 ]
 
