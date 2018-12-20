@@ -80,11 +80,15 @@ PSQLPlpgSQLASTBuilder >> plpgsqlAssignmentLeftPart [
 				target := PSQLASTAttributeAccess new
 								accessed: target;
 								attributeIdentifier: subTokens second;
+								startPosition: target startPosition;
+								endPosition: subTokens second endPosition;
 								yourself ].
 			tokens third do: [ :subscriptTokens | "Then manage subscripts."
 				target := PSQLASTSubscript new
 								target: target;
 								subscriptExpression: subscriptTokens second;
+								startPosition: target startPosition;
+								endPosition: subscriptTokens second endPosition;
 								yourself ].
 			target ]
 ]
@@ -138,13 +142,15 @@ PSQLPlpgSQLASTBuilder >> plpgsqlContinueStatement [
 { #category : #declaration }
 PSQLPlpgSQLASTBuilder >> plpgsqlCopyTypeDeclaration [
 	^ super plpgsqlCopyTypeDeclaration
-		psqlASTBuild: [ :tokens | 
+		psqlASTBuild: [ :tokens |
 			PSQLPlpgSQLASTCopyTypeDeclaration new
 				identifier: tokens first;
 				accessToCopyType:
 					(PSQLASTAttributeAccess new
 						accessed: tokens second;
 						attributeIdentifier: tokens fourth;
+						startPosition: tokens second startPosition;
+						endPosition: tokens fourth endPosition;
 						yourself);
 				yourself ]
 ]
@@ -200,6 +206,8 @@ PSQLPlpgSQLASTBuilder >> plpgsqlCursorFetch [
 				cursorIdentifier:
 					(PSQLASTAttributeAccess new
 						accessed: tokens third;
+						startPosition: tokens third startPosition;
+						endPosition: tokens third endPosition;
 						yourself);
 				targets: (tokens fifth reject: [ :item | item = $, ]);
 				yourself ]
@@ -400,6 +408,8 @@ PSQLPlpgSQLASTBuilder >> plpgsqlOpenCursorBounded [
 				cursorIdentifier:
 					(PSQLASTAttributeAccess new
 						accessed: tokens second;
+						startPosition: tokens second startPosition;
+						endPosition: tokens second endPosition;
 						yourself);
 				arguments: (tokens third ifNotNil: [ :t | t second reject: #isCharacter ]);
 				yourself ]
