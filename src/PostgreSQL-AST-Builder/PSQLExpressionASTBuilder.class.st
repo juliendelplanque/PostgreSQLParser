@@ -166,14 +166,20 @@ PSQLExpressionASTBuilder >> expression [
 
 { #category : #expression }
 PSQLExpressionASTBuilder >> expressionParserTermFor: expressionParser [
-	^ (super expressionParserTermFor: expressionParser) psqlASTBuild: [ :tokens |
+	^ (super expressionParserTermFor: expressionParser) token psqlASTBuild: [ :petitToken |
+		|tokens|
+		tokens := petitToken parsedValue.
 		tokens second isNil
 			ifTrue: [ tokens first ]
-			ifFalse: [ 
+			ifFalse: [
 				PSQLASTBinaryOperator new
 					operator: '::';
 					left: tokens first;
-					right: (PSQLASTIdentifier new identifier: tokens second; yourself) ] ]
+					right: (PSQLASTIdentifier new
+								identifier: tokens second;
+								startPosition: petitToken stop - tokens second size;
+								endPosition: petitToken stop;
+								yourself) ] ]
 ]
 
 { #category : #expression }
@@ -244,12 +250,16 @@ PSQLExpressionASTBuilder >> parenthesedExpressionParserWith: expressionParser [
 
 { #category : #'accessing - blocks' }
 PSQLExpressionASTBuilder >> postfixOperatorBlock [
-	^ [ :exp :op |
+	^ [ :exp :opPetitToken |
+			|op|
+			op := opPetitToken parsedValue.
 			(op isArray and: [ op size = 4 and: [ op first = $[ and: [ op last = $] ] ] ])
-				ifFalse: [ 
+				ifFalse: [
 					PSQLASTPostfixOperator new
 						operator: (op isArray ifTrue: [ op detect: #isNotNil ] ifFalse: [ op ]);
 						expression: exp;
+						startPosition: exp startPosition;
+						endPosition: opPetitToken stop;
 						yourself ]
 				ifTrue: [ 
 					PSQLASTSubscript new

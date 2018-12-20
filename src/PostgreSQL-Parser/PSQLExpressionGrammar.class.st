@@ -249,12 +249,12 @@ PSQLExpressionGrammar >> expression [
 			g prefix: kw notKeyword trim do: self prefixOperatorBlock.
 			g prefix: kw any trim do: self prefixOperatorBlock.
 			g prefix: kw distinct trim do: self prefixOperatorBlock.
-			g postfix: nullTestConstructOperator trim do: self postfixOperatorBlock.
-			g postfix: booleanTestConstructOperator trim do: self postfixOperatorBlock.
-			g postfix: (self subscriptWith: expressionParser) trim do: self postfixOperatorBlock.
-			g postfix: (self commaSubscriptWith: expressionParser) trim do: self postfixOperatorBlock.
-			g postfix: fieldSelection trim do: self postfixOperatorBlock.
-			g postfix: typeCastConstruct trim do: self postfixOperatorBlock. ];
+			g postfix: nullTestConstructOperator token trim do: self postfixOperatorBlock.
+			g postfix: booleanTestConstructOperator token trim do: self postfixOperatorBlock.
+			g postfix: (self subscriptWith: expressionParser) token trim do: self postfixOperatorBlock.
+			g postfix: (self commaSubscriptWith: expressionParser) token trim do: self postfixOperatorBlock.
+			g postfix: fieldSelection token trim do: self postfixOperatorBlock.
+			g postfix: typeCastConstruct token trim do: self postfixOperatorBlock. ];
 		group: [ :g | g left: operator trim do: self binaryOperatorBlock ];
 		group: [ :g | g left: inOperator trim do: self binaryOperatorBlock ];
 		group: [ :g | g left: notInOperator trim do: self binaryOperatorBlock ];
@@ -263,7 +263,7 @@ PSQLExpressionGrammar >> expression [
 		group: [ :g | g left: betweenConstructOperator trim do: self binaryOperatorBlock ];
 		group: [ :g | g left: binaryLogicalOperator trim do: self binaryOperatorBlock ];
 		group: [ :g |
-			g postfix: operator trim do: self postfixOperatorBlock ].
+			g postfix: operator token trim do: self postfixOperatorBlock ].
 	^ expressionParser
 ]
 
@@ -465,7 +465,10 @@ PSQLExpressionGrammar >> positionalParameter [
 
 { #category : #'accessing - blocks' }
 PSQLExpressionGrammar >> postfixOperatorBlock [
-	^ [ :op :exp | { op . exp } ]
+	^ [ :opPetitToken :exp | 
+		{ opPetitToken class = PPToken
+			ifTrue: [ opPetitToken parsedValue ]
+			ifFalse: [ opPetitToken ] . exp } ]
 ]
 
 { #category : #'accessing - blocks' }
