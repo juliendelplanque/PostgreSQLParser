@@ -44,5 +44,6 @@ PSQLTASTBuilderSanityChecker >> parse: aString rule: aSymbol [
 		sourceCode: aString.
 	self checkEachNodeIsKindOfPSQLASTNode: ast.
 	self checkEachNodeHasItsPositionsSet: ast.
-	self checkEachNodeHasParentExceptRoot: ast
+	self checkEachNodeHasParentExceptRoot: ast.
+	^ ast
 ]
