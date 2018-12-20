@@ -50,6 +50,8 @@ PSQLSelectQueryASTBuilder >> columnsAndAliasesSelected [
 								ifNotNil: [ PSQLASTAttributeAccess new
 										accessed: item first first first;
 										attributeIdentifier: item first second;
+										startPosition: item first first first startPosition;
+										endPosition: item first second endPosition;
 										yourself ]
 								ifNil: [ item first second ] ]
 						ifFalse: [ item first ].
