@@ -154,7 +154,11 @@ PSQLExpressionASTBuilder >> conditionalExpression [
 	self flag: #TODO. "REQUIRE refactor following when expression refactor"
 	^ super conditionalExpression psqlASTBuild: [ :tokens |
 		PSQLASTConditionalExpression new
-			conditionsToExpressions: (tokens second collect: [ :item | PSQLASTConditionToExpression condition: item first expression: item third ]);
+			conditionsToExpressions: (tokens second collect: [ :item | 
+				(PSQLASTConditionToExpression condition: item first expression: item third)
+					startPosition: item first startPosition;
+					endPosition: item third endPosition;
+					yourself ]);
 			elseExpression: tokens third second;
 			yourself ]
 ]
