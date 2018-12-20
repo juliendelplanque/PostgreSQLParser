@@ -35,7 +35,8 @@ Class {
 		'identifier',
 		'numericConstant',
 		'identifierWithOptionalFieldAccess',
-		'aliasDefinition'
+		'aliasDefinition',
+		'intoClauseAlternative'
 	],
 	#category : #'PostgreSQL-Parser-Grammars-CRUD'
 }
@@ -182,6 +183,11 @@ PSQLSelectQueryGrammar >> intoClause [
 ]
 
 { #category : #'select command' }
+PSQLSelectQueryGrammar >> intoClauseAlternative [
+	^ kw into trim , identifierWithOptionalFieldAccess trim
+]
+
+{ #category : #'select command' }
 PSQLSelectQueryGrammar >> limitClause [
 	^ kw limit trim , (numericConstant trim / kw all trim)
 ]
@@ -252,7 +258,8 @@ PSQLSelectQueryGrammar >> selectIntoCommandAlternative [
 	SELECT INTO table * | columns ...
 	"
 	^ withClause optional ,
-	   kw select trim , kw into trim , identifierWithOptionalFieldAccess trim  ,
+	   kw select trim ,
+		intoClauseAlternative ,
 		columnsAndAliasesSelected trim ,
 		fromClause optional ,
 		whereClause optional ,

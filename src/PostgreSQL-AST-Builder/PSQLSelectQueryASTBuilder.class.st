@@ -111,6 +111,15 @@ PSQLSelectQueryASTBuilder >> intoClause [
 ]
 
 { #category : #'select command' }
+PSQLSelectQueryASTBuilder >> intoClauseAlternative [
+	^ super intoClauseAlternative psqlASTBuild: [ :tokens |
+		PSQLASTIntoClause new
+			newTable: tokens second;
+			hasTable: false;
+			yourself ]
+]
+
+{ #category : #'select command' }
 PSQLSelectQueryASTBuilder >> limitClause [
 	^ super limitClause psqlASTBuild: [ :tokens |
 		PSQLASTLimitClause new
@@ -152,22 +161,19 @@ PSQLSelectQueryASTBuilder >> selectIntoCommandAlternative [
 	^ super selectIntoCommandAlternative psqlASTBuild: [ :tokens |
 		PSQLASTAlternativeSelectIntoQuery new
 			withClause: tokens first;
-			intoClause: (PSQLASTIntoClause new
-								newTable: tokens fourth;
-								hasTable: false;
-								yourself);
-			columnsAndAliasesSelected: tokens fifth;
-			fromClause: tokens sixth;
-			whereClause: tokens seventh;
-			groupByClause: tokens eighth;
-			havingClause: tokens ninth;
-			windowClause: (tokens at: 10);
-			unionIntersectExceptClause: (tokens at: 11);
-			orderByClause: (tokens at: 12);
-			limitClause: (tokens at: 13);
-			offsetClause: (tokens at: 14);
-			fetchClause: (tokens at: 15);
-			forClause: (tokens at: 16);
+			intoClause: tokens third;
+			columnsAndAliasesSelected: tokens fourth;
+			fromClause: tokens fifth;
+			whereClause: tokens sixth;
+			groupByClause: tokens seventh;
+			havingClause: tokens eighth;
+			windowClause: tokens ninth;
+			unionIntersectExceptClause: (tokens at: 10);
+			orderByClause: (tokens at: 11);
+			limitClause: (tokens at: 12);
+			offsetClause: (tokens at: 13);
+			fetchClause: (tokens at: 14);
+			forClause: (tokens at: 15);
 			yourself ]
 ]
 
