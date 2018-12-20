@@ -1,7 +1,9 @@
 Class {
 	#name : #PSQLASTBuilderDeleteSmokeTest,
 	#superclass : #PSQLGrammarDeleteCrashTest,
-	#category : #PostgreSQL-AST-Builder-SmokeTests
+	#traits : 'PSQLTASTBuilderSanityChecker',
+	#classTraits : 'PSQLTASTBuilderSanityChecker classTrait',
+	#category : #'PostgreSQL-AST-Builder-SmokeTests'
 }
 
 { #category : #accessing }

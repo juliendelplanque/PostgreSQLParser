@@ -1,1 +1,1 @@
-Package { #name : #PostgreSQL-AST-Builder-SmokeTests }
+Package { #name : #'PostgreSQL-AST-Builder-SmokeTests' }

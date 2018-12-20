@@ -1,7 +1,7 @@
 Class {
 	#name : #PSQLASTBuilderInsertSmokeTest,
 	#superclass : #PSQLGrammarInsertCrashTest,
-	#category : #PostgreSQL-AST-Builder-SmokeTests
+	#category : #'PostgreSQL-AST-Builder-SmokeTests'
 }
 
 { #category : #accessing }
