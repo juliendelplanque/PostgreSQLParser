@@ -129,7 +129,12 @@ Class {
 		'order',
 		'raise',
 		'return',
-		'cast'
+		'cast',
+		'inherits',
+		'commit',
+		'tablespace',
+		'local',
+		'global'
 	],
 	#category : #'PostgreSQL-Parser-Core'
 }
@@ -805,8 +810,7 @@ PSQLKeywordsParser >> slice [
 
 { #category : #accessing }
 PSQLKeywordsParser >> start [
-	"This method as to be implemented but we don't care what it returns since this parser is not meant to be used alone."
-	^ PPFailingParser new
+	^ keyword end
 ]
 
 { #category : #keywords }
