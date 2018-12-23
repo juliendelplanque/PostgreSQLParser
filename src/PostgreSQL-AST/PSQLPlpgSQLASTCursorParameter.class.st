@@ -2,7 +2,7 @@
 I am the node for cursor parameter
 "
 Class {
-	#name : #PSQLASTCursorParameter,
+	#name : #PSQLPlpgSQLASTCursorParameter,
 	#superclass : #PSQLPlpgSQLASTNode,
 	#instVars : [
 		'parameterName',
@@ -12,26 +12,26 @@ Class {
 }
 
 { #category : #visit }
-PSQLASTCursorParameter >> acceptVisitor: aPSQLASTVisitor [ 
+PSQLPlpgSQLASTCursorParameter >> acceptVisitor: aPSQLASTVisitor [ 
 	^ aPSQLASTVisitor visitPSQLASTCursorParameter: self
 ]
 
 { #category : #accessing }
-PSQLASTCursorParameter >> parameterName [
+PSQLPlpgSQLASTCursorParameter >> parameterName [
 	^ parameterName
 ]
 
 { #category : #accessing }
-PSQLASTCursorParameter >> parameterName: anObject [
+PSQLPlpgSQLASTCursorParameter >> parameterName: anObject [
 	parameterName := anObject
 ]
 
 { #category : #accessing }
-PSQLASTCursorParameter >> type [
+PSQLPlpgSQLASTCursorParameter >> type [
 	^ type
 ]
 
 { #category : #accessing }
-PSQLASTCursorParameter >> type: anObject [
+PSQLPlpgSQLASTCursorParameter >> type: anObject [
 	type := anObject
 ]
