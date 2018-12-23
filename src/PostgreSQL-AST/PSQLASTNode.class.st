@@ -230,6 +230,11 @@ PSQLASTNode >> isPSQLASTNode [
 ]
 
 { #category : #testing }
+PSQLASTNode >> isRoot [
+	^ self hasParent not
+]
+
+{ #category : #testing }
 PSQLASTNode >> isStringConstant [
 	^ false
 ]
@@ -262,6 +267,11 @@ PSQLASTNode >> printOn: aStream [
 	self innerPrintOn: aStream.
 	aStream
 		<< $)
+]
+
+{ #category : #accessing }
+PSQLASTNode >> root [
+	^ self allParents last
 ]
 
 { #category : #'parent management' }
