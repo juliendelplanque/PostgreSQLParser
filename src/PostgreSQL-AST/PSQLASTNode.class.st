@@ -145,6 +145,11 @@ PSQLASTNode >> childrenDo: aBlock [
 	self children do: aBlock
 ]
 
+{ #category : #accessing }
+PSQLASTNode >> classNameWithoutPrefix [
+	^ self className allButFirst: 7
+]
+
 { #category : #enumerating }
 PSQLASTNode >> depthFirstDetect: aBlock ifFound: ifFoundBlock ifNone: ifNoneBlock [
 	"Search for the first node for which aBlock returns true.

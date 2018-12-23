@@ -6,3 +6,8 @@ Class {
 	#superclass : #PSQLASTNode,
 	#category : #'PostgreSQL-AST-PlpgSQL'
 }
+
+{ #category : #accessing }
+PSQLPlpgSQLASTNode >> classNameWithoutPrefix [
+	^ self className allButFirst: 13
+]
