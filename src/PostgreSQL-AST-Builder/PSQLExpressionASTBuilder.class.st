@@ -134,19 +134,26 @@ PSQLExpressionASTBuilder >> commaSubscriptWith: expressionParser [
 ]
 
 { #category : #expression }
-PSQLExpressionASTBuilder >> compositeValueWith: anExpressionParser [
-	^ (super compositeValueWith: anExpressionParser)
+PSQLExpressionASTBuilder >> compositeValueAndOptionalTypeCastWith: anExpressionParser [
+	^ (super compositeValueAndOptionalTypeCastWith: anExpressionParser)
 		psqlASTBuild: [ :tokens |
-			|node|
-			node := PSQLASTCompositeValue new
-						items: (tokens second reject: [ :item | item = $, ] thenCollect: #first);
-						yourself.
-			tokens fourth ifNotNil: [ 
-				node := PSQLASTBinaryOperator new
+			tokens second
+				ifNil: [ tokens first ]
+				ifNotNil: [
+					PSQLASTBinaryOperator new
 							operator: '::';
-							left: node;
-							right: (PSQLASTIdentifier new identifier: tokens fourth; yourself) ].
-			node ]
+							left: tokens first;
+							right: (tokens second class = PSQLASTIdentifier
+										ifTrue: [ tokens second ]
+										ifFalse: [ PSQLASTIdentifier identifier: tokens second ]) ] ]
+]
+
+{ #category : #expression }
+PSQLExpressionASTBuilder >> compositeValueWith: anExpressionParser [
+	^ (super compositeValueWith: anExpressionParser) psqlASTBuild: [ :tokens |
+			PSQLASTCompositeValue new
+				items: (tokens second reject: [ :item | item = $, ] thenCollect: #first);
+				yourself. ]
 ]
 
 { #category : #expression }

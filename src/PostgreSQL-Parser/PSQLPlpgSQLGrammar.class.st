@@ -104,7 +104,10 @@ Class {
 		'colon',
 		'constant',
 		'argument',
-		'exceptionCase'
+		'exceptionCase',
+		'plpgsqlCursorDeclarationParameters',
+		'plpgsqlCursorDeclarationParameter',
+		'plpgsqlCursorDeclarationParameterType'
 	],
 	#category : #'PostgreSQL-Parser-Grammars-PLpgSQL'
 }
@@ -326,9 +329,24 @@ PSQLPlpgSQLGrammar >> plpgsqlCursorDeclaration [
 	"name [ [ NO ] SCROLL ] CURSOR [ ( arguments ) ] FOR query"
 	^ identifier trim , (kw no trim optional , kw scroll) trim optional , kw cursor trim ,
 	(openParenthesis trim , 
-		((identifier trim , identifierOrKeyword trim plus) plus separatedBy: comma trim) , 
+		plpgsqlCursorDeclarationParameters , 
 	closeParenthesis trim) trim optional ,
 	kw for trim , selectCommand
+]
+
+{ #category : #cursor }
+PSQLPlpgSQLGrammar >> plpgsqlCursorDeclarationParameter [
+	^ identifier trim , plpgsqlCursorDeclarationParameterType
+]
+
+{ #category : #cursor }
+PSQLPlpgSQLGrammar >> plpgsqlCursorDeclarationParameterType [
+	^ identifierOrKeyword trim plus
+]
+
+{ #category : #cursor }
+PSQLPlpgSQLGrammar >> plpgsqlCursorDeclarationParameters [
+	^ plpgsqlCursorDeclarationParameter plus separatedBy: comma trim
 ]
 
 { #category : #cursor }

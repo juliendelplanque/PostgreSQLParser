@@ -169,7 +169,7 @@ PSQLPlpgSQLASTBuilderTest >> testPlpgsqlCursorDeclaration [
 		deny: node scroll;
 		assert: node arguments class equals: Array;
 		assert: node arguments size equals: 2;
-		assert: (node arguments allSatisfy: [ :any | any class = PSQLASTCursorParameter ]);
+		assert: (node arguments allSatisfy: [ :any | any class = PSQLPlpgSQLASTCursorParameter ]);
 		assert: node selectQuery class equals: PSQLASTSelectQuery
 ]
 

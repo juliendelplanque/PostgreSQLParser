@@ -36,6 +36,18 @@ PSQLExpressionASTBuilderTest >> testBinaryLogicalOperator [
 ]
 
 { #category : #'tests-expression' }
+PSQLExpressionASTBuilderTest >> testCompositeValueAndOptionalTypeCastWith [
+	| node |
+	node := builder expression parse: '((-1::INT8) << 63, 0)::"link_strength"'.
+	self
+		assert: node class equals: PSQLASTBinaryOperator;
+		assert: node left class equals: PSQLASTCompositeValue;
+		assert: node left items size equals: 2;
+		assert: node operator equals: '::';
+		assert: node right class equals: PSQLASTIdentifier.
+]
+
+{ #category : #'tests-expression' }
 PSQLExpressionASTBuilderTest >> testCompositeValueWith [
 	| node |
 	node := builder expression parse: '(1, id*3, table.attribute)'.
@@ -44,15 +56,7 @@ PSQLExpressionASTBuilderTest >> testCompositeValueWith [
 		assert: node items size equals: 3;
 		assert: node items first class equals: PSQLASTNumericConstant;
 		assert: node items second class equals: PSQLASTBinaryOperator;
-		assert: node items third class equals: PSQLASTAttributeAccess.
-		
-	node := builder expression parse: '((-1::INT8) << 63, 0)::"link_strength"'.
-	self
-		assert: node class equals: PSQLASTBinaryOperator;
-		assert: node left class equals: PSQLASTCompositeValue;
-		assert: node left items size equals: 2;
-		assert: node operator equals: '::';
-		assert: node right class equals: PSQLASTIdentifier.
+		assert: node items third class equals: PSQLASTAttributeAccess
 ]
 
 { #category : #'tests-expression' }

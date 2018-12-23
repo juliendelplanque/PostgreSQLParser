@@ -176,15 +176,24 @@ PSQLPlpgSQLASTBuilder >> plpgsqlCursorDeclaration [
 			arguments: (tokens fourth
 							ifNil: [ #() ]
 							ifNotNil: [ :subTokens | 
-								(subTokens second reject: [ :item | item = $, ])
-									collect: [ :item | 
-										PSQLPlpgSQLASTCursorParameter new
-											parameterName: item first first;
-											type: (PSQLASTIdentifier identifier: (item first second joinUsing: ' '));
-											yourself
-										 ] ]);
+								tokens fourth flattened select: [ :n | n class = PSQLPlpgSQLASTCursorParameter ] ]);
 			selectQuery: tokens sixth;
 			yourself ]
+]
+
+{ #category : #cursor }
+PSQLPlpgSQLASTBuilder >> plpgsqlCursorDeclarationParameter [
+	^ super plpgsqlCursorDeclarationParameter psqlASTBuild: [ :tokens |
+		PSQLPlpgSQLASTCursorParameter new
+			parameterName: tokens first;
+			type: tokens second;
+			yourself ]
+]
+
+{ #category : #cursor }
+PSQLPlpgSQLASTBuilder >> plpgsqlCursorDeclarationParameterType [
+	^ super plpgsqlCursorDeclarationParameterType psqlASTBuild: [ :tokens |
+		(PSQLASTIdentifier identifier: (tokens joinUsing: ' ')) ]
 ]
 
 { #category : #cursor }

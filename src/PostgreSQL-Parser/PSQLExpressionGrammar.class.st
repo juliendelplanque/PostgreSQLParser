@@ -219,8 +219,13 @@ PSQLExpressionGrammar >> commaSubscriptWith: expressionParser [
 ]
 
 { #category : #expression }
+PSQLExpressionGrammar >> compositeValueAndOptionalTypeCastWith: anExpressionParser [
+	^ (self compositeValueWith: anExpressionParser) , typeCastConstruct trim optional
+]
+
+{ #category : #expression }
 PSQLExpressionGrammar >> compositeValueWith: anExpressionParser [
-	^ openParenthesis trim , (anExpressionParser plus separatedBy: comma trim) , closeParenthesis trim , typeCastConstruct trim optional
+	^ openParenthesis trim , (anExpressionParser plus separatedBy: comma trim) , closeParenthesis trim
 ]
 
 { #category : #expression }
@@ -273,7 +278,7 @@ PSQLExpressionGrammar >> expressionParserTermFor: expressionParser [
 	parenthesedExpression := self parenthesedExpressionParserWith: expressionParser.
 	functionCallTemp := self functionCallParserWith: expressionParser.
 	aggregateExpression := self aggregateExpressionParserWith: expressionParser.
-	compositeValue := self compositeValueWith: expressionParser.
+	compositeValue := self compositeValueAndOptionalTypeCastWith: expressionParser.
 	caseExpression := self caseExpressionWith: expressionParser.
 	^ caseExpression / stringToTypeConversionCommand / cast / parenthesedExpression / nullExpression / compositeValue / conditionalExpression / aggregateExpression
 		/ extractFunctionCall / functionCallTemp / primary / selectCommand , typeCastConstruct optional
