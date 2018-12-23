@@ -12,12 +12,25 @@ PSQLASTNodeTest >> setUp [
 	super setUp.
 	sampleNode := PSQLASTBinaryOperator new
 						left: (PSQLASTBinaryOperator new
-									left: (PSQLASTIdentifier identifier: 'foo');
-									right: (PSQLASTNumericConstant content: '1');
+									left: ((PSQLASTIdentifier identifier: 'foo')
+												startPosition: 1;
+												endPosition: 3;
+												yourself);
+									right: ((PSQLASTNumericConstant content: '1')
+													startPosition: 7;
+													endPosition: 7;
+													yourself);
 									operator: '*';
+									startPosition: 1;
+									endPosition: 7;
 									yourself);
-						right: (PSQLASTNumericConstant content: '2');
+						right: ((PSQLASTNumericConstant content: '2')
+									startPosition: 11;
+									endPosition: 11;
+									yourself);
 						operator: '+';
+						startPosition: 1;
+						endPosition: 11;
 						yourself.
 						
 	sampleNode setChildrenParent
