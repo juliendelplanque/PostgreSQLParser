@@ -15,11 +15,26 @@ PSQLASTNode >> gtSourceCodeIn: composite [
 	<gtInspectorPresentationOrder: 0>
 	^ composite text
 		title: 'Source code';
-		display: [ self sourceCode ifNil: [ 'No source code available' ] ifNotNil: #asText ];
+		display: [ 
+			self sourceCode
+				ifNil: [ 'No source code available' ]
+				ifNotNil: [ self sourceCodeAsText ] ];
 		withLineNumbers: true;
 		initialize: [ :presentation | 
 			(self sourceCode isNil or: [ self startPosition isNil or: [ self endPosition isNil ] ])
 				ifFalse: [ 
 					presentation selectionInterval: (self startPosition to: self endPosition) ] ];
 		yourself
+]
+
+{ #category : #'*PostgreSQL-AST-GTExtensions' }
+PSQLASTNode >> privateSourceCodeAsText [
+	^ self sourceCode asText
+]
+
+{ #category : #'*PostgreSQL-AST-GTExtensions' }
+PSQLASTNode >> sourceCodeAsText [
+	^ self isRoot
+		ifTrue: [ self privateSourceCodeAsText ]
+		ifFalse: [ self root sourceCodeAsText ]
 ]
