@@ -13,6 +13,13 @@ Class {
 }
 
 { #category : #visiting }
+PSQLASTToJSONObjectsVisitor >> visitPSQLASTIdentifier: aPSQLASTIdentifier [
+	^ (super visitPSQLASTIdentifier: aPSQLASTIdentifier)
+		at: #identifier put: aPSQLASTIdentifier identifier;
+		yourself
+]
+
+{ #category : #visiting }
 PSQLASTToJSONObjectsVisitor >> visitPSQLASTNode: aPSQLASTNode [
 	^ { 
 		'type' -> aPSQLASTNode classNameWithoutPrefix.
