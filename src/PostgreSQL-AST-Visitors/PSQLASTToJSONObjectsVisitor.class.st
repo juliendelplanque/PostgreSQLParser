@@ -30,3 +30,17 @@ PSQLASTToJSONObjectsVisitor >> visitPSQLASTNode: aPSQLASTNode [
 		'children' -> (aPSQLASTNode children collect: [ :child | child acceptVisitor: self ] as: Array)
 	} asDictionary
 ]
+
+{ #category : #visiting }
+PSQLASTToJSONObjectsVisitor >> visitPSQLASTNumericConstant: aPSQLASTNumericConstant [
+	^ (super visitPSQLASTNumericConstant: aPSQLASTNumericConstant)
+		at: #constant put: aPSQLASTNumericConstant content;
+		yourself
+]
+
+{ #category : #visiting }
+PSQLASTToJSONObjectsVisitor >> visitPSQLASTStringConstant: aPSQLASTStringConstant [
+	^ (super visitPSQLASTStringConstant: aPSQLASTStringConstant)
+		at: #constant put: aPSQLASTStringConstant content;
+		yourself
+]
