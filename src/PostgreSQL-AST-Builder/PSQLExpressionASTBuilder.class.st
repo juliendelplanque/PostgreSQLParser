@@ -292,6 +292,12 @@ PSQLExpressionASTBuilder >> prefixOperatorBlock [
 ]
 
 { #category : #expression }
+PSQLExpressionASTBuilder >> stringToTypeConversionCommand [
+	self flag: #TODO. "Need to find how to fix this rule..."
+	^ super stringToTypeConversionCommand
+]
+
+{ #category : #expression }
 PSQLExpressionASTBuilder >> typeCastConstruct [
 	^ super typeCastConstruct psqlASTBuild: [ :tokens |
 		PSQLASTIdentifier identifier: ((tokens second flattened reject: #isNil) joinUsing: ' ') ]
