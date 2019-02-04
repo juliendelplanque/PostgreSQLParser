@@ -49,7 +49,7 @@ PostgreSQLParser class >> parseSelectQuery: aQueryString [
 { #category : #parsing }
 PostgreSQLParser class >> parseStoredProcedureBody: storedProcedureSourceCode [
 	"Parses the body of a stored procedure provided as a string containing its source code and returns an AST well initialized."
-	^ self parse: storedProcedureSourceCode using: PSQLPlpgSQLASTBlock
+	^ self parse: storedProcedureSourceCode using: PSQLPlpgSQLASTBuilder
 ]
 
 { #category : #parsing }
