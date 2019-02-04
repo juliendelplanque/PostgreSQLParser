@@ -20,7 +20,7 @@ BaselineOfPostgreSQLParser >> defineDependencies: spec [
 	spec
 		baseline: 'PetitParser' with: [
 			spec
-				loads: #('Core' 'Islands');
+				loads: #('Core' 'Preprocessor');
 				repository: 'github://moosetechnology/PetitParser/src' ];
 		project: 'PetitParser-Gui' copyFrom: 'PetitParser' with: [ spec loads: #('GT') ];
 		baseline: 'LibpgqueryBridge' with: [ 
