@@ -114,7 +114,7 @@ PSQLPlpgSQLASTBuilder >> plpgsqlBlock [
 		PSQLPlpgSQLASTBlock new
 			label: tokens first;
 			declarations: (tokens second ifNotNil: #second);
-			statements: tokens fourth;
+			statements: (tokens fourth reject: #isNil);
 			yourself ]
 ]
 
