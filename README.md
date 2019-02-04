@@ -3,6 +3,12 @@ A parser for PostgreSQL written in Pharo using PetitParser.
 
 For now, the focus is made on PL/pgSQL source code.
 
+- [Install](#install)
+	- [Groups](#groups)
+	- [Use it as a dependency](#use-it-as-a-dependency)
+- [Usage](#usage)
+
+
 ## Install
 ```
 Metacello new
@@ -43,3 +49,26 @@ spec baseline: 'PostgreSQLParser' with: [
 		repository: 'github://juliendelplanque/PostgreSQLParser/src' ]
 [...]
 ```
+
+# Usage
+The complexity of the parsing process is hidden (for users) behind a [facade](https://en.wikipedia.org/wiki/Facade_pattern): `PostgreSQLParser` class. The class-side methods provide a simple API to parse SQL code and get an AST as return.
+
+For example:
+
+```
+ast := PostgreSQLParser parseSelectQuery: 'SELECT person.id, person.name, person.city_id 
+FROM person, city
+WHERE person.city_id = city.id
+LIMIT 10'. "Mind that there is not trailing ';' because this is part of statement's grammar not query grammar."
+
+"... process the AST... "
+```
+
+There other methods work similarly:
+
+- `PostgreSQLParser class>>#parseUpdateQuery:`
+- `PostgreSQLParser class>>#parseCRUDQuery:`
+- `PostgreSQLParser class>>#parseDeleteQuery:`
+- `PostgreSQLParser class>>#parseInsertQuery:`
+- `PostgreSQLParser class>>#parseSelectQuery:`
+- `PostgreSQLParser class>>#parseStoredProcedureBody:`
