@@ -4,6 +4,8 @@ I am an abstract node of the AST. I define the common behaviour and state of all
 Class {
 	#name : #PSQLASTNode,
 	#superclass : #Object,
+	#traits : 'TQIterable',
+	#classTraits : 'TQIterable classTrait',
 	#instVars : [
 		'startPosition',
 		'endPosition',
@@ -59,71 +61,6 @@ PSQLASTNode >> anyParentSatisfy: aBlock [
 	^ false
 ]
 
-{ #category : #enumerating }
-PSQLASTNode >> breadthFirstDetect: aBlock [
-	^ self breadthFirstDetect: aBlock ifFound: [ :found | ^ found ]
-]
-
-{ #category : #enumerating }
-PSQLASTNode >> breadthFirstDetect: aBlock ifFound: ifFoundBlock [
-	^ self breadthFirstDetect: aBlock ifFound: ifFoundBlock ifNone: [ "Do nothing on purpose" ]
-]
-
-{ #category : #enumerating }
-PSQLASTNode >> breadthFirstDetect: aBlock ifFound: ifFoundBlock ifNone: ifNoneBlock [
-	"Search for the first node for which aBlock returns true.
-	 If found, evaluate ifFoundBlock with the found node as arg.
-	 If not found, evaluate ifNoneBlock without arg.
-	 Walks the tree breadth-first."
-	self breadthFirstDo: [ :child |
-		(aBlock value: child)
-			ifTrue: [ ^ ifFoundBlock value: child ] ].
-		
-	ifNoneBlock value
-]
-
-{ #category : #enumerating }
-PSQLASTNode >> breadthFirstDetect: aBlock ifNone: ifNoneBlock [
-	^ self breadthFirstDetect: aBlock ifFound: [ :found | ^ found ] ifNone: ifNoneBlock
-]
-
-{ #category : #enumerating }
-PSQLASTNode >> breadthFirstDo: aBlock [
-	"Executes aBlock on myself and recursively on all the hierarchy of nodes forming the AST.
-	 I do breadth-first walk."
-	| generator |
-	generator := self breadthFirstGenerator.
-	[ generator atEnd ] whileFalse: [ 
-		aBlock value: generator next ]
-]
-
-{ #category : #generators }
-PSQLASTNode >> breadthFirstGenerator [
-	"Returns a Generator that walks the tree breadth-first."
-	^ Generator on: [ :generator |
-		|visitStack|
-		visitStack := LinkedList new.
-		visitStack addFirst: self.
-		[ visitStack isNotEmpty  ] whileTrue: [
-			|currentNode|
-			currentNode := visitStack removeLast.
-			generator yield: currentNode.
-			currentNode childrenDo: [ :child |
-				visitStack addFirst: child ] ] ]
-]
-
-{ #category : #enumerating }
-PSQLASTNode >> breadthFirstSelect: aBlock [
-	"Select nodes of the AST for which aBlock returns true.
-	 Returns these nodes in an OrderedCollection."
-	| selected |
-	selected := OrderedCollection new.
-	self breadthFirstDo: [ :child |
-		(aBlock value: child)
-			ifTrue: [ selected add: child ] ].
-	^ selected
-]
-
 { #category : #'accessing - reflective' }
 PSQLASTNode >> children [
 	| children |
@@ -145,47 +82,14 @@ PSQLASTNode >> childrenDo: aBlock [
 	self children do: aBlock
 ]
 
+{ #category : #accessor }
+PSQLASTNode >> childrenSelector [
+	^ #children
+]
+
 { #category : #accessing }
 PSQLASTNode >> classNameWithoutPrefix [
 	^ self className allButFirst: 7
-]
-
-{ #category : #enumerating }
-PSQLASTNode >> depthFirstDetect: aBlock ifFound: ifFoundBlock ifNone: ifNoneBlock [
-	"Search for the first node for which aBlock returns true.
-	 If found, evaluate ifFoundBlock with the found node as arg.
-	 If not found, evaluate ifNoneBlock without arg.
-	 Walks the tree depth-first."
-	self depthFirstDo: [ :child |
-		(aBlock value: child)
-			ifTrue: [ ^ ifFoundBlock value: child ] ].
-		
-	ifNoneBlock value
-]
-
-{ #category : #enumerating }
-PSQLASTNode >> depthFirstDo: aBlock [
-	"Executes aBlock on myself and recursively on all the hierarchy of nodes forming the AST.
-	 I do depth-first walk."
-	| generator |
-	generator := self depthFirstGenerator.
-	[ generator atEnd ] whileFalse: [ 
-		aBlock value: generator next ]
-]
-
-{ #category : #generators }
-PSQLASTNode >> depthFirstGenerator [
-	"Returns a Generator that walks the tree depth-first."
-	^ Generator on: [ :generator |
-		|visitStack|
-		visitStack := Stack new.
-		visitStack push: self.
-		[ visitStack isNotEmpty  ] whileTrue: [
-			|currentNode|
-			currentNode := visitStack pop.
-			generator yield: currentNode.
-			currentNode children reverseDo: [ :child |
-				visitStack push: child ] ] ]
 ]
 
 { #category : #accessing }

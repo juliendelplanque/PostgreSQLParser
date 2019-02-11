@@ -46,34 +46,10 @@ PSQLASTNodeTest >> testAllParents [
 ]
 
 { #category : #tests }
-PSQLASTNodeTest >> testBreadthFirstGenerator [
-	| gen |
-	gen := sampleNode breadthFirstGenerator.
-	self assert: gen next equals: sampleNode.
-	self assert: gen next equals: sampleNode left.
-	self assert: gen next equals: sampleNode right.
-	self assert: gen next equals: sampleNode left left.
-	self assert: gen next equals: sampleNode left right.
-	self assert: gen atEnd
-]
-
-{ #category : #tests }
 PSQLASTNodeTest >> testChildren [
 	self
 		assertCollection: sampleNode children
 		equals: { sampleNode left. sampleNode right } asOrderedCollection
-]
-
-{ #category : #tests }
-PSQLASTNodeTest >> testDepthFirstGenerator [
-	| gen |
-	gen := sampleNode depthFirstGenerator.
-	self assert: gen next equals: sampleNode.
-	self assert: gen next equals: sampleNode left.
-	self assert: gen next equals: sampleNode left left.
-	self assert: gen next equals: sampleNode left right.
-	self assert: gen next equals: sampleNode right.
-	self assert: gen atEnd
 ]
 
 { #category : #tests }

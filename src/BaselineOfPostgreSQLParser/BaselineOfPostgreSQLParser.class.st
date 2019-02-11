@@ -25,7 +25,10 @@ BaselineOfPostgreSQLParser >> defineDependencies: spec [
 		project: 'PetitParser-Gui' copyFrom: 'PetitParser' with: [ spec loads: #('GT') ];
 		baseline: 'LibpgqueryBridge' with: [ 
 			spec
-				repository: 'github://juliendelplanque/LibpgqueryBridge/repository' ]
+				repository: 'github://juliendelplanque/LibpgqueryBridge/repository' ];
+		baseline: 'TreeQuery' with: [
+			spec
+				repository: 'github://juliendelplanque/TreeQuery/src' ]
 ]
 
 { #category : #baselines }
