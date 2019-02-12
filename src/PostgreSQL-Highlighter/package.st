@@ -1,1 +1,1 @@
-Package { #name : #PostgreSQL-Highlighter }
+Package { #name : #'PostgreSQL-Highlighter' }
