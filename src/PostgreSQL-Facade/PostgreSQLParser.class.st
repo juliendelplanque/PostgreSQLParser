@@ -49,7 +49,7 @@ PostgreSQLParser class >> parseUpdateQuery: aQueryString [
 PostgreSQLParser >> parse: aQueryString using: aParserClass [
 	| parser astOrFailure |
 	parser := aParserClass new
-					preProcessor: PSQLTokenizer new comment token ==> [ :p | String new: p stop - p start withAll: Character space ].
+					preProcessor: PSQLTokenizer new comment token ==> [ :p | String new: (p stop - p start) + 1 withAll: Character space ].
 	astOrFailure := parser parse: aQueryString.
 	astOrFailure isPetitFailure
 		ifTrue: [ PSQLParseError signalPetitFailure: astOrFailure ].
