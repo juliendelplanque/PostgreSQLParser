@@ -45,6 +45,12 @@ PostgreSQLParser class >> parseUpdateQuery: aQueryString [
 	^ self new parseUpdateQuery: aQueryString
 ]
 
+{ #category : #'comments - removing' }
+PostgreSQLParser class >> removeCommentsFrom: sourceCode [
+	"See instance-side method."
+	^ self new removeCommentsFrom: sourceCode
+]
+
 { #category : #private }
 PostgreSQLParser >> commentToWhiteSpaceParser [
 	^ PSQLTokenizer new comment token
