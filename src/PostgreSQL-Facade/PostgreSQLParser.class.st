@@ -1,7 +1,7 @@
 "
 I am the implementation of the facade design pattern to expose the parser to users in a simplied way.
 
-See my class side for available methods.
+I can either be instantiated or my class side can be directly used for scripting.
 "
 Class {
 	#name : #PostgreSQLParser,
@@ -46,15 +46,21 @@ PostgreSQLParser class >> parseUpdateQuery: aQueryString [
 ]
 
 { #category : #private }
-PostgreSQLParser >> parse: aQueryString using: aParserClass [
+PostgreSQLParser >> commentToWhiteSpaceParser [
+	^ PSQLTokenizer new comment token
+			==> [ :p | String new: p stop - p start + 1 withAll: Character space ]
+]
+
+{ #category : #private }
+PostgreSQLParser >> parse: sourceCode using: aParserClass [
 	| parser astOrFailure |
 	parser := aParserClass new
-					preProcessor: PSQLTokenizer new comment token ==> [ :p | String new: (p stop - p start) + 1 withAll: Character space ].
-	astOrFailure := parser parse: aQueryString.
+		preProcessor: self commentToWhiteSpaceParser.
+	astOrFailure := parser parse: sourceCode.
 	astOrFailure isPetitFailure
 		ifTrue: [ PSQLParseError signalPetitFailure: astOrFailure ].
 	astOrFailure setChildrenParent.
-	astOrFailure sourceCode: aQueryString.
+	astOrFailure sourceCode: sourceCode.
 	^ astOrFailure
 ]
 
@@ -92,4 +98,14 @@ PostgreSQLParser >> parseStoredProcedureBody: storedProcedureSourceCode [
 PostgreSQLParser >> parseUpdateQuery: aQueryString [
 	"Parses a UPDATE query provided as a string and returns a AST well initialized."
 	^ self parse: aQueryString using: PSQLUpdateQueryASTBuilder
+]
+
+{ #category : #'comments - removing' }
+PostgreSQLParser >> removeCommentsFrom: sourceCode [
+	"Replaces the comments in sourceCode by whitespaces."
+	| commentsRemover |
+	commentsRemover := (self commentToWhiteSpaceParser / #any asParser) star end.
+	^ String streamContents: [ :stream |
+		(commentsRemover parse: sourceCode) do: [ :item |
+			stream << item ] ]
 ]
