@@ -20,7 +20,6 @@ PSQLASTNode >> gtSourceCodeIn: composite [
 				ifNil: [ 'No source code available' ]
 				ifNotNil: [ self sourceCodeAsText ]) ];
 		withLineNumbers: true;
-		text: [ 1 halt ];
 		initialize: [ :presentation | 
 			(self sourceCode isNil or: [ self startPosition isNil or: [ self endPosition isNil ] ])
 				ifFalse: [ 
