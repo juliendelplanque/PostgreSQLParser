@@ -157,6 +157,11 @@ PSQLASTNode >> isStringConstant [
 	^ false
 ]
 
+{ #category : #testing }
+PSQLASTNode >> isWildCard [
+	^ false
+]
+
 { #category : #accessing }
 PSQLASTNode >> parent [
 	^ parent

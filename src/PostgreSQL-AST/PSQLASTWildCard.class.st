@@ -16,3 +16,8 @@ PSQLASTWildCard >> acceptVisitor: aVisitor [
 PSQLASTWildCard >> innerPrintOn: aStream [
 	aStream << $*
 ]
+
+{ #category : #testing }
+PSQLASTWildCard >> isWildCard [
+	^ true
+]
