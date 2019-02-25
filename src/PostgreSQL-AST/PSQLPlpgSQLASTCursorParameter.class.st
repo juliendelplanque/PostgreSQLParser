@@ -8,7 +8,7 @@ Class {
 		'parameterName',
 		'type'
 	],
-	#category : #'PostgreSQL-AST'
+	#category : #'PostgreSQL-AST-PlpgSQL'
 }
 
 { #category : #visit }
