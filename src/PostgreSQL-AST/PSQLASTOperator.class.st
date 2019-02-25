@@ -21,6 +21,11 @@ PSQLASTOperator >> expression: anObject [
 	expression := anObject
 ]
 
+{ #category : #testing }
+PSQLASTOperator >> isOperator [
+	^ true
+]
+
 { #category : #accessing }
 PSQLASTOperator >> operator [
 	^ operator

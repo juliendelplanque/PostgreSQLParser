@@ -15,6 +15,11 @@ PSQLASTLimitClause >> acceptVisitor: aVisitor [
 	^ aVisitor visitPSQLASTLimitClause: self
 ]
 
+{ #category : #testing }
+PSQLASTLimitClause >> isLimitClause [
+	^ true
+]
+
 { #category : #accessing }
 PSQLASTLimitClause >> limit [
 	^ limit

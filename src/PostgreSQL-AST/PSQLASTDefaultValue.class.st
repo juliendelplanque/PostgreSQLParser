@@ -11,3 +11,8 @@ Class {
 PSQLASTDefaultValue >> acceptVisitor: aVisitor [
 	^ aVisitor visitPSQLASTDefaultValue: self
 ]
+
+{ #category : #testing }
+PSQLASTDefaultValue >> isDefaultValue [
+	^ true
+]

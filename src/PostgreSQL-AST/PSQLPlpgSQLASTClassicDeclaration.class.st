@@ -39,6 +39,11 @@ PSQLPlpgSQLASTClassicDeclaration >> defaultExpression: anObject [
 	defaultExpression := anObject
 ]
 
+{ #category : #testing }
+PSQLPlpgSQLASTClassicDeclaration >> isClassicDeclaration [
+	^ true
+]
+
 { #category : #accessing }
 PSQLPlpgSQLASTClassicDeclaration >> isConstant [
 	^ isConstant

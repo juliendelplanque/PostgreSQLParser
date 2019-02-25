@@ -43,3 +43,8 @@ PSQLASTCaseExpression >> elseExpression [
 PSQLASTCaseExpression >> elseExpression: anObject [
 	elseExpression := anObject
 ]
+
+{ #category : #testing }
+PSQLASTCaseExpression >> isCaseExpression [
+	^ true
+]

@@ -24,3 +24,8 @@ PSQLASTGroupByClause >> expressions [
 PSQLASTGroupByClause >> expressions: anObject [
 	expressions := anObject
 ]
+
+{ #category : #testing }
+PSQLASTGroupByClause >> isGroupByClause [
+	^ true
+]

@@ -24,3 +24,8 @@ PSQLPlpgSQLASTPerform >> code [
 PSQLPlpgSQLASTPerform >> code: anObject [
 	code := anObject
 ]
+
+{ #category : #testing }
+PSQLPlpgSQLASTPerform >> isPerform [
+	^ true
+]

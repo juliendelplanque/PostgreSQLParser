@@ -60,6 +60,11 @@ PSQLASTInsertQuery >> hasReturningClause [
 	^ self returningClause isNotNil
 ]
 
+{ #category : #testing }
+PSQLASTInsertQuery >> isInsertQuery [
+	^ true
+]
+
 { #category : #accessing }
 PSQLASTInsertQuery >> onConflictClause [
 	^ onConflictClause

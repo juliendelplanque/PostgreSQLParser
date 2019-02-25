@@ -32,6 +32,11 @@ PSQLPlpgSQLASTCursorFetch >> hasDirection [
 	^ self direction isNotNil
 ]
 
+{ #category : #testing }
+PSQLPlpgSQLASTCursorFetch >> isCursorFetch [
+	^ true
+]
+
 { #category : #accessing }
 PSQLPlpgSQLASTCursorFetch >> isFrom [
 	^ isFrom

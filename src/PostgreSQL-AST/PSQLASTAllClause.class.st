@@ -11,3 +11,8 @@ Class {
 PSQLASTAllClause >> acceptVisitor: aVisitor [
 	^ aVisitor visitPSQLASTAllClause: self
 ]
+
+{ #category : #testing }
+PSQLASTAllClause >> isAllClause [
+	^ true
+]

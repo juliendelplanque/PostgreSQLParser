@@ -37,6 +37,11 @@ PSQLASTConflictAction >> hasSetClause [
 ]
 
 { #category : #testing }
+PSQLASTConflictAction >> isConflictAction [
+	^ true
+]
+
+{ #category : #testing }
 PSQLASTConflictAction >> isDoNothing [
 	^ self hasSetClause not and: [ self hasCondition not ]
 ]

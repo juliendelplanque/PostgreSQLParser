@@ -24,3 +24,8 @@ PSQLASTHavingClause >> expressions [
 PSQLASTHavingClause >> expressions: anObject [
 	expressions := anObject
 ]
+
+{ #category : #testing }
+PSQLASTHavingClause >> isHavingClause [
+	^ true
+]

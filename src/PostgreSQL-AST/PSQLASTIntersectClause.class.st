@@ -11,3 +11,8 @@ Class {
 PSQLASTIntersectClause >> acceptVisitor: aVisitor [
 	^ aVisitor visitPSQLASTIntersectClause: self
 ]
+
+{ #category : #testing }
+PSQLASTIntersectClause >> isIntersectClause [
+	^ true
+]

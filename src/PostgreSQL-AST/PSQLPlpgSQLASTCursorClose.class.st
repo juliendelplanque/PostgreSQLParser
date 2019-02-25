@@ -11,3 +11,8 @@ Class {
 PSQLPlpgSQLASTCursorClose >> acceptVisitor: aVisitor [
 	^ aVisitor visitPSQLPlpgSQLASTCursorClose: self
 ]
+
+{ #category : #testing }
+PSQLPlpgSQLASTCursorClose >> isCursorClose [
+	^ true
+]

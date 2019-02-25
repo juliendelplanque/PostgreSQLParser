@@ -20,3 +20,8 @@ PSQLASTPrefixOperator >> innerPrintOn: aStream [
 		
 	self expression innerPrintOn: aStream.
 ]
+
+{ #category : #testing }
+PSQLASTPrefixOperator >> isPrefixOperator [
+	^ true
+]

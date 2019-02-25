@@ -11,3 +11,8 @@ Class {
 PSQLPlpgSQLASTSimpleCase >> acceptVisitor: aVisitor [
 	^ aVisitor visitPSQLPlpgSQLASTSimpleCase: self
 ]
+
+{ #category : #testing }
+PSQLPlpgSQLASTSimpleCase >> isSimpleCase [
+	^ true
+]

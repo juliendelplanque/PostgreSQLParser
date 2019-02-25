@@ -12,6 +12,11 @@ PSQLASTUsingClause >> acceptVisitor: aPSQLASTVisitor [
 	^ aPSQLASTVisitor visitPSQLASTUsingClause: self
 ]
 
+{ #category : #testing }
+PSQLASTUsingClause >> isUsingClause [
+	^ true
+]
+
 { #category : #accessing }
 PSQLASTUsingClause >> list [
 	^ list

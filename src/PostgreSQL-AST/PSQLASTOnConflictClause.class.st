@@ -31,6 +31,11 @@ PSQLASTOnConflictClause >> hasTarget [
 	^ self target isNotNil
 ]
 
+{ #category : #testing }
+PSQLASTOnConflictClause >> isOnConflictClause [
+	^ true
+]
+
 { #category : #accessing }
 PSQLASTOnConflictClause >> target [
 	^ target

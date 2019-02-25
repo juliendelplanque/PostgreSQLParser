@@ -30,3 +30,8 @@ PSQLPlpgSQLASTConditional >> elseStatements [
 PSQLPlpgSQLASTConditional >> elseStatements: anObject [
 	elseStatements := anObject
 ]
+
+{ #category : #testing }
+PSQLPlpgSQLASTConditional >> isConditional [
+	^ true
+]

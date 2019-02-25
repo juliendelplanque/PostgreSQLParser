@@ -66,3 +66,8 @@ PSQLASTOrderByClauseItem >> isNullsFirst: anObject [
 PSQLASTOrderByClauseItem >> isNullsLast [
 	^ self isNullsFirst not
 ]
+
+{ #category : #testing }
+PSQLASTOrderByClauseItem >> isOrderByClauseItem [
+	^ true
+]

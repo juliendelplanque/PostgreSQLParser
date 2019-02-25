@@ -31,6 +31,11 @@ PSQLPlpgSQLASTCursorFetchDirection >> hasCount [
 	^ self count isNotNil
 ]
 
+{ #category : #testing }
+PSQLPlpgSQLASTCursorFetchDirection >> isCursorFetchDirection [
+	^ true
+]
+
 { #category : #accessing }
 PSQLPlpgSQLASTCursorFetchDirection >> name [
 	^ name

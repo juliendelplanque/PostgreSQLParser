@@ -24,3 +24,8 @@ PSQLASTWhenExpression >> expression [
 PSQLASTWhenExpression >> expression: anObject [
 	expression := anObject
 ]
+
+{ #category : #testing }
+PSQLASTWhenExpression >> isWhenExpression [
+	^ true
+]

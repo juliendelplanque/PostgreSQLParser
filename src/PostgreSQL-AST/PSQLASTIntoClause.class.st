@@ -28,6 +28,11 @@ PSQLASTIntoClause >> hasTable: anObject [
 ]
 
 { #category : #testing }
+PSQLASTIntoClause >> isIntoClause [
+	^ true
+]
+
+{ #category : #testing }
 PSQLASTIntoClause >> isTemp [
 	^ self type = 'TEMP'
 ]

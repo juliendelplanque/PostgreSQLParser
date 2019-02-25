@@ -8,3 +8,8 @@ Class {
 PSQLPlpgSQLCursorUpdate >> acceptVisitor: aVisitor [
 	^ aVisitor visitPSQLPlpgSQLCursorUpdate: self
 ]
+
+{ #category : #testing }
+PSQLPlpgSQLCursorUpdate >> isCursorUpdate [
+	^ true
+]

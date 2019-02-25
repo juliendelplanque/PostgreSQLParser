@@ -15,6 +15,11 @@ PSQLASTReturningClause >> acceptVisitor: aVisitor [
 	^ aVisitor visitPSQLASTReturningClause: self
 ]
 
+{ #category : #testing }
+PSQLASTReturningClause >> isReturningClause [
+	^ true
+]
+
 { #category : #accessing }
 PSQLASTReturningClause >> returnedList [
 	^ returnedList

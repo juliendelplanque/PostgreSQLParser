@@ -15,6 +15,11 @@ PSQLASTOrderByClause >> acceptVisitor: aVisitor [
 	^ aVisitor visitPSQLASTOrderByClause: self
 ]
 
+{ #category : #testing }
+PSQLASTOrderByClause >> isOrderByClause [
+	^ true
+]
+
 { #category : #accessing }
 PSQLASTOrderByClause >> items [
 	^ items

@@ -32,3 +32,8 @@ PSQLASTAliasDefinition >> definition [
 PSQLASTAliasDefinition >> definition: anObject [
 	definition := anObject
 ]
+
+{ #category : #testing }
+PSQLASTAliasDefinition >> isAliasDefinition [
+	^ true
+]

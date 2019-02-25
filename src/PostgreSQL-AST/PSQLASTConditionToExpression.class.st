@@ -43,3 +43,8 @@ PSQLASTConditionToExpression >> expression [
 PSQLASTConditionToExpression >> expression: anObject [
 	expression := anObject
 ]
+
+{ #category : #testing }
+PSQLASTConditionToExpression >> isConditionToExpression [
+	^ true
+]

@@ -35,3 +35,8 @@ PSQLASTConditionalExpression >> elseExpression [
 PSQLASTConditionalExpression >> elseExpression: anObject [
 	elseExpression := anObject
 ]
+
+{ #category : #testing }
+PSQLASTConditionalExpression >> isConditionalExpression [
+	^ true
+]

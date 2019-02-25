@@ -11,3 +11,8 @@ Class {
 PSQLASTSetClauseItemType1 >> acceptVisitor: aVisitor [
 	^ aVisitor visitPSQLASTSetClauseItemType1: self
 ]
+
+{ #category : #testing }
+PSQLASTSetClauseItemType1 >> isSetClauseItemType1 [
+	^ true
+]

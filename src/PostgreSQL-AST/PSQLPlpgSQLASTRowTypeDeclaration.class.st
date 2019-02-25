@@ -15,6 +15,11 @@ PSQLPlpgSQLASTRowTypeDeclaration >> acceptVisitor: aVisitor [
 	^ aVisitor visitPSQLPlpgSQLASTRowTypeDeclaration: self
 ]
 
+{ #category : #testing }
+PSQLPlpgSQLASTRowTypeDeclaration >> isRowTypeDeclaration [
+	^ true
+]
+
 { #category : #accessing }
 PSQLPlpgSQLASTRowTypeDeclaration >> tableIdentifier [
 	^ tableIdentifier

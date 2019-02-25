@@ -15,6 +15,11 @@ PSQLASTArrayConstructor >> acceptVisitor: aVisitor [
 	^ aVisitor visitPSQLASTArrayConstructor: self
 ]
 
+{ #category : #testing }
+PSQLASTArrayConstructor >> isArrayConstructor [
+	^ true
+]
+
 { #category : #accessing }
 PSQLASTArrayConstructor >> items [
 	^ items

@@ -34,6 +34,11 @@ PSQLPlpgSQLASTConditionToStatements >> condition: anObject [
 	condition := anObject
 ]
 
+{ #category : #testing }
+PSQLPlpgSQLASTConditionToStatements >> isConditionToStatements [
+	^ true
+]
+
 { #category : #accessing }
 PSQLPlpgSQLASTConditionToStatements >> statements [
 	^ statements

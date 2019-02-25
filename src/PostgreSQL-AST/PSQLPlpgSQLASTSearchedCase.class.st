@@ -35,6 +35,11 @@ PSQLPlpgSQLASTSearchedCase >> conditionsToStatements: anObject [
 	super conditionToStatements: anObject
 ]
 
+{ #category : #testing }
+PSQLPlpgSQLASTSearchedCase >> isSearchedCase [
+	^ true
+]
+
 { #category : #accessing }
 PSQLPlpgSQLASTSearchedCase >> searchedExpression [
 	^ searchedExpression

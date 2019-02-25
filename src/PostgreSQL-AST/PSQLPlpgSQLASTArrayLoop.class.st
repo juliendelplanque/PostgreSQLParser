@@ -27,6 +27,11 @@ PSQLPlpgSQLASTArrayLoop >> arrayExpression: anObject [
 	arrayExpression := anObject
 ]
 
+{ #category : #testing }
+PSQLPlpgSQLASTArrayLoop >> isArrayLoop [
+	^ true
+]
+
 { #category : #accessing }
 PSQLPlpgSQLASTArrayLoop >> sliceNumber [
 	^ sliceNumber

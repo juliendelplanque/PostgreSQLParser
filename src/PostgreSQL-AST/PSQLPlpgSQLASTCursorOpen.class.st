@@ -24,3 +24,8 @@ PSQLPlpgSQLASTCursorOpen >> arguments [
 PSQLPlpgSQLASTCursorOpen >> arguments: anObject [
 	arguments := anObject
 ]
+
+{ #category : #testing }
+PSQLPlpgSQLASTCursorOpen >> isCursorOpen [
+	^ true
+]

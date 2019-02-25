@@ -15,6 +15,11 @@ PSQLASTFromClause >> acceptVisitor: aVisitor [
 	^ aVisitor visitPSQLASTFromClause: self
 ]
 
+{ #category : #testing }
+PSQLASTFromClause >> isFromClause [
+	^ true
+]
+
 { #category : #accessing }
 PSQLASTFromClause >> items [
 	^ items

@@ -37,3 +37,8 @@ PSQLASTTableAlias >> identifier [
 PSQLASTTableAlias >> identifier: anObject [
 	identifier := anObject
 ]
+
+{ #category : #testing }
+PSQLASTTableAlias >> isTableAlias [
+	^ true
+]

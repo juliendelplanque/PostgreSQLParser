@@ -69,6 +69,11 @@ PSQLASTDeleteQuery >> initialize [
 		areDescendantTablesIncluded: false
 ]
 
+{ #category : #testing }
+PSQLASTDeleteQuery >> isDeleteQuery [
+	^ true
+]
+
 { #category : #accessing }
 PSQLASTDeleteQuery >> isOnlySpecified [
 	^ isOnlySpecified

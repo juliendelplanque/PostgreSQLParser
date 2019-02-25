@@ -29,3 +29,8 @@ PSQLASTSelectWhereClause >> condition: anObject [
 PSQLASTSelectWhereClause >> hasCondition [
 	^ self condition isNotNil
 ]
+
+{ #category : #testing }
+PSQLASTSelectWhereClause >> isSelectWhereClause [
+	^ true
+]

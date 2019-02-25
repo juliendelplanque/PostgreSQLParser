@@ -29,3 +29,8 @@ PSQLASTDistinctClause >> expressions: anObject [
 PSQLASTDistinctClause >> hasExpressions [
 	^ expressions isNotNil
 ]
+
+{ #category : #testing }
+PSQLASTDistinctClause >> isDistinctClause [
+	^ true
+]

@@ -25,6 +25,11 @@ PSQLASTBinaryOperator >> innerPrintOn: aStream [
 	self right innerPrintOn: aStream
 ]
 
+{ #category : #testing }
+PSQLASTBinaryOperator >> isBinaryOperator [
+	^ true
+]
+
 { #category : #accessing }
 PSQLASTBinaryOperator >> left [
 	^ self expression

@@ -11,3 +11,8 @@ Class {
 PSQLASTNull >> acceptVisitor: aPSQLASTReflectiveVisitor [
 	^ aPSQLASTReflectiveVisitor visitPSQASTNull: self
 ]
+
+{ #category : #testing }
+PSQLASTNull >> isNull [
+	^ true
+]

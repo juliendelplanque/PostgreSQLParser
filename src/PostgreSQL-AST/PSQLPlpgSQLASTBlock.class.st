@@ -27,6 +27,11 @@ PSQLPlpgSQLASTBlock >> declarations: anObject [
 	declarations := anObject
 ]
 
+{ #category : #testing }
+PSQLPlpgSQLASTBlock >> isBlock [
+	^ true
+]
+
 { #category : #accessing }
 PSQLPlpgSQLASTBlock >> label [
 	^ label

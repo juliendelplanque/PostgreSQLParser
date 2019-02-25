@@ -16,6 +16,11 @@ PSQLPlpgSQLASTQueryResultsLoop >> acceptVisitor: aVisitor [
 	^ aVisitor visitPSQLPlpgSQLASTQueryResultsLoop: self
 ]
 
+{ #category : #testing }
+PSQLPlpgSQLASTQueryResultsLoop >> isQueryResultsLoop [
+	^ true
+]
+
 { #category : #accessing }
 PSQLPlpgSQLASTQueryResultsLoop >> query [
 	^ query

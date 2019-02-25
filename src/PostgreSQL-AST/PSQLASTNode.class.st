@@ -133,7 +133,387 @@ PSQLASTNode >> instanceVariableNamesToChildrenDo: aBlock [
 ]
 
 { #category : #testing }
+PSQLASTNode >> isAggregateFunctionCall [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isAliasDeclaration [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isAliasDefinition [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isAllClause [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isAlternativeSelectIntoQuery [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isArgument [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isArrayConstructor [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isArrayLoop [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isAssignment [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isAttributeAccess [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isBinaryOperator [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isBlock [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isBlockLabel [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isCRUDQuery [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isCaseExpression [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isCaseToExpression [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isCasesToStatements [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isCastExpression [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isClassicDeclaration [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isColumnDefinition [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isCompositeValue [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isConditionToExpression [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isConditionToStatements [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isConditional [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isConditionalExpression [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isConflictAction [
+	^ false
+]
+
+{ #category : #testing }
 PSQLASTNode >> isConstant [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isContinue [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isCopyTypeDeclaration [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isCursorClose [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isCursorDeclaration [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isCursorDelete [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isCursorFetch [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isCursorFetchDirection [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isCursorMove [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isCursorMoveDirection [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isCursorOpen [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isCursorOpenForExecute [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isCursorOpenForQuery [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isCursorParameter [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isCursorStatement [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isCursorUpdate [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isDeclaration [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isDefaultValue [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isDefaultValues [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isDeleteQuery [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isDistinctClause [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isExceptClause [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isExceptionCase [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isExceptionHandler [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isExit [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isExpressionASTNode [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isExtractFunctionCall [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isFetchClause [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isForClause [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isForLoop [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isFromClause [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isFromClauseItem [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isFromClauseItemType1 [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isFromClauseItemType2 [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isFromClauseItemType3 [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isFromClauseItemType4 [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isFromClauseItemType5 [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isFromClauseItemType6 [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isFromClauseItemType7 [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isFunctionCall [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isGroupByClause [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isHavingClause [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isIdentifier [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isIf [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isInsertQuery [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isIntersectClause [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isIntoClause [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isLimitClause [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isLoop [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isNode [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isNull [
 	^ false
 ]
 
@@ -143,8 +523,83 @@ PSQLASTNode >> isNumericConstant [
 ]
 
 { #category : #testing }
+PSQLASTNode >> isOffsetClause [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isOnConflictClause [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isOperator [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isOrderByClause [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isOrderByClauseItem [
+	^ false
+]
+
+{ #category : #testing }
 PSQLASTNode >> isPSQLASTNode [
 	^ true
+]
+
+{ #category : #testing }
+PSQLASTNode >> isParenthesedExpression [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isPerform [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isPositionalParameter [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isPostfixOperator [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isPrefixOperator [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isQueryResultsLoop [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isRaiseStatement [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isRecordDeclaration [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isReturnStatement [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isReturningClause [
+	^ false
 ]
 
 { #category : #testing }
@@ -153,12 +608,132 @@ PSQLASTNode >> isRoot [
 ]
 
 { #category : #testing }
+PSQLASTNode >> isRowTypeDeclaration [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isSearchedCase [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isSelectIntoQuery [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isSelectQuery [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isSelectWhereClause [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isSetClause [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isSetClauseItem [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isSetClauseItemType1 [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isSetClauseItemType2 [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isSetClauseItemType3 [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isSetOperatorClause [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isSimpleCase [
+	^ false
+]
+
+{ #category : #testing }
 PSQLASTNode >> isStringConstant [
 	^ false
 ]
 
 { #category : #testing }
+PSQLASTNode >> isSubscript [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isTableAlias [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isType [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isUnionClause [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isUpdateDeleteWhereClause [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isUpdateQuery [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isUsingClause [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isValuesClause [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isValuesCommand [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isWhenExpression [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isWhileLoop [
+	^ false
+]
+
+{ #category : #testing }
 PSQLASTNode >> isWildCard [
+	^ false
+]
+
+{ #category : #testing }
+PSQLASTNode >> isWithClause [
 	^ false
 ]
 

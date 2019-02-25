@@ -27,6 +27,11 @@ PSQLPlpgSQLASTBlockLabel >> innerPrintOn: aStream [
 	aStream << self labelContent
 ]
 
+{ #category : #testing }
+PSQLPlpgSQLASTBlockLabel >> isBlockLabel [
+	^ true
+]
+
 { #category : #accessing }
 PSQLPlpgSQLASTBlockLabel >> labelContent [
 	^ labelContent

@@ -97,6 +97,11 @@ PSQLASTSelectQuery >> havingClause: anObject [
 	havingClause := anObject
 ]
 
+{ #category : #testing }
+PSQLASTSelectQuery >> isSelectQuery [
+	^ true
+]
+
 { #category : #accessing }
 PSQLASTSelectQuery >> limitClause [
 	^ limitClause

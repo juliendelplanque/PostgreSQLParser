@@ -50,6 +50,11 @@ PSQLPlpgSQLASTRaiseStatement >> formatString: anObject [
 	formatString := anObject
 ]
 
+{ #category : #testing }
+PSQLPlpgSQLASTRaiseStatement >> isRaiseStatement [
+	^ true
+]
+
 { #category : #accessing }
 PSQLPlpgSQLASTRaiseStatement >> level [
 	^ level

@@ -25,3 +25,8 @@ PSQLPlpgSQLASTAliasDeclaration >> aliased [
 PSQLPlpgSQLASTAliasDeclaration >> aliased: anObject [
 	aliased := anObject
 ]
+
+{ #category : #testing }
+PSQLPlpgSQLASTAliasDeclaration >> isAliasDeclaration [
+	^ true
+]

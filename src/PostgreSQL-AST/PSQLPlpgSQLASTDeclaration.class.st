@@ -19,3 +19,8 @@ PSQLPlpgSQLASTDeclaration >> identifier [
 PSQLPlpgSQLASTDeclaration >> identifier: anObject [
 	identifier := anObject
 ]
+
+{ #category : #testing }
+PSQLPlpgSQLASTDeclaration >> isDeclaration [
+	^ true
+]

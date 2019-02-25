@@ -15,6 +15,11 @@ PSQLASTExtractFunctionCall >> acceptVisitor: aPSQLASTVisitor [
 	^ aPSQLASTVisitor visitPSQLASTExtractFunctionCall: self
 ]
 
+{ #category : #testing }
+PSQLASTExtractFunctionCall >> isExtractFunctionCall [
+	^ true
+]
+
 { #category : #accessing }
 PSQLASTExtractFunctionCall >> parameter [
 	^ parameter

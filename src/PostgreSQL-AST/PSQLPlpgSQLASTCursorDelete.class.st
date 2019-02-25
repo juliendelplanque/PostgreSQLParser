@@ -15,6 +15,11 @@ PSQLPlpgSQLASTCursorDelete >> acceptVisitor: aVisitor [
 	^ aVisitor visitPSQLPlpgSQLASTCursorDelete: self
 ]
 
+{ #category : #testing }
+PSQLPlpgSQLASTCursorDelete >> isCursorDelete [
+	^ true
+]
+
 { #category : #accessing }
 PSQLPlpgSQLASTCursorDelete >> tableIdentifier [
 	^ tableIdentifier

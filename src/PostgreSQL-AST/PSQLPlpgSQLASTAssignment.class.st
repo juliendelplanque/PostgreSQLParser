@@ -17,6 +17,11 @@ PSQLPlpgSQLASTAssignment >> acceptVisitor: aVisitor [
 	^ aVisitor visitPSQLPlpgSQLASTAssignment: self
 ]
 
+{ #category : #testing }
+PSQLPlpgSQLASTAssignment >> isAssignment [
+	^ true
+]
+
 { #category : #accessing }
 PSQLPlpgSQLASTAssignment >> operator [
 	^ operator

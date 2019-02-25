@@ -26,6 +26,11 @@ PSQLASTColumnDefinition >> columnName: anObject [
 	columnName := anObject
 ]
 
+{ #category : #testing }
+PSQLASTColumnDefinition >> isColumnDefinition [
+	^ true
+]
+
 { #category : #accessing }
 PSQLASTColumnDefinition >> type [
 	^ type

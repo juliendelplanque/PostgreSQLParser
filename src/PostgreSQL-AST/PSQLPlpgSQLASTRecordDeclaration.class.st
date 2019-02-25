@@ -11,3 +11,8 @@ Class {
 PSQLPlpgSQLASTRecordDeclaration >> acceptVisitor: aVisitor [
 	^ aVisitor visitPSQLPlpgSQLASTRecordDeclaration: self
 ]
+
+{ #category : #testing }
+PSQLPlpgSQLASTRecordDeclaration >> isRecordDeclaration [
+	^ true
+]

@@ -25,3 +25,8 @@ PSQLPlpgSQLASTWhileLoop >> condition [
 PSQLPlpgSQLASTWhileLoop >> condition: anObject [
 	condition := anObject
 ]
+
+{ #category : #testing }
+PSQLPlpgSQLASTWhileLoop >> isWhileLoop [
+	^ true
+]

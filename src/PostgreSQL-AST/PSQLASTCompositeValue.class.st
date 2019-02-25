@@ -25,6 +25,11 @@ PSQLASTCompositeValue >> innerPrintOn: aStream [
 		<< $)
 ]
 
+{ #category : #testing }
+PSQLASTCompositeValue >> isCompositeValue [
+	^ true
+]
+
 { #category : #accessing }
 PSQLASTCompositeValue >> items [
 	^ items

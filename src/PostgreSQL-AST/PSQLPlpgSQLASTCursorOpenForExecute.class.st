@@ -23,6 +23,11 @@ PSQLPlpgSQLASTCursorOpenForExecute >> executeStatement: anObject [
 	executeStatement := anObject
 ]
 
+{ #category : #testing }
+PSQLPlpgSQLASTCursorOpenForExecute >> isCursorOpenForExecute [
+	^ true
+]
+
 { #category : #accessing }
 PSQLPlpgSQLASTCursorOpenForExecute >> scroll [
 	^ scroll

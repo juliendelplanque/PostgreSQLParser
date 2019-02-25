@@ -37,6 +37,11 @@ PSQLASTExceptionHandler >> exceptionCases: anObject [
 	exceptionCases := anObject
 ]
 
+{ #category : #testing }
+PSQLASTExceptionHandler >> isExceptionHandler [
+	^ true
+]
+
 { #category : #accessing }
 PSQLASTExceptionHandler >> statements [
 	^ statements

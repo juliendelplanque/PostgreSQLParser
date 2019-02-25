@@ -11,3 +11,8 @@ Class {
 PSQLASTExceptClause >> acceptVisitor: aVisitor [
 	^ aVisitor visitPSQLASTExceptClause: self
 ]
+
+{ #category : #testing }
+PSQLASTExceptClause >> isExceptClause [
+	^ true
+]

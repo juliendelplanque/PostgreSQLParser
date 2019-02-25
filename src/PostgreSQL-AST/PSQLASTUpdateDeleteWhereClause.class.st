@@ -29,3 +29,8 @@ PSQLASTUpdateDeleteWhereClause >> currentOfCursor: anObject [
 PSQLASTUpdateDeleteWhereClause >> hasCursor [
 	^ self currentOfCursor isNotNil
 ]
+
+{ #category : #testing }
+PSQLASTUpdateDeleteWhereClause >> isUpdateDeleteWhereClause [
+	^ true
+]

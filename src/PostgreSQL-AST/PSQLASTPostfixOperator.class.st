@@ -24,3 +24,8 @@ PSQLASTPostfixOperator >> innerPrintOn: aStream [
 		ifTrue: [ self operator innerPrintOn: aStream ]
 		ifFalse: [ aStream << self operator ]
 ]
+
+{ #category : #testing }
+PSQLASTPostfixOperator >> isPostfixOperator [
+	^ true
+]

@@ -22,6 +22,11 @@ PSQLASTForClause >> hasOfTables [
 	^ self ofTables isNotNil
 ]
 
+{ #category : #testing }
+PSQLASTForClause >> isForClause [
+	^ true
+]
+
 { #category : #accessing }
 PSQLASTForClause >> isNoWait [
 	^ isNoWait

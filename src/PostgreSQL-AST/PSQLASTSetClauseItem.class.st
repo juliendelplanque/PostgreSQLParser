@@ -11,6 +11,11 @@ Class {
 	#category : #'PostgreSQL-AST-SQL'
 }
 
+{ #category : #testing }
+PSQLASTSetClauseItem >> isSetClauseItem [
+	^ true
+]
+
 { #category : #accessing }
 PSQLASTSetClauseItem >> left [
 	^ left

@@ -58,3 +58,8 @@ PSQLASTFunctionCall >> innerPrintOn: aStream [
 	aStream
 		<< $)
 ]
+
+{ #category : #testing }
+PSQLASTFunctionCall >> isFunctionCall [
+	^ true
+]

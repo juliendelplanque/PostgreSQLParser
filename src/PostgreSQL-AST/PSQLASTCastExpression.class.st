@@ -23,6 +23,11 @@ PSQLASTCastExpression >> expressionToCast: anObject [
 	expressionToCast := anObject
 ]
 
+{ #category : #testing }
+PSQLASTCastExpression >> isCastExpression [
+	^ true
+]
+
 { #category : #accessing }
 PSQLASTCastExpression >> typeToCastToIdentifier [
 	^ typeToCastToIdentifier

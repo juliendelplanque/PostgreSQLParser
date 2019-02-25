@@ -16,6 +16,11 @@ PSQLPlpgSQLASTCursorParameter >> acceptVisitor: aPSQLASTVisitor [
 	^ aPSQLASTVisitor visitPSQLASTCursorParameter: self
 ]
 
+{ #category : #testing }
+PSQLPlpgSQLASTCursorParameter >> isCursorParameter [
+	^ true
+]
+
 { #category : #accessing }
 PSQLPlpgSQLASTCursorParameter >> parameterName [
 	^ parameterName

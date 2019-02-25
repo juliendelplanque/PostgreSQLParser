@@ -33,3 +33,8 @@ PSQLASTParenthesedExpression >> innerPrintOn: aStream [
 	aStream
 		<< $).
 ]
+
+{ #category : #testing }
+PSQLASTParenthesedExpression >> isParenthesedExpression [
+	^ true
+]

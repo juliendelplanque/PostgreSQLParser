@@ -40,3 +40,8 @@ PSQLASTCaseToExpression >> expression [
 PSQLASTCaseToExpression >> expression: anObject [
 	expression := anObject
 ]
+
+{ #category : #testing }
+PSQLASTCaseToExpression >> isCaseToExpression [
+	^ true
+]

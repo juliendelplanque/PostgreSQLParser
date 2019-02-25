@@ -31,6 +31,11 @@ PSQLASTFetchClause >> hasCount [
 	^ self count isNotNil
 ]
 
+{ #category : #testing }
+PSQLASTFetchClause >> isFetchClause [
+	^ true
+]
+
 { #category : #accessing }
 PSQLASTFetchClause >> isFirst [
 	^ isFirst

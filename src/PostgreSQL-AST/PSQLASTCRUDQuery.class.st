@@ -15,6 +15,11 @@ PSQLASTCRUDQuery >> hasWithClause [
 	^ self withClause isNotNil
 ]
 
+{ #category : #testing }
+PSQLASTCRUDQuery >> isCRUDQuery [
+	^ true
+]
+
 { #category : #accessing }
 PSQLASTCRUDQuery >> withClause [
 	^ withClause

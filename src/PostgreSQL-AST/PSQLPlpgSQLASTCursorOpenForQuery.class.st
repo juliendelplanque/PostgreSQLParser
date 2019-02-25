@@ -16,6 +16,11 @@ PSQLPlpgSQLASTCursorOpenForQuery >> acceptVisitor: aVisitor [
 	^ aVisitor visitPSQLPlpgSQLASTCursorOpenForQuery: self
 ]
 
+{ #category : #testing }
+PSQLPlpgSQLASTCursorOpenForQuery >> isCursorOpenForQuery [
+	^ true
+]
+
 { #category : #accessing }
 PSQLPlpgSQLASTCursorOpenForQuery >> scroll [
 	^ scroll

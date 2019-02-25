@@ -36,3 +36,8 @@ PSQLASTIdentifier >> identifier: anObject [
 PSQLASTIdentifier >> innerPrintOn: aStream [
 	aStream << self identifier
 ]
+
+{ #category : #testing }
+PSQLASTIdentifier >> isIdentifier [
+	^ true
+]

@@ -46,3 +46,8 @@ PSQLASTFromClauseItemType5 >> hasLateral [
 PSQLASTFromClauseItemType5 >> hasLateral: anObject [
 	hasLateral := anObject
 ]
+
+{ #category : #testing }
+PSQLASTFromClauseItemType5 >> isFromClauseItemType5 [
+	^ true
+]

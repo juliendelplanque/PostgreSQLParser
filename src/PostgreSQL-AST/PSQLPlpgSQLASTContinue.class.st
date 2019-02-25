@@ -16,6 +16,11 @@ PSQLPlpgSQLASTContinue >> acceptVisitor: aVisitor [
 	^ aVisitor visitPSQLPlpgSQLASTContinue: self
 ]
 
+{ #category : #testing }
+PSQLPlpgSQLASTContinue >> isContinue [
+	^ true
+]
+
 { #category : #accessing }
 PSQLPlpgSQLASTContinue >> label [
 	^ label

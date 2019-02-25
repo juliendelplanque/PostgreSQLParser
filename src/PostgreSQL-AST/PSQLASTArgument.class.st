@@ -16,6 +16,11 @@ PSQLASTArgument >> acceptVisitor: aPSQLASTVisitor [
 	^ aPSQLASTVisitor visitPSQLASTArgument: self
 ]
 
+{ #category : #testing }
+PSQLASTArgument >> isArgument [
+	^ true
+]
+
 { #category : #accessing }
 PSQLASTArgument >> parameterName [
 	^ parameterName

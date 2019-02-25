@@ -46,3 +46,8 @@ PSQLASTAttributeAccess >> innerPrintOn: aStream [
 			<< $..
 		self attributeIdentifier innerPrintOn: aStream ].
 ]
+
+{ #category : #testing }
+PSQLASTAttributeAccess >> isAttributeAccess [
+	^ true
+]

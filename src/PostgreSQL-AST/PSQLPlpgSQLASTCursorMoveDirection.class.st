@@ -36,6 +36,11 @@ PSQLPlpgSQLASTCursorMoveDirection >> isCountAll [
 	^ self count isString and: [ self count asUppercase = 'ALL' ]
 ]
 
+{ #category : #testing }
+PSQLPlpgSQLASTCursorMoveDirection >> isCursorMoveDirection [
+	^ true
+]
+
 { #category : #accessing }
 PSQLPlpgSQLASTCursorMoveDirection >> name [
 	^ name

@@ -15,6 +15,11 @@ PSQLASTOffsetClause >> acceptVisitor: aVisitor [
 	^ aVisitor visitPSQLASTOffsetClause: self
 ]
 
+{ #category : #testing }
+PSQLASTOffsetClause >> isOffsetClause [
+	^ true
+]
+
 { #category : #accessing }
 PSQLASTOffsetClause >> offset [
 	^ offset

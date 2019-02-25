@@ -29,6 +29,11 @@ PSQLPlpgSQLASTCursorDeclaration >> arguments: anObject [
 	arguments := anObject
 ]
 
+{ #category : #testing }
+PSQLPlpgSQLASTCursorDeclaration >> isCursorDeclaration [
+	^ true
+]
+
 { #category : #accessing }
 PSQLPlpgSQLASTCursorDeclaration >> scroll [
 	^ scroll

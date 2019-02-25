@@ -12,6 +12,11 @@ PSQLASTValuesClause >> acceptVisitor: aPSQLASTVisitor [
 	^ aPSQLASTVisitor visitPSQLASTValuesClause: self
 ]
 
+{ #category : #testing }
+PSQLASTValuesClause >> isValuesClause [
+	^ true
+]
+
 { #category : #accessing }
 PSQLASTValuesClause >> values [
 	^ values

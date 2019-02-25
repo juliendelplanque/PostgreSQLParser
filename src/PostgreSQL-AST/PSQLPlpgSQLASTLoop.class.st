@@ -37,6 +37,11 @@ PSQLPlpgSQLASTLoop >> endLabel: anObject [
 	endLabel := anObject
 ]
 
+{ #category : #testing }
+PSQLPlpgSQLASTLoop >> isLoop [
+	^ true
+]
+
 { #category : #accessing }
 PSQLPlpgSQLASTLoop >> statements [
 	^ statements

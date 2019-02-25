@@ -28,6 +28,11 @@ PSQLPlpgSQLASTForLoop >> fromExpression: anObject [
 	fromExpression := anObject
 ]
 
+{ #category : #testing }
+PSQLPlpgSQLASTForLoop >> isForLoop [
+	^ true
+]
+
 { #category : #accessing }
 PSQLPlpgSQLASTForLoop >> isReversed [
 	^ isReversed

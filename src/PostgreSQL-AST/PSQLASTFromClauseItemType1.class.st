@@ -69,6 +69,11 @@ PSQLASTFromClauseItemType1 >> hasOnly: anObject [
 	hasOnly := anObject
 ]
 
+{ #category : #testing }
+PSQLASTFromClauseItemType1 >> isFromClauseItemType1 [
+	^ true
+]
+
 { #category : #accessing }
 PSQLASTFromClauseItemType1 >> tableName [
 	^ tableName

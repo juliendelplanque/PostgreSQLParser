@@ -26,6 +26,11 @@ PSQLPlpgSQLASTExit >> booleanExpression: anObject [
 	booleanExpression := anObject
 ]
 
+{ #category : #testing }
+PSQLPlpgSQLASTExit >> isExit [
+	^ true
+]
+
 { #category : #accessing }
 PSQLPlpgSQLASTExit >> label [
 	^ label

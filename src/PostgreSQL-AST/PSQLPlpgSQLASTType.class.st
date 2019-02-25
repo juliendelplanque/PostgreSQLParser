@@ -42,6 +42,11 @@ PSQLPlpgSQLASTType >> innerPrintOn: aStream [
 	self identifier innerPrintOn: aStream
 ]
 
+{ #category : #testing }
+PSQLPlpgSQLASTType >> isType [
+	^ true
+]
+
 { #category : #accessing }
 PSQLPlpgSQLASTType >> size [
 	^ size

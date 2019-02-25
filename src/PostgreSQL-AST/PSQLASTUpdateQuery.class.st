@@ -82,6 +82,11 @@ PSQLASTUpdateQuery >> hasWhereClause [
 	^ self whereClause isNotNil
 ]
 
+{ #category : #testing }
+PSQLASTUpdateQuery >> isUpdateQuery [
+	^ true
+]
+
 { #category : #accessing }
 PSQLASTUpdateQuery >> returningClause [
 	^ returningClause

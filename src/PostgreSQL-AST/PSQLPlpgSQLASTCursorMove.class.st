@@ -31,6 +31,11 @@ PSQLPlpgSQLASTCursorMove >> hasDirection [
 	^ self direction isNotNil
 ]
 
+{ #category : #testing }
+PSQLPlpgSQLASTCursorMove >> isCursorMove [
+	^ true
+]
+
 { #category : #accessing }
 PSQLPlpgSQLASTCursorMove >> isFrom [
 	^ isFrom

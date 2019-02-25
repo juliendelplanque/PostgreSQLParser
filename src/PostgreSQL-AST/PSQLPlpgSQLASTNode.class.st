@@ -11,3 +11,8 @@ Class {
 PSQLPlpgSQLASTNode >> classNameWithoutPrefix [
 	^ self className allButFirst: 13
 ]
+
+{ #category : #testing }
+PSQLPlpgSQLASTNode >> isNode [
+	^ true
+]

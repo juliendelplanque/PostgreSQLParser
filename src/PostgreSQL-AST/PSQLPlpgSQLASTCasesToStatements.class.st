@@ -31,6 +31,11 @@ PSQLPlpgSQLASTCasesToStatements >> cases: anObject [
 	cases := anObject
 ]
 
+{ #category : #testing }
+PSQLPlpgSQLASTCasesToStatements >> isCasesToStatements [
+	^ true
+]
+
 { #category : #accessing }
 PSQLPlpgSQLASTCasesToStatements >> statements [
 	^ statements

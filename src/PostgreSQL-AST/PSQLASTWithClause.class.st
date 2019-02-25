@@ -26,6 +26,11 @@ PSQLASTWithClause >> isRecursive: anObject [
 	isRecursive := anObject
 ]
 
+{ #category : #testing }
+PSQLASTWithClause >> isWithClause [
+	^ true
+]
+
 { #category : #accessing }
 PSQLASTWithClause >> queries [
 	^ queries

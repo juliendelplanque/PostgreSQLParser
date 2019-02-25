@@ -75,6 +75,11 @@ PSQLPlpgSQLASTReturnStatement >> isReturnQueryExecute [
 	^ self queryExecute isNotNil
 ]
 
+{ #category : #testing }
+PSQLPlpgSQLASTReturnStatement >> isReturnStatement [
+	^ true
+]
+
 { #category : #accessing }
 PSQLPlpgSQLASTReturnStatement >> query [
 	^ query

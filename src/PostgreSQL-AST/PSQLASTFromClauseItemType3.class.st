@@ -47,6 +47,11 @@ PSQLASTFromClauseItemType3 >> hasColumnAliases [
 	^ self columnAliases isNotNil
 ]
 
+{ #category : #testing }
+PSQLASTFromClauseItemType3 >> isFromClauseItemType3 [
+	^ true
+]
+
 { #category : #accessing }
 PSQLASTFromClauseItemType3 >> withQueryName [
 	^ withQueryName

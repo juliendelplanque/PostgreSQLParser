@@ -24,3 +24,8 @@ PSQLPlpgSQLASTCopyTypeDeclaration >> accessToCopyType [
 PSQLPlpgSQLASTCopyTypeDeclaration >> accessToCopyType: anObject [
 	accessToCopyType := anObject
 ]
+
+{ #category : #testing }
+PSQLPlpgSQLASTCopyTypeDeclaration >> isCopyTypeDeclaration [
+	^ true
+]

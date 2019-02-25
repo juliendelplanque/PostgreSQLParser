@@ -11,3 +11,8 @@ Class {
 PSQLASTAlternativeSelectIntoQuery >> acceptVisitor: aVisitor [
 	^ aVisitor visitPSQLASTAlternativeSelectIntoQuery: self
 ]
+
+{ #category : #testing }
+PSQLASTAlternativeSelectIntoQuery >> isAlternativeSelectIntoQuery [
+	^ true
+]

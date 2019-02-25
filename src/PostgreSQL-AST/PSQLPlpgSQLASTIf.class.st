@@ -11,3 +11,8 @@ Class {
 PSQLPlpgSQLASTIf >> acceptVisitor: aVisitor [
 	^ aVisitor visitPSQLPlpgSQLASTIf: self
 ]
+
+{ #category : #testing }
+PSQLPlpgSQLASTIf >> isIf [
+	^ true
+]

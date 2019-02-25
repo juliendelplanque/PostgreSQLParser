@@ -11,3 +11,8 @@ Class {
 PSQLASTUnionClause >> acceptVisitor: aVisitor [
 	^ aVisitor visitPSQLASTUnionClause: self
 ]
+
+{ #category : #testing }
+PSQLASTUnionClause >> isUnionClause [
+	^ true
+]

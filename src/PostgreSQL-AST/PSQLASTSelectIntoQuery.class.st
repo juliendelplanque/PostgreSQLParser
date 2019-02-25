@@ -24,3 +24,8 @@ PSQLASTSelectIntoQuery >> intoClause [
 PSQLASTSelectIntoQuery >> intoClause: anObject [
 	intoClause := anObject
 ]
+
+{ #category : #testing }
+PSQLASTSelectIntoQuery >> isSelectIntoQuery [
+	^ true
+]

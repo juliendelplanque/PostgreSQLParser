@@ -24,3 +24,8 @@ PSQLPlpgSQLASTPositionalParameter >> index [
 PSQLPlpgSQLASTPositionalParameter >> index: anObject [
 	index := anObject
 ]
+
+{ #category : #testing }
+PSQLPlpgSQLASTPositionalParameter >> isPositionalParameter [
+	^ true
+]

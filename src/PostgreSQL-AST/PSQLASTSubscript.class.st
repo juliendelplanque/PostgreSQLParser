@@ -26,6 +26,11 @@ PSQLASTSubscript >> innerPrintOn: aStream [
 		<< $]
 ]
 
+{ #category : #testing }
+PSQLASTSubscript >> isSubscript [
+	^ true
+]
+
 { #category : #accessing }
 PSQLASTSubscript >> subscriptExpression [
 	^ subscriptExpression

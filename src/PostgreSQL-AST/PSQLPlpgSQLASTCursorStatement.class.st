@@ -26,3 +26,8 @@ PSQLPlpgSQLASTCursorStatement >> cursorIdentifier [
 PSQLPlpgSQLASTCursorStatement >> cursorIdentifier: anObject [
 	cursorIdentifier := anObject
 ]
+
+{ #category : #testing }
+PSQLPlpgSQLASTCursorStatement >> isCursorStatement [
+	^ true
+]

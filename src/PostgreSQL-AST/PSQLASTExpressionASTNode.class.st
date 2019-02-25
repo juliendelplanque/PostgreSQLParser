@@ -6,3 +6,8 @@ Class {
 	#superclass : #PSQLASTNode,
 	#category : #'PostgreSQL-AST-SQL'
 }
+
+{ #category : #testing }
+PSQLASTExpressionASTNode >> isExpressionASTNode [
+	^ true
+]

@@ -40,6 +40,11 @@ PSQLASTFromClauseItemType6 >> hasUsingList [
 	^ self usingList isNotNil
 ]
 
+{ #category : #testing }
+PSQLASTFromClauseItemType6 >> isFromClauseItemType6 [
+	^ true
+]
+
 { #category : #accessing }
 PSQLASTFromClauseItemType6 >> joinCondition [
 	^ joinCondition

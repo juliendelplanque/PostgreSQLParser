@@ -32,6 +32,11 @@ PSQLASTSetOperatorClause >> isDistinct: anObject [
 	isDistinct := anObject
 ]
 
+{ #category : #testing }
+PSQLASTSetOperatorClause >> isSetOperatorClause [
+	^ true
+]
+
 { #category : #accessing }
 PSQLASTSetOperatorClause >> selectQuery [
 	^ selectQuery

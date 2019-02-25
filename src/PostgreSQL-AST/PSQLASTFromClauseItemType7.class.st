@@ -78,3 +78,8 @@ PSQLASTFromClauseItemType7 >> hasWithOrdinality [
 PSQLASTFromClauseItemType7 >> hasWithOrdinality: anObject [
 	hasWithOrdinality := anObject
 ]
+
+{ #category : #testing }
+PSQLASTFromClauseItemType7 >> isFromClauseItemType7 [
+	^ true
+]
