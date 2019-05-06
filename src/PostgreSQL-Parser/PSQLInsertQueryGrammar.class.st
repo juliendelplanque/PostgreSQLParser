@@ -52,6 +52,11 @@ PSQLInsertQueryGrammar class >> sharedParser [
 ]
 
 { #category : #accessing }
+PSQLInsertQueryGrammar class >> startSymbol [
+	^ #startEnd
+]
+
+{ #category : #accessing }
 PSQLInsertQueryGrammar class >> tokenParser [
 	^ PSQLTokenizer
 ]
@@ -180,7 +185,12 @@ PSQLInsertQueryGrammar >> setClause [
 
 { #category : #accessing }
 PSQLInsertQueryGrammar >> start [
-	^ insertCommand end
+	^ insertCommand
+]
+
+{ #category : #accessing }
+PSQLInsertQueryGrammar >> startEnd [
+	^ self start end
 ]
 
 { #category : #'insert command' }

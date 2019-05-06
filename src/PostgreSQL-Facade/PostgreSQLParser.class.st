@@ -58,10 +58,17 @@ PostgreSQLParser >> commentToWhiteSpaceParser [
 ]
 
 { #category : #private }
-PostgreSQLParser >> parse: sourceCode using: aParserClass [
+PostgreSQLParser >> parse: sourceCode using: aParser [
+	^ self parse: sourceCode using: aParser upToEnd: true
+]
+
+{ #category : #private }
+PostgreSQLParser >> parse: sourceCode using: aParserClass upToEnd: aBoolean [
 	| parser astOrFailure |
-	parser := aParserClass new
-		preProcessor: self commentToWhiteSpaceParser.
+	parser := aBoolean
+					ifTrue: [ aParserClass newStartingAt: #startEnd ]
+					ifFalse: [ aParserClass newStartingAt: #start ].
+	parser := parser preProcessor: self commentToWhiteSpaceParser.
 	astOrFailure := parser parse: sourceCode.
 	astOrFailure isPetitFailure
 		ifTrue: [ PSQLParseError signalPetitFailure: astOrFailure ].
@@ -73,37 +80,73 @@ PostgreSQLParser >> parse: sourceCode using: aParserClass [
 { #category : #parsing }
 PostgreSQLParser >> parseCRUDQuery: aQueryString [
 	"Parses a CRUD query provided as a string and returns a AST well initialized."
-	^ self parse: aQueryString using: PSQLCRUDQueryASTBuilder
+	^ self parseCRUDQuery: aQueryString upToEnd: true
+]
+
+{ #category : #parsing }
+PostgreSQLParser >> parseCRUDQuery: aQueryString upToEnd: aBoolean [
+	"Parses a CRUD query provided as a string and returns a AST well initialized."
+	^ self parse: aQueryString using: PSQLCRUDQueryASTBuilder upToEnd: aBoolean
 ]
 
 { #category : #parsing }
 PostgreSQLParser >> parseDeleteQuery: aQueryString [
 	"Parses a DELETE query provided as a string and returns a AST well initialized."
-	^ self parse: aQueryString using: PSQLDeleteQueryASTBuilder
+	^ self parseDeleteQuery: aQueryString upToEnd: true
+]
+
+{ #category : #parsing }
+PostgreSQLParser >> parseDeleteQuery: aQueryString upToEnd: aBoolean [
+	"Parses a DELETE query provided as a string and returns a AST well initialized."
+	^ self parse: aQueryString using: PSQLDeleteQueryASTBuilder upToEnd: aBoolean
 ]
 
 { #category : #parsing }
 PostgreSQLParser >> parseInsertQuery: aQueryString [
 	"Parses a INSERT query provided as a string and returns a AST well initialized."
-	^ self parse: aQueryString using: PSQLInsertQueryASTBuilder
+	^ self parseInsertQuery: aQueryString upToEnd: true
+]
+
+{ #category : #parsing }
+PostgreSQLParser >> parseInsertQuery: aQueryString upToEnd: aBoolean [
+	"Parses a INSERT query provided as a string and returns a AST well initialized."
+	^ self parse: aQueryString using: PSQLInsertQueryASTBuilder upToEnd: aBoolean
 ]
 
 { #category : #parsing }
 PostgreSQLParser >> parseSelectQuery: aQueryString [
 	"Parses a SELECT query provided as a string and returns a AST well initialized."
-	^ self parse: aQueryString using: PSQLSelectQueryASTBuilder
+	^ self parseSelectQuery: aQueryString upToEnd: true
+]
+
+{ #category : #parsing }
+PostgreSQLParser >> parseSelectQuery: aQueryString upToEnd: aBoolean [
+	"Parses a SELECT query provided as a string and returns a AST well initialized."
+	^ self parse: aQueryString using: PSQLSelectQueryASTBuilder upToEnd: aBoolean
 ]
 
 { #category : #parsing }
 PostgreSQLParser >> parseStoredProcedureBody: storedProcedureSourceCode [
 	"Parses the body of a stored procedure provided as a string containing its source code and returns an AST well initialized."
-	^ self parse: storedProcedureSourceCode using: PSQLPlpgSQLASTBuilder
+	^ self parseStoredProcedureBody: storedProcedureSourceCode upToEnd: true
+]
+
+{ #category : #parsing }
+PostgreSQLParser >> parseStoredProcedureBody: storedProcedureSourceCode upToEnd: aBoolean [
+	"Parses the body of a stored procedure provided as a string containing its source code and returns an AST well initialized."
+	^ self parse: storedProcedureSourceCode using: PSQLPlpgSQLASTBuilder upToEnd: aBoolean
 ]
 
 { #category : #parsing }
 PostgreSQLParser >> parseUpdateQuery: aQueryString [
 	"Parses a UPDATE query provided as a string and returns a AST well initialized."
-	^ self parse: aQueryString using: PSQLUpdateQueryASTBuilder
+	^ self parseUpdateQuery: aQueryString upToEnd: true
+]
+
+{ #category : #parsing }
+PostgreSQLParser >> parseUpdateQuery: aQueryString upToEnd: aBoolean [
+	"Parses a UPDATE query provided as a string and returns a AST well initialized."
+	^ self parse: aQueryString using: PSQLUpdateQueryASTBuilder upToEnd: aBoolean
 ]
 
 { #category : #'comments - removing' }

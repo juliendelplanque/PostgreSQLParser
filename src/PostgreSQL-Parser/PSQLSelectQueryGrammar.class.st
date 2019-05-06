@@ -77,6 +77,11 @@ PSQLSelectQueryGrammar class >> sharedParser [
 ]
 
 { #category : #accessing }
+PSQLSelectQueryGrammar class >> startSymbol [
+	^ #startEnd
+]
+
+{ #category : #accessing }
 PSQLSelectQueryGrammar class >> tokenParser [
 	^ PSQLTokenizer
 ]
@@ -316,7 +321,12 @@ PSQLSelectQueryGrammar >> simpleStringConstant [
 
 { #category : #accessing }
 PSQLSelectQueryGrammar >> start [
-	^ (selectIntoCommand / selectCommand) end
+	^ (selectIntoCommand / selectCommand)
+]
+
+{ #category : #accessing }
+PSQLSelectQueryGrammar >> startEnd [
+	^ self start end
 ]
 
 { #category : #'select command' }

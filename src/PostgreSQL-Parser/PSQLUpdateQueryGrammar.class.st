@@ -47,6 +47,11 @@ PSQLUpdateQueryGrammar class >> sharedParser [
 ]
 
 { #category : #accessing }
+PSQLUpdateQueryGrammar class >> startSymbol [
+	^ #startEnd
+]
+
+{ #category : #accessing }
 PSQLUpdateQueryGrammar class >> tokenParser [
 	^ PSQLTokenizer
 ]
@@ -94,7 +99,12 @@ PSQLUpdateQueryGrammar >> setClause [
 
 { #category : #accessing }
 PSQLUpdateQueryGrammar >> start [
-		^ updateCommand end
+	^ updateCommand
+]
+
+{ #category : #accessing }
+PSQLUpdateQueryGrammar >> startEnd [
+	^ self start end
 ]
 
 { #category : #'update command' }

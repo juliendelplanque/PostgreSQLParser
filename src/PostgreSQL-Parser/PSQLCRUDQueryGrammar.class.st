@@ -34,6 +34,11 @@ PSQLCRUDQueryGrammar class >> selectQueryParser [
 ]
 
 { #category : #accessing }
+PSQLCRUDQueryGrammar class >> startSymbol [
+	^ #startEnd
+]
+
+{ #category : #accessing }
 PSQLCRUDQueryGrammar class >> updateQueryParser [
 	^ PSQLUpdateQueryGrammar
 ]
@@ -56,6 +61,11 @@ PSQLCRUDQueryGrammar >> selectCommand [
 { #category : #accessing }
 PSQLCRUDQueryGrammar >> start [
 	^ insertCommand / selectCommand / updateCommand / deleteCommand
+]
+
+{ #category : #accessing }
+PSQLCRUDQueryGrammar >> startEnd [
+	^ self start end
 ]
 
 { #category : #dependencies }

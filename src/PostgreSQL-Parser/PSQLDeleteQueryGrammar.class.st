@@ -44,6 +44,11 @@ PSQLDeleteQueryGrammar class >> sharedParser [
 ]
 
 { #category : #accessing }
+PSQLDeleteQueryGrammar class >> startSymbol [
+	^ #startEnd
+]
+
+{ #category : #accessing }
 PSQLDeleteQueryGrammar class >> tokenParser [
 	^ PSQLTokenizer
 ]
@@ -106,7 +111,12 @@ PSQLDeleteQueryGrammar >> returningClause [
 
 { #category : #accessing }
 PSQLDeleteQueryGrammar >> start [
-	^ deleteCommand end
+	^ deleteCommand
+]
+
+{ #category : #accessing }
+PSQLDeleteQueryGrammar >> startEnd [
+	^ self start end
 ]
 
 { #category : #dependencies }
