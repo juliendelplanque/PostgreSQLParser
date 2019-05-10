@@ -7,16 +7,28 @@ Class {
 	#name : #PSQLParseError,
 	#superclass : #Error,
 	#instVars : [
-		'petitFailure'
+		'petitFailure',
+		'inputString'
 	],
 	#category : #'PostgreSQL-Facade'
 }
 
 { #category : #signalling }
-PSQLParseError class >> signalPetitFailure: aPPFailure [
+PSQLParseError class >> signalPetitFailure: aPPFailure inputString: aString [
 	self new
 		petitFailure: aPPFailure;
+		inputString: aString;
 		signal
+]
+
+{ #category : #accessing }
+PSQLParseError >> inputString [
+	^ inputString
+]
+
+{ #category : #accessing }
+PSQLParseError >> inputString: anObject [
+	inputString := anObject
 ]
 
 { #category : #accessing }

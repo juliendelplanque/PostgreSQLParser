@@ -71,7 +71,7 @@ PostgreSQLParser >> parse: sourceCode using: aParserClass upToEnd: aBoolean [
 	parser := parser preProcessor: self commentToWhiteSpaceParser.
 	astOrFailure := parser parse: sourceCode.
 	astOrFailure isPetitFailure
-		ifTrue: [ PSQLParseError signalPetitFailure: astOrFailure ].
+		ifTrue: [ PSQLParseError signalPetitFailure: astOrFailure inputString: sourceCode ].
 	astOrFailure setChildrenParent.
 	astOrFailure sourceCode: sourceCode.
 	^ astOrFailure
