@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'limit'
 	],
-	#category : #'PostgreSQL-AST-SQL'
+	#category : #'PostgreSQL-AST-SQL-Clauses'
 }
 
 { #category : #visiting }

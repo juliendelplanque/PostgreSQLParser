@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'items'
 	],
-	#category : #'PostgreSQL-AST-SQL'
+	#category : #'PostgreSQL-AST-SQL-Clauses'
 }
 
 { #category : #visiting }

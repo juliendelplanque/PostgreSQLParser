@@ -13,7 +13,7 @@ Class {
 		'tableName',
 		'alias'
 	],
-	#category : #'PostgreSQL-AST-SQL'
+	#category : #'PostgreSQL-AST-SQL-CRUD'
 }
 
 { #category : #visiting }

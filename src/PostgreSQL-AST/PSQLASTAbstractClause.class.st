@@ -1,7 +1,7 @@
 Class {
 	#name : #PSQLASTAbstractClause,
 	#superclass : #PSQLASTNode,
-	#category : #'PostgreSQL-AST-SQL'
+	#category : #'PostgreSQL-AST-SQL-Clauses'
 }
 
 { #category : #testing }

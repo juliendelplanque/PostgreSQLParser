@@ -4,7 +4,7 @@ I am the ALL clause in a SELECT query.
 Class {
 	#name : #PSQLASTAllClause,
 	#superclass : #PSQLASTAbstractClause,
-	#category : #'PostgreSQL-AST-SQL'
+	#category : #'PostgreSQL-AST-SQL-Clauses'
 }
 
 { #category : #visiting }

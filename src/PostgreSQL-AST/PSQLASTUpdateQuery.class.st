@@ -14,7 +14,7 @@ Class {
 		'areDescendantTablesIncluded',
 		'hasOnly'
 	],
-	#category : #'PostgreSQL-AST-SQL'
+	#category : #'PostgreSQL-AST-SQL-CRUD'
 }
 
 { #category : #visiting }

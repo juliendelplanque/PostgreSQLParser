@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'withClause'
 	],
-	#category : #'PostgreSQL-AST-SQL'
+	#category : #'PostgreSQL-AST-SQL-CRUD'
 }
 
 { #category : #testing }
