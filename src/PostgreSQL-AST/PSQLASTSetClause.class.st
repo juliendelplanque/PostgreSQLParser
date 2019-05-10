@@ -3,7 +3,7 @@ I represent a SET clause.
 "
 Class {
 	#name : #PSQLASTSetClause,
-	#superclass : #PSQLASTNode,
+	#superclass : #PSQLASTAbstractClause,
 	#instVars : [
 		'items'
 	],

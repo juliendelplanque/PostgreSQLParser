@@ -228,6 +228,11 @@ PSQLASTNode >> isClassicDeclaration [
 ]
 
 { #category : #testing }
+PSQLASTNode >> isClause [
+	^ false
+]
+
+{ #category : #testing }
 PSQLASTNode >> isColumnDefinition [
 	^ false
 ]

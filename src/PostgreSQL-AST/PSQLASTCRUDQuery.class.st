@@ -20,6 +20,14 @@ PSQLASTCRUDQuery >> isCRUDQuery [
 	^ true
 ]
 
+{ #category : #'as yet unclassified' }
+PSQLASTCRUDQuery >> literalNodes [
+	^ TreeQuery depthFirst
+		collectMatches;
+		predicate: #isConstant asTQPredicate;
+		runOn: self childrenBlock: #children
+]
+
 { #category : #accessing }
 PSQLASTCRUDQuery >> withClause [
 	^ withClause

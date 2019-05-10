@@ -3,7 +3,7 @@ I represent the HAVING clause of a SELECT query.
 "
 Class {
 	#name : #PSQLASTHavingClause,
-	#superclass : #PSQLASTNode,
+	#superclass : #PSQLASTAbstractClause,
 	#instVars : [
 		'expressions'
 	],

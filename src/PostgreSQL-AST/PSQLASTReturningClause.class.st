@@ -3,7 +3,7 @@ I am a RETURNING clause node.
 "
 Class {
 	#name : #PSQLASTReturningClause,
-	#superclass : #PSQLASTNode,
+	#superclass : #PSQLASTAbstractClause,
 	#instVars : [
 		'returnedList'
 	],

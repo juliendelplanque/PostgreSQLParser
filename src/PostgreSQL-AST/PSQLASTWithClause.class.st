@@ -3,7 +3,7 @@ I am the WITH clause that can be used in CRUD queries.
 "
 Class {
 	#name : #PSQLASTWithClause,
-	#superclass : #PSQLASTNode,
+	#superclass : #PSQLASTAbstractClause,
 	#instVars : [
 		'isRecursive',
 		'queries'

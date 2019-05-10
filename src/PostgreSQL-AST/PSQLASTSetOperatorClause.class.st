@@ -3,7 +3,7 @@ I am a superclass for set operation clause in a SELECT query (e.g. UNION, INTERS
 "
 Class {
 	#name : #PSQLASTSetOperatorClause,
-	#superclass : #PSQLASTNode,
+	#superclass : #PSQLASTAbstractClause,
 	#instVars : [
 		'isDistinct',
 		'selectQuery'

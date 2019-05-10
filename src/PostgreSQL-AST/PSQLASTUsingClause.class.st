@@ -1,6 +1,6 @@
 Class {
 	#name : #PSQLASTUsingClause,
-	#superclass : #PSQLASTNode,
+	#superclass : #PSQLASTAbstractClause,
 	#instVars : [
 		'list'
 	],

@@ -3,7 +3,7 @@ I am a ORDER BY clause node from a SELECT query.
 "
 Class {
 	#name : #PSQLASTOrderByClause,
-	#superclass : #PSQLASTNode,
+	#superclass : #PSQLASTAbstractClause,
 	#instVars : [
 		'items'
 	],

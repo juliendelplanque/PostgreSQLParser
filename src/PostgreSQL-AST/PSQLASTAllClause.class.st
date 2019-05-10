@@ -3,7 +3,7 @@ I am the ALL clause in a SELECT query.
 "
 Class {
 	#name : #PSQLASTAllClause,
-	#superclass : #PSQLASTNode,
+	#superclass : #PSQLASTAbstractClause,
 	#category : #'PostgreSQL-AST-SQL'
 }
 

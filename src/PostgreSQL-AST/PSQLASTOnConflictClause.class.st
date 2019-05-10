@@ -3,7 +3,7 @@ I represent a 'ON CONFLICT' clause.
 "
 Class {
 	#name : #PSQLASTOnConflictClause,
-	#superclass : #PSQLASTNode,
+	#superclass : #PSQLASTAbstractClause,
 	#instVars : [
 		'target',
 		'action'

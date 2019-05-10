@@ -3,7 +3,7 @@ I am the INTO clause of a SELECT INTO query.
 "
 Class {
 	#name : #PSQLASTIntoClause,
-	#superclass : #PSQLASTNode,
+	#superclass : #PSQLASTAbstractClause,
 	#instVars : [
 		'type',
 		'hasTable',

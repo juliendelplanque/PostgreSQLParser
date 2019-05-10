@@ -3,7 +3,7 @@ I represent the OFFSET clause of a SELECT query.
 "
 Class {
 	#name : #PSQLASTOffsetClause,
-	#superclass : #PSQLASTNode,
+	#superclass : #PSQLASTAbstractClause,
 	#instVars : [
 		'offset'
 	],

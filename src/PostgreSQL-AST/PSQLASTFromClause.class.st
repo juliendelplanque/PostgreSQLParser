@@ -3,7 +3,7 @@ I represent a FROM clause AST node.
 "
 Class {
 	#name : #PSQLASTFromClause,
-	#superclass : #PSQLASTNode,
+	#superclass : #PSQLASTAbstractClause,
 	#instVars : [
 		'items'
 	],

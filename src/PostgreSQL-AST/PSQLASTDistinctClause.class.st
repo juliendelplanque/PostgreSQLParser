@@ -3,7 +3,7 @@ I am the DISTINCT clause of a SELECT query.
 "
 Class {
 	#name : #PSQLASTDistinctClause,
-	#superclass : #PSQLASTNode,
+	#superclass : #PSQLASTAbstractClause,
 	#instVars : [
 		'expressions'
 	],

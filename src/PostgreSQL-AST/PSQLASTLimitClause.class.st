@@ -3,7 +3,7 @@ I represent the LIMIT clause of a SELECT query.
 "
 Class {
 	#name : #PSQLASTLimitClause,
-	#superclass : #PSQLASTNode,
+	#superclass : #PSQLASTAbstractClause,
 	#instVars : [
 		'limit'
 	],

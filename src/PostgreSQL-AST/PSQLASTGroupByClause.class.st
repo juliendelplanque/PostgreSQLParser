@@ -3,7 +3,7 @@ I represent the GROUP BY clause of a SELECT query.
 "
 Class {
 	#name : #PSQLASTGroupByClause,
-	#superclass : #PSQLASTNode,
+	#superclass : #PSQLASTAbstractClause,
 	#instVars : [
 		'expressions'
 	],

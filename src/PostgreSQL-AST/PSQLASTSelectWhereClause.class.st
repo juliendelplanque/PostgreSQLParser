@@ -3,7 +3,7 @@ I represent the WHERE clause for a SELCECT query.
 "
 Class {
 	#name : #PSQLASTSelectWhereClause,
-	#superclass : #PSQLASTNode,
+	#superclass : #PSQLASTAbstractClause,
 	#instVars : [
 		'condition'
 	],

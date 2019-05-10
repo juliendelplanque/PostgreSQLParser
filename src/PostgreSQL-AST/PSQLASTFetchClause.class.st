@@ -3,7 +3,7 @@ I represent a FETCH clause AST node in a SELECT query.
 "
 Class {
 	#name : #PSQLASTFetchClause,
-	#superclass : #PSQLASTNode,
+	#superclass : #PSQLASTAbstractClause,
 	#instVars : [
 		'isFirst',
 		'count'

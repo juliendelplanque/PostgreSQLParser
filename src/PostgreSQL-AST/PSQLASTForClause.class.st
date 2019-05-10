@@ -3,7 +3,7 @@ I represent a FOR clause AST node in a SELECT query.
 "
 Class {
 	#name : #PSQLASTForClause,
-	#superclass : #PSQLASTNode,
+	#superclass : #PSQLASTAbstractClause,
 	#instVars : [
 		'isUpdate',
 		'ofTables',
