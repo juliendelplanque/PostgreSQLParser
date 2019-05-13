@@ -146,8 +146,8 @@ PSQLFromClauseASTBuilder >> fromItems7 [
 			hasWithOrdinality: tokens third isNotNil;
 			alias: (tokens fourth ifNotNil: #second);
 			columnAliases: (tokens fourth ifNotNil: [ :subTokens |
-				(subTokens third ifNotNil: #second)
-					reject: [ :item | item = $, ] thenCollect: #first ]);
+				(subTokens third ifNotNil: [ :array |
+					array second reject: [ :item | item = $, ] thenCollect: #first ]) ]);
 			yourself ]
 ]
 

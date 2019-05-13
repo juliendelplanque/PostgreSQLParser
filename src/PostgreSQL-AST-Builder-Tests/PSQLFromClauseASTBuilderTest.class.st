@@ -183,3 +183,18 @@ PSQLFromClauseASTBuilderTest >> testFromItems7 [
 	node columnAliases do: [ :columnAlias |
 		self assert: columnAlias class equals: PSQLASTIdentifier ]
 ]
+
+{ #category : #'tests-shared' }
+PSQLFromClauseASTBuilderTest >> testFromItems7WithoutColumnAliases [
+	| node |
+	node := builder fromItems7 parse: 'LATERAL fct() WITH ORDINALITY AS t'.
+	self
+		assert: node class equals: PSQLASTFromClauseItemType7;
+		assert: node hasLateral;
+		assert: node functionCall class equals: PSQLASTFunctionCall;
+		assert: node hasWithOrdinality;
+		assert: node hasAlias;
+		assert: node alias class equals: PSQLASTIdentifier;
+		deny: node hasColumnAliases;
+		assert: node columnAliases isNil
+]
