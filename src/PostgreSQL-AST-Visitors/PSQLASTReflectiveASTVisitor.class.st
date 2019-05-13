@@ -318,6 +318,11 @@ PSQLASTReflectiveASTVisitor >> visitPSQLASTStringConstant: aPSQLASTStringConstan
 ]
 
 { #category : #visiting }
+PSQLASTReflectiveASTVisitor >> visitPSQLASTStringToTypeConversionCommand: aPSQLASTStringToTypeConversionCommand [
+	^ self visitPSQLASTNode: aPSQLASTStringToTypeConversionCommand
+]
+
+{ #category : #visiting }
 PSQLASTReflectiveASTVisitor >> visitPSQLASTSubscript: aPSQLASTSubscript [
 	^ self visitPSQLASTNode: aPSQLASTSubscript
 ]

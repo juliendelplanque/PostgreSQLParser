@@ -117,3 +117,19 @@ PSQLExpressionASTBuilderTest >> testParenthesedExpressionParserWith [
 		assert: node class equals: PSQLASTParenthesedExpression;
 		assert: node expression class equals: PSQLASTBinaryOperator
 ]
+
+{ #category : #'tests-expression' }
+PSQLExpressionASTBuilderTest >> testStringToTypeConversionCommand [
+	| node |
+	node := builder expression parse: 'daterenommage + interval ''1'' day'.
+	self
+		assert: node class equals: PSQLASTBinaryOperator;
+		assert: node left class equals: PSQLASTAttributeAccess;
+		assert: node right class equals: PSQLASTStringToTypeConversionCommand;
+		assert: node right identifiersBefore class equals: Array;
+		assert: (node right identifiersBefore allSatisfy: [ :o | o class = PSQLASTIdentifier ]);
+		assert: node right identifiersAfter class equals: Array;
+		assert: (node right identifiersAfter allSatisfy: [ :o | o class = PSQLASTIdentifier ]);
+		assert: node right identifiersAfter class equals: Array;
+		assert: node right stringConstant class equals: PSQLASTStringConstant
+]

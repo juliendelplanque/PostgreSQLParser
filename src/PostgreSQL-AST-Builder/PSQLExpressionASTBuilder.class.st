@@ -293,8 +293,12 @@ PSQLExpressionASTBuilder >> prefixOperatorBlock [
 
 { #category : #expression }
 PSQLExpressionASTBuilder >> stringToTypeConversionCommand [
-	self flag: #TODO. "Need to find how to fix this rule..."
-	^ super stringToTypeConversionCommand
+	^ super stringToTypeConversionCommand psqlASTBuild: [ :tokens |
+		PSQLASTStringToTypeConversionCommand new
+			identifiersBefore: tokens first;
+			stringConstant: tokens third;
+			identifiersAfter: tokens last;
+			yourself ]
 ]
 
 { #category : #expression }

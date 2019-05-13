@@ -313,6 +313,11 @@ PSQLASTVisitor >> visitPSQLASTStringConstant: aPSQLASTStringConstant [
 ]
 
 { #category : #visiting }
+PSQLASTVisitor >> visitPSQLASTStringToTypeConversionCommand: aPSQLASTStringToTypeConversionCommand [
+	^ self subclassResponsibility
+]
+
+{ #category : #visiting }
 PSQLASTVisitor >> visitPSQLASTSubscript: aPSQLASTSubscript [
 	^ self subclassResponsibility
 ]
