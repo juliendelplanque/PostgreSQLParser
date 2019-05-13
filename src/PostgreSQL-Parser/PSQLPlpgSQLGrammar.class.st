@@ -127,9 +127,14 @@ PSQLPlpgSQLGrammar class >> ignoredNames [
 	^ super ignoredNames , #(kw)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 PSQLPlpgSQLGrammar class >> selectQueryParser [
 	^ PSQLSelectQueryGrammar
+]
+
+{ #category : #accessing }
+PSQLPlpgSQLGrammar class >> startSymbol [
+	^ #startEnd
 ]
 
 { #category : #accessing }
@@ -893,7 +898,12 @@ PSQLPlpgSQLGrammar >> simpleStringConstant [
 
 { #category : #accessing }
 PSQLPlpgSQLGrammar >> start [
-	^ plpgsqlBody trim end
+	^ plpgsqlBody trim
+]
+
+{ #category : #accessing }
+PSQLPlpgSQLGrammar >> startEnd [
+	^ self start end
 ]
 
 { #category : #dependencies }
