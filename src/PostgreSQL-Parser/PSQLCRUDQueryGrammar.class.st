@@ -55,7 +55,7 @@ PSQLCRUDQueryGrammar >> insertCommand [
 
 { #category : #dependencies }
 PSQLCRUDQueryGrammar >> selectCommand [
-	^ (self dependencyAt: self class selectQueryParser) selectCommand
+	^ (self dependencyAt: self class selectQueryParser) selectIntoCommand / (self dependencyAt: self class selectQueryParser) selectCommand
 ]
 
 { #category : #accessing }
