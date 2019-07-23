@@ -4,6 +4,11 @@ Class {
 	#category : #'PostgreSQL-CommandLine'
 }
 
+{ #category : #accessing }
+PSQLCommandLineHandler class >> commandName [
+	^ 'psqlp'
+]
+
 { #category : #activation }
 PSQLCommandLineHandler >> activate [
 	[
