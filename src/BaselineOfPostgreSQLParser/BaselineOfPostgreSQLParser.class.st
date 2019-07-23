@@ -29,7 +29,8 @@ BaselineOfPostgreSQLParser >> defineDependencies: spec [
 				repository: 'github://juliendelplanque/LibpgqueryBridge/repository' ];
 		baseline: 'TreeQuery' with: [
 			spec
-				repository: 'github://juliendelplanque/TreeQuery/src' ]
+				repository: 'github://juliendelplanque/TreeQuery/src';
+				loads: #('core') ]
 ]
 
 { #category : #baselines }
