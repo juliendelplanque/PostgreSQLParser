@@ -38,11 +38,11 @@ PSQLASTNodeTest >> setUp [
 
 { #category : #tests }
 PSQLASTNodeTest >> testAllParents [
-	self assertCollection: sampleNode left left allParents equals: { sampleNode left . sampleNode } asOrderedCollection.
+	self assertCollection: sampleNode left left allParents equals: { sampleNode left . sampleNode }.
 	
-	self assertCollection: sampleNode left allParents equals: { sampleNode } asOrderedCollection.
+	self assertCollection: sampleNode left allParents equals: { sampleNode }.
 	
-	self assertCollection: sampleNode allParents equals: OrderedCollection new
+	self assert: sampleNode allParents isEmpty
 ]
 
 { #category : #tests }

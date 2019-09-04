@@ -16,22 +16,23 @@ Trait {
 PSQLTASTBuilderSanityChecker >> checkEachNodeHasItsPositionsSet: ast [
 	self
 		assert:
-			(ast
-				breadthFirstSelect: [ :node | node startPosition isNil or: [ node endPosition isNil ] ])
+			(ast breadthFirstIterator
+				select: [ :node | node startPosition isNil or: [ node endPosition isNil ] ])
 				isEmpty
 		description: 'Sanity check failed: #startPosition and #endPosition should not be nil in any node of the AST.'
 ]
 
 { #category : #checking }
 PSQLTASTBuilderSanityChecker >> checkEachNodeHasParentExceptRoot: ast [
-	ast breadthFirstDetect: [ :node |
+	ast breadthFirstIterator
+		detect: [ :node |
 		node parent isNil and: [ node ~= ast ] ] ifFound: [ self fail:  'Sanity check failed: all node of the AST should have its parent set.' ]
 ]
 
 { #category : #checking }
 PSQLTASTBuilderSanityChecker >> checkEachNodeIsKindOfPSQLASTNode: ast [
-	ast
-		breadthFirstDetect: [ :n | (n isKindOf: PSQLASTNode) not ]
+	ast breadthFirstIterator
+		detect: [ :n | (n isKindOf: PSQLASTNode) not ]
 		ifFound: [ self fail: 'Sanity check failed: All node of the AST should be kind of PSQLASTNode.' ]
 ]
 

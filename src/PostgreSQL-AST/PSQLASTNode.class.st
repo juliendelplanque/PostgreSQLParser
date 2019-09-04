@@ -4,8 +4,6 @@ I am an abstract node of the AST. I define the common behaviour and state of all
 Class {
 	#name : #PSQLASTNode,
 	#superclass : #Object,
-	#traits : 'TQIterable',
-	#classTraits : 'TQIterable classTrait',
 	#instVars : [
 		'startPosition',
 		'endPosition',
@@ -32,25 +30,14 @@ PSQLASTNode class >> withAllConcreteSubclasses [
 
 { #category : #enumerating }
 PSQLASTNode >> allParents [
-	^ self allParentsGenerator upToEnd
+	^ self basicParentsIterator upToEnd
 ]
 
 { #category : #enumerating }
 PSQLASTNode >> allParentsDo: aBlock [
 	"Iterates on all the parents. Starting from current node parent finishing by the top node of the AST."
-	| generator |
-	generator := self allParentsGenerator.
-	[ generator atEnd ] whileFalse: [ 
-		aBlock value: generator next ]
-]
-
-{ #category : #generators }
-PSQLASTNode >> allParentsGenerator [
-	^ Generator on: [ :generator |
-		| currentParent |
-		currentParent := self.
-		[ (currentParent := currentParent parent) isNotNil ]
-			whileTrue: [ generator yield: currentParent ] ]
+	(self parentsIterator
+		decoratedBy: aBlock doIt) upToEndDiscardingResult
 ]
 
 { #category : #testing }
@@ -59,6 +46,27 @@ PSQLASTNode >> anyParentSatisfy: aBlock [
 		(aBlock value: p)
 			ifTrue: [ ^ true ] ].
 	^ false
+]
+
+{ #category : #iterators }
+PSQLASTNode >> basicBreadthFirstIterator [
+	^ BreadthFirstIterator root: self childrenBlock: [ :n | n children ]
+]
+
+{ #category : #iterators }
+PSQLASTNode >> basicDepthFirstIterator [
+	^ DepthFirstIterator root: self childrenBlock: [ :n | n children ]
+]
+
+{ #category : #iterators }
+PSQLASTNode >> basicParentsIterator [
+	^ (LinkedListIterator on: self nextLinkBlock: [ :node | node parent ])
+			decoratedBy: 1 skipIt "We skip self."
+]
+
+{ #category : #iterators }
+PSQLASTNode >> breadthFirstIterator [
+	^ self basicBreadthFirstIterator withCollectionAPI
 ]
 
 { #category : #'accessing - reflective' }
@@ -90,6 +98,11 @@ PSQLASTNode >> childrenSelector [
 { #category : #accessing }
 PSQLASTNode >> classNameWithoutPrefix [
 	^ self className allButFirst: 7
+]
+
+{ #category : #iterators }
+PSQLASTNode >> depthFirstIterator [
+	^ self basicDepthFirstIterator withCollectionAPI
 ]
 
 { #category : #accessing }
@@ -750,6 +763,11 @@ PSQLASTNode >> parent [
 { #category : #accessing }
 PSQLASTNode >> parent: anObject [
 	parent := anObject
+]
+
+{ #category : #iterators }
+PSQLASTNode >> parentsIterator [
+	^ self basicParentsIterator withCollectionAPI
 ]
 
 { #category : #printing }

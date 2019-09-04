@@ -27,10 +27,9 @@ BaselineOfPostgreSQLParser >> defineDependencies: spec [
 		baseline: 'LibpgqueryBridge' with: [ 
 			spec
 				repository: 'github://juliendelplanque/LibpgqueryBridge/repository' ];
-		baseline: 'TreeQuery' with: [
+		baseline: 'Iterators' with: [
 			spec
-				repository: 'github://juliendelplanque/TreeQuery/src';
-				loads: #('core') ]
+				repository: 'github://juliendelplanque/Iterator:v1.x.x/src' ]
 ]
 
 { #category : #baselines }
@@ -57,7 +56,7 @@ BaselineOfPostgreSQLParser >> definePackages: spec [
 		package: #'PostgreSQL-Parser' with: [ spec requires: #('PetitParser') ];
 		package: #'PostgreSQL-Parser-Tests' with: [ spec requires: #('PetitParser' 'PostgreSQL-Parser') ];
 		package: #'PostgreSQL-Parser-CrashTests' with: [ spec requires: #('PostgreSQL-Parser-Tests') ];
-		package: #'PostgreSQL-AST' with: [ spec requires: #('TreeQuery') ];
+		package: #'PostgreSQL-AST' with: [ spec requires: #('Iterators') ];
 		package: #'PostgreSQL-AST-Tests' with: [ spec requires: #('PostgreSQL-AST') ];
 		package: #'PostgreSQL-AST-GTExtensions' with: [ spec requires: #('PostgreSQL-AST' 'PostgreSQL-Highlighter') ];
 		package: #'PostgreSQL-AST-Builder' with: [ spec requires: #('PostgreSQL-AST' 'PostgreSQL-Parser') ];
