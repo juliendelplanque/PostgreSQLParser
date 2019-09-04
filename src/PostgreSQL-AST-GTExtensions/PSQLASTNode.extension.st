@@ -11,6 +11,15 @@ PSQLASTNode >> gtNodesIn: composite [
 ]
 
 { #category : #'*PostgreSQL-AST-GTExtensions' }
+PSQLASTNode >> gtParentsIn: composite [
+	<gtInspectorPresentationOrder: 1>
+	^ composite list
+		title: 'Parents';
+		display: [ :anObject | anObject allParents reversed ];
+		yourself
+]
+
+{ #category : #'*PostgreSQL-AST-GTExtensions' }
 PSQLASTNode >> gtSourceCodeIn: composite [
 	<gtInspectorPresentationOrder: 0>
 	^ composite text
