@@ -29,7 +29,7 @@ BaselineOfPostgreSQLParser >> defineDependencies: spec [
 				repository: 'github://juliendelplanque/LibpgqueryBridge/repository' ];
 		baseline: 'Iterators' with: [
 			spec
-				repository: 'github://juliendelplanque/Iterator:v1.x.x/src' ]
+				repository: 'github://juliendelplanque/Iterators:v1.x.x/src' ]
 ]
 
 { #category : #baselines }
