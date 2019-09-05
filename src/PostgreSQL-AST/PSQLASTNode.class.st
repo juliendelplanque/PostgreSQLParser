@@ -776,11 +776,11 @@ PSQLASTNode >> printOn: aStream [
 	aStream
 		<< $[.
 	self startPosition
-		ifNotNil: [ aStream << self startPosition ]
+		ifNotNil: [ aStream print: self startPosition ]
 		ifNil: [ aStream << $? ].
 	aStream << $:.
 	self endPosition
-		ifNotNil: [ aStream << self endPosition ]
+		ifNotNil: [ aStream print: self endPosition ]
 		ifNil: [ aStream << $? ].
 	aStream
 		<< $];
