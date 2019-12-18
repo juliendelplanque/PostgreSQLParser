@@ -428,7 +428,6 @@ PSQLPlpgSQLASTBuilder >> plpgsqlOpenCursorBounded [
 PSQLPlpgSQLASTBuilder >> plpgsqlOpenCursorForExecute [
 	^ super plpgsqlOpenCursorForExecute
 		psqlASTBuild: [ :tokens | 
-			Halt now.
 			PSQLPlpgSQLASTCursorOpenForExecute new
 				cursorIdentifier: tokens second;
 				scroll:
