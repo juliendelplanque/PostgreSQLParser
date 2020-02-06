@@ -75,3 +75,14 @@ PSQLTokenASTBuilder >> simpleStringConstant [
 			content: (String newFrom: tokens flattened allButFirst allButLast);
 			yourself ]
 ]
+
+{ #category : #accessing }
+PSQLTokenASTBuilder >> stringConstantBackslashSimpleQuote [
+	^ super stringConstantBackslashSimpleQuote ==> [ :tokens | $' ]
+]
+
+{ #category : #accessing }
+PSQLTokenASTBuilder >> stringConstantTwoSimpleQuotes [
+	^ super stringConstantTwoSimpleQuotes
+			==> [ :tokens | $' ]
+]

@@ -43,7 +43,9 @@ Class {
 		'kw',
 		'escapeStringConstant',
 		'identifier',
-		'identifierWithOptionalFieldAccess'
+		'identifierWithOptionalFieldAccess',
+		'stringConstantTwoSimpleQuotes',
+		'stringConstantBackslashSimpleQuote'
 	],
 	#category : #'PostgreSQL-Parser-Core'
 }
@@ -247,7 +249,13 @@ PSQLTokenizer >> simpleQuotedIdentifier [
 
 { #category : #accessing }
 PSQLTokenizer >> simpleStringConstant [
-	^ $' asParser, ('''''' asParser / '\''' asParser / $' asParser negate) star , $' asParser
+	^ $' asParser,
+	(
+		stringConstantTwoSimpleQuotes /
+		stringConstantBackslashSimpleQuote /
+		$' asParser negate
+	) star ,
+	$' asParser
 ]
 
 { #category : #accessing }
@@ -263,6 +271,16 @@ PSQLTokenizer >> start [
 { #category : #accessing }
 PSQLTokenizer >> stringConstant [
 	^ escapeStringConstant / bitStringConstant / dollarQuotedStringConstant / stringConstantWithUnicodeEscape / simpleStringConstant
+]
+
+{ #category : #accessing }
+PSQLTokenizer >> stringConstantBackslashSimpleQuote [
+	^ $\ asParser , $' asParser
+]
+
+{ #category : #accessing }
+PSQLTokenizer >> stringConstantTwoSimpleQuotes [
+	^ $' asParser , $' asParser
 ]
 
 { #category : #accessing }

@@ -66,3 +66,37 @@ PSQLTokenASTBuilderTest >> testSimpleStringConstant [
 		assert: node class equals: PSQLASTStringConstant;
 		assert: node content equals: 'test'
 ]
+
+{ #category : #'tests-accessing' }
+PSQLTokenASTBuilderTest >> testSimpleStringConstant2 [
+	| node |
+	node := builder simpleStringConstant parse: '''te''''st'''.
+	
+	self
+		assert: node class equals: PSQLASTStringConstant;
+		assert: node content equals: 'te''st'
+]
+
+{ #category : #'tests-accessing' }
+PSQLTokenASTBuilderTest >> testSimpleStringConstant3 [
+	| node |
+	node := builder simpleStringConstant parse: '''te\''st'''.
+	
+	self
+		assert: node class equals: PSQLASTStringConstant;
+		assert: node content equals: 'te''st'
+]
+
+{ #category : #test }
+PSQLTokenASTBuilderTest >> testStringConstantBackslashSimpleQuote [
+	| result |
+	result := builder stringConstantBackslashSimpleQuote parse: '\'''.
+	self assert: result equals: $'
+]
+
+{ #category : #test }
+PSQLTokenASTBuilderTest >> testStringConstantTwoSimpleQuotes [
+	| result |
+	result := builder stringConstantTwoSimpleQuotes parse: ''''''.
+	self assert: result equals: $'
+]
