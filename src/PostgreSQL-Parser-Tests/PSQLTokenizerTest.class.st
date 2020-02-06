@@ -242,7 +242,8 @@ PSQLTokenizerTest >> testSimpleQuotedIdentifier [
 PSQLTokenizerTest >> testSimpleStringConstant [
 	self
 		parse: '''Hello you!''' rule: #simpleStringConstant;
-		parse: '''Hello \''mister\''!''' rule: #simpleStringConstant
+		parse: '''Hello \''mister\''!''' rule: #simpleStringConstant;
+		parse: '''Nombre d''''hommes''' rule: #simpleStringConstant
 ]
 
 { #category : #tests }
@@ -260,7 +261,8 @@ BEGIN
     RETURN ($1 ~ $q$[\t\r\n\v\\]$ q$);
 END;
 $ function$' rule: #stringConstant;
-		parse: '''SELECT count(*) FROM %I ''' rule: #stringConstant
+		parse: '''SELECT count(*) FROM %I ''' rule: #stringConstant;
+		parse: '''Nombre d''''hommes''' rule: #stringConstant
 ]
 
 { #category : #tests }

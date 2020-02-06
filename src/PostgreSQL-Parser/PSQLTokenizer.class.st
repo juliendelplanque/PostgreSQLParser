@@ -247,7 +247,7 @@ PSQLTokenizer >> simpleQuotedIdentifier [
 
 { #category : #accessing }
 PSQLTokenizer >> simpleStringConstant [
-	^ $' asParser, ('\''' asParser / $' asParser negate) star , $' asParser
+	^ $' asParser, ('''''' asParser / '\''' asParser / $' asParser negate) star , $' asParser
 ]
 
 { #category : #accessing }
