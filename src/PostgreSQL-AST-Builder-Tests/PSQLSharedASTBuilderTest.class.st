@@ -135,17 +135,20 @@ PSQLSharedASTBuilderTest >> testUpdateDeleteWhereClause [
 { #category : #'tests-shared' }
 PSQLSharedASTBuilderTest >> testWithClause [
 	| node |
-	node := builder withClause parse: 'WITH table AS (SELECT * FROM foo), table2(id,text) AS (SELECT * FROM bar)'.
+	node := builder withClause
+		parse:
+			'WITH table AS (SELECT * FROM foo), table2(id,text) AS (SELECT * FROM bar)'.
 	self
 		assert: node class equals: PSQLASTWithClause;
 		deny: node isRecursive;
 		assert: node queries size equals: 2.
-		
-	node := builder withClause parse: 'WITH RECURSIVE table AS (SELECT * FROM foo), table2(id,text) AS (SELECT * FROM bar)'.
+	node := builder withClause
+		parse:
+			'WITH RECURSIVE table AS (SELECT * FROM foo), table2(id,text) AS (SELECT id as i FROM bar)'.
 	self
 		assert: node class equals: PSQLASTWithClause;
 		assert: node isRecursive;
-		assert: node queries size equals: 2.
+		assert: node queries size equals: 2
 ]
 
 { #category : #'tests-shared' }
@@ -153,16 +156,18 @@ PSQLSharedASTBuilderTest >> testWithQuery [
 	| node |
 	node := builder withQuery parse: 'table AS (SELECT * FROM foo)'.
 	self
-		assert: node class equals: Association;
-		assert: node key class equals: PSQLASTTableAlias;
-		assert: node key identifier identifier equals: 'table';
-		assert: node key columnAliases size equals: 0.
-		
-	node := builder withQuery parse: 'table(id,bar) AS (SELECT * FROM foo)'.
+		assert: node class equals: PSQLASTSelectQuery;
+		assert: node alias class equals: PSQLASTTableAlias;
+		assert: node alias identifier identifier equals: 'table';
+		assert: node alias columnAliases size equals: 0.
+	node := builder withQuery
+		parse: 'table(id,bar) AS (SELECT * FROM foo)'.
 	self
-		assert: node class equals: Association;
-		assert: node key class equals: PSQLASTTableAlias;
-		assert: node key identifier identifier equals: 'table';
-		assert: node key columnAliases size equals: 2;
-		assert: (node key columnAliases allSatisfy: [ :item | item class = PSQLASTIdentifier ])
+		assert: node class equals: PSQLASTSelectQuery;
+		assert: node alias class equals: PSQLASTTableAlias;
+		assert: node alias identifier identifier equals: 'table';
+		assert: node alias columnAliases size equals: 2;
+		assert:
+			(node alias columnAliases
+				allSatisfy: [ :item | item class = PSQLASTIdentifier ])
 ]

@@ -6,7 +6,6 @@ Class {
 	#superclass : #PSQLASTCRUDQuery,
 	#instVars : [
 		'tableName',
-		'alias',
 		'setClause',
 		'fromClause',
 		'whereClause',
@@ -20,16 +19,6 @@ Class {
 { #category : #visiting }
 PSQLASTUpdateQuery >> acceptVisitor: aVisitor [
 	^ aVisitor visitPSQLASTUpdateQuery: self
-]
-
-{ #category : #accessing }
-PSQLASTUpdateQuery >> alias [
-	^ alias
-]
-
-{ #category : #accessing }
-PSQLASTUpdateQuery >> alias: anObject [
-	alias := anObject
 ]
 
 { #category : #accessing }
@@ -50,11 +39,6 @@ PSQLASTUpdateQuery >> fromClause [
 { #category : #accessing }
 PSQLASTUpdateQuery >> fromClause: anObject [
 	fromClause := anObject
-]
-
-{ #category : #testing }
-PSQLASTUpdateQuery >> hasAlias [
-	^ self alias isNotNil
 ]
 
 { #category : #testing }
