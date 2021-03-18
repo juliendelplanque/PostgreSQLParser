@@ -9,7 +9,6 @@ Class {
 		'onConflictClause',
 		'valuesClause',
 		'tableName',
-		'alias',
 		'columns'
 	],
 	#category : #'PostgreSQL-AST-SQL-CRUD'
@@ -21,16 +20,6 @@ PSQLASTInsertQuery >> acceptVisitor: aVisitor [
 ]
 
 { #category : #accessing }
-PSQLASTInsertQuery >> alias [
-	^ alias
-]
-
-{ #category : #accessing }
-PSQLASTInsertQuery >> alias: anObject [
-	alias := anObject
-]
-
-{ #category : #accessing }
 PSQLASTInsertQuery >> columns [
 	^ columns
 ]
@@ -38,11 +27,6 @@ PSQLASTInsertQuery >> columns [
 { #category : #accessing }
 PSQLASTInsertQuery >> columns: anObject [
 	columns := anObject
-]
-
-{ #category : #testing }
-PSQLASTInsertQuery >> hasAlias [
-	^ self alias isNotNil
 ]
 
 { #category : #testing }

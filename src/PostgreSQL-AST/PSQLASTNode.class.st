@@ -72,17 +72,22 @@ PSQLASTNode >> breadthFirstIterator [
 { #category : #'accessing - reflective' }
 PSQLASTNode >> children [
 	| children |
-	children := OrderedCollection streamContents: [ :stream | 
-			self instanceVariableNamesToChildrenDo: [ :instVarName :nodeOrCollection |
-				stream nextPutAll: nodeOrCollection asOrderedCollection ] ].
-	(children allSatisfy: [ :node | node startPosition isNotNil and: [ node endPosition isNotNil ] ])
-		ifFalse: [ 
-			Warning signal: 'All positions of children are not set. Returning unordered children.'.
+	children := OrderedCollection
+		streamContents: [ :stream | 
+			self
+				instanceVariableNamesToChildrenDo:
+					[ :instVarName :nodeOrCollection | stream nextPutAll: nodeOrCollection asOrderedCollection ] ].
+	children := children reject: [ :node | node = self ].
+	(children
+		allSatisfy:
+			[ :node | node startPosition isNotNil and: [ node endPosition isNotNil ] ])
+		ifFalse: [ Warning
+				signal: 'All positions of children are not set. Returning unordered children.'.
 			^ children ].
-
-	^ children sort: [ :nodeA :nodeB |
-		nodeA startPosition < nodeB startPosition
-			and: [ nodeA endPosition < nodeB endPosition ] ]
+	^ children
+		sort: [ :nodeA :nodeB | 
+			nodeA startPosition < nodeB startPosition
+				and: [ nodeA endPosition < nodeB endPosition ] ]
 ]
 
 { #category : #enumerating }
@@ -797,9 +802,11 @@ PSQLASTNode >> root [
 
 { #category : #'parent management' }
 PSQLASTNode >> setChildrenParent [
-	self childrenDo: [ :child |
-		child parent: self.
-		child setChildrenParent ]
+	self
+		childrenDo: [ :child | 
+			child = self
+				ifFalse: [ child parent: self. child setChildrenParent ]
+			 ]
 ]
 
 { #category : #accessing }
@@ -809,7 +816,7 @@ PSQLASTNode >> sourceCode [
 	
 	"If I hold no source code but I have a parent, I ask my parent because the top parent will hold the source code."
 	self hasParent
-		ifTrue: [ ^ self parent sourceCode ].
+		ifTrue: [ self = self parent ifTrue: [^ nil] ifFalse: [^ self parent sourceCode ]].
 	
 	"If I have no parent, I am at the top of the AST. Since I have no source code, I return nil."
 	^ nil

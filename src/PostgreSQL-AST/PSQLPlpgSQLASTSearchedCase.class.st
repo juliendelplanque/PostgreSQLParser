@@ -17,7 +17,9 @@ PSQLPlpgSQLASTSearchedCase >> acceptVisitor: aVisitor [
 
 { #category : #accessing }
 PSQLPlpgSQLASTSearchedCase >> conditionToStatements [
-	self shouldNotImplement
+	"self shouldNotImplement"
+	self flag: #TODO.
+	super conditionToStatements 
 ]
 
 { #category : #accessing }

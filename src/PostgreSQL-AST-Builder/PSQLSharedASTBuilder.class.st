@@ -105,9 +105,18 @@ PSQLSharedASTBuilder >> withClause [
 
 { #category : #shared }
 PSQLSharedASTBuilder >> withQuery [
-	^ super withQuery psqlASTBuild: [ :tokens |
-		(PSQLASTTableAlias new
-			identifier: tokens first;
-			columnAliases: (tokens second ifNotNil: [ :array | array second reject: [ :token | token = $, ] ]  ifNil: [ #() ]);
-			yourself) -> tokens fifth ]
+
+	^ super withQuery
+		psqlASTBuild: [ :tokens | 
+			"tokens fifth should be PSQLASTSelectQuery"
+			tokens fifth
+				alias:
+					(PSQLASTTableAlias new
+						identifier: tokens first;
+						columnAliases:
+							(tokens second
+								ifNotNil: [ :array | array second reject: [ :token | token = $, ] ]
+								ifNil: [ #() ]);
+						yourself);
+				yourself ]
 ]

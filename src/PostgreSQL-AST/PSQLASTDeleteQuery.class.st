@@ -10,8 +10,7 @@ Class {
 		'returningClause',
 		'isOnlySpecified',
 		'areDescendantTablesIncluded',
-		'tableName',
-		'alias'
+		'tableName'
 	],
 	#category : #'PostgreSQL-AST-SQL-CRUD'
 }
@@ -22,16 +21,6 @@ PSQLASTDeleteQuery >> acceptVisitor: aVisitor [
 ]
 
 { #category : #accessing }
-PSQLASTDeleteQuery >> alias [
-	^ alias
-]
-
-{ #category : #accessing }
-PSQLASTDeleteQuery >> alias: anObject [
-	alias := anObject
-]
-
-{ #category : #accessing }
 PSQLASTDeleteQuery >> areDescendantTablesIncluded [
 	^ areDescendantTablesIncluded
 ]
@@ -39,11 +28,6 @@ PSQLASTDeleteQuery >> areDescendantTablesIncluded [
 { #category : #accessing }
 PSQLASTDeleteQuery >> areDescendantTablesIncluded: anObject [
 	areDescendantTablesIncluded := anObject
-]
-
-{ #category : #testing }
-PSQLASTDeleteQuery >> hasAlias [
-	^ self alias isNotNil
 ]
 
 { #category : #testing }

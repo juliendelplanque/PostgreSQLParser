@@ -5,10 +5,26 @@ Class {
 	#name : #PSQLASTCRUDQuery,
 	#superclass : #PSQLASTNode,
 	#instVars : [
-		'withClause'
+		'withClause',
+		'alias'
 	],
 	#category : #'PostgreSQL-AST-SQL-CRUD'
 }
+
+{ #category : #accessing }
+PSQLASTCRUDQuery >> alias [
+	^ alias
+]
+
+{ #category : #accessing }
+PSQLASTCRUDQuery >> alias: anObject [
+	alias := anObject
+]
+
+{ #category : #testing }
+PSQLASTCRUDQuery >> hasAlias [
+	^ self alias isNotNil
+]
 
 { #category : #testing }
 PSQLASTCRUDQuery >> hasWithClause [
